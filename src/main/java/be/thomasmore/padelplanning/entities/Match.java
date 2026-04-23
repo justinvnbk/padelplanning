@@ -8,7 +8,7 @@ import java.util.Collection;
 @Entity
 public class Match {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Double pRankingDifference;
     private LocalTime timeSlot;
