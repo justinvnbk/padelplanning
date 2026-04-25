@@ -2,7 +2,7 @@ package be.thomasmore.padelplanning.services;
 
 import be.thomasmore.padelplanning.entities.*;
 import be.thomasmore.padelplanning.repositories.MatchRepository;
-import be.thomasmore.padelplanning.repositories.PlayerRepository;
+import be.thomasmore.padelplanning.repositories.PadelDayRepository;
 import be.thomasmore.padelplanning.repositories.TeamRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,36 +16,44 @@ import java.util.List;
 public class CreatePadelDayService {
     private final MatchRepository matchRepository;
     private final TeamRepository teamRepository;
+    private final PadelDayRepository padelDayRepository;
 
-    public CreatePadelDayService(MatchRepository matchRepository, TeamRepository teamRepository) {
+    public CreatePadelDayService(MatchRepository matchRepository, TeamRepository teamRepository, PadelDayRepository padelDayRepository) {
         this.matchRepository = matchRepository;
         this.teamRepository = teamRepository;
+        this.padelDayRepository = padelDayRepository;
     }
 
-    public PadelDay newPadelDay(int matchCountPerTimeSlot, List<Field> fields, LocalTime startTime, int matchDurationInMinutes, List<Player> signedUpPlayers) {
+    //This Service is used to create a new PadelDay object, all related objects (matches and teams) will also
+    //be created and added to the database.
+    public PadelDay newPadelDay(int timeSlots, List<Field> availableFields, LocalTime startTime, int matchDurationInMinutes, List<Player> signedUpPlayers) {
         PadelDay padelDay = new PadelDay();
         padelDay.setDate(LocalDateTime.now());
-        padelDay.setMatches(newMatches(matchCountPerTimeSlot, fields.size(), startTime, matchDurationInMinutes, signedUpPlayers));
+        padelDay.setMatches(newMatches(timeSlots, availableFields.size(), startTime, matchDurationInMinutes, signedUpPlayers));
         padelDay.setNumberOfMatches(padelDay.getMatches().size());
-        padelDay.setFields(fields);
-
+        padelDay.setFields(availableFields);
+        padelDayRepository.save(padelDay);
         return padelDay;
     }
 
-    private List<Match> newMatches(int matchCountPerTimeSlot, int availableFieldCount, LocalTime startTime, int matchDurationInMinutes, List<Player> signedUpPlayers) {
+    private List<Match> newMatches(int timeSlots, int availableFieldCount, LocalTime startTime, int matchDurationInMinutes, List<Player> signedUpPlayers) {
         List<Match> matches = new ArrayList<>();
-        startTime = startTime.minusMinutes(matchDurationInMinutes);
-        int playerIndex = 0; //om de volgende speler in de lijst te nemen, zorgt nu dat alle spelers in volgorde worden ingepland.
-        for (int i = 0; i < matchCountPerTimeSlot*availableFieldCount; i++) {
+        startTime = startTime.minusMinutes(matchDurationInMinutes); //Prevents the first matches to start matchDurationInMinutes after the startTime.
+        int playerIndex = 0; //Used to take the next player out of the list, currently causes each player to be planned in order
+
+        //Creates a match for every timeslot*fields
+        for (int i = 0; i < timeSlots*availableFieldCount; i++) {
             Match match = new Match();
 
+            //to create the matches, new teams have to be created
             match.setTeams(newTeams(playerIndex, signedUpPlayers));
 
             double team1PRanking = match.getTeams().get(0).getAveragePRanking();
             double team2PRanking = match.getTeams().get(1).getAveragePRanking();
             match.setpRankingDifference(team1PRanking - team2PRanking);
 
-            if(i%(matchCountPerTimeSlot) == 0){
+            //After we created enough teams for one timeslot, the next matches start at a different time
+            if(i%(timeSlots) == 0){
                 startTime = startTime.plusMinutes(matchDurationInMinutes);
             }
             match.setTimeSlot(startTime);

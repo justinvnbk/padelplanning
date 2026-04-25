@@ -14,31 +14,27 @@ import java.util.List;
 public class HomeController {
     private final FieldRepository fieldRepository;
     private final PlayerRepository playerRepository;
-    private final MatchRepository matchRepository;
     private final PadelDayRepository padelDayRepository;
-    private final TeamRepository teamRepository;
     private final CreatePadelDayService createPadelDayService;
 
-    public HomeController(FieldRepository fieldRepository, PlayerRepository playerRepository, MatchRepository matchRepository, PadelDayRepository padelDayRepository, TeamRepository teamRepository, CreatePadelDayService createPadelDayService) {
+    public HomeController(FieldRepository fieldRepository, PlayerRepository playerRepository, PadelDayRepository padelDayRepository, CreatePadelDayService createPadelDayService) {
         this.fieldRepository = fieldRepository;
         this.playerRepository = playerRepository;
-        this.matchRepository = matchRepository;
         this.padelDayRepository = padelDayRepository;
-        this.teamRepository = teamRepository;
         this.createPadelDayService = createPadelDayService;
     }
 
     @GetMapping({"/","/home"})
     public String home(Model model){
-        int matchCountPerTimeSlot = 3; //The amount of matches played at the same time in 1 timeslot
-        List<Field> fields = fieldRepository.getAvailable();
+        int timeSlots = 3; //The amount of timeslots available per player
+        List<Field> availableFields = fieldRepository.getAvailable();
         LocalTime startTime = LocalTime.of(14,0,0);
         int matchDurationInMinutes = 40;
-        List<Player> signedUpPlayers = playerRepository.getAll(); //The players who signed up for the padel day exluding the reserve list
+        List<Player> signedUpPlayers = playerRepository.getAll(); //The players who signed up for the padel day excluding the reserve list
 
-        PadelDay padelDay = createPadelDayService.newPadelDay(matchCountPerTimeSlot, fields, startTime, matchDurationInMinutes, signedUpPlayers);
+        //This will create a new padelDay with all linked entities (matches and teams) and save them to the database
+        PadelDay padelDay = createPadelDayService.newPadelDay(timeSlots, availableFields, startTime, matchDurationInMinutes, signedUpPlayers);
 
-        padelDayRepository.save(padelDay);
         model.addAttribute("padelDay", padelDay);
         return "home";
     }
