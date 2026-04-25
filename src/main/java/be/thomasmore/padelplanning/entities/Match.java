@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalTime;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Match {
@@ -13,7 +14,7 @@ public class Match {
     private Double pRankingDifference;
     private LocalTime timeSlot;
     @ManyToMany(fetch = FetchType.LAZY)
-    private Collection<Team> teams;
+    private List<Team> teams;
     @ManyToMany(mappedBy = "matches")
     private Collection<PadelDay> padelDays;
 
@@ -41,11 +42,11 @@ public class Match {
         this.timeSlot = timeSlot;
     }
 
-    public Collection<Team> getTeams() {
+    public List<Team> getTeams() {
         return teams;
     }
 
-    public void setTeams(Collection<Team> teams) {
+    public void setTeams(List<Team> teams) {
         this.teams = teams;
     }
 

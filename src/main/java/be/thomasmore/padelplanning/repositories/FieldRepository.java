@@ -11,5 +11,5 @@ import java.util.List;
 
 public interface FieldRepository extends CrudRepository<Field, Integer> {
     @Query("SELECT f FROM Field f")
-    Collection<Field> getAvailable();
+    List<Field> getAvailable();
 }
