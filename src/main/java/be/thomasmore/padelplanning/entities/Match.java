@@ -17,6 +17,8 @@ public class Match {
     private List<Team> teams;
     @ManyToMany(mappedBy = "matches")
     private Collection<PadelDay> padelDays;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Field field;
 
     public Integer getId() {
         return id;
@@ -56,5 +58,13 @@ public class Match {
 
     public void setPadelDays(Collection<PadelDay> padelDays) {
         this.padelDays = padelDays;
+    }
+
+    public Field getField() {
+        return field;
+    }
+
+    public void setField(Field field) {
+        this.field = field;
     }
 }

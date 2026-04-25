@@ -11,7 +11,7 @@ public class Field {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private boolean isOutside;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "field")
     private Collection<Match> matches;
     @ManyToMany(fetch = FetchType.LAZY)
     private Collection<PadelDay> padelDays;

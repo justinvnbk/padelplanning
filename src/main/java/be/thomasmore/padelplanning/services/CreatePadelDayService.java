@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -29,56 +30,63 @@ public class CreatePadelDayService {
     public PadelDay newPadelDay(int timeSlots, List<Field> availableFields, LocalTime startTime, int matchDurationInMinutes, List<Player> signedUpPlayers) {
         PadelDay padelDay = new PadelDay();
         padelDay.setDate(LocalDateTime.now());
-        padelDay.setMatches(newMatches(timeSlots, availableFields.size(), startTime, matchDurationInMinutes, signedUpPlayers));
+        //Voor nu maakt dit de mees 'faire' teams geordend in p-ranking
+        signedUpPlayers = signedUpPlayers.stream().sorted(Comparator.comparing(Player::getpRanking)).toList();
+        padelDay.setMatches(newMatches(timeSlots, availableFields, startTime, matchDurationInMinutes, signedUpPlayers));
         padelDay.setNumberOfMatches(padelDay.getMatches().size());
         padelDay.setFields(availableFields);
         padelDayRepository.save(padelDay);
         return padelDay;
     }
 
-    private List<Match> newMatches(int timeSlots, int availableFieldCount, LocalTime startTime, int matchDurationInMinutes, List<Player> signedUpPlayers) {
+    private List<Match> newMatches(int timeSlots, List<Field> availableFields, LocalTime startTime, int matchDurationInMinutes, List<Player> signedUpPlayers) {
         List<Match> matches = new ArrayList<>();
-        startTime = startTime.minusMinutes(matchDurationInMinutes); //Prevents the first matches to start matchDurationInMinutes after the startTime.
         int playerIndex = 0; //Used to take the next player out of the list, currently causes each player to be planned in order
 
-        //Creates a match for every timeslot*fields
-        for (int i = 0; i < timeSlots*availableFieldCount; i++) {
-            Match match = new Match();
+        //Creates a match for every timeslot
+        for (int i = 0; i < timeSlots; i++) {
+            //creating a new List of players so we can remove players from it as we assign them
+            List<Player> playersToAssign = new ArrayList<>(signedUpPlayers);
+            //creating new list of teams so we can have different teams per timeslot
+            List<Team> teamsToAssign = newTeams(playersToAssign,availableFields);
 
-            //to create the matches, new teams have to be created
-            match.setTeams(newTeams(playerIndex, signedUpPlayers));
+            for (int j = 0; j < availableFields.size(); j++) {
+                Match match = new Match();
+                match.setField(availableFields.get(j));
 
-            double team1PRanking = match.getTeams().get(0).getAveragePRanking();
-            double team2PRanking = match.getTeams().get(1).getAveragePRanking();
-            match.setpRankingDifference(team1PRanking - team2PRanking);
+                //we add 2 teams to the match and remove them from the team pool
+                match.setTeams(List.of(teamsToAssign.get(0), teamsToAssign.get(1)));
+                teamsToAssign.remove(0);
+                teamsToAssign.remove(0);
 
-            //After we created enough teams for one timeslot, the next matches start at a different time
-            if(i%(timeSlots) == 0){
-                startTime = startTime.plusMinutes(matchDurationInMinutes);
+                double team1PRanking = match.getTeams().get(0).getAveragePRanking();
+                double team2PRanking = match.getTeams().get(1).getAveragePRanking();
+                match.setpRankingDifference(Math.abs(team1PRanking - team2PRanking));
+
+                match.setTimeSlot(startTime);
+                matchRepository.save(match);
+                matches.add(match);
             }
-            match.setTimeSlot(startTime);
-            matchRepository.save(match);
-            matches.add(match);
+            //After we created enough teams for one timeslot, the next matches start at a different time
+            startTime = startTime.plusMinutes(matchDurationInMinutes);
+            playerIndex = 0;
         }
         return matches;
     }
 
-    private List<Team> newTeams(int playerIndex, List<Player> signedUpPlayers) {
+    private List<Team> newTeams(List<Player> playersToAssign, List<Field> availableFields) {
         List<Team> teams = new ArrayList<>();
-        for (int j = 0; j < 2; j++) {
-            Team team = new Team();
-            Collection<Player> players = new ArrayList<>();
-            if(playerIndex >= signedUpPlayers.size()){
-                playerIndex = 0;
+        for (int i = 0; i < availableFields.size(); i++) {
+            for (int j = 0; j < 2; j++) {
+                Team team = new Team();
+                //Add the players to the team and remove them from the to be assigned list
+                team.setPlayers(List.of(playersToAssign.get(0), playersToAssign.get(1)));
+                playersToAssign.remove(0);
+                playersToAssign.remove(0);
+                team.setAveragePRanking(team.getPlayers().stream().mapToDouble(Player::getpRanking).average().getAsDouble());
+                teamRepository.save(team);
+                teams.add(team);
             }
-            players.add(signedUpPlayers.get(playerIndex));
-            playerIndex++;
-            players.add(signedUpPlayers.get(playerIndex));
-            playerIndex++;
-            team.setAveragePRanking(players.stream().mapToDouble(Player::getpRanking).average().getAsDouble());
-            team.setPlayers(players);
-            teamRepository.save(team);
-            teams.add(team);
         }
         return teams;
     }
