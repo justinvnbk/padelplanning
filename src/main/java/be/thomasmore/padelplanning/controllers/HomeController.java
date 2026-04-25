@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 @Controller
@@ -29,10 +28,13 @@ public class HomeController {
         List<Field> availableFields = fieldRepository.getAvailable();
         LocalDateTime dateAndStartTime = LocalDateTime.of(2026,4,25,14,0);
         int matchDurationInMinutes = 40;
-        List<Player> signedUpPlayers = playerRepository.getAll(); //The players who signed up for the padel day excluding the reserve list
 
-        //This will create a new padelDay with all linked entities (matches and teams) and save them to the database
-        PadelDay padelDay = createPadelDayService.newPadelDay(timeSlots, availableFields, dateAndStartTime, matchDurationInMinutes, signedUpPlayers);
+        //First we need a new padelDay with a list of signedup players.
+        PadelDay padelDay = new PadelDay();
+        padelDay.setSignedUpPlayers(playerRepository.getAll());
+
+        //This will create update padelDay with all linked entities (matches and teams) and save them to the database
+        createPadelDayService.newPadelDayPlanning(padelDay, timeSlots, availableFields, dateAndStartTime, matchDurationInMinutes);
 
         model.addAttribute("padelDay", padelDay);
         return "home";

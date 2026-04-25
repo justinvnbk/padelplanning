@@ -3,7 +3,6 @@ package be.thomasmore.padelplanning.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity
@@ -14,10 +13,18 @@ public class PadelDay {
     private Integer id;
     private LocalDate date;
     private int numberOfMatches;
+
     @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Match> matches;
-    @ManyToMany(mappedBy = "padelDays")
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "padelDays")
     private Collection<Field> fields;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Collection<Player> signedUpPlayers;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Collection<Player> reservedPlayers;
 
     public Integer getId() {
         return id;
@@ -57,5 +64,21 @@ public class PadelDay {
 
     public void setFields(Collection<Field> fields) {
         this.fields = fields;
+    }
+
+    public Collection<Player> getSignedUpPlayers() {
+        return signedUpPlayers;
+    }
+
+    public void setSignedUpPlayers(Collection<Player> signedUpPlayers) {
+        this.signedUpPlayers = signedUpPlayers;
+    }
+
+    public Collection<Player> getReservedPlayers() {
+        return reservedPlayers;
+    }
+
+    public void setReservedPlayers(Collection<Player> reservedPlayers) {
+        this.reservedPlayers = reservedPlayers;
     }
 }
