@@ -9,77 +9,74 @@
         <h1 class="text-center mb-5">Overzicht Speelmomenten</h1>
 
         <div th:each="field : ${padelDay.fields}" class="mb-5">
+            <div class="container-fluid mb-4">
+                <div class="row g-0">
+                    <div class="col-12 border bg-dark text-light p-2 fw-bold" th:text="${#temporals.format(padelDay.date, 'dd/MM/yyyy')}"></div>
+                </div>
 
-            <div class="table-responsive">
-                <table class="table table-bordered align-middle">
-                    <thead class="table-dark">
-                    <tr>
-                        <th colspan="5" th:text="${#temporals.format(padelDay.date, 'dd/MM/yyyy')}"></th>
-                    </tr>
-                    <tr>
-                        <th>Veld</th>
-                        <th>Team</th>
-                        <th th:if="${field.matches.size() > 0}"
-                            th:text="'Match 1 (' + ${field.matches[0].timeSlot} + ')'"></th>
-                        <th th:if="${field.matches.size() > 1}"
-                            th:text="'Match 2 (' + ${field.matches[1].timeSlot} + ')'"></th>
-                        <th th:if="${field.matches.size() > 2}"
-                            th:text="'Match 3 (' + ${field.matches[2].timeSlot} + ')'"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
+                <div class="row g-0 align-items-center bg-light bg-dark text-light border-start border-end border-bottom">
+                    <div class="col-2 border-end text-start fw-bold p-2">Veld</div>
+                    <div class="col-10">
+                        <div class="row g-0">
+                            <div class="col-2 border-end  ps-2 fw-bold ">Team</div>
+                            <div class="col-5 border-end ps-2 fw-bold" th:if="${field.matches.size() > 0}"
+                                 th:text="'Match 1 (' + ${field.matches[0].timeSlot} + ')'"></div>
+                            <div class="col-5 ps-2 fw-bold" th:if="${field.matches.size() > 1}"
+                                 th:text="'Match 2 (' + ${field.matches[1].timeSlot} + ')'"></div>
+                        </div>
+                    </div>
+                </div>
 
-                    <!-- team A -->
-                    <tr>
-                        <td rowspan="2" class="fw-bold text-center fs-4" th:text="${field.id}"></td>
-                        <td class="fw-bold bg-primary-subtle">Team A</td>
-                        <td th:if="${field.matches.size() > 0}">
-                            <div th:each="player : ${field.matches[0].teams[0].players}"
-                                 th:text="${player.name}"
-                                 class="badge rounded-pill text-dark mb-1 d-block"
-                                 style="background-color: #c8f7c5;"></div>
-                        </td>
-                        <td th:if="${field.matches.size() > 1}">
-                            <div th:each="player : ${field.matches[1].teams[0].players}"
-                                 th:text="${player.name}"
-                                 class="badge rounded-pill text-dark mb-1 d-block"
-                                 style="background-color: #c8f7c5;"></div>
-                        </td>
-                        <td th:if="${field.matches.size() > 2}">
-                            <div th:each="player : ${field.matches[2].teams[0].players}"
-                                 th:text="${player.name}"
-                                 class="badge rounded-pill text-dark mb-1 d-block"
-                                 style="background-color: #c8f7c5;"></div>
-                        </td>
-                    </tr>
+                <div class="row g-0 border-start border-end border-bottom">
 
-                    <!-- team B -->
-                    <tr>
-                        <td class="fw-bold bg-danger-subtle">Team B</td>
-                        <td th:if="${field.matches.size() > 0}">
-                            <div th:each="player : ${field.matches[0].teams[1].players}"
-                                 th:text="${player.name}"
-                                 class="badge rounded-pill text-dark mb-1 d-block"
-                                 style="background-color: #ffd6d6;"></div>
-                        </td>
-                        <td th:if="${field.matches.size() > 1}">
-                            <div th:each="player : ${field.matches[1].teams[1].players}"
-                                 th:text="${player.name}"
-                                 class="badge rounded-pill text-dark mb-1 d-block"
-                                 style="background-color: #ffd6d6;"></div>
-                        </td>
-                        <td th:if="${field.matches.size() > 2}">
-                            <div th:each="player : ${field.matches[2].teams[1].players}"
-                                 th:text="${player.name}"
-                                 class="badge rounded-pill text-dark mb-1 d-block"
-                                 style="background-color: #ffd6d6;"></div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                    <div class="col-2 border-end d-flex align-items-center justify-content-center fs-2 fw-bold" th:text="${field.id}"></div>
+
+                    <div class="col-10">
+                        <div class="row g-0 border-bottom">
+
+                            <!--team A-->
+
+                            <div class="col-2 fw-bold bg-primary-subtle border-end ps-2 d-flex align-items-center">Team A</div>
+
+                            <div class="col-5 border-end p-2" th:if="${field.matches.size() > 0}">
+                                <div th:each="player : ${field.matches[0].teams[0].players}"
+                                     th:text="${player.name}"
+                                     class="badge rounded-pill text-dark mb-1 d-block"
+                                     style="background-color: #c8f7c5;"></div>
+                            </div>
+
+                            <div class="col-5 p-2" th:if="${field.matches.size() > 1}">
+                                <div th:each="player : ${field.matches[1].teams[0].players}"
+                                     th:text="${player.name}"
+                                     class="badge rounded-pill text-dark mb-1 d-block"
+                                     style="background-color: #c8f7c5;"></div>
+                            </div>
+                        </div>
+
+                        <div class="row g-0">
+
+                            <!--team B-->
+
+                            <div class="col-2 fw-bold bg-danger-subtle border-end ps-2 d-flex align-items-center">Team B</div>
+
+                            <div class="col-5 border-end p-2" th:if="${field.matches.size() > 0}">
+                                <div th:each="player : ${field.matches[0].teams[1].players}"
+                                     th:text="${player.name}"
+                                     class="badge rounded-pill text-dark mb-1 d-block"
+                                     style="background-color: #ffd6d6;"></div>
+                            </div>
+
+                            <div class="col-5 p-2" th:if="${field.matches.size() > 1}">
+                                <div th:each="player : ${field.matches[1].teams[1].players}"
+                                     th:text="${player.name}"
+                                     class="badge rounded-pill text-dark mb-1 d-block"
+                                     style="background-color: #ffd6d6;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-        </div>
+            </div>
     </div>
 </main>
 
