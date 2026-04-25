@@ -2,6 +2,7 @@ package be.thomasmore.padelplanning.entities;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -11,7 +12,7 @@ public class PadelDay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private LocalDateTime date;
+    private LocalDate date;
     private int numberOfMatches;
     @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Match> matches;
@@ -26,11 +27,11 @@ public class PadelDay {
         this.id = id;
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -26,12 +27,12 @@ public class HomeController {
     public String home(Model model){
         int timeSlots = 3; //The amount of timeslots available per player
         List<Field> availableFields = fieldRepository.getAvailable();
-        LocalTime startTime = LocalTime.of(14,0,0);
+        LocalDateTime dateAndStartTime = LocalDateTime.of(2026,4,25,14,0);
         int matchDurationInMinutes = 40;
         List<Player> signedUpPlayers = playerRepository.getAll(); //The players who signed up for the padel day excluding the reserve list
 
         //This will create a new padelDay with all linked entities (matches and teams) and save them to the database
-        PadelDay padelDay = createPadelDayService.newPadelDay(timeSlots, availableFields, startTime, matchDurationInMinutes, signedUpPlayers);
+        PadelDay padelDay = createPadelDayService.newPadelDay(timeSlots, availableFields, dateAndStartTime, matchDurationInMinutes, signedUpPlayers);
 
         model.addAttribute("padelDay", padelDay);
         return "home";
