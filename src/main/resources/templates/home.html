@@ -2,8 +2,94 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head::headfragment}"></head>
 <body>
-<h1>TEST: HOME MAIN</h1>
+<header th:replace="~{fragments/headerfooter::navbar}"></header>
 
-<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<main>
+    <div class="container py-4">
+        <h1 class="text-center mb-5">Overzicht Speelmomenten</h1>
+
+        <div th:each="field : ${padelDay.fields}" class="mb-5">
+
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle">
+                    <thead class="table-dark">
+                    <tr>
+                        <th colspan="5" th:text="${#temporals.format(padelDay.date, 'dd/MM/yyyy')}"></th>
+                    </tr>
+                    <tr>
+                        <th>Veld</th>
+                        <th>Team</th>
+                        <th th:if="${field.matches.size() > 0}"
+                            th:text="'Match 1 (' + ${field.matches[0].timeSlot} + ')'"></th>
+                        <th th:if="${field.matches.size() > 1}"
+                            th:text="'Match 2 (' + ${field.matches[1].timeSlot} + ')'"></th>
+                        <th th:if="${field.matches.size() > 2}"
+                            th:text="'Match 3 (' + ${field.matches[2].timeSlot} + ')'"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <!-- team A -->
+                    <tr>
+                        <td rowspan="2" class="fw-bold text-center fs-4" th:text="${field.id}"></td>
+                        <td class="fw-bold bg-primary-subtle">Team A</td>
+                        <td th:if="${field.matches.size() > 0}">
+                            <div th:each="player : ${field.matches[0].teams[0].players}"
+                                 th:text="${player.name}"
+                                 class="badge rounded-pill text-dark mb-1 d-block"
+                                 style="background-color: #c8f7c5;"></div>
+                        </td>
+                        <td th:if="${field.matches.size() > 1}">
+                            <div th:each="player : ${field.matches[1].teams[0].players}"
+                                 th:text="${player.name}"
+                                 class="badge rounded-pill text-dark mb-1 d-block"
+                                 style="background-color: #c8f7c5;"></div>
+                        </td>
+                        <td th:if="${field.matches.size() > 2}">
+                            <div th:each="player : ${field.matches[2].teams[0].players}"
+                                 th:text="${player.name}"
+                                 class="badge rounded-pill text-dark mb-1 d-block"
+                                 style="background-color: #c8f7c5;"></div>
+                        </td>
+                    </tr>
+
+                    <!-- team B -->
+                    <tr>
+                        <td class="fw-bold bg-danger-subtle">Team B</td>
+                        <td th:if="${field.matches.size() > 0}">
+                            <div th:each="player : ${field.matches[0].teams[1].players}"
+                                 th:text="${player.name}"
+                                 class="badge rounded-pill text-dark mb-1 d-block"
+                                 style="background-color: #ffd6d6;"></div>
+                        </td>
+                        <td th:if="${field.matches.size() > 1}">
+                            <div th:each="player : ${field.matches[1].teams[1].players}"
+                                 th:text="${player.name}"
+                                 class="badge rounded-pill text-dark mb-1 d-block"
+                                 style="background-color: #ffd6d6;"></div>
+                        </td>
+                        <td th:if="${field.matches.size() > 2}">
+                            <div th:each="player : ${field.matches[2].teams[1].players}"
+                                 th:text="${player.name}"
+                                 class="badge rounded-pill text-dark mb-1 d-block"
+                                 style="background-color: #ffd6d6;"></div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/headerfooter::footer}"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 </body>
 </html>
+
+<!--
+deze wou niet werken en heb ik vervangen door de originele link van bootstrap, ik heb de pom.xml nog niet veranderd
+in het geval dat we de fout met de webjars kunnen oplossen -Gab
+th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"
+-->

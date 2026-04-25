@@ -1,0 +1,94 @@
+/* =====================
+   CSS path: resources/static/css/style.css
+   Link in head fragment: th:href="@{/css/style.css}"
+   ===================== */
+
+:root {
+    --pma-red: #cf0039;
+    --pma-red-bright: #ff1a52;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #000000 !important;
+}
+
+.navbar-nav .nav-link {
+    color: #ffffff !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    color: var(--pma-red) !important;
+}
+
+/* Log in button */
+.btn-pma {
+    background-color: var(--pma-red);
+    color: #ffffff !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.85rem;
+    border: none;
+    padding: 0.45rem 1.2rem;
+    border-radius: 3px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-pma:hover {
+    background-color: var(--pma-red-bright);
+    color: #ffffff !important;
+}
+
+/* Hamburger icon */
+.navbar-toggler {
+    border-color: var(--pma-red);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23cf0039' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Logo placeholder — remove once real logo is in */
+.logo-placeholder {
+    display: inline-block;
+    width: 48px;
+    height: 40px;
+    background-color: #333;
+    border: 1px solid #555;
+    border-radius: 3px;
+}
+
+/* Footer */
+footer {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 1.2rem 0;
+    width: 100%;
+    margin-top: auto;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+.logo-placeholder {
+    display: inline-block;
+    width: 48px;
+    height: 40px;
+    background-color: #333;
+    border: 1px solid #555;
+    border-radius: 3px;
+}

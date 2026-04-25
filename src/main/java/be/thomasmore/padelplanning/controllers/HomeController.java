@@ -5,13 +5,12 @@ import be.thomasmore.padelplanning.repositories.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -35,10 +34,11 @@ public class HomeController {
         int matchAmount = 6;
         LocalTime startTime = LocalTime.of(14,0,0);
         int matchDurationInMinutes = 40;
-        Collection<Field> fields = fieldRepository.getAvailable();
+        List<Field> fields = fieldRepository.getAvailable();//Ik heb ook deze veranderd naar List en ook in de field repository vernaderd naar List -Gab
         List<Player> signedUpPlayers = playerRepository.getAll();
+        Collections.shuffle(signedUpPlayers);//Deze toegevoegd voor de shuffle van de players
 
-        Collection<Match> matches = new ArrayList<>();
+        List<Match> matches = new ArrayList<>();
         int playerIndex = 0; //om de volgende speler in de lijst te nemen
         for (int i = 0; i < matchAmount; i++) {
             Match match = new Match();
@@ -47,12 +47,12 @@ public class HomeController {
             for (int j = 0; j < 2; j++) {
                 Team team = new Team();
                 Collection<Player> players = new ArrayList<>();
-                if(playerIndex >= (matchAmount/fields.size())*4){
-                    playerIndex = 0;
-                }
-                players.add(signedUpPlayers.get(playerIndex));
+//                if(playerIndex >= (matchAmount/fields.size())*4){
+//                    playerIndex = 0;
+//                }
+                players.add(signedUpPlayers.get(playerIndex % signedUpPlayers.size()));//Ik heb deze veranderd voor een betere shuffle
                 playerIndex++;
-                players.add(signedUpPlayers.get(playerIndex));
+                players.add(signedUpPlayers.get(playerIndex % signedUpPlayers.size()));//Deze ook is veranderd -Gab
                 playerIndex++;
                 team.setAveragePRanking(players.stream().mapToDouble(Player::getpRanking).average().getAsDouble());
                 team.setPlayers(players);
@@ -71,6 +71,14 @@ public class HomeController {
             match.setTimeSlot(startTime);
             matchRepository.save(match);
             matches.add(match);
+        }
+
+        //Ik heb deze stuk toegevoegd om de patches in de fields te bewaren anders waren er geen matches per field
+        int matchesPerField = matchAmount / fields.size();
+        for (int i = 0; i < fields.size(); i++) {
+            List<Match> fieldMatches = new ArrayList<>(matches.subList(i * matchesPerField, (i + 1) * matchesPerField));
+            fields.get(i).setMatches(fieldMatches);
+            fieldRepository.save(fields.get(i));
         }
 
         PadelDay padelDay = new PadelDay();
