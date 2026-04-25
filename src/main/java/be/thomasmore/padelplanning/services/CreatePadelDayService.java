@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
@@ -41,8 +40,6 @@ public class CreatePadelDayService {
 
     private List<Match> newMatches(int timeSlots, List<Field> availableFields, LocalTime startTime, int matchDurationInMinutes, List<Player> signedUpPlayers) {
         List<Match> matches = new ArrayList<>();
-        int playerIndex = 0; //Used to take the next player out of the list, currently causes each player to be planned in order
-
         //Creates a match for every timeslot
         for (int i = 0; i < timeSlots; i++) {
             //creating a new List of players so we can remove players from it as we assign them
@@ -50,9 +47,9 @@ public class CreatePadelDayService {
             //creating new list of teams so we can have different teams per timeslot
             List<Team> teamsToAssign = newTeams(playersToAssign,availableFields);
 
-            for (int j = 0; j < availableFields.size(); j++) {
+            for (Field availableField : availableFields) {
                 Match match = new Match();
-                match.setField(availableFields.get(j));
+                match.setField(availableField);
 
                 //we add 2 teams to the match and remove them from the team pool
                 match.setTeams(List.of(teamsToAssign.get(0), teamsToAssign.get(1)));
@@ -69,7 +66,6 @@ public class CreatePadelDayService {
             }
             //After we created enough teams for one timeslot, the next matches start at a different time
             startTime = startTime.plusMinutes(matchDurationInMinutes);
-            playerIndex = 0;
         }
         return matches;
     }

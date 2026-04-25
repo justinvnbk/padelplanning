@@ -14,13 +14,11 @@ import java.util.List;
 public class HomeController {
     private final FieldRepository fieldRepository;
     private final PlayerRepository playerRepository;
-    private final PadelDayRepository padelDayRepository;
     private final CreatePadelDayService createPadelDayService;
 
-    public HomeController(FieldRepository fieldRepository, PlayerRepository playerRepository, PadelDayRepository padelDayRepository, CreatePadelDayService createPadelDayService) {
+    public HomeController(FieldRepository fieldRepository, PlayerRepository playerRepository, CreatePadelDayService createPadelDayService) {
         this.fieldRepository = fieldRepository;
         this.playerRepository = playerRepository;
-        this.padelDayRepository = padelDayRepository;
         this.createPadelDayService = createPadelDayService;
     }
 
