@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class CreatePadelDayService {
@@ -29,7 +27,8 @@ public class CreatePadelDayService {
     public PadelDay newPadelDay(int timeSlots, List<Field> availableFields, LocalTime startTime, int matchDurationInMinutes, List<Player> signedUpPlayers) {
         PadelDay padelDay = new PadelDay();
         padelDay.setDate(LocalDateTime.now());
-        //Voor nu maakt dit de mees 'faire' teams geordend in p-ranking
+        //For now to create fair matches, the signed up players are sorted by p-ranking
+        //later this would be replaced by an algorithm to make fair matches.
         signedUpPlayers = signedUpPlayers.stream().sorted(Comparator.comparing(Player::getpRanking)).toList();
         padelDay.setMatches(newMatches(timeSlots, availableFields, startTime, matchDurationInMinutes, signedUpPlayers));
         padelDay.setNumberOfMatches(padelDay.getMatches().size());
@@ -41,12 +40,11 @@ public class CreatePadelDayService {
     private List<Match> newMatches(int timeSlots, List<Field> availableFields, LocalTime startTime, int matchDurationInMinutes, List<Player> signedUpPlayers) {
         List<Match> matches = new ArrayList<>();
         //Creates a match for every timeslot
+        //creating a new List of players so we can remove players from it as we assign them
+        List<Player> playersToAssign = new ArrayList<>(signedUpPlayers);
+        //creating new list of teams so we can have different teams per timeslot
+        List<Team> teamsToAssign = newTeams(playersToAssign,availableFields);
         for (int i = 0; i < timeSlots; i++) {
-            //creating a new List of players so we can remove players from it as we assign them
-            List<Player> playersToAssign = new ArrayList<>(signedUpPlayers);
-            //creating new list of teams so we can have different teams per timeslot
-            List<Team> teamsToAssign = newTeams(playersToAssign,availableFields);
-
             for (Field availableField : availableFields) {
                 Match match = new Match();
                 match.setField(availableField);
@@ -66,6 +64,11 @@ public class CreatePadelDayService {
             }
             //After we created enough teams for one timeslot, the next matches start at a different time
             startTime = startTime.plusMinutes(matchDurationInMinutes);
+            //After all matches are created for one timeslot, shuffel the players and so the teams
+            playersToAssign = new ArrayList<>(signedUpPlayers);
+            //For now only the first matches of the day are 'fair' and the rest of the matches are fully shuffled
+            Collections.shuffle(playersToAssign);
+            teamsToAssign = newTeams(playersToAssign,availableFields);
         }
         return matches;
     }
@@ -79,7 +82,13 @@ public class CreatePadelDayService {
                 team.setPlayers(List.of(playersToAssign.get(0), playersToAssign.get(1)));
                 playersToAssign.remove(0);
                 playersToAssign.remove(0);
-                team.setAveragePRanking(team.getPlayers().stream().mapToDouble(Player::getpRanking).average().getAsDouble());
+                //P-Ranking of a player can be null
+                OptionalDouble optionalAveragePRanking = team.getPlayers().stream().mapToDouble(Player::getpRanking).average();
+                if(optionalAveragePRanking.isPresent()) {
+                    team.setAveragePRanking(optionalAveragePRanking.getAsDouble());
+                }else{
+                    team.setAveragePRanking(null);
+                }
                 teamRepository.save(team);
                 teams.add(team);
             }
