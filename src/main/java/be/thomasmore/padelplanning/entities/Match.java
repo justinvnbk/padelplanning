@@ -59,4 +59,12 @@ public class Match {
     public void setPadelDays(Collection<PadelDay> padelDays) {
         this.padelDays = padelDays;
     }
+
+    public Field getField() {
+        return field;
+    }
+
+    public void setField(Field field) {
+        this.field = field;
+    }
 }
