@@ -17,6 +17,8 @@ public class Match {
     private List<Team> teams;//ik heb deze veranderd naar List omdat er zijn indexes nodig om die te kunnen omzetten naar kolommen en rijen
     @ManyToMany(mappedBy = "matches")
     private Collection<PadelDay> padelDays;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Field field;
 
     public Integer getId() {
         return id;
