@@ -27,7 +27,7 @@ public class HomeController {
         int timeSlots = 3; //The amount of timeslots available per player
         List<Field> availableFields = fieldRepository.getAvailable();
         LocalDateTime dateAndStartTime = LocalDateTime.of(2026,4,25,14,0);
-        int matchDurationInMinutes = 40;
+        int matchDurationInMinutes = 40; //doesn't include the pause in between matches
 
         //First we need a new padelDay with a list of signedup players.
         PadelDay padelDay = new PadelDay();

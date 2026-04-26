@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class PadelDay {
@@ -81,5 +84,13 @@ public class PadelDay {
 
     public void setReservedPlayers(Collection<Player> reservedPlayers) {
         this.reservedPlayers = reservedPlayers;
+    }
+
+    public List<LocalTime> getUniqueTimeSlots() {
+        return matches.stream()
+                .map(Match::getTimeSlot)
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
     }
 }
