@@ -1,0 +1,43 @@
+<header th:fragment="navbar">
+    <nav class="navbar navbar-expand-md">
+        <div class="container">
+
+            <a class="navbar-brand" href="#">
+                <img th:src="@{/logo/padelclub_logo.png}" alt="logo" style="max-height: 50px;">
+            </a>
+
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarMenu"
+                    aria-controls="navbarMenu"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav ms-auto align-items-md-center gap-md-2 mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Reserveren</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Over ons</a>
+                    </li>
+                    <li class="nav-item ms-md-3">
+                        <a class="btn btn-pma" href="#">Log in</a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+</header>
+
+<footer th:fragment="footer">
+    <div class="container text-center">
+        <p class="mb-0">&copy; <span th:text="${#dates.year(#dates.createNow())}"></span> ANT_Padelplanning_Team2</p>
+    </div>
+</footer>
