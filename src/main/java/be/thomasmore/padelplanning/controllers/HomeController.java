@@ -31,10 +31,11 @@ public class HomeController {
 
         //First we need a new padelDay with a list of signedup players.
         PadelDay padelDay = new PadelDay();
+        padelDay.setDate(dateAndStartTime);
         padelDay.setSignedUpPlayers(playerRepository.getAll());
 
         //This will create update padelDay with all linked entities (matches and teams) and save them to the database
-        createPadelDayService.newPadelDayPlanning(padelDay, timeSlots, availableFields, dateAndStartTime, matchDurationInMinutes);
+        createPadelDayService.newPadelDayPlanning(padelDay, timeSlots, availableFields, matchDurationInMinutes);
 
         model.addAttribute("padelDay", padelDay);
         return "home";

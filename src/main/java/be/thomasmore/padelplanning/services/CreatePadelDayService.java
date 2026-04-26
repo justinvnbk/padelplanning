@@ -24,17 +24,17 @@ public class CreatePadelDayService {
 
     //This Service is used to create a new PadelDay object, all related objects (matches and teams) will also
     //be created and added to the database.
-    public void newPadelDayPlanning(PadelDay padelDay, int timeSlots, List<Field> availableFields, LocalDateTime dateAndStartTime, int matchDurationInMinutes) {
+    public void newPadelDayPlanning(PadelDay padelDay, int timeSlots, List<Field> availableFields, int matchDurationInMinutes) {
         if (padelDay.getSignedUpPlayers().size()%4 != 0){
             throw new IllegalArgumentException("Padel Day needs signed up players to be devisable by 4 to be planned");
         }
-        padelDay.setDate(dateAndStartTime.toLocalDate());
+
 
         //For now to create fair matches, the signed up players are sorted by p-ranking
         //later this would be replaced by an algorithm to make fair matches.
         List<Player> signedUpPlayers = padelDay.getSignedUpPlayers().stream().sorted(Comparator.comparing(Player::getpRanking)).toList();
 
-        padelDay.setMatches(newMatches(timeSlots, availableFields, dateAndStartTime.toLocalTime(), matchDurationInMinutes, signedUpPlayers));
+        padelDay.setMatches(newMatches(timeSlots, availableFields, padelDay.getDate().toLocalTime(), matchDurationInMinutes, signedUpPlayers));
 
         padelDay.setNumberOfMatches(padelDay.getMatches().size());
 
