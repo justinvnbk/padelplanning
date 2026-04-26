@@ -19,7 +19,7 @@
                             <div class="col-5 border-end ps-2 fw-bold" th:if="${padelDay.matches.size() > 0}"
                                  th:text="'Match 1 (' + ${padelDay.matches[0].timeSlot} + ')'"></div>
                             <div class="col-5 ps-2 fw-bold" th:if="${padelDay.matches.size() > 1}"
-                                 th:text="'Match 2 (' + ${padelDay.matches[1].timeSlot} + ')'"></div>
+                                 th:text="'Match 2 (' + ${padelDay.matches[padelDay.fields.size()+1].timeSlot} + ')'"></div>
                         </div>
                     </div>
                 </div>
@@ -40,14 +40,14 @@
 
                             <div class="col-5 border-end p-2" th:if="${field.matches.size() > 0}">
                                 <div th:each="player : ${field.matches[0].teams[0].players}"
-                                     th:text="${player.name}"
+                                     th:text="|${player.name} (${player.pRanking})|"
                                      class="badge rounded-pill text-dark mb-1 d-block"
                                      style="background-color: #c8f7c5;"></div>
                             </div>
 
                             <div class="col-5 p-2" th:if="${field.matches.size() > 1}">
                                 <div th:each="player : ${field.matches[1].teams[0].players}"
-                                     th:text="${player.name}"
+                                     th:text="|${player.name} (${player.pRanking})|"
                                      class="badge rounded-pill text-dark mb-1 d-block"
                                      style="background-color: #c8f7c5;"></div>
                             </div>
@@ -61,14 +61,14 @@
 
                             <div class="col-5 border-end p-2" th:if="${field.matches.size() > 0}">
                                 <div th:each="player : ${field.matches[0].teams[1].players}"
-                                     th:text="${player.name}"
+                                     th:text="|${player.name} (${player.pRanking})|"
                                      class="badge rounded-pill text-dark mb-1 d-block"
                                      style="background-color: #ffd6d6;"></div>
                             </div>
 
                             <div class="col-5 p-2" th:if="${field.matches.size() > 1}">
                                 <div th:each="player : ${field.matches[1].teams[1].players}"
-                                     th:text="${player.name}"
+                                     th:text="|${player.name} (${player.pRanking})|"
                                      class="badge rounded-pill text-dark mb-1 d-block"
                                      style="background-color: #ffd6d6;"></div>
                             </div>
