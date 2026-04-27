@@ -85,12 +85,4 @@ public class PadelDay {
     public void setReservedPlayers(Collection<Player> reservedPlayers) {
         this.reservedPlayers = reservedPlayers;
     }
-
-    public List<LocalTime> getUniqueTimeSlots() {
-        return matches.stream()
-                .map(Match::getTimeSlot)
-                .distinct()
-                .sorted()
-                .collect(Collectors.toList());
-    }
 }

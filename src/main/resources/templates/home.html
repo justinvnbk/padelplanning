@@ -16,7 +16,7 @@
                     <div class="col-11">
                         <div class="row g-0">
                             <div class="col-3 border-end  ps-2 fw-bold ">Team</div>
-                            <div th:each="timeSlot : ${padelDay.uniqueTimeSlots}"
+                            <div th:each="timeSlot : ${UniqueTimeSlots}"
                                  th:class="|col-3 border-end ps-2 fw-bold|"
                                  th:text="'Match ' + ${timeSlotStat.count} + ' (' + ${timeSlot} + ')'"></div> <!--th:class="|col-${12 / padelDay.fields.size()} border-end ps-2 fw-bold|"-->
                         </div>

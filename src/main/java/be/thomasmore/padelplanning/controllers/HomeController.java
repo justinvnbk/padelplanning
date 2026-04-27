@@ -8,7 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
@@ -37,7 +39,14 @@ public class HomeController {
         //This will create update padelDay with all linked entities (matches and teams) and save them to the database
         createPadelDayService.newPadelDayPlanning(padelDay, timeSlots, availableFields, matchDurationInMinutes);
 
+        List<LocalTime> getUniqueTimeSlots = padelDay.getMatches().stream()
+                    .map(Match::getTimeSlot)
+                    .distinct()
+                    .sorted()
+                    .collect(Collectors.toList());
+
         model.addAttribute("padelDay", padelDay);
+        model.addAttribute("UniqueTimeSlots", getUniqueTimeSlots);
         return "home";
     }
 }
