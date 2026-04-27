@@ -1,12 +1,11 @@
 package be.thomasmore.padelplanning.services;
 
-import be.thomasmore.padelplanning.entities.*;
+import be.thomasmore.padelplanning.model.*;
 import be.thomasmore.padelplanning.repositories.MatchRepository;
 import be.thomasmore.padelplanning.repositories.PadelDayRepository;
 import be.thomasmore.padelplanning.repositories.TeamRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 

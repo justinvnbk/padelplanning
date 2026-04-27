@@ -1,10 +1,8 @@
 package be.thomasmore.padelplanning.repositories;
 
-import be.thomasmore.padelplanning.entities.Field;
-import be.thomasmore.padelplanning.entities.Team;
+import be.thomasmore.padelplanning.model.Field;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 

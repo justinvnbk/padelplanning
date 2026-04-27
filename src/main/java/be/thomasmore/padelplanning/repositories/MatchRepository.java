@@ -1,6 +1,6 @@
 package be.thomasmore.padelplanning.repositories;
 
-import be.thomasmore.padelplanning.entities.Match;
+import be.thomasmore.padelplanning.model.Match;
 import org.springframework.data.repository.CrudRepository;
 
 public interface MatchRepository extends CrudRepository<Match, Integer> {

@@ -1,6 +1,6 @@
 package be.thomasmore.padelplanning.controllers;
 
-import be.thomasmore.padelplanning.entities.*;
+import be.thomasmore.padelplanning.model.*;
 import be.thomasmore.padelplanning.repositories.*;
 import be.thomasmore.padelplanning.services.CreatePadelDayService;
 import org.springframework.stereotype.Controller;

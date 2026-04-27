@@ -1,8 +1,7 @@
-package be.thomasmore.padelplanning.entities;
+package be.thomasmore.padelplanning.model;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collection;
