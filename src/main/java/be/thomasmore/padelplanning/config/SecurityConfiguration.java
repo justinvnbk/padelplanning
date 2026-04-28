@@ -48,8 +48,8 @@ public class SecurityConfiguration {
                 .anyRequest().permitAll());
         http.formLogin(withDefaults());
         http.logout(withDefaults());
-// http.formLogin(form -> form.loginPage("/login"));
-// http.logout(form -> form.logoutUrl("/logout"));
+        http.formLogin(form -> form.loginPage("/login"));
+        http.logout(form -> form.logoutUrl("/logout"));
 //to enable h2-console (default true, should be false when deployed):
         if (h2ConsoleNeeded) {
             http.csrf(csrf -> csrf.ignoringRequestMatchers(toH2Console()));

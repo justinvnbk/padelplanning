@@ -1,8 +1,11 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments/head::headfragment}"></head>
 <body>
 <h1>TEST: HOME MAIN</h1>
+<div sec:authorize="isAuthenticated()">only visible if logged in</div>
+<div sec:authorize="hasAuthority('USER')">only visible to user.</div>
+<div sec:authorize="hasAuthority('ADMIN')">only visible to admin.</div>
 
 <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </body>
