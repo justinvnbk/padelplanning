@@ -11,14 +11,15 @@ public class UserController {
     @GetMapping("/login")
     public String login (Model model, Principal principal) {
 
-        if (principal !=null) return "redirect:/home";
+        if (principal != null) return "redirect:/";
 
         return "user/login";
     }
 
     @GetMapping("/logout")
-    public String logout () {
+    public String logout (Model model, Principal principal) {
 
+        if (principal == null) return "redirect:/";
 
         return "user/logout";
     }
