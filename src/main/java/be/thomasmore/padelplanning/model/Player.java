@@ -1,4 +1,4 @@
-package be.thomasmore.padelplanning.entities;
+package be.thomasmore.padelplanning.model;
 
 import jakarta.persistence.*;
 

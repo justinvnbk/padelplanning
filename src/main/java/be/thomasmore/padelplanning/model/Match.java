@@ -1,9 +1,10 @@
-package be.thomasmore.padelplanning.entities;
+package be.thomasmore.padelplanning.model;
 
 import jakarta.persistence.*;
 
 import java.time.LocalTime;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Match {
@@ -13,9 +14,11 @@ public class Match {
     private Double pRankingDifference;
     private LocalTime timeSlot;
     @ManyToMany(fetch = FetchType.LAZY)
-    private Collection<Team> teams;
+    private List<Team> teams;//ik heb deze veranderd naar List omdat er zijn indexes nodig om die te kunnen omzetten naar kolommen en rijen
     @ManyToMany(mappedBy = "matches")
     private Collection<PadelDay> padelDays;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Field field;
 
     public Integer getId() {
         return id;
@@ -41,11 +44,11 @@ public class Match {
         this.timeSlot = timeSlot;
     }
 
-    public Collection<Team> getTeams() {
+    public List<Team> getTeams() {
         return teams;
     }
 
-    public void setTeams(Collection<Team> teams) {
+    public void setTeams(List<Team> teams) {
         this.teams = teams;
     }
 
@@ -55,5 +58,13 @@ public class Match {
 
     public void setPadelDays(Collection<PadelDay> padelDays) {
         this.padelDays = padelDays;
+    }
+
+    public Field getField() {
+        return field;
+    }
+
+    public void setField(Field field) {
+        this.field = field;
     }
 }
