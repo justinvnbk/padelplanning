@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::headfragment}"></head>
+<body>
+<header th:replace="~{fragments/headerfooter::navbar}"></header>
+
+<main>
+    <div class="container py-4">
+        <h1 class="text-center mb-5">Overzicht Speelmomenten</h1>
+                <div class="row g-0 border border-black">
+                    <div class="col-12 border bg-dark text-light p-2 fw-bold" th:text="${#temporals.format(padelDay.date, 'dd/MM/yyyy')}"></div>
+                </div>
+
+                <div class="row g-0 align-items-center bg-light bg-dark text-light border border-black">
+                    <div class="col-1 border-end text-start fw-bold p-2">Veld</div>
+                    <div class="col-11">
+                        <div class="row g-0">
+                            <div class="col-3 border-end  ps-2 fw-bold ">Team</div>
+                            <div th:each="timeSlot : ${padelDay.uniqueTimeSlots}"
+                                 th:class="|col-3 border-end ps-2 fw-bold|"
+                                 th:text="'Match ' + ${timeSlotStat.count} + ' (' + ${timeSlot} + ')'"></div> <!--th:class="|col-${12 / padelDay.fields.size()} border-end ps-2 fw-bold|"-->
+                        </div>
+                    </div>
+                </div>
+
+        <div th:each="field : ${padelDay.fields}" class="border border-black">
+            <div class="container-fluid p-0">
+
+                <div class="row g-0 border-start border-end border-bottom">
+                    <div class="col-1 border-end d-flex align-items-center justify-content-center fs-2 fw-bold" th:text="${field.id}"></div>
+                    <div class="col-11">
+                        <div class="row g-0 border-bottom">
+                            <!--team A-->
+                            <div th:class="|col-3 fw-bold bg-primary-subtle border-end ps-2 d-flex align-items-center|">Team A</div>
+
+                            <div th:each="match : ${padelDay.matches}" th:class="|col-3 border-end p-2|" th:if="${match.field == field}">
+                                <form id="teamEditForm" th:action="@{|/admin/editPlan/${padelDay}|}" method="post">
+<!--                                    <div th:each="player : ${match.teams[0].players}"-->
+<!--                                         th:text="|${player.name} (${player.pRanking})|"-->
+<!--                                         th:class="|badge rounded-pill text-dark mb-1 d-block|"-->
+<!--                                         style="background-color: #c8f7c5;"></div>-->
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row g-0">
+                            <!--team B-->
+                            <div class="col-3 fw-bold bg-danger-subtle border-end ps-2 d-flex align-items-center">Team B</div>
+
+                            <div th:each="match : ${padelDay.matches}" class="col-3 border-end p-2" th:if="${match.field == field}">
+                                <form th:each="player : ${match.teams[1].players}"
+                                     th:text="|${player.name} (${player.pRanking})|"
+                                     th:class="|badge rounded-pill text-dark mb-1 d-block|"
+                                     style="background-color: #ffd6d6;"></form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/headerfooter::footer}"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+</body>
+</html>
