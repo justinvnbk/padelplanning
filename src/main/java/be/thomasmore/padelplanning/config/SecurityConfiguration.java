@@ -46,10 +46,10 @@ public class SecurityConfiguration {
                 .requestMatchers("/admin/**").hasAuthority("ADMIN")
 //all other requests can be executed by anyone:
                 .anyRequest().permitAll());
-        http.formLogin(withDefaults());
-        http.logout(withDefaults());
+        //http.formLogin(withDefaults());
+        //http.logout(withDefaults());
         http.formLogin(form -> form.loginPage("/login"));
-        http.logout(form -> form.logoutUrl("/logout"));
+        http.logout(form -> form.logoutUrl("/logout").logoutSuccessUrl("/home"));
 //to enable h2-console (default true, should be false when deployed):
         if (h2ConsoleNeeded) {
             http.csrf(csrf -> csrf.ignoringRequestMatchers(toH2Console()));
