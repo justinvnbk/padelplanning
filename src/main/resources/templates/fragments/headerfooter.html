@@ -1,4 +1,4 @@
-<header th:fragment="navbar">
+<header th:fragment="navbar" xmlns:sec="http://www.w3.org/1999/xhtml">
     <nav class="navbar navbar-expand-md">
         <div class="container">
 
@@ -27,7 +27,10 @@
                         <a class="nav-link" href="#">Over ons</a>
                     </li>
                     <li class="nav-item ms-md-3">
-                        <a class="btn btn-pma" href="#">Log in</a>
+                        <a sec:authorize="!isAuthenticated()" th:class="|btn btn-pma ${currentUrl=='/login'? 'active' : ''}|" th:href="@{/login}">login</a>
+                    </li>
+                    <li class="nav-item ms-md-3">
+                        <a sec:authorize="isAuthenticated()" th:class="|btn btn-pma ${currentUrl=='/logout'? 'active' : ''}|" th:href="@{/logout}">Log out</a>
                     </li>
                 </ul>
             </div>

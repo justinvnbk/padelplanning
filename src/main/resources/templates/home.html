@@ -1,11 +1,15 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments/head::headfragment}"></head>
 <body>
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 
 <main>
     <div class="container py-4">
+        <p class="m-2 fs-3">
+                Welcome back <span sec:authentication="name"></span> :)
+            </p>
+
         <h1 class="text-center mb-5">Overzicht Speelmomenten</h1>
                 <div class="row g-0 border border-black">
                     <div class="col-12 border bg-dark text-light p-2 fw-bold" th:text="${#temporals.format(padelDay.date, 'dd/MM/yyyy')}"></div>

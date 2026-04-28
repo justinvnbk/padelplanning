@@ -92,3 +92,7 @@ main {
     border: 1px solid #555;
     border-radius: 3px;
 }
+
+.form-floating > label::after {
+    background-color: transparent !important;
+}
