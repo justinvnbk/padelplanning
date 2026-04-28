@@ -1,4 +1,4 @@
-package be.thomasmore.padelplanning.entities;
+package be.thomasmore.padelplanning.model;
 
 public enum PreferredPlayside {
     RIGHT, LEFT, NONE;
