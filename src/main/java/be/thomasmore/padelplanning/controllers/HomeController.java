@@ -3,7 +3,8 @@ package be.thomasmore.padelplanning.controllers;
 import be.thomasmore.padelplanning.model.*;
 import be.thomasmore.padelplanning.repositories.*;
 import be.thomasmore.padelplanning.services.CreatePadelDayService;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,10 +48,16 @@ public class HomeController {
                     .sorted()
                     .collect(Collectors.toList());
 
-        String email = authentication.name();
-        Player player = playerRepository.findByEmail(email);
+        if (authentication != null && authentication.isAuthenticated()) {
 
-        model.addAttribute("playerName", player.getName());
+            String email = authentication.getName();
+
+            Player player = playerRepository.findByEmail(email);
+
+            model.addAttribute("playerName", player.getName());
+
+        }
+
         model.addAttribute("padelDay", padelDay);
         model.addAttribute("UniqueTimeSlots", getUniqueTimeSlots);
         return "home";
