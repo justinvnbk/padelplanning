@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -23,16 +24,18 @@ public class HomeController {
 
     @GetMapping({"/","/home"})
     public String home(Model model){
-        PadelDay padelDay = padelDayRepository.getLast();
+        Optional<PadelDay> optionalPadelDay = padelDayRepository.getLast();
 
-        List<LocalTime> getUniqueTimeSlots = padelDay.getMatches().stream()
+        if(optionalPadelDay.isPresent()){
+            List<LocalTime> getUniqueTimeSlots = optionalPadelDay.get().getMatches().stream()
                     .map(Match::getTimeSlot)
                     .distinct()
                     .sorted()
                     .collect(Collectors.toList());
 
-        model.addAttribute("padelDay", padelDay);
-        model.addAttribute("UniqueTimeSlots", getUniqueTimeSlots);
+            model.addAttribute("UniqueTimeSlots", getUniqueTimeSlots);
+            model.addAttribute("padelDay", optionalPadelDay.get());
+        }
         return "home";
     }
 }

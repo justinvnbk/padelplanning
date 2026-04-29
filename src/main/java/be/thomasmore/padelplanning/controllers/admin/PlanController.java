@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
@@ -37,8 +38,11 @@ public class PlanController {
 
     @GetMapping("/plan")
     public String plan(Model model){
-        PadelDay padelDay = padelDayRepository.getLast();
-        model.addAttribute("padelDay", padelDay);
+        Optional<PadelDay> optionalPadelDay = padelDayRepository.getLast();
+        if(optionalPadelDay.isPresent()){
+            model.addAttribute("padelDay", optionalPadelDay.get());
+        }
+
         return "admin/plan";
     }
     @PostMapping("/plan")
