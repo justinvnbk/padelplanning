@@ -48,15 +48,15 @@ public class PlanController {
         return "redirect:/admin/plan";
     }
 
-    @GetMapping("/nieuwpadelday")
+    @GetMapping("/newpadelday")
     public String nieuwPadelday(Model model){
         Iterable<Field> fields = fieldRepository.findAll();
         model.addAttribute("fields", fields);
         model.addAttribute("padelDay", new PadelDay());
-        return "admin/nieuwpadelday";
+        return "admin/newpadelday";
     }
 
-    @PostMapping("/nieuwpadelday")
+    @PostMapping("/newpadelday")
     public String postNieuwPadelDay(Model model, PadelDay padelDay){
         padelDay.setSignedUpPlayers(playerRepository.getAll());
         padelDayRepository.save(padelDay);

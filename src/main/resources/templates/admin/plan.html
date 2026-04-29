@@ -8,7 +8,7 @@
         <h1 class="text-center mb-5">Plan een padeldag</h1>
 
         <!--als er geen padeldag beschikbaar is:-->
-        <a class="btn btn-primary" th:href="@{/admin/nieuwpadelday}" th:unless="${padelDay}">Start nieuwe padel dag</a>
+        <a class="btn btn-primary" th:href="@{/admin/newpadelday}" th:unless="${padelDay}">Start nieuwe padel dag</a>
 
         <!--als er een padeldag beschikbaar is maar nog geen planning is gemaakt:-->
         <div th:if="${padelDay}" th:unless="*{matches.size()>0}">
