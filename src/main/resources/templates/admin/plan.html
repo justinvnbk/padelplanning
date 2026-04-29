@@ -6,8 +6,12 @@
 
 <main class="container py-4" th:object="${padelDay}">
         <h1 class="text-center mb-5">Plan een padeldag</h1>
-        <a class="btn btn-primary" th:href="@{/admin/nieuwplan}" th:unless="${padelDay}">Start nieuwe padel dag</a>
-        <div th:if="${padelDay}">
+
+        <!--als er geen padeldag beschikbaar is:-->
+        <a class="btn btn-primary" th:href="@{/admin/nieuwpadelday}" th:unless="${padelDay}">Start nieuwe padel dag</a>
+
+        <!--als er een padeldag beschikbaar is maar nog geen planning is gemaakt:-->
+        <div th:if="${padelDay}" th:unless="*{matches.size()>0}">
                 <h2>Inschrijvingen:</h2>
                 <div th:each="p : ${padelDay.signedUpPlayers}">
                         <div th:text="${p.name}"></div>
@@ -18,6 +22,10 @@
                         <div th:text="${p.name}"></div>
                 </div>
                 <div th:text="${padelDay.reservedPlayers.size()==0?'Reservelijst is leeg':''}"></div>
+                <form th:action="@{/admin/plan}" method="post">
+                        <input type="hidden" name="id" th:value="${padelDay.id}" />
+                        <button class="btn btn-primary px-5 fw-bold shadow-sm" type="submit">Maak planning aan</button>
+                </form>
         </div>
 </main>
 <footer th:replace="~{fragments/headerfooter::footer}"></footer>

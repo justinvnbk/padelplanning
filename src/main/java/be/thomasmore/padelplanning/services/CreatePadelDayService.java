@@ -24,8 +24,11 @@ public class CreatePadelDayService {
 
     //This Service is used to create a new PadelDay object, all related objects (matches and teams) will also
     //be created and added to the database.
-    public void newPadelDayPlanning(PadelDay padelDay, int timeSlots, List<Field> availableFields) {
-        final int MATCH_DURATION_IN_MINUTES = 40;
+    public void newPadelDayPlanning(PadelDay padelDay) {
+
+        int numberOfMatches = padelDay.getNumberOfMatches();
+        List<Field> availableFields = padelDay.getFields();
+
         if (padelDay.getSignedUpPlayers().size()%4 != 0){
             throw new IllegalArgumentException("Padel Day needs signed up players to be devisable by 4 to be planned");
         }
@@ -35,16 +38,13 @@ public class CreatePadelDayService {
         //later this would be replaced by an algorithm to make fair matches.
         List<Player> signedUpPlayers = padelDay.getSignedUpPlayers().stream().sorted(Comparator.comparing(Player::getpRanking)).toList();
 
-        padelDay.setMatches(newMatches(timeSlots, availableFields, padelDay.getDate().toLocalTime(), MATCH_DURATION_IN_MINUTES, signedUpPlayers));
-
-        padelDay.setNumberOfMatches(padelDay.getMatches().size());
-
-        padelDay.setFields(availableFields);
+        padelDay.setMatches(newMatches(numberOfMatches, availableFields, padelDay.getDate().toLocalTime(), signedUpPlayers));
 
         padelDayRepository.save(padelDay);
     }
 
-    private List<Match> newMatches(int timeSlots, List<Field> availableFields, LocalTime startTime, int matchDurationInMinutes, List<Player> signedUpPlayers) {
+    private List<Match> newMatches(int timeSlots, List<Field> availableFields, LocalTime startTime, List<Player> signedUpPlayers) {
+        final int MATCH_DURATION_IN_MINUTES = 40;
         List<Match> matches = new ArrayList<>();
 
         //creating a new List of players so we can remove players from it as we assign them
@@ -73,7 +73,7 @@ public class CreatePadelDayService {
                 matches.add(match);
             }
             //After we created enough teams for one timeslot, the next matches start at a different time
-            startTime = startTime.plusMinutes(matchDurationInMinutes);
+            startTime = startTime.plusMinutes(MATCH_DURATION_IN_MINUTES);
 
             //After all matches are created for one timeslot, shuffel the players and so the teams
             playersToAssign = new ArrayList<>(signedUpPlayers);

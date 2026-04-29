@@ -12,29 +12,16 @@ import java.util.List;
 
 @Controller
 public class HomeController {
-    private final FieldRepository fieldRepository;
-    private final PlayerRepository playerRepository;
-    private final CreatePadelDayService createPadelDayService;
 
-    public HomeController(FieldRepository fieldRepository, PlayerRepository playerRepository, CreatePadelDayService createPadelDayService) {
-        this.fieldRepository = fieldRepository;
-        this.playerRepository = playerRepository;
-        this.createPadelDayService = createPadelDayService;
+    private final PadelDayRepository padelDayRepository;
+
+    public HomeController(PadelDayRepository padelDayRepository) {
+        this.padelDayRepository = padelDayRepository;
     }
 
     @GetMapping({"/","/home"})
     public String home(Model model){
-        int timeSlots = 3; //The amount of timeslots available per player
-        List<Field> availableFields = fieldRepository.getAvailable();
-        LocalDateTime dateAndStartTime = LocalDateTime.of(2026,4,25,14,0);
-
-        //First we need a new padelDay with a list of signedup players.
-        PadelDay padelDay = new PadelDay();
-        padelDay.setDate(dateAndStartTime);
-        padelDay.setSignedUpPlayers(playerRepository.getAll());
-
-        //This will create update padelDay with all linked entities (matches and teams) and save them to the database
-        createPadelDayService.newPadelDayPlanning(padelDay, timeSlots, availableFields);
+        PadelDay padelDay = padelDayRepository.getLast();
 
         model.addAttribute("padelDay", padelDay);
         return "home";

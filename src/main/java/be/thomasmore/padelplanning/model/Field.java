@@ -15,7 +15,7 @@ public class Field {
     private boolean isOutside;
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "field")
     private List<Match> matches; //ik heb deze veranderd naar List omdat er zijn indexes nodig om die te kunnen omzetten naar kolommen en rijen
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "fields")
     private Collection<PadelDay> padelDays;
 
     public Integer getId() {

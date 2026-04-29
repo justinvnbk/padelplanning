@@ -20,8 +20,8 @@ public class PadelDay {
     @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Match> matches;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "padelDays")
-    private Collection<Field> fields;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Field> fields;
 
     @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Player> signedUpPlayers;
@@ -61,11 +61,11 @@ public class PadelDay {
         this.matches = matches;
     }
 
-    public Collection<Field> getFields() {
+    public List<Field> getFields() {
         return fields;
     }
 
-    public void setFields(Collection<Field> fields) {
+    public void setFields(List<Field> fields) {
         this.fields = fields;
     }
 

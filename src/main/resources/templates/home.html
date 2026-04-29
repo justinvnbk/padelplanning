@@ -4,8 +4,8 @@
 <body>
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 
-<main>
-    <div class="container py-4">
+<main class="container py-4">
+    <div th:if="${padelDay}">
         <h1 class="text-center mb-5">Overzicht Speelmomenten</h1>
                 <div class="row g-0 border border-black">
                     <div class="col-12 border bg-dark text-light p-2 fw-bold" th:text="${#temporals.format(padelDay.date, 'dd/MM/yyyy')}"></div>
@@ -66,10 +66,10 @@
                     </div>
                 </div>
             </div>
-            </div>
+        </div>
     </div>
+    <div th:unless="${padelDay}">Er is nog geen nieuwe padel dag gepland, kom later terug</div>
 </main>
-
 <footer th:replace="~{fragments/headerfooter::footer}"></footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 </body>
