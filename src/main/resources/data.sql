@@ -13,11 +13,11 @@ VALUES
 ('Alex Johnson', true, 'M', '1992-04-14', 'Advanced', 900, '111111121', 'alex@example.com', 'RIGHT', ''),
 ('Sara Khan', false, 'F', '2002-10-05', 'Beginner', 300, '111111122', 'sara@example.com', 'NONE', '');
 
-INSERT INTO field (is_outside)
+INSERT INTO field (name, is_outside)
 VALUES
-(true),
-(false),
-(true);
+('1A',true),
+('1B',false),
+('5', true);
 
 -- INSERT INTO team (averagepranking)
 -- VALUES
