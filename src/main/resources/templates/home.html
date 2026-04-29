@@ -4,8 +4,9 @@
 <body>
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 
-<main>
-    <div class="container py-4">
+<main class="container py-4">
+    <div th:if="${padelDay}">
+    <div>
         <p class="m-2 fs-3">
                 Welcome back <span th:if="${playerName != null}" th:text="${playerName}"></span> :)
             </p>
@@ -20,7 +21,7 @@
                     <div class="col-11">
                         <div class="row g-0">
                             <div class="col-3 border-end  ps-2 fw-bold ">Team</div>
-                            <div th:each="timeSlot : ${UniqueTimeSlots}"
+                            <div th:each="timeSlot : ${padelDay.uniqueTimeSlots}"
                                  th:class="|col-3 border-end ps-2 fw-bold|"
                                  th:text="'Match ' + ${timeSlotStat.count} + ' (' + ${timeSlot} + ')'"></div> <!--th:class="|col-${12 / padelDay.fields.size()} border-end ps-2 fw-bold|"-->
                         </div>
@@ -32,7 +33,7 @@
 
                 <div class="row g-0 border-start border-end border-bottom">
 
-                    <div class="col-1 border-end d-flex align-items-center justify-content-center fs-2 fw-bold" th:text="${field.id}"></div>
+                    <div class="col-1 border-end d-flex align-items-center justify-content-center fs-2 fw-bold" th:text="${field.name}"></div>
 
                     <div class="col-11">
 
@@ -70,10 +71,11 @@
                     </div>
                 </div>
             </div>
-            </div>
+        </div>
     </div>
+    </div>
+    <div th:unless="${padelDay}">Er is nog geen nieuwe padel dag gepland, kom later terug</div>
 </main>
-
 <footer th:replace="~{fragments/headerfooter::footer}"></footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 </body>
