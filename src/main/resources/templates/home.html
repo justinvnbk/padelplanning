@@ -5,11 +5,11 @@
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 
 <main class="container py-4">
+    <p class="m-2 fs-3">
+        Welcome back <span th:if="${playerName != null}" th:text="${playerName}"></span> :)
+    </p>
     <div th:if="${padelDay}">
     <div>
-        <p class="m-2 fs-3">
-                Welcome back <span th:if="${playerName != null}" th:text="${playerName}"></span> :)
-            </p>
 
         <h1 class="text-center mb-5">Overzicht Speelmomenten</h1>
                 <div class="row g-0 border border-black">

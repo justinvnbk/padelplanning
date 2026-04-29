@@ -27,7 +27,6 @@
                         <a class="nav-link" th:classappend="${currentUrl=='/about'?'active':''}" href="#">Over ons</a>
                     </li>
                     <li class="nav-item ms-md-3">
-                        <a class="btn btn-pma" th:classappend="${currentUrl=='/login'?'active':''}" href="#">Log in</a>
                         <a sec:authorize="!isAuthenticated()" th:class="|btn btn-pma ${currentUrl=='/login'? 'active' : ''}|" th:href="@{/login}">login</a>
                     </li>
                     <li class="nav-item ms-md-3">

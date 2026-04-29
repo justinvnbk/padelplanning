@@ -13,6 +13,7 @@ VALUES
 ('Alex Johnson', true, 'M', '1992-04-14', 'Advanced', 900, '111111121', 'alex@example.com', 'RIGHT', ''),
 ('Sara Khan', false, 'F', '2002-10-05', 'Beginner', 300, '111111122', 'sara@example.com', 'NONE', '');
 
+
 INSERT INTO field (name, is_outside)
 VALUES
 ('1A',true),
@@ -45,18 +46,6 @@ VALUES
 -- INSERT INTO padel_day (date, number_of_matches)
 -- VALUES
 -- ('2026-04-25 18:00:00', 9);
-
-INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
-VALUES ('admin', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
--- password: abcd1234
-INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
-VALUES ('admin', 'ADMIN');
-
-INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
-VALUES ('test', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
--- password: abcd1234
-INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
-VALUES ('test', 'USER');
 
 -- Liam Carter
 INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
