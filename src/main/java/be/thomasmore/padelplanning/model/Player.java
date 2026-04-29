@@ -24,6 +24,8 @@ public class Player {
     private String profilePictureUrl;
     @ManyToMany(mappedBy = "players")
     private Collection<Team> teams;
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    private Collection<PadelDay>
 
     public Integer getId() {
         return id;

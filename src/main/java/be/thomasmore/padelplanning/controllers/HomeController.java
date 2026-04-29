@@ -3,6 +3,7 @@ package be.thomasmore.padelplanning.controllers;
 import be.thomasmore.padelplanning.model.*;
 import be.thomasmore.padelplanning.repositories.*;
 import be.thomasmore.padelplanning.services.CreatePadelDayService;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,8 @@ public class HomeController {
     }
 
     @GetMapping({"/","/home"})
-    public String home(Model model){
+    public String home(Model model,
+                       Authentication authentication){
         int timeSlots = 3; //The amount of timeslots available per player
         List<Field> availableFields = fieldRepository.getAvailable();
         LocalDateTime dateAndStartTime = LocalDateTime.of(2026,4,25,14,0);
@@ -45,6 +47,10 @@ public class HomeController {
                     .sorted()
                     .collect(Collectors.toList());
 
+        String email = authentication.name();
+        Player player = playerRepository.findByEmail(email);
+
+        model.addAttribute("playerName", player.getName());
         model.addAttribute("padelDay", padelDay);
         model.addAttribute("UniqueTimeSlots", getUniqueTimeSlots);
         return "home";

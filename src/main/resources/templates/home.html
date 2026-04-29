@@ -7,7 +7,7 @@
 <main>
     <div class="container py-4">
         <p class="m-2 fs-3">
-                Welcome back <span sec:authentication="name"></span> :)
+                Welcome back <span th:if=authenticated th:text="${playerName}"></span> :)
             </p>
 
         <h1 class="text-center mb-5">Overzicht Speelmomenten</h1>

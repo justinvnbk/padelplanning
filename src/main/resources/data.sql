@@ -57,3 +57,87 @@ VALUES ('test', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', 
 -- password: abcd1234
 INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
 VALUES ('test', 'USER');
+
+-- Liam Carter
+INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
+VALUES ('liam@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
+-- password: abcd1234
+INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
+VALUES ('liam@example.com', 'USER');
+
+-- Noah Schmidt
+INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
+VALUES ('noah@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
+-- password: abcd1234
+INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
+VALUES ('noah@example.com', 'USER');
+
+-- Emma Novak
+INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
+VALUES ('emma@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
+-- password: abcd1234
+INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
+VALUES ('emma@example.com', 'USER');
+
+-- Olivia Dubois
+INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
+VALUES ('olivia@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
+-- password: abcd1234
+INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
+VALUES ('olivia@example.com', 'USER');
+
+-- Lucas Silva
+INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
+VALUES ('lucas@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
+-- password: abcd1234
+INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
+VALUES ('lucas@example.com', 'USER');
+
+-- Sofia Ivanova
+INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
+VALUES ('sofia@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
+-- password: abcd1234
+INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
+VALUES ('sofia@example.com', 'USER');
+
+-- Ethan Brown
+INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
+VALUES ('ethan@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
+-- password: abcd1234
+INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
+VALUES ('ethan@example.com', 'USER');
+
+-- Mia Andersson
+INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
+VALUES ('mia@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
+-- password: abcd1234
+INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
+VALUES ('mia@example.com', 'USER');
+
+-- Daniel Kim
+INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
+VALUES ('daniel@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
+-- password: abcd1234
+INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
+VALUES ('daniel@example.com', 'USER');
+
+-- Chloe Martin
+INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
+VALUES ('chloe@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
+-- password: abcd1234
+INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
+VALUES ('chloe@example.com', 'USER');
+
+-- Alex Johnson (Admin)
+INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
+VALUES ('alex@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
+-- password: abcd1234
+INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
+VALUES ('alex@example.com', 'ADMIN');
+
+-- Sara Khan
+INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
+VALUES ('sara@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
+-- password: abcd1234
+INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
+VALUES ('sara@example.com', 'USER');
