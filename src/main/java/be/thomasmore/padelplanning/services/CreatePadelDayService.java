@@ -15,6 +15,7 @@ public class CreatePadelDayService {
     private final TeamRepository teamRepository;
     private final PadelDayRepository padelDayRepository;
 
+
     public CreatePadelDayService(MatchRepository matchRepository, TeamRepository teamRepository, PadelDayRepository padelDayRepository) {
         this.matchRepository = matchRepository;
         this.teamRepository = teamRepository;
@@ -23,7 +24,8 @@ public class CreatePadelDayService {
 
     //This Service is used to create a new PadelDay object, all related objects (matches and teams) will also
     //be created and added to the database.
-    public void newPadelDayPlanning(PadelDay padelDay, int timeSlots, List<Field> availableFields, int matchDurationInMinutes) {
+    public void newPadelDayPlanning(PadelDay padelDay, int timeSlots, List<Field> availableFields) {
+        final int MATCH_DURATION_IN_MINUTES = 40;
         if (padelDay.getSignedUpPlayers().size()%4 != 0){
             throw new IllegalArgumentException("Padel Day needs signed up players to be devisable by 4 to be planned");
         }
@@ -33,7 +35,7 @@ public class CreatePadelDayService {
         //later this would be replaced by an algorithm to make fair matches.
         List<Player> signedUpPlayers = padelDay.getSignedUpPlayers().stream().sorted(Comparator.comparing(Player::getpRanking)).toList();
 
-        padelDay.setMatches(newMatches(timeSlots, availableFields, padelDay.getDate().toLocalTime(), matchDurationInMinutes, signedUpPlayers));
+        padelDay.setMatches(newMatches(timeSlots, availableFields, padelDay.getDate().toLocalTime(), MATCH_DURATION_IN_MINUTES, signedUpPlayers));
 
         padelDay.setNumberOfMatches(padelDay.getMatches().size());
 
