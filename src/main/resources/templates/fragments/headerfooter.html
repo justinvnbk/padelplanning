@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-md">
         <div class="container">
 
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" th:href="@{/}">
                 <img th:src="@{/logo/padelclub_logo.png}" alt="logo" style="max-height: 50px;">
             </a>
 
@@ -18,7 +18,7 @@
             <div class="collapse navbar-collapse" id="navbarMenu">
                 <ul class="navbar-nav ms-auto align-items-md-center gap-md-2 mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Home</a>
+                        <a class="nav-link active" th:href="@{/}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Reserveren</a>
