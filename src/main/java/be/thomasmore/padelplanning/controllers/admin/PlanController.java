@@ -48,6 +48,9 @@ public class PlanController {
     @PostMapping("/plan")
     public String postPlan(Model model,@RequestParam int id){
         PadelDay padelDay = padelDayRepository.findById(id).get();
+        padelDay.setFields(fieldRepository.getAvailable());
+        padelDay.setSignedUpPlayers(playerRepository.getAll());
+        padelDayRepository.save(padelDay);
         createPadelDayService.newPadelDayPlanning(padelDay);
         return "redirect:/admin/plan";
     }
