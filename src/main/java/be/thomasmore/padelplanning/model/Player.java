@@ -24,8 +24,8 @@ public class Player {
     private String profilePictureUrl;
     @ManyToMany(mappedBy = "players")
     private Collection<Team> teams;
-//  @ManyToOne(fetch = FetchType.LAZY)
-//  private PadelDay padelDay;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Collection<PadelDay> padelDay;
 
     public Integer getId() {
         return id;
@@ -121,5 +121,13 @@ public class Player {
 
     public void setTeams(Collection<Team> teams) {
         this.teams = teams;
+    }
+
+    public Collection<PadelDay> getPadelDay() {
+        return padelDay;
+    }
+
+    public void setPadelDay(Collection<PadelDay> padelDay) {
+        this.padelDay = padelDay;
     }
 }

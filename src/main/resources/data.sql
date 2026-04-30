@@ -11,7 +11,8 @@ VALUES
 ('Daniel Kim', false, 'M', '1993-12-30', 'Intermediate', 600, '111111119', 'daniel@example.com', 'RIGHT', ''),
 ('Chloe Martin', false, 'F', '1998-08-08', 'Intermediate', 500, '111111120', 'chloe@example.com', 'LEFT', ''),
 ('Alex Johnson', true, 'M', '1992-04-14', 'Advanced', 900, '111111121', 'alex@example.com', 'RIGHT', ''),
-('Sara Khan', false, 'F', '2002-10-05', 'Beginner', 300, '111111122', 'sara@example.com', 'NONE', '');
+('Sara Khan', false, 'F', '2002-10-05', 'Beginner', 300, '111111122', 'sara@example.com', 'NONE', ''),
+('Gabriele Pjetra', false, 'M', '2002-10-05', 'Beginner', 300, '111111122', 'gabriele@example.com', 'NONE', '');
 
 
 INSERT INTO field (name, is_outside)
@@ -130,3 +131,10 @@ VALUES ('sara@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqP
 -- password: abcd1234
 INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
 VALUES ('sara@example.com', 'USER');
+
+-- Gabriele Pjetra
+INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
+VALUES ('gabriele@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
+-- password: abcd1234
+INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
+VALUES ('gabriele@example.com', 'USER');
