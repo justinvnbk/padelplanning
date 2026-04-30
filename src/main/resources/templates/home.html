@@ -6,7 +6,7 @@
 
 <main class="container py-4">
     <p class="m-2 fs-3">
-        Welcome back <span th:if="${playerName != null}" th:text="${playerName}"></span> :)
+        Welcome <span th:if="${playerName != null}" th:text="|back ${playerName}|"></span> :)
     </p>
     <div th:if="${padelDay}">
     <div>
