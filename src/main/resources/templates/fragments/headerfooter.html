@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-md">
         <div class="container">
 
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" th:href="@{/}">
                 <img th:src="@{/logo/padelclub_logo.png}" alt="logo" style="max-height: 50px;">
             </a>
 
@@ -18,13 +18,13 @@
             <div class="collapse navbar-collapse" id="navbarMenu">
                 <ul class="navbar-nav ms-auto align-items-md-center gap-md-2 mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Home</a>
+                        <a class="nav-link" th:classappend="${currentUrl=='/home'||currentUrl=='/'?'active':''}" th:href="@{/}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Reserveren</a>
+                        <a class="nav-link" th:classappend="${currentUrl=='/reserve'?'active':''}" href="#">Reserveren</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Over ons</a>
+                        <a class="nav-link" th:classappend="${currentUrl=='/about'?'active':''}" href="#">Over ons</a>
                     </li>
                     <li class="nav-item ms-md-3">
                         <a sec:authorize="!isAuthenticated()" th:class="|btn btn-pma ${currentUrl=='/login'? 'active' : ''}|" th:href="@{/login}">login</a>
@@ -34,7 +34,6 @@
                     </li>
                 </ul>
             </div>
-
         </div>
     </nav>
 </header>
