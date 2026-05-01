@@ -46,5 +46,5 @@ VALUES
 -- VALUES
 -- ('2026-04-25 18:00:00', 9);
 
- INSERT INTO padel_day (date, number_of_matches)
- VALUES ('2026-04-25 18:00:00', 3);
+--  INSERT INTO padel_day (date, number_of_matches)
+--  VALUES ('2026-04-25 18:00:00', 3);

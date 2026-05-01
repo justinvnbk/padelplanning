@@ -11,7 +11,7 @@
         <a class="btn btn-primary" th:href="@{/admin/newpadelday}" th:unless="${padelDay}">Start nieuwe padel dag</a>
 
         <!--als er een padeldag beschikbaar is maar nog geen planning is gemaakt:-->
-        <div th:if="${padelDay}" th:unless="*{matches.size()>0}">
+        <div th:if="${padelDay}" th:unless="${hasPlan}">
                 <h2>Inschrijvingen:</h2>
                 <div th:each="p : ${padelDay.signedUpPlayers}">
                         <div th:text="${p.name}"></div>
@@ -29,7 +29,7 @@
         </div>
 
         <!--als er een padeldag beschikbaar is en een planning is aangemaakt:-->
-        <div th:if="*{matches.size()>0}">
+        <div th:if="${hasPlan}">
             <div th:each="field : ${padelDay.fields}" class="border border-black">
                 <div class="container-fluid p-0">
 
@@ -42,25 +42,24 @@
                             <div class="row g-0 border-bottom">
 
 
-                                <div th:each="match : ${padelDay.matches}" th:if="${match.field == field}">
+                                <div class="col-3" th:each="match : ${padelDay.matches}" th:if="${match.field == field}">
                                     <div class="col-12"><h6 class="fw-bold">match</h6></div>
 
 
-                                    <form th:each="team : ${match.getTeams()}" class="row">
+                                    <form th:each="team : ${match.getTeams()}" th:object="${team}" th:action="@{/admin/planEdit}" method="post" class="row">
                                         <div class="col-12"><h6 class="fw-bold">team</h6></div>
-
-                                            <div class="col-9" >
+                                        <input type="hidden" name="id" th:value="${team.id}" />
                                             <div class="col-12" th:each="teamplayer : ${team.getPlayers()}">
-                                                    <select class="form-select" name="player">
-                                                            <option th:each="player : ${padelDay.getSignedUpPlayers()}"
-                                                                    th:value="${player.getId()}"
-                                                                    th:text="${player.getName()}"
-                                                                    th:selected="${player.getId() == teamplayer.getId()}"></option>
-                                                    </select>
-                                            </div>
+                                                <select class="form-select" name="playerIds">
+                                                    <option th:each="player : ${padelDay.getSignedUpPlayers()}"
+                                                         th:value="${player.getId()}"
+                                                         th:text="|${player.getName()} (P-${player.pRanking})|"
+                                                         th:selected="${player.getId() == teamplayer.getId()}"></option>
+                                                    <option th:value="0"></option>
+                                                </select>
                                             </div>
 
-                                            <button class="col-3 btn btn-primary px-5 fw-bold shadow-sm" type="submit">✅</button>
+                                        <button class="col-1 btn btn-primary px-5 fw-bold shadow-sm" type="submit">✅</button>
 
                                     </form>
 
@@ -74,7 +73,11 @@
                 </div>
 
             </div>
-            <button class="btn btn-primary px-5 fw-bold shadow-sm">Maak planning aan</button>
+            <h2>Reservelijst: </h2>
+            <div th:each="p : ${padelDay.reservedPlayers}">
+                <div th:text="${p.name}"></div>
+            </div>
+            <div th:text="${padelDay.reservedPlayers.size()==0?'Reservelijst is leeg':''}"></div>
         </div>
 </main>
 <footer th:replace="~{fragments/headerfooter::footer}"></footer>
