@@ -11,13 +11,13 @@
                     <div class="col-12 border bg-dark text-light p-2 fw-bold" th:text="${#temporals.format(padelDay.date, 'dd/MM/yyyy')}"></div>
                 </div>
 
-                <div class="row g-0 align-items-center bg-light bg-dark text-light border border-black">
-                    <div class="col-1 border-end text-start fw-bold p-2">Veld</div>
+                <div class="row g-0 d-flex justify-content-center align-items-center bg-light bg-dark text-light border border-black">
+                    <div class="col-1 text-center fw-bold px-2">Veld</div>
                     <div class="col-11">
                         <div class="row g-0">
-                            <div class="col-3 border-end  ps-2 fw-bold ">Team</div>
+                            <div class="col-2 col-md-3 border-end border-start p-2 fw-bold d-flex align-items-center justify-content-center text-center">Team</div>
                             <div th:each="timeSlot : ${padelDay.uniqueTimeSlots}"
-                                 th:class="|col-3 border-end ps-2 fw-bold|"
+                                 th:class="|col border-end p-2 fw-bold text-center|"
                                  th:text="'Match ' + ${timeSlotStat.count} + ' (' + ${timeSlot} + ')'"></div> <!--th:class="|col-${12 / padelDay.fields.size()} border-end ps-2 fw-bold|"-->
                         </div>
                     </div>
@@ -36,14 +36,16 @@
 
                             <!--team A-->
 
-                            <div th:class="|col-3 fw-bold bg-primary-subtle border-end ps-2 d-flex align-items-center|">Team A</div>
+                            <div class="col-2 col-md-3 fw-bold bg-primary-subtle border-end p-2 d-flex justify-content-center align-items-center">Team A</div>
                             <!--${12/ padelDay.matches.size()}-->
 
-                            <div th:each="match : ${padelDay.matches}" th:class="|col-3 border-end p-2|" th:if="${match.field == field}">
+                            <div th:each="match : ${padelDay.matches}" th:class="|col border-end p-2 text-wrap|" th:if="${match.field == field}">
                                 <div th:each="player : ${match.teams[0].players}"
-                                     th:text="|${player.name} (${player.pRanking})|"
                                      th:class="|badge rounded-pill text-dark mb-1 d-block|"
-                                     style="background-color: #c8f7c5;"></div>
+                                     style="background-color: #c8f7c5;">
+                                    <span th:text="|${player.name}|"></span>
+                                    <span class="d-none d-md-inline" th:text="| (${player.pRanking})|"></span>
+                                </div>
                             </div>
 
                             <!-- 12 / (12/ padelDay.matches.size()) = 12??? -->
@@ -54,13 +56,15 @@
 
                             <!--team B-->
 
-                            <div class="col-3 fw-bold bg-danger-subtle border-end ps-2 d-flex align-items-center">Team B</div>
+                            <div class="col-2 col-md-3 fw-bold bg-danger-subtle border-end ps-2 d-flex justify-content-center align-items-center">Team B</div>
 
-                            <div th:each="match : ${padelDay.matches}" class="col-3 border-end p-2" th:if="${match.field == field}">
+                            <div th:each="match : ${padelDay.matches}" class="col border-end p-2" th:if="${match.field == field}">
                                 <div th:each="player : ${match.teams[1].players}"
-                                     th:text="|${player.name} (${player.pRanking})|"
                                      th:class="|badge rounded-pill text-dark mb-1 d-block|"
-                                     style="background-color: #ffd6d6;"></div>
+                                     style="background-color: #ffd6d6;">
+                                    <span th:text="|${player.name}|"></span>
+                                    <span class="d-none d-md-inline" th:text="| (${player.pRanking})|"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
