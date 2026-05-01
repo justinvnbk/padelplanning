@@ -41,9 +41,19 @@
 
                             <div th:each="match : ${padelDay.matches}" th:class="|col border-end p-2 text-wrap|" th:if="${match.field == field}">
                                 <div th:each="player : ${match.teams[0].players}"
-                                     th:class="|badge rounded-pill text-dark mb-1 d-block|"
+                                     th:class="|badge rounded-pill text-dark mb-1 d-block text-wrap|"
                                      style="background-color: #c8f7c5;">
-                                    <span th:text="|${player.name}|"></span>
+
+                                    <!-- Volledige naam (allen zichtbaar op grote schermen) -->
+                                    <span class="d-none d-md-inline" th:text="${player.name}"></span>
+
+                                    <!-- Afgekorte naam (kleinere schermen) -->
+                                    <span class="d-inline d-md-none"
+                                          th:with="nameParts=${#strings.arraySplit(player.name, ' ')}"
+                                          th:text="${nameParts.length > 1} ? ${#strings.substring(nameParts[0],0,1)} + '. ' + ${nameParts[nameParts.length - 1]} : ${player.name}">
+    </span>
+
+                                    <!-- Ranking (alleen zichtbaar op grote schermen) -->
                                     <span class="d-none d-md-inline" th:text="| (${player.pRanking})|"></span>
                                 </div>
                             </div>
@@ -59,10 +69,20 @@
                             <div class="col-2 col-lg-1 fw-bold bg-danger-subtle border-end p-2 d-flex justify-content-center align-items-center text-center">Team B</div>
 
                             <div th:each="match : ${padelDay.matches}" class="col border-end p-2" th:if="${match.field == field}">
-                                <div th:each="player : ${match.teams[1].players}"
-                                     th:class="|badge rounded-pill text-dark mb-1 d-block|"
+                                <div th:each="player : ${match.teams[0].players}"
+                                     th:class="|badge rounded-pill text-dark mb-1 d-block text-wrap|"
                                      style="background-color: #ffd6d6;">
-                                    <span th:text="|${player.name}|"></span>
+
+                                    <!-- Volledige naam (allen zichtbaar op grote schermen) -->
+                                    <span class="d-none d-md-inline" th:text="${player.name}"></span>
+
+                                    <!-- Afgekorte naam (kleinere schermen) -->
+                                    <span class="d-inline d-md-none"
+                                          th:with="nameParts=${#strings.arraySplit(player.name, ' ')}"
+                                          th:text="${nameParts.length > 1} ? ${#strings.substring(nameParts[0],0,1)} + '. ' + ${nameParts[nameParts.length - 1]} : ${player.name}">
+    </span>
+
+                                    <!-- Ranking (alleen zichtbaar op grote schermen) -->
                                     <span class="d-none d-md-inline" th:text="| (${player.pRanking})|"></span>
                                 </div>
                             </div>
