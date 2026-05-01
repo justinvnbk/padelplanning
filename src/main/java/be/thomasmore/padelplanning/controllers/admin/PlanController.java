@@ -58,7 +58,7 @@ public class PlanController {
         return "redirect:/admin/plan";
     }
 
-
+    //Edit the plan
     @PostMapping("/planEdit")
     public String postPlanEdit(@ModelAttribute Team team, @RequestParam List<Integer> playerIds){
         Optional<Player> optionalPlayer1 = playerRepository.findById(playerIds.get(0));
@@ -84,7 +84,6 @@ public class PlanController {
 
     @PostMapping("/newpadelday")
     public String postNieuwPadelDay(Model model, PadelDay padelDay){
-        padelDay.setSignedUpPlayers(playerRepository.getAll());
         padelDayRepository.save(padelDay);
         return "redirect:/admin/plan";
     }

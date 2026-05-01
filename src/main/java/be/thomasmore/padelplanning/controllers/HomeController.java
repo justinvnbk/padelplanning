@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
-
     private final PadelDayRepository padelDayRepository;
     private final PlayerRepository playerRepository;
 
