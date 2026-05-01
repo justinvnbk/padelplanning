@@ -10,7 +10,6 @@
     </p>
     <div th:if="${padelDay}">
     <div>
-
         <h1 class="text-center mb-5">Overzicht Speelmomenten</h1>
                 <div class="row g-0 border border-black">
                     <div class="col-12 border bg-dark text-light p-2 fw-bold" th:text="${#temporals.format(padelDay.date, 'dd/MM/yyyy')}"></div>
@@ -27,7 +26,6 @@
                         </div>
                     </div>
                 </div>
-
         <div th:each="field : ${padelDay.fields}" class="border border-black">
             <div class="container-fluid p-0">
 

@@ -26,6 +26,9 @@
                     <li class="nav-item">
                         <a class="nav-link" th:classappend="${currentUrl=='/about'?'active':''}" href="#">Over ons</a>
                     </li>
+                    <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+                        <a class="nav-link" th:classappend="${currentUrl=='/admin/plan'?'active':''}" th:href="@{/admin/plan}">Plan padeldag</a>
+                    </li>
                     <li class="nav-item ms-md-3">
                         <a sec:authorize="!isAuthenticated()" th:class="|btn btn-pma ${currentUrl=='/login'? 'active' : ''}|" th:href="@{/login}">login</a>
                     </li>
