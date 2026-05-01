@@ -30,48 +30,34 @@
 
         <!--als er een padeldag beschikbaar is en een planning is aangemaakt:-->
         <div th:if="${hasPlan}">
-            <div th:each="field : ${padelDay.fields}" class="border border-black">
-                <div class="container-fluid p-0">
+            <div class="row g-0 border border-black">
+                <div class="col-12 border bg-dark text-light p-2 fw-bold" th:text="${#temporals.format(padelDay.date, 'dd/MM/yyyy')}"></div>
+            </div>
+            <div th:each="field : ${padelDay.fields}" class="row border border-black">
+                <div class="col-1 border-end d-flex align-items-center justify-content-center fs-2 fw-bold" th:text="${field.name}"></div>
 
-                    <div class="row g-0 border-start border-end border-bottom">
-
-                        <div class="col-1 border-end d-flex align-items-center justify-content-center fs-2 fw-bold" th:text="${field.name}"></div>
-
-                        <div class="col-11">
-
-                            <div class="row g-0 border-bottom">
-
-
-                                <div class="col-3" th:each="match : ${padelDay.matches}" th:if="${match.field == field}">
-                                    <div class="col-12"><h6 class="fw-bold">match</h6></div>
-
-
-                                    <form th:each="team : ${match.getTeams()}" th:object="${team}" th:action="@{/admin/planEdit}" method="post" class="row">
-                                        <div class="col-12"><h6 class="fw-bold">team</h6></div>
-                                        <input type="hidden" name="id" th:value="${team.id}" />
-                                            <div class="col-12" th:each="teamplayer : ${team.getPlayers()}">
-                                                <select class="form-select" name="playerIds">
-                                                    <option th:each="player : ${padelDay.getSignedUpPlayers()}"
-                                                         th:value="${player.getId()}"
-                                                         th:text="|${player.getName()} (P-${player.pRanking})|"
-                                                         th:selected="${player.getId() == teamplayer.getId()}"></option>
-                                                    <option th:value="0"></option>
-                                                </select>
-                                            </div>
-
-                                        <button class="col-1 btn btn-primary px-5 fw-bold shadow-sm" type="submit">✅</button>
-
-                                    </form>
-
-                                </div>
-                            </div>
-
+                <div class="row col-11">
+                    <div class="col-4 border border-bottom-0 border-top-0" th:each="match, i : ${padelDay.matches}" th:if="${match.field == field}">
+                        <div class="col-12">
+                            <h6 class="fw-bold" th:if="${i.index%3==0}" th:text="|Match ${i.index/3+1} (${match.getTimeSlot()})|"></h6>
                         </div>
 
+                        <form th:each="team, i : ${match.getTeams()}" th:object="${team}" th:action="@{/admin/planEdit}" method="post" class="m-1">
+                            <input type="hidden" name="id" th:value="${team.id}" />
+                            <div class="m-1" th:each="teamplayer : ${team.getPlayers()}">
+                                <select class="form-select" name="playerIds" th:style="|background-color: ${i.index==0?'#c8f7c5':'#ffd6d6'};|">
+                                    <option th:each="player : ${padelDay.getSignedUpPlayers()}"
+                                            th:value="${player.getId()}"
+                                            th:text="|${player.getName()} (P-${player.pRanking})|"
+                                            th:selected="${player.getId() == teamplayer.getId()}"></option>
+                                    <option th:value="0"></option>
+                                </select>
+                            </div>
+
+                            <button class="btn btn-pma ms-1 fw-bold shadow-sm" type="submit">Save</button>
+                        </form>
                     </div>
-
                 </div>
-
             </div>
             <h2>Reservelijst: </h2>
             <div th:each="p : ${padelDay.reservedPlayers}">
