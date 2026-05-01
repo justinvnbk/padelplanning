@@ -3,6 +3,7 @@ package be.thomasmore.padelplanning.services;
 import be.thomasmore.padelplanning.model.*;
 import be.thomasmore.padelplanning.repositories.MatchRepository;
 import be.thomasmore.padelplanning.repositories.PadelDayRepository;
+import be.thomasmore.padelplanning.repositories.PlayerRepository;
 import be.thomasmore.padelplanning.repositories.TeamRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,31 +15,40 @@ public class CreatePadelDayService {
     private final MatchRepository matchRepository;
     private final TeamRepository teamRepository;
     private final PadelDayRepository padelDayRepository;
+    private final PlayerRepository playerRepository;
 
 
-    public CreatePadelDayService(MatchRepository matchRepository, TeamRepository teamRepository, PadelDayRepository padelDayRepository) {
+    public CreatePadelDayService(MatchRepository matchRepository, TeamRepository teamRepository, PadelDayRepository padelDayRepository, PlayerRepository playerRepository) {
         this.matchRepository = matchRepository;
         this.teamRepository = teamRepository;
         this.padelDayRepository = padelDayRepository;
+        this.playerRepository = playerRepository;
     }
 
     //This Service is used to create a new PadelDay object, all related objects (matches and teams) will also
     //be created and added to the database.
     public void newPadelDayPlanning(PadelDay padelDay) {
 
+        int remainder = playerRepository.getAll().size() % 4;
+
+        List<Player> activePlayers = new ArrayList<>(playerRepository.getAll().subList(0, playerRepository.getAll().size() - remainder));
+        List<Player> reservedPlayers = new ArrayList<>(playerRepository.getAll().subList(playerRepository.getAll().size() - remainder, playerRepository.getAll().size()));
+
+        if (activePlayers.isEmpty()) {
+            throw new IllegalArgumentException("Not enough players to plan a padel day");
+        }
+
+        padelDay.setSignedUpPlayers(activePlayers);
+        padelDay.setReservedPlayers(reservedPlayers);
+
         int numberOfMatches = padelDay.getNumberOfMatches();
         List<Field> availableFields = padelDay.getFields();
 
-        if (padelDay.getSignedUpPlayers().size()%4 != 0){
-            throw new IllegalArgumentException("Padel Day needs signed up players to be devisable by 4 to be planned");
-        }
-
-
         //For now to create fair matches, the signed up players are sorted by p-ranking
         //later this would be replaced by an algorithm to make fair matches.
-        List<Player> signedUpPlayers = padelDay.getSignedUpPlayers().stream().sorted(Comparator.comparing(Player::getpRanking)).toList();
+        List<Player> sortedPlayers = padelDay.getSignedUpPlayers().stream().sorted(Comparator.comparing(Player::getpRanking)).toList();
 
-        padelDay.setMatches(newMatches(numberOfMatches, availableFields, padelDay.getDate().toLocalTime(), signedUpPlayers));
+        padelDay.setMatches(newMatches(numberOfMatches, availableFields, padelDay.getDate().toLocalTime(), sortedPlayers));
 
         padelDayRepository.save(padelDay);
     }

@@ -10,9 +10,9 @@ VALUES
 ('Mia Andersson', false, 'F', '2001-02-25', 'Beginner', 200, '111111118', 'mia@example.com', 'NONE', ''),
 ('Daniel Kim', false, 'M', '1993-12-30', 'Intermediate', 600, '111111119', 'daniel@example.com', 'RIGHT', ''),
 ('Chloe Martin', false, 'F', '1998-08-08', 'Intermediate', 500, '111111120', 'chloe@example.com', 'LEFT', ''),
+('Gabriele Pjetra', false, 'M', '2002-10-05', 'Beginner', 500, '111111122', 'gabriele@example.com', 'NONE', ''),
 ('Alex Johnson', true, 'M', '1992-04-14', 'Advanced', 900, '111111121', 'alex@example.com', 'RIGHT', ''),
-('Sara Khan', false, 'F', '2002-10-05', 'Beginner', 300, '111111122', 'sara@example.com', 'NONE', ''),
-('Gabriele Pjetra', false, 'M', '2002-10-05', 'Beginner', 300, '111111122', 'gabriele@example.com', 'NONE', '');
+('Sara Khan', false, 'F', '2002-10-05', 'Beginner', 300, '111111122', 'sara@example.com', 'NONE', '');
 
 
 INSERT INTO field (name, is_outside)
