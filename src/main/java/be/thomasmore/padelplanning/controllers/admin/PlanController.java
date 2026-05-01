@@ -53,8 +53,13 @@ public class PlanController {
     //Create a new plan for the curren PadelDay
     @PostMapping("/plan")
     public String postPlan(Model model,@RequestParam int id){
-        PadelDay padelDay = padelDayRepository.findById(id).get();
-        createPadelDayService.newPadelDayPlanning(padelDay);
+        Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(id);
+        if(optionalPadelDay.isPresent()){
+            PadelDay padelDay = optionalPadelDay.get();
+            if(padelDay.getSignedUpPlayers().size() == padelDay.getFields().size()*4) {
+                createPadelDayService.newPadelDayPlanning(padelDay);
+            }
+        }
         return "redirect:/admin/plan";
     }
 
