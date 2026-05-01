@@ -31,11 +31,16 @@ public class SignUpController {
     }
 
     @GetMapping("/signup")
-    public String reserve(Model model) {
+    public String reserve(Model model,
+                          Principal principal) {
         Optional<PadelDay> optionalPadelDay = padelDayRepository.getLast();
         boolean hasPlan = false;
         if(optionalPadelDay.isPresent()){
-            model.addAttribute("padelDay", optionalPadelDay.get());
+            PadelDay padelDay = optionalPadelDay.get();
+            model.addAttribute("padelDay", padelDay);
+
+            Player loggedPlayer = playerRepository.findByEmail(principal.getName());
+            model.addAttribute("isSignedUp", padelDay.getSignedUpPlayers().contains(loggedPlayer) || padelDay.getReservedPlayers().contains(loggedPlayer));
             hasPlan = !optionalPadelDay.get().getMatches().isEmpty();
         }
         model.addAttribute("hasPlan", hasPlan);
@@ -50,18 +55,19 @@ public class SignUpController {
 
         if(optionalPadelDay.isPresent()){
             PadelDay padelDay = optionalPadelDay.get();
+            if(!padelDay.getSignedUpPlayers().contains(player) && !padelDay.getReservedPlayers().contains(player)){
+                Collection<Player> reservePlayers = padelDay.getReservedPlayers();
+                Collection<Player> signedUpPlayers = padelDay.getSignedUpPlayers();
 
-            Collection<Player> reservePlayers = padelDay.getReservedPlayers();
-            Collection<Player> signedUpPlayers = padelDay.getSignedUpPlayers();
-
-            reservePlayers.add(player);
-            if(reservePlayers.size() == 4 && signedUpPlayers.size() < padelDay.getFields().size()*4){
-                signedUpPlayers.addAll(reservePlayers);
-                reservePlayers.clear();
+                reservePlayers.add(player);
+                if(reservePlayers.size() == 4 && signedUpPlayers.size() < padelDay.getFields().size()*4){
+                    signedUpPlayers.addAll(reservePlayers);
+                    reservePlayers.clear();
+                }
+                padelDay.setSignedUpPlayers(signedUpPlayers);
+                padelDay.setReservedPlayers(reservePlayers);
+                padelDayRepository.save(padelDay);
             }
-            padelDay.setSignedUpPlayers(signedUpPlayers);
-            padelDay.setReservedPlayers(reservePlayers);
-            padelDayRepository.save(padelDay);
         }
         return "redirect:/user/signup";
     }
