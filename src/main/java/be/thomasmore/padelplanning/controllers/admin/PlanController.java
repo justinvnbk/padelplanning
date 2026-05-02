@@ -40,7 +40,7 @@ public class PlanController {
 
     @GetMapping("/plan")
     public String plan(Model model){
-        Optional<PadelDay> optionalPadelDay = padelDayRepository.getLast();
+        Optional<PadelDay> optionalPadelDay = padelDayRepository.getLast(LocalDateTime.now());
         boolean hasPlan = false;
         if(optionalPadelDay.isPresent()){
             model.addAttribute("padelDay", optionalPadelDay.get());
@@ -56,7 +56,7 @@ public class PlanController {
         Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(id);
         if(optionalPadelDay.isPresent()){
             PadelDay padelDay = optionalPadelDay.get();
-            if(padelDay.getSignedUpPlayers().size() == padelDay.getFields().size()*4) {
+            if(!padelDay.getSignedUpPlayers().isEmpty()) {
                 createPadelDayService.newPadelDayPlanning(padelDay);
             }
         }

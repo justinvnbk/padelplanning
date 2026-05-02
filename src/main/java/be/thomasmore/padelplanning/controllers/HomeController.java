@@ -26,7 +26,7 @@ public class HomeController {
     @GetMapping({"/","/home"})
     public String home(Model model,
                        Authentication authentication){
-        Optional<PadelDay> optionalPadelDay = padelDayRepository.getLast();
+        Optional<PadelDay> optionalPadelDay = padelDayRepository.getLast(LocalDateTime.now());
 
         if (authentication != null && authentication.isAuthenticated()) {
             String email = authentication.getName();

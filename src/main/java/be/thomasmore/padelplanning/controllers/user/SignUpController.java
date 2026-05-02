@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collection;
 import java.util.List;
@@ -33,7 +34,7 @@ public class SignUpController {
     @GetMapping("/signup")
     public String reserve(Model model,
                           Principal principal) {
-        Optional<PadelDay> optionalPadelDay = padelDayRepository.getLast();
+        Optional<PadelDay> optionalPadelDay = padelDayRepository.getLast(LocalDateTime.now());
         boolean hasPlan = false;
         if(optionalPadelDay.isPresent()){
             PadelDay padelDay = optionalPadelDay.get();
