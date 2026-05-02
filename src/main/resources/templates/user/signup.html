@@ -14,6 +14,10 @@
 
     <!--als er een padeldag beschikbaar is maar nog geen planning is gemaakt:-->
     <div th:if="${padelDay}" th:unless="${hasPlan}">
+        <h3 th:text="|Startuur: ${#temporals.format(padelDay.date, 'hh:mm')}|"></h3>
+        <h3 th:text="|Dag: ${padelDay.date.getDayOfWeek()} ${#temporals.format(padelDay.date, 'dd/MM/yyyy')}|"></h3>
+        <h3 th:text="|Velden: ${#strings.listJoin(padelDay.fields.![name], ', ')} (${padelDay.fields.size()*4} plaatsen)|"></h3>
+
         <h2>Inschrijvingen:</h2>
         <div th:each="p : ${padelDay.signedUpPlayers}">
             <div th:text="${p.name}"></div>
