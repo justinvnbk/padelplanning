@@ -8,7 +8,7 @@ import be.thomasmore.padelplanning.repositories.FieldRepository;
 import be.thomasmore.padelplanning.repositories.PadelDayRepository;
 import be.thomasmore.padelplanning.repositories.PlayerRepository;
 import be.thomasmore.padelplanning.repositories.TeamRepository;
-import be.thomasmore.padelplanning.services.CreatePadelDayService;
+import be.thomasmore.padelplanning.services.CreatePadelDayPlanService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,15 +24,15 @@ import java.util.Optional;
 public class PlanController {
     private final FieldRepository fieldRepository;
     private final PlayerRepository playerRepository;
-    private final CreatePadelDayService createPadelDayService;
+    private final CreatePadelDayPlanService createPadelDayPlanService;
     private final PadelDayRepository padelDayRepository;
     private final Logger logger= LoggerFactory.getLogger(this.getClass());
     private final TeamRepository teamRepository;
 
-    public PlanController(FieldRepository fieldRepository, PlayerRepository playerRepository, CreatePadelDayService createPadelDayService, PadelDayRepository padelDayRepository, TeamRepository teamRepository) {
+    public PlanController(FieldRepository fieldRepository, PlayerRepository playerRepository, CreatePadelDayPlanService createPadelDayPlanService, PadelDayRepository padelDayRepository, TeamRepository teamRepository) {
         this.fieldRepository = fieldRepository;
         this.playerRepository = playerRepository;
-        this.createPadelDayService = createPadelDayService;
+        this.createPadelDayPlanService = createPadelDayPlanService;
         this.padelDayRepository = padelDayRepository;
         this.teamRepository = teamRepository;
     }
@@ -57,7 +56,7 @@ public class PlanController {
         if(optionalPadelDay.isPresent()){
             PadelDay padelDay = optionalPadelDay.get();
             if(!padelDay.getSignedUpPlayers().isEmpty()) {
-                createPadelDayService.newPadelDayPlanning(padelDay);
+                createPadelDayPlanService.newPadelDayPlanning(padelDay);
             }
         }
         return "redirect:/admin/plan";
