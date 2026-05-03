@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head::headfragment}"></head>
-<body>
+<body class="bg-dark bg-opacity-25">
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 
 <main>
@@ -36,13 +36,13 @@
 
                             <!--team A-->
 
-                            <div class="col-2 col-lg-1 fw-bold bg-primary-subtle border-end p-2 d-flex justify-content-center align-items-center text-center">Team A</div>
+                            <div  style="background-color:#001F3F" class="col-2 col-lg-1 fw-bold text-light border-end p-2 d-flex justify-content-center align-items-center text-center">Team A</div>
                             <!--${12/ padelDay.matches.size()}-->
 
                             <div th:each="match : ${padelDay.matches}" th:class="|col border-end p-2 text-wrap|" th:if="${match.field == field}">
                                 <div th:each="player : ${match.teams[0].players}"
-                                     th:class="|badge rounded-pill text-dark mb-1 d-block text-wrap|"
-                                     style="background-color: #c8f7c5;">
+                                     th:class="|badge rounded-pill text-light mb-1 d-block text-wrap|"
+                                     style="background-color: #001F3F;">
 
                                     <!-- Volledige naam (allen zichtbaar op grote schermen) -->
                                     <span class="d-none d-md-inline" th:text="${player.name}"></span>
@@ -66,12 +66,12 @@
 
                             <!--team B-->
 
-                            <div class="col-2 col-lg-1 fw-bold bg-danger-subtle border-end p-2 d-flex justify-content-center align-items-center text-center">Team B</div>
+                            <div style="background-color: #DFFF00" class="col-2 col-lg-1 fw-bold text-dark border-end p-2 d-flex justify-content-center align-items-center text-center">Team B</div>
 
                             <div th:each="match : ${padelDay.matches}" class="col border-end p-2" th:if="${match.field == field}">
                                 <div th:each="player : ${match.teams[0].players}"
                                      th:class="|badge rounded-pill text-dark mb-1 d-block text-wrap|"
-                                     style="background-color: #ffd6d6;">
+                                     style="background-color: #DFFF00;">
 
                                     <!-- Volledige naam (allen zichtbaar op grote schermen) -->
                                     <span class="d-none d-md-inline" th:text="${player.name}"></span>
