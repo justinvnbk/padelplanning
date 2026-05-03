@@ -38,10 +38,14 @@
                     </div>
                     <div class="mt-3 fs-5 text-center" th:text="${padelDay.reservedPlayers.size()==0?'Reservelijst is leeg':''}"></div>
                 </div>
-                <form th:action="@{/user/signup}" method="post">
-                    <input type="hidden" name="id" th:value="${padelDay.id}" />
-                    <button class="btn btn-pma px-2 fw-bold shadow-sm" th:disabled="${isSignedUp}" type="submit">Ik wil me inschrijven</button>
-                </form>
+
+                <div class="d-flex justify-content-center mt-5">
+                    <form th:action="@{/user/signup}" method="post">
+                        <input type="hidden" name="id" th:value="${padelDay.id}" />
+                        <button class="btn btn-pma px-2 fw-bold shadow-sm" th:disabled="${isSignedUp}" type="submit">Ik wil me inschrijven</button>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>
