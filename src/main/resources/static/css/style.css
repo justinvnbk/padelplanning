@@ -46,6 +46,27 @@
     color: #ffffff !important;
 }
 
+.btn-outline-pma {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.85rem;
+    border: solid;
+    border-color: var(--pma-red);
+    padding: 0.45rem 1.2rem;
+    border-radius: 3px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-outline-pma:hover{
+    border: solid;
+    border-color: var(--pma-red);
+    background-color: var(--pma-red-bright);
+    color: white;
+}
+
+
+
 /* Hamburger icon */
 .navbar-toggler {
     border-color: var(--pma-red);

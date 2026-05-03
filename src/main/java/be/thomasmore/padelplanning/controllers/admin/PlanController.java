@@ -8,7 +8,7 @@ import be.thomasmore.padelplanning.repositories.FieldRepository;
 import be.thomasmore.padelplanning.repositories.PadelDayRepository;
 import be.thomasmore.padelplanning.repositories.PlayerRepository;
 import be.thomasmore.padelplanning.repositories.TeamRepository;
-import be.thomasmore.padelplanning.services.CreatePadelDayService;
+import be.thomasmore.padelplanning.services.CreatePadelDayPlanService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,22 +24,22 @@ import java.util.Optional;
 public class PlanController {
     private final FieldRepository fieldRepository;
     private final PlayerRepository playerRepository;
-    private final CreatePadelDayService createPadelDayService;
+    private final CreatePadelDayPlanService createPadelDayPlanService;
     private final PadelDayRepository padelDayRepository;
     private final Logger logger= LoggerFactory.getLogger(this.getClass());
     private final TeamRepository teamRepository;
 
-    public PlanController(FieldRepository fieldRepository, PlayerRepository playerRepository, CreatePadelDayService createPadelDayService, PadelDayRepository padelDayRepository, TeamRepository teamRepository) {
+    public PlanController(FieldRepository fieldRepository, PlayerRepository playerRepository, CreatePadelDayPlanService createPadelDayPlanService, PadelDayRepository padelDayRepository, TeamRepository teamRepository) {
         this.fieldRepository = fieldRepository;
         this.playerRepository = playerRepository;
-        this.createPadelDayService = createPadelDayService;
+        this.createPadelDayPlanService = createPadelDayPlanService;
         this.padelDayRepository = padelDayRepository;
         this.teamRepository = teamRepository;
     }
 
     @GetMapping("/plan")
     public String plan(Model model){
-        Optional<PadelDay> optionalPadelDay = padelDayRepository.getLast();
+        Optional<PadelDay> optionalPadelDay = padelDayRepository.getLast(LocalDateTime.now());
         boolean hasPlan = false;
         if(optionalPadelDay.isPresent()){
             model.addAttribute("padelDay", optionalPadelDay.get());
@@ -53,12 +52,17 @@ public class PlanController {
     //Create a new plan for the curren PadelDay
     @PostMapping("/plan")
     public String postPlan(Model model,@RequestParam int id){
-        PadelDay padelDay = padelDayRepository.findById(id).get();
-        createPadelDayService.newPadelDayPlanning(padelDay);
+        Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(id);
+        if(optionalPadelDay.isPresent()){
+            PadelDay padelDay = optionalPadelDay.get();
+            if(!padelDay.getSignedUpPlayers().isEmpty()) {
+                createPadelDayPlanService.newPadelDayPlanning(padelDay);
+            }
+        }
         return "redirect:/admin/plan";
     }
 
-
+    //Edit the plan
     @PostMapping("/planEdit")
     public String postPlanEdit(@ModelAttribute Team team, @RequestParam List<Integer> playerIds){
         Optional<Player> optionalPlayer1 = playerRepository.findById(playerIds.get(0));
@@ -84,7 +88,6 @@ public class PlanController {
 
     @PostMapping("/newpadelday")
     public String postNieuwPadelDay(Model model, PadelDay padelDay){
-        padelDay.setSignedUpPlayers(playerRepository.getAll());
         padelDayRepository.save(padelDay);
         return "redirect:/admin/plan";
     }
