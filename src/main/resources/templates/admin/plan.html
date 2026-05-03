@@ -47,7 +47,7 @@
                     <form th:each="team, i : ${match.getTeams()}" th:object="${team}" th:action="@{/admin/planEdit}" method="post" class="box-shadow m-0 border border-dark border-bottom-0 bg-dark bg-opacity-10">
                         <input type="hidden" name="id" th:value="${team.id}" />
                         <div class="m-1" th:each="teamplayer : ${team.getPlayers()}">
-                            <select class="form-select my-3" name="playerIds" th:style="|background-color: ${i.index==0?'#c8f7c5':'#ffd6d6'};|">
+                            <select class="form-select my-3" name="playerIds" th:style="|background-color: ${i.index==0 ? '#001F3F' : '#DFFF00'}; color: ${i.index==0 ? '#FFFFFF' : '#000000'};|">
                                 <option th:each="player : ${padelDay.getSignedUpPlayers()}"
                                         th:value="${player.getId()}"
                                         th:text="|${player.getName()} (P-${player.pRanking})|"
