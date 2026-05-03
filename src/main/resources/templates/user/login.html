@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments/head::headfragment}"></head>
 <body>
+<header th:replace="~{fragments/headerfooter::navbar}"></header>
 <main class="container-fluid bg-dark">
     <form th:action="@{|/login|}" method="post">
         <div class="row justify-content-center">
