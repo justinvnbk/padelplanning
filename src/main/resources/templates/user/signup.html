@@ -8,8 +8,8 @@
     <h1 class="text-center mb-5">Schrijf je in voor een padeldag</h1>
 
     <!--als er geen padeldag beschikbaar is:-->
-    <div th:unless="${padelDay}">
-        <p>Er is momenteel geen padeldag gepland.</p>
+    <div class="bg-warning bg-opacity-50" th:unless="${padelDay}">
+        <p class="fs-2 text-center text-danger">Er is momenteel geen padeldag gepland.</p>
     </div>
 
     <!--als er een padeldag beschikbaar is maar nog geen planning is gemaakt:-->
