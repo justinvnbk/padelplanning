@@ -11,10 +11,11 @@ public class Field {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private String name;
     private boolean isOutside;
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "field")
     private List<Match> matches; //ik heb deze veranderd naar List omdat er zijn indexes nodig om die te kunnen omzetten naar kolommen en rijen
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "fields")
     private Collection<PadelDay> padelDays;
 
     public Integer getId() {
@@ -23,6 +24,14 @@ public class Field {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean isOutside() {

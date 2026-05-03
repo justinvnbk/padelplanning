@@ -10,12 +10,13 @@ import java.time.LocalTime;
 import java.util.*;
 
 @Service
-public class CreatePadelDayService {
+public class CreatePadelDayPlanService {
     private final MatchRepository matchRepository;
     private final TeamRepository teamRepository;
     private final PadelDayRepository padelDayRepository;
 
-    public CreatePadelDayService(MatchRepository matchRepository, TeamRepository teamRepository, PadelDayRepository padelDayRepository) {
+
+    public CreatePadelDayPlanService(MatchRepository matchRepository, TeamRepository teamRepository, PadelDayRepository padelDayRepository) {
         this.matchRepository = matchRepository;
         this.teamRepository = teamRepository;
         this.padelDayRepository = padelDayRepository;
@@ -23,7 +24,11 @@ public class CreatePadelDayService {
 
     //This Service is used to create a new PadelDay object, all related objects (matches and teams) will also
     //be created and added to the database.
-    public void newPadelDayPlanning(PadelDay padelDay, int timeSlots, List<Field> availableFields, int matchDurationInMinutes) {
+    public void newPadelDayPlanning(PadelDay padelDay) {
+
+        int numberOfMatches = padelDay.getNumberOfMatches();
+        List<Field> availableFields = padelDay.getFields();
+
         if (padelDay.getSignedUpPlayers().size()%4 != 0){
             throw new IllegalArgumentException("Padel Day needs signed up players to be devisable by 4 to be planned");
         }
@@ -33,16 +38,13 @@ public class CreatePadelDayService {
         //later this would be replaced by an algorithm to make fair matches.
         List<Player> signedUpPlayers = padelDay.getSignedUpPlayers().stream().sorted(Comparator.comparing(Player::getpRanking)).toList();
 
-        padelDay.setMatches(newMatches(timeSlots, availableFields, padelDay.getDate().toLocalTime(), matchDurationInMinutes, signedUpPlayers));
-
-        padelDay.setNumberOfMatches(padelDay.getMatches().size());
-
-        padelDay.setFields(availableFields);
+        padelDay.setMatches(newMatches(numberOfMatches, availableFields, padelDay.getDate().toLocalTime(), signedUpPlayers));
 
         padelDayRepository.save(padelDay);
     }
 
-    private List<Match> newMatches(int timeSlots, List<Field> availableFields, LocalTime startTime, int matchDurationInMinutes, List<Player> signedUpPlayers) {
+    private List<Match> newMatches(int timeSlots, List<Field> availableFields, LocalTime startTime, List<Player> signedUpPlayers) {
+        final int MATCH_DURATION_IN_MINUTES = 40;
         List<Match> matches = new ArrayList<>();
 
         //creating a new List of players so we can remove players from it as we assign them
@@ -54,24 +56,26 @@ public class CreatePadelDayService {
         //Creates a match for every timeslot
         for (int i = 0; i < timeSlots; i++) {
             for (Field availableField : availableFields) {
-                Match match = new Match();
-                match.setField(availableField);
+                if(!teamsToAssign.isEmpty()) {
+                    Match match = new Match();
+                    match.setField(availableField);
 
-                //we add 2 teams to the match and remove them from the team pool
-                match.setTeams(List.of(teamsToAssign.get(0), teamsToAssign.get(1)));
-                teamsToAssign.remove(0);
-                teamsToAssign.remove(0);
+                    //we add 2 teams to the match and remove them from the team pool
+                    match.setTeams(List.of(teamsToAssign.get(0), teamsToAssign.get(1)));
+                    teamsToAssign.remove(0);
+                    teamsToAssign.remove(0);
 
-                double team1PRanking = match.getTeams().get(0).getAveragePRanking();
-                double team2PRanking = match.getTeams().get(1).getAveragePRanking();
-                match.setpRankingDifference(Math.abs(team1PRanking - team2PRanking));
+                    double team1PRanking = match.getTeams().get(0).getAveragePRanking();
+                    double team2PRanking = match.getTeams().get(1).getAveragePRanking();
+                    match.setpRankingDifference(Math.abs(team1PRanking - team2PRanking));
 
-                match.setTimeSlot(startTime);
-                matchRepository.save(match);
-                matches.add(match);
+                    match.setTimeSlot(startTime);
+                    matchRepository.save(match);
+                    matches.add(match);
+                }
             }
             //After we created enough teams for one timeslot, the next matches start at a different time
-            startTime = startTime.plusMinutes(matchDurationInMinutes);
+            startTime = startTime.plusMinutes(MATCH_DURATION_IN_MINUTES);
 
             //After all matches are created for one timeslot, shuffel the players and so the teams
             playersToAssign = new ArrayList<>(signedUpPlayers);
@@ -88,24 +92,26 @@ public class CreatePadelDayService {
 
         //Create 2 teams for every available field
         for (int i = 0; i < availableFields.size(); i++) {
-            for (int j = 0; j < 2; j++) {
-                Team team = new Team();
+            if(!playersToAssign.isEmpty()) {
+                for (int j = 0; j < 2; j++) {
+                    Team team = new Team();
 
-                //Add the players to the team and remove them from the to be assigned list
-                team.setPlayers(List.of(playersToAssign.get(0), playersToAssign.get(1)));
-                playersToAssign.remove(0);
-                playersToAssign.remove(0);
+                    //Add the players to the team and remove them from the to be assigned list
+                    team.setPlayers(List.of(playersToAssign.get(0), playersToAssign.get(1)));
+                    playersToAssign.remove(0);
+                    playersToAssign.remove(0);
 
-                //P-Ranking of a player can be null
-                OptionalDouble optionalAveragePRanking = team.getPlayers().stream().mapToDouble(Player::getpRanking).average();
-                if(optionalAveragePRanking.isPresent()) {
-                    team.setAveragePRanking(optionalAveragePRanking.getAsDouble());
-                }else{
-                    team.setAveragePRanking(null);
+                    //P-Ranking of a player can be null
+                    OptionalDouble optionalAveragePRanking = team.getPlayers().stream().mapToDouble(Player::getpRanking).average();
+                    if(optionalAveragePRanking.isPresent()) {
+                        team.setAveragePRanking(optionalAveragePRanking.getAsDouble());
+                    }else{
+                        team.setAveragePRanking(null);
+                    }
+
+                    teamRepository.save(team);
+                    teams.add(team);
                 }
-
-                teamRepository.save(team);
-                teams.add(team);
             }
         }
         return teams;

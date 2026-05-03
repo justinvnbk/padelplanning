@@ -1,8 +1,8 @@
-<header th:fragment="navbar">
+<header th:fragment="navbar" xmlns:sec="http://www.w3.org/1999/xhtml">
     <nav class="navbar navbar-expand-md">
         <div class="container">
 
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" th:href="@{/}">
                 <img th:src="@{/logo/padelclub_logo.png}" alt="logo" style="max-height: 50px;">
             </a>
 
@@ -18,20 +18,25 @@
             <div class="collapse navbar-collapse" id="navbarMenu">
                 <ul class="navbar-nav ms-auto align-items-md-center gap-md-2 mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Home</a>
+                        <a class="nav-link" th:classappend="${currentUrl=='/home'||currentUrl=='/'?'active':''}" th:href="@{/}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Reserveren</a>
+                        <a class="nav-link" th:classappend="${currentUrl=='/user/signup'?'active':''}" th:href="@{/user/signup}">Inschrijven</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Over ons</a>
+                        <a class="nav-link" th:classappend="${currentUrl=='/about'?'active':''}" href="#">Over ons</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+                        <a class="nav-link" th:classappend="${currentUrl=='/admin/plan'?'active':''}" th:href="@{/admin/plan}">Plan padeldag</a>
                     </li>
                     <li class="nav-item ms-md-3">
-                        <a class="btn btn-pma" href="#">Log in</a>
+                        <a sec:authorize="!isAuthenticated()" th:class="|btn btn-pma ${currentUrl=='/login'? 'active' : ''}|" th:href="@{/login}">login</a>
+                    </li>
+                    <li class="nav-item ms-md-3">
+                        <a sec:authorize="isAuthenticated()" th:class="|btn btn-pma ${currentUrl=='/logout'? 'active' : ''}|" th:href="@{/logout}">Log out</a>
                     </li>
                 </ul>
             </div>
-
         </div>
     </nav>
 </header>
