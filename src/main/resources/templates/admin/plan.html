@@ -61,11 +61,11 @@
                     </div>
                 </div>
             </div>
-            <h2>Reservelijst: </h2>
+            <h2 class="mt-5 border-top border-dark border-2">Reservelijst: </h2>
             <div th:each="p : ${padelDay.reservedPlayers}">
-                <div th:text="${p.name}"></div>
+                <div th:text="|-${p.name}|"></div>
             </div>
-            <div th:text="${padelDay.reservedPlayers.size()==0?'Reservelijst is leeg':''}"></div>
+            <div class="fs-5" th:text="${padelDay.reservedPlayers.size()==0?'Reservelijst is leeg':''}"></div>
         </div>
 </main>
 <footer th:replace="~{fragments/headerfooter::footer}"></footer>
