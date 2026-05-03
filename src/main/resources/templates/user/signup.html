@@ -5,7 +5,6 @@
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 
 <main class="container py-4" th:object="${padelDay}">
-    <h1 class="text-center mb-5">Schrijf je in voor een padeldag</h1>
 
     <!--als er geen padeldag beschikbaar is:-->
     <div class="bg-warning bg-opacity-50" th:unless="${padelDay}">
@@ -14,32 +13,34 @@
 
     <!--als er een padeldag beschikbaar is maar nog geen planning is gemaakt:-->
     <div th:if="${padelDay}" th:unless="${hasPlan}">
+        <h2 class="mb-4 text-center">Algemene informatie over de volgende padeldag:</h2>
         <div class="row">
-            <div class="col-6">
-                <div th:text="|Startuur: ${#temporals.format(padelDay.date, 'hh:mm')}|"></div>
-                <div th:text="|Dag: ${padelDay.date.getDayOfWeek()} ${#temporals.format(padelDay.date, 'dd/MM/yyyy')}|"></div>
-                <div th:text="|Velden: ${#strings.listJoin(padelDay.fields.![name], ', ')} (${padelDay.fields.size()*4} plaatsen)|"></div>
-
+            <div class="col-6 mt-5">
+                <div class="col-8 ms-3">
+                    <div class="fs-5 mb-5 bg-dark text-light rounded border border-dark p-2 text-center" th:text="|Startuur: ${#temporals.format(padelDay.date, 'hh:mm')}|"></div>
+                    <div class="fs-5 mb-5 bg-dark text-light rounded border border-dark p-2 text-center" th:text="|Dag: ${padelDay.date.getDayOfWeek()} ${#temporals.format(padelDay.date, 'dd/MM/yyyy')}|"></div>
+                    <div class="fs-5 mb-5 bg-dark text-light rounded border border-dark p-2 text-center" th:text="|Velden: ${#strings.listJoin(padelDay.fields.![name], ', ')} (${padelDay.fields.size()*4} plaatsen)|"></div>
+                </div>
             </div>
-            <div class="col-6">
+            <div class="col-6 mt-4">
                 <div class="mb-5">
-                    <h3>Inschrijvingen:</h3>
-                    <div class="mt-3" th:each="p : ${padelDay.signedUpPlayers}">
+                    <h3 class="border-dark border-bottom text-center">Inschrijvingen:</h3>
+                    <div class="mt-3 text-center" th:each="p : ${padelDay.signedUpPlayers}">
                         <div  th:text="|-${p.name}|"></div>
                     </div>
-                    <div class="mt-3 fs-5" th:text="${padelDay.signedUpPlayers.size()==0?'Nog geen inschrijvingen':''}"></div>
+                    <div class="mt-3 fs-5 text-center" th:text="${padelDay.signedUpPlayers.size()==0?'Nog geen inschrijvingen':''}"></div>
                 </div>
 
                 <div class="mb-4">
-                    <h3>Reservelijst: </h3>
-                    <div class="mt-3" th:each="p : ${padelDay.reservedPlayers}">
+                    <h3 class="border-dark border-bottom text-center">Reservelijst: </h3>
+                    <div class="mt-3 text-center" th:each="p : ${padelDay.reservedPlayers}">
                         <div th:text="|-${p.name}|"></div>
                     </div>
-                    <div class="mt-3 fs-5" th:text="${padelDay.reservedPlayers.size()==0?'Reservelijst is leeg':''}"></div>
+                    <div class="mt-3 fs-5 text-center" th:text="${padelDay.reservedPlayers.size()==0?'Reservelijst is leeg':''}"></div>
                 </div>
                 <form th:action="@{/user/signup}" method="post">
                     <input type="hidden" name="id" th:value="${padelDay.id}" />
-                    <button class="btn btn-primary px-5 fw-bold shadow-sm" th:disabled="${isSignedUp}" type="submit">Ik wil me inschrijven</button>
+                    <button class="btn btn-pma px-2 fw-bold shadow-sm" th:disabled="${isSignedUp}" type="submit">Ik wil me inschrijven</button>
                 </form>
             </div>
         </div>
