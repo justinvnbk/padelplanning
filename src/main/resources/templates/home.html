@@ -80,7 +80,7 @@
                                         <span class="d-inline d-md-none"
                                               th:with="nameParts=${#strings.arraySplit(player.name, ' ')}"
                                               th:text="${nameParts.length > 1} ? ${#strings.substring(nameParts[0],0,1)} + '. ' + ${nameParts[nameParts.length - 1]} : ${player.name}">
-    </span>
+                                        </span>
 
                                         <!-- Ranking (alleen zichtbaar op grote schermen) -->
                                         <span class="d-none d-md-inline" th:text="| (${player.pRanking})|"></span>
