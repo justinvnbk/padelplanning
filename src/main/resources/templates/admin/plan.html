@@ -59,9 +59,9 @@
                     </div>
                 </div>
             </div>
-            <h2>Reservelijst: </h2>
+            <h2 class="mt-4 border-top border-3 border-dark">Reservelijst: </h2>
             <div th:each="p : ${padelDay.reservedPlayers}">
-                <div th:text="${p.name}"></div>
+                <div th:text="|-${p.name}|"></div>
             </div>
             <div th:text="${padelDay.reservedPlayers.size()==0?'Reservelijst is leeg':''}"></div>
         </div>
