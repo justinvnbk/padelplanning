@@ -42,9 +42,24 @@ VALUES
 -- (0.8, '19:20:00'),
 -- (1.7, '19:20:00');
 
--- INSERT INTO padel_day (date, number_of_matches)
--- VALUES
--- ('2026-04-25 18:00:00', 9);
+--Test padeldag met inschijvingen:
+INSERT INTO padel_day (date, number_of_matches)
+VALUES
+('2030-04-25 18:00:00', 9);
+
+INSERT INTO PADEL_DAY_FIELDS (FIELDS_ID,PADEL_DAYS_ID)
+VALUES
+    ('1','1'),
+    ('2','1'),
+    ('3','1');
+
+
+INSERT INTO PADEL_DAY_RESERVED_PLAYERS (PADEL_DAY_ID, RESERVED_PLAYERS_ID)
+VALUES
+    ('1','1'),
+    ('1','2'),
+    ('1','3');
+
 
 -- Liam Carter
 INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)

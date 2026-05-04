@@ -3,6 +3,7 @@ package be.thomasmore.padelplanning.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -17,7 +18,7 @@ public class Notification {
     private boolean isSeen;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<Player> recipients;
+    private Collection<Player> recipients;
 
     public Integer getId() {
         return id;
@@ -59,11 +60,11 @@ public class Notification {
         isSeen = seen;
     }
 
-    public List<Player> getRecipients() {
+    public Collection<Player> getRecipients() {
         return recipients;
     }
 
-    public void setRecipients(List<Player> recipients) {
+    public void setRecipients(Collection<Player> recipients) {
         this.recipients = recipients;
     }
 }

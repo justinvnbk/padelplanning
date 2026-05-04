@@ -1,10 +1,10 @@
 package be.thomasmore.padelplanning.controllers.user;
 
-import be.thomasmore.padelplanning.model.Match;
 import be.thomasmore.padelplanning.model.PadelDay;
 import be.thomasmore.padelplanning.model.Player;
 import be.thomasmore.padelplanning.repositories.PadelDayRepository;
 import be.thomasmore.padelplanning.repositories.PlayerRepository;
+import be.thomasmore.padelplanning.services.NotificationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,21 +14,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
 public class SignUpController {
     private final PadelDayRepository padelDayRepository;
     private final PlayerRepository playerRepository;
+    private final NotificationService notificationService;
 
-    public SignUpController(PadelDayRepository padelDayRepository, PlayerRepository playerRepository) {
+    public SignUpController(PadelDayRepository padelDayRepository, PlayerRepository playerRepository, NotificationService notificationService) {
         this.padelDayRepository = padelDayRepository;
         this.playerRepository = playerRepository;
+        this.notificationService = notificationService;
     }
 
     @GetMapping("/signup")
@@ -63,6 +62,8 @@ public class SignUpController {
                 reservePlayers.add(player);
                 if(reservePlayers.size() == 4 && signedUpPlayers.size() < padelDay.getFields().size()*4){
                     signedUpPlayers.addAll(reservePlayers);
+                    //Send a notification to all reserve players that they moved to signed up players
+                    notificationService.createNotification("Inschrijving padeldag: " + padelDay.getDate(),"Er zijn voldoende spelers voor uw inschrijving te verwerken voor de padeldag te " + padelDay.getDate(), reservePlayers);
                     reservePlayers.clear();
                 }
                 padelDay.setSignedUpPlayers(signedUpPlayers);
