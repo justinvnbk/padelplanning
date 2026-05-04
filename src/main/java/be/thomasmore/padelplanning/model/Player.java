@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Player {
@@ -24,8 +25,8 @@ public class Player {
     private String profilePictureUrl;
     @ManyToMany(mappedBy = "players")
     private Collection<Team> teams;
-//  @ManyToOne(fetch = FetchType.LAZY)
-//  private PadelDay padelDay;
+    @ManyToMany(mappedBy="recipients")
+    private List<Notification> notifications;
 
     public Integer getId() {
         return id;
@@ -121,5 +122,13 @@ public class Player {
 
     public void setTeams(Collection<Team> teams) {
         this.teams = teams;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 }
