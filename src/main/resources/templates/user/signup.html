@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col-6 mt-5">
                 <div class="col-8 ms-3">
-                    <div class="fs-5 mb-5 bg-dark text-light rounded border border-dark p-2 text-center" th:text="|Startuur: ${#temporals.format(padelDay.date, 'hh:mm')}|"></div>
+                    <div class="fs-5 mb-5 bg-dark text-light rounded border border-dark p-2 text-center" th:text="|Startuur: ${#temporals.format(padelDay.date, 'HH:mm')}|"></div>
                     <div class="fs-5 mb-5 bg-dark text-light rounded border border-dark p-2 text-center" th:text="|Dag: ${padelDay.date.getDayOfWeek()} ${#temporals.format(padelDay.date, 'dd/MM/yyyy')}|"></div>
                     <div class="fs-5 mb-5 bg-dark text-light rounded border border-dark p-2 text-center" th:text="|Velden: ${#strings.listJoin(padelDay.fields.![name], ', ')} (${padelDay.fields.size()*4} plaatsen)|"></div>
                 </div>
