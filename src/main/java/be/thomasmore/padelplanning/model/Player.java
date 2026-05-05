@@ -1,6 +1,7 @@
 package be.thomasmore.padelplanning.model;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Collection;
 import java.util.Date;
@@ -14,6 +15,7 @@ public class Player {
     private String name;
     private boolean isApproved;
     private char gender;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;
     private String selfEvaluation;
     private Integer pRanking;
