@@ -12,20 +12,20 @@ public class Player {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private boolean isAdmin;
+    private boolean isApproved;
     private char gender;
     private Date birthDate;
     private String selfEvaluation;
     private Integer pRanking;
     private String telephone;
     private String email;
+    @Transient
+    private String password;
     @Enumerated(EnumType.STRING)
     private PreferredPlayside preferredPlayside;
     private String profilePictureUrl;
     @ManyToMany(mappedBy = "players")
     private Collection<Team> teams;
-//  @ManyToOne(fetch = FetchType.LAZY)
-//  private PadelDay padelDay;
 
     public Integer getId() {
         return id;
@@ -43,12 +43,12 @@ public class Player {
         this.name = name;
     }
 
-    public boolean isAdmin() {
-        return isAdmin;
+    public boolean isApproved() {
+        return isApproved;
     }
 
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
+    public void setApproved(boolean approved) {
+        isApproved = approved;
     }
 
     public char getGender() {
@@ -97,6 +97,14 @@ public class Player {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public PreferredPlayside getPreferredPlayside() {
