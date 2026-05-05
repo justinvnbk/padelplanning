@@ -40,7 +40,7 @@
                 <div class="col-4 border border-bottom-0 border-top-0 border-end-0 m-0 g-0" th:each="match, i : ${padelDay.matches}" th:if="${match.field == field}">
                     <div class="col-12 m-0 g-0">
                         <h6 class="fw-bold p-3 bg-dark bg-opacity-75 text-light m-0 g-0"
-                            th:text="|Match ${(i.index / 3) + 1} (${match.getTimeSlot()})|">
+                            th:text="|Matches van ${match.getTimeSlot()}|">
                         </h6>
                     </div>
 
