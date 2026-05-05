@@ -1,5 +1,6 @@
 package be.thomasmore.padelplanning.controllers;
 
+import be.thomasmore.padelplanning.model.Player;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,4 +24,15 @@ public class UserController {
 
         return "user/logout";
     }
+
+    @GetMapping("/register")
+    public String registerForm (Model model, Principal principal) {
+        if (principal != null) return "redirect:/";
+
+        model.addAttribute("user", new Player());
+
+        return "user/register";
+    }
+
+
 }
