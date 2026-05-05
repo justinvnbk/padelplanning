@@ -4,23 +4,45 @@
 <body>
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 <main class="container-fluid bg-dark">
-    <form th:action="@{|/login|}" method="post">
+    <form th:action="@{/register}" th:object="${player}" method="post">
         <div class="row justify-content-center">
             <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4 mt-5">
                 <div class="card border border-light-subtle rounded-3 shadow-sm">
                     <div class="card-body p-3 p-md-4 p-xl-5">
                         <div class="row gy-2">
+
+                            <div th:if="${error}" class="col-12">
+                                <div class="alert alert-danger" th:text="${error}"></div>
+                            </div>
+
                             <div class="col-12">
                                 <div class="form-floating mb-3">
                                     <input
-                                            id="username"
+                                            id="name"
+                                            th:field="*{name}"
                                             class="form-control bg-dark text-light border-secondary"
-                                            placeholder="username"
-                                            name="username"
+                                            placeholder="name"
+                                            name="name"
                                             required
                                     />
-                                    <label for="username" style="background-color: transparent; color: #adb5bd;">
-                                        username
+                                    <label for="name" style="background-color: transparent; color: #adb5bd;">
+                                        name
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating mb-3">
+                                    <input
+                                            id="email"
+                                            th:field="*{email}"
+                                            class="form-control bg-dark text-light border-secondary"
+                                            placeholder="email"
+                                            name="email"
+                                            type="email"
+                                            required
+                                    />
+                                    <label for="email" style="background-color: transparent; color: #adb5bd;">
+                                        email
                                     </label>
                                 </div>
                             </div>
@@ -28,6 +50,7 @@
                                 <div class="form-floating mb-3">
                                     <input
                                             id="password"
+                                            th:field="*{password}"
                                             class="form-control bg-dark text-light border-secondary"
                                             placeholder="password"
                                             name="password"
@@ -39,11 +62,66 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="col-12">
+                                <label class="d-block px-3 mb-2">Gender</label>
+                                <div class="form-check form-check-inline ms-4 mb-3">
+                                    <input id="genderMale" type="radio" name="gender" value="M"
+                                           class="form-check-input" required
+                                           th:checked="*{gender == 'M'}"/>
+                                    <label for="genderMale" class="form-check-label">Man</label>
+                                </div>
+                                <div class="form-check form-check-inline mb-3">
+                                    <input id="genderFemale" type="radio" name="gender" value="F"
+                                           class="form-check-input" required
+                                           th:checked="*{gender == 'F'}"/>
+                                    <label for="genderFemale" class="form-check-label">Vrouw</label>
+                                </div>
+                                <div class="form-check form-check-inline mb-3">
+                                    <input id="genderX" type="radio" name="gender" value="X"
+                                           class="form-check-input" required
+                                           th:checked="*{gender == 'X'}"/>
+                                    <label for="genderX" class="form-check-label">Anders</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating mb-3">
+                                     <input
+                                             id="birthDate"
+                                             th:field="*{birthDate}"
+                                             class="form-control bg-dark text-light border-secondary"
+                                             placeholder="birthDate"
+                                             name="birthDate"
+                                             type="date"
+                                             th:max="${#temporals.format(#temporals.createNow().minusYears(18), 'dd-MM-yyyy')}"
+                                             required
+                                     />
+                                    <label for="birthDate" style="background-color: transparent; color: #adb5bd;">
+                                        Birthdate
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating mb-3">
+                                    <input
+                                            id="telephone"
+                                            th:field="*{telephone}"
+                                            class="form-control bg-dark text-light border-secondary"
+                                            placeholder="GSM"
+                                            name="telephone"
+                                            type="tel"
+                                            pattern="[0-9]{10}"
+                                            required
+                                    />
+                                    <label for="telephone" style="background-color: transparent; color: #adb5bd;">
+                                        telephone
+                                    </label>
+                                </div>
+                            </div>
                             <button type="submit" class="btn btn-pma btn-block mb-4">
-                                log in
+                                register
                             </button>
                             <div class="text-center">
-                                <p>Nog niet geregistreerd? <a class="text-danger" th:href="@{|/register|}">Register</a></p>
+                                <p>Al geregistreerd? <a class="text-danger" th:href="@{/login}">Log in</a></p>
                             </div>
                         </div>
                     </div>
