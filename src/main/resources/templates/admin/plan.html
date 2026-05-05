@@ -11,20 +11,20 @@
     <a class="btn btn-primary" th:href="@{/admin/newpadelday}" th:unless="${padelDay}">Start nieuwe padel dag</a>
 
     <!--als er een padeldag beschikbaar is maar nog geen planning is gemaakt:-->
-    <div th:if="${padelDay}" th:unless="${hasPlan}">
-        <h2>Inschrijvingen:</h2>
+    <div th:if="${padelDay}" th:unless="${hasPlan}"  c>
+        <h2 class="text-center">Inschrijvingen:</h2>
         <div th:each="p : ${padelDay.signedUpPlayers}">
-            <div th:text="${p.name}"></div>
+            <div class="text-center" th:text="|-${p.name}|"></div>
         </div>
-        <div th:text="${padelDay.signedUpPlayers.size()==0?'Nog geen inschrijvingen':''}"></div>
-        <h2>Reservelijst: </h2>
+        <div class="fs-5 text-center" th:text="${padelDay.signedUpPlayers.size()==0?'Nog geen inschrijvingen':''}"></div>
+        <h2 class="text-center mt-5 border-dark border-top pt-4">Reservelijst: </h2>
         <div th:each="p : ${padelDay.reservedPlayers}">
-            <div th:text="${p.name}"></div>
+            <div class="text-center" th:text="|-${p.name}|"></div>
         </div>
-        <div th:text="${padelDay.reservedPlayers.size()==0?'Reservelijst is leeg':''}"></div>
-        <form th:action="@{/admin/plan}" method="post">
+        <div class="fs-5 text-center" th:text="${padelDay.reservedPlayers.size()==0?'Reservelijst is leeg':''}"></div>
+        <form th:action="@{/admin/plan}" method="post" class="d-flex justify-content-center mt-4">
             <input type="hidden" name="id" th:value="${padelDay.id}" />
-            <button class="btn btn-primary px-5 fw-bold shadow-sm" type="submit">Maak planning aan</button>
+            <button class="btn btn-pma px-3 fw-bold shadow-sm" type="submit">Maak planning aan</button>
         </form>
     </div>
 
