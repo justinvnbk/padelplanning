@@ -12,7 +12,7 @@ public class Player {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private boolean isAdmin;
+    private boolean isAccepted;
     private char gender;
     private Date birthDate;
     private String selfEvaluation;
@@ -43,12 +43,12 @@ public class Player {
         this.name = name;
     }
 
-    public boolean isAdmin() {
-        return isAdmin;
+    public boolean isAccepted() {
+        return isAccepted;
     }
 
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
+    public void setAccepted(boolean accepted) {
+        isAccepted = accepted;
     }
 
     public char getGender() {
