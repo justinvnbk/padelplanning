@@ -20,6 +20,7 @@ public class Player {
     private Integer pRanking;
     private String telephone;
     private String email;
+    private boolean hasUnseenNotifications;
     @Enumerated(EnumType.STRING)
     private PreferredPlayside preferredPlayside;
     private String profilePictureUrl;
@@ -98,6 +99,14 @@ public class Player {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean hasUnseenNotifications() {
+        return hasUnseenNotifications;
+    }
+
+    public void setHasUnseenNotifications(boolean hasUnseenNotifications) {
+        this.hasUnseenNotifications = hasUnseenNotifications;
     }
 
     public PreferredPlayside getPreferredPlayside() {
