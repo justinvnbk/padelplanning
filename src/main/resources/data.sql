@@ -45,7 +45,7 @@ VALUES
 --Test padeldag met inschijvingen:
 INSERT INTO padel_day (date, number_of_matches)
 VALUES
-('2030-04-25 18:00:00', 9);
+('2030-04-25 18:00:00', 3);
 
 INSERT INTO PADEL_DAY_FIELDS (FIELDS_ID,PADEL_DAYS_ID)
 VALUES
