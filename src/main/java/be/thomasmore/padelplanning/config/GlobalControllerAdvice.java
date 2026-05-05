@@ -31,6 +31,6 @@ public class GlobalControllerAdvice {
 
         Player player = playerRepository.findByEmail(principal.getName());
 
-        return player.getNotifications().stream().map(Notification::isSeen).toList().contains(false);
+        return player.hasUnseenNotifications();
      }
 }

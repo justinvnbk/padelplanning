@@ -15,20 +15,19 @@ import java.security.Principal;
 @RequestMapping("/user")
 public class NotificationsController {
     private final PlayerRepository playerRepository;
-    private final NotificationRepository notificationRepository;
 
-    public NotificationsController(PlayerRepository playerRepository, NotificationRepository notificationRepository) {
+
+    public NotificationsController(PlayerRepository playerRepository) {
         this.playerRepository = playerRepository;
-        this.notificationRepository = notificationRepository;
     }
 
     @GetMapping("/notifications")
     public String notifications(Model model, Principal principal) {
         Player player = playerRepository.findByEmail(principal.getName());
-        for (Notification n : player.getNotifications()) {
-            n.setSeen(true);
-            notificationRepository.save(n);
-        }
+
+        player.setHasUnseenNotifications(false);
+
+        playerRepository.save(player);
 
         model.addAttribute("player", player);
 

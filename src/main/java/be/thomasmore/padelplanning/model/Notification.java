@@ -15,7 +15,6 @@ public class Notification {
     private String title;
     private String message;
     private LocalDateTime dateTime;
-    private boolean isSeen;
 
     @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Player> recipients;
@@ -50,14 +49,6 @@ public class Notification {
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
-    }
-
-    public boolean isSeen() {
-        return isSeen;
-    }
-
-    public void setSeen(boolean seen) {
-        isSeen = seen;
     }
 
     public Collection<Player> getRecipients() {

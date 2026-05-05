@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -63,7 +64,8 @@ public class SignUpController {
                 if(reservePlayers.size() == 4 && signedUpPlayers.size() < padelDay.getFields().size()*4){
                     signedUpPlayers.addAll(reservePlayers);
                     //Send a notification to all reserve players that they moved to signed up players
-                    notificationService.createNotification("Inschrijving padeldag: " + padelDay.getDate(),"Er zijn voldoende spelers voor uw inschrijving te verwerken voor de padeldag te " + padelDay.getDate(), reservePlayers);
+                    notificationService.createNotification("Inschrijving padeldag: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),"Er zijn voldoende spelers voor uw inschrijving te verwerken voor de padeldag te " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),  reservePlayers);
+                    notificationService.createNotification("Inschrijving padeldag: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),"Er zijn voldoende spelers voor uw inschrijving te verwerken voor de padeldag te " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),  reservePlayers);
                     reservePlayers.clear();
                 }
                 padelDay.setSignedUpPlayers(signedUpPlayers);
