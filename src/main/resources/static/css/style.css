@@ -117,3 +117,79 @@ main {
 .form-floating > label::after {
     background-color: transparent !important;
 }
+
+.logo {
+    background-image: url("/logo/padelclub_logo.png");
+    display: inline-block; /* Allows the element to have width and height */
+    width: 150px;          /* Adjust to your logo's width */
+    height: 50px;          /* Adjust to your logo's height */
+    background-size: contain;   /* Ensures the logo fits inside the box */
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+@media screen and (max-width: 850px){
+    .nav-left{
+        margin-right: 0;
+    }
+}
+
+@media screen and (min-width: 901px){
+    .nav-left{
+        margin-right: 50px;
+    }
+}
+
+@media screen and (min-width: 951px){
+    .nav-left{
+        margin-right: 80px;
+    }
+}
+
+@media screen and (min-width: 990px){
+    .nav-left{
+        margin-right: 120px;
+    }
+}
+
+@media screen and (min-width: 1050px){
+    .nav-left{
+        margin-right: 150px;
+    }
+}
+
+@media screen and (min-width: 1100px){
+    .nav-left{
+        margin-right: 170px;
+    }
+}
+
+
+@media screen and (min-width: 1201px){
+    .nav-left{
+        margin-right: 340px;
+    }
+}
+
+@media screen and (min-width: 1356px){
+    .nav-left{
+        margin-right: 480px;
+    }
+}
+
+@media screen and (min-width: 1444px){
+    .nav-left{
+        margin-right: 580px;
+    }
+}
+
+
+
+
+.nav-container{
+    width: 100%;
+    margin-right: 0;
+}
+
+
+

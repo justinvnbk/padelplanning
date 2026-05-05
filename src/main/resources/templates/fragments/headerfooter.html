@@ -1,13 +1,12 @@
 <header th:fragment="navbar" xmlns:sec="http://www.w3.org/1999/xhtml">
     <nav class="navbar navbar-expand-md">
-        <div class="container">
+        <div class="container-fluid nav-container">
 
-            <a class="navbar-brand" th:href="@{/}">
-                <img th:src="@{/logo/padelclub_logo.png}" alt="logo" style="max-height: 50px;">
-            </a>
+            <div class="d-flex align-items-center ms-0 p-0 nav-left">
+                <a class="navbar-brand logo" th:href="@{/}"></a>
+            </div>
 
-
-            <a class="nav-link" sec:authorize="isAuthenticated()" th:classappend="|${hasUnseenNotifications ? 'border rounded border-danger rounded-circle border-3' : ''}|" th:href="@{/user/notifications}">🔔</a>
+            <a class="nav-link fs-3 p-1 btn btn-dark justify-content-end" sec:authorize="isAuthenticated()" th:classappend="|${hasUnseenNotifications ? 'btn btn-pma rounded-circle border-3' : ''}|" th:href="@{/user/notifications}">🔔</a>
 
             <button class="navbar-toggler" type="button"
                     data-bs-toggle="collapse"
@@ -18,8 +17,8 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarMenu">
-                <ul class="navbar-nav ms-auto align-items-md-center gap-md-2 mb-2 mb-md-0">
+            <div class="collapse navbar-collapse justify-content-center" id="navbarMenu">
+                <ul class="navbar-nav ms-4 gap-md-2 mb-2 mb-md-0">
                     <li class="nav-item">
                         <a class="nav-link" th:classappend="${currentUrl=='/home'||currentUrl=='/'?'active':''}" th:href="@{/}">Home</a>
                     </li>
@@ -32,10 +31,10 @@
                     <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
                         <a class="nav-link" th:classappend="${currentUrl=='/admin/plan'?'active':''}" th:href="@{/admin/plan}">Plan padeldag</a>
                     </li>
-                    <li class="nav-item ms-md-3">
+                    <li class="nav-item ms-md-3 login">
                         <a sec:authorize="!isAuthenticated()" th:class="|btn btn-pma ${currentUrl=='/login'? 'active' : ''}|" th:href="@{/login}">login</a>
                     </li>
-                    <li class="nav-item ms-md-3">
+                    <li class="nav-item ms-md-3 logout">
                         <a sec:authorize="isAuthenticated()" th:class="|btn btn-pma ${currentUrl=='/logout'? 'active' : ''}|" th:href="@{/logout}">Log out</a>
                     </li>
                 </ul>
