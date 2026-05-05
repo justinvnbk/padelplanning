@@ -6,6 +6,9 @@
                 <img th:src="@{/logo/padelclub_logo.png}" alt="logo" style="max-height: 50px;">
             </a>
 
+
+            <a class="nav-link" sec:authorize="isAuthenticated()" th:classappend="|${hasUnseenNotifications ? 'border rounded border-danger rounded-circle border-3' : ''}|" th:href="@{/user/notifications}">🔔</a>
+
             <button class="navbar-toggler" type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#navbarMenu"
@@ -28,9 +31,6 @@
                     </li>
                     <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
                         <a class="nav-link" th:classappend="${currentUrl=='/admin/plan'?'active':''}" th:href="@{/admin/plan}">Plan padeldag</a>
-                    </li>
-                    <li>
-                        <a sec:authorize="isAuthenticated()" th:class="|nav-link ${hasUnseenNotifications ? 'border rounded border-danger rounded-circle border-3' : ''}|" th:href="@{/user/notifications}">🔔</a>
                     </li>
                     <li class="nav-item ms-md-3">
                         <a sec:authorize="!isAuthenticated()" th:class="|btn btn-pma ${currentUrl=='/login'? 'active' : ''}|" th:href="@{/login}">login</a>
