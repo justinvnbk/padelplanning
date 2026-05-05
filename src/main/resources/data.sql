@@ -19,6 +19,33 @@ VALUES
 ('1B',false),
 ('5', true);
 
+-- INSERT INTO team (averagepranking)
+-- VALUES
+-- (6.0),
+-- (4.0),
+-- (7.5),
+-- (5.5),
+-- (6.5),
+-- (3.0);
+
+-- INSERT INTO match (p_ranking_difference, time_slot)
+-- VALUES
+-- (1.0, '18:00:00'),
+-- (2.0, '18:00:00'),
+-- (1.5, '18:00:00'),
+--
+-- (0.5, '18:40:00'),
+-- (1.2, '18:40:00'),
+-- (2.5, '18:40:00'),
+--
+-- (1.0, '19:20:00'),
+-- (0.8, '19:20:00'),
+-- (1.7, '19:20:00');
+
+-- INSERT INTO padel_day (date, number_of_matches)
+-- VALUES
+-- ('2026-04-25 18:00:00', 9);
+
 -- Liam Carter
 INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
 VALUES ('liam@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
