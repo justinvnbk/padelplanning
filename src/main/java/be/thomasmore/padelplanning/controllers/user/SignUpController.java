@@ -105,9 +105,15 @@ public class SignUpController {
                     counter--;
                 }
 
-                notificationService.createNotification("Uitschrijving padeldag: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
-                        "Een van de laatste 4 inschrijvingen heeft zich uitgeschreven. U komt terug op de reservelijst.",
-                        forcedToSignOut);
+                    notificationService.createNotification("Uitschrijving padeldag: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
+                            "Een van de laatste 4 inschrijvingen heeft zich uitgeschreven. U komt terug op de reservelijst.",
+                            forcedToSignOut);
+                if(LocalDateTime.now().plusHours(4).isAfter(padelDay.getDate())){
+                    notificationService.createNotification("SNEL IEMAND NODIG VOOR VANDAAG",
+                            "Iemand heeft zich binnen de laatste 4 uur uitgeschreven, schrijf je nog snel in om ons te vervoledigen",
+                            playerRepository.getAll());
+                }
+
             }
             padelDay.setSignedUpPlayers(signedUpPlayers);
             padelDay.setReservedPlayers(reservePlayers);
