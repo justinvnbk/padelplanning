@@ -9,13 +9,16 @@ import be.thomasmore.padelplanning.repositories.PadelDayRepository;
 import be.thomasmore.padelplanning.repositories.PlayerRepository;
 import be.thomasmore.padelplanning.repositories.TeamRepository;
 import be.thomasmore.padelplanning.services.CreatePadelDayPlanService;
+import be.thomasmore.padelplanning.services.NotificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,13 +31,15 @@ public class PlanController {
     private final PadelDayRepository padelDayRepository;
     private final Logger logger= LoggerFactory.getLogger(this.getClass());
     private final TeamRepository teamRepository;
+    private final NotificationService notificationService;
 
-    public PlanController(FieldRepository fieldRepository, PlayerRepository playerRepository, CreatePadelDayPlanService createPadelDayPlanService, PadelDayRepository padelDayRepository, TeamRepository teamRepository) {
+    public PlanController(FieldRepository fieldRepository, PlayerRepository playerRepository, CreatePadelDayPlanService createPadelDayPlanService, PadelDayRepository padelDayRepository, TeamRepository teamRepository, NotificationService notificationService) {
         this.fieldRepository = fieldRepository;
         this.playerRepository = playerRepository;
         this.createPadelDayPlanService = createPadelDayPlanService;
         this.padelDayRepository = padelDayRepository;
         this.teamRepository = teamRepository;
+        this.notificationService = notificationService;
     }
 
     @GetMapping("/plan")
@@ -87,8 +92,14 @@ public class PlanController {
     }
 
     @PostMapping("/newpadelday")
-    public String postNieuwPadelDay(Model model, PadelDay padelDay){
+    public String postNieuwPadelDay(Model model,
+                                    PadelDay padelDay,
+                                    Principal principal) {
+        Player loggedInAdmin = playerRepository.findByEmail(principal.getName());
         padelDayRepository.save(padelDay);
+        notificationService.createNotification("Nieuw speelmoment opgestart",
+                "Er is een nieuw speelmoment gestart door " + loggedInAdmin.getName() + " voor " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM") )+ ". Schrijf je nu in!",
+                playerRepository.getAll());
         return "redirect:/admin/plan";
     }
 }
