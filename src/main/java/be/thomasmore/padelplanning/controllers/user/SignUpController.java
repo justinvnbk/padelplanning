@@ -94,26 +94,38 @@ public class SignUpController {
             }else if(signedUpPlayers.contains(player)){
                 signedUpPlayers.remove(player);
 
-                Collection<Player> forcedToSignOut = new ArrayList<Player>();
-                int counter = signedUpPlayers.size()-1;
-                while(signedUpPlayers.size()%4!=0){
-                    forcedToSignOut.add(signedUpPlayers.get(counter));
+                if(reservePlayers.isEmpty()) {
+                    Collection<Player> forcedToSignOut = new ArrayList<Player>();
+                    int counter = signedUpPlayers.size() - 1;
+                    while (signedUpPlayers.size() % 4 != 0) {
+                        forcedToSignOut.add(signedUpPlayers.get(counter));
 
-                    reservePlayers.add(signedUpPlayers.get(counter));
-                    signedUpPlayers.remove(signedUpPlayers.get(counter));
+                        reservePlayers.add(signedUpPlayers.get(counter));
+                        signedUpPlayers.remove(signedUpPlayers.get(counter));
 
-                    counter--;
-                }
-
+                        counter--;
+                    }
                     notificationService.createNotification("Uitschrijving padeldag: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             "Een van de laatste 4 inschrijvingen heeft zich uitgeschreven. U komt terug op de reservelijst.",
                             forcedToSignOut);
-                if(LocalDateTime.now().plusHours(4).isAfter(padelDay.getDate())){
-                    notificationService.createNotification("SNEL IEMAND NODIG VOOR VANDAAG",
-                            "Iemand heeft zich binnen de laatste 4 uur uitgeschreven, schrijf je nog snel in om ons te vervoledigen",
-                            playerRepository.getAll());
-                }
+                    if (LocalDateTime.now().plusHours(4).isAfter(padelDay.getDate())) {
+                        notificationService.createNotification("SNEL IEMAND NODIG VOOR VANDAAG",
+                             "Iemand heeft zich binnen de laatste 4 uur uitgeschreven, schrijf je nog snel in om ons te vervoledigen",
+                             playerRepository.getAll());
+                    }
+                }else{
+                    Collection<Player> newSignedUpPlayer = new ArrayList<Player>();
 
+                    signedUpPlayers.remove(player);
+
+                    signedUpPlayers.add(reservePlayers.get(0));
+                    newSignedUpPlayer.add(reservePlayers.get(0));
+                    reservePlayers.remove(reservePlayers.get(0));
+
+                    notificationService.createNotification("Inschrijving padeldag: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
+                            "Er zijn voldoende spelers voor uw inschrijving te verwerken voor de padeldag te " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
+                            newSignedUpPlayer);
+                }
             }
             padelDay.setSignedUpPlayers(signedUpPlayers);
             padelDay.setReservedPlayers(reservePlayers);
