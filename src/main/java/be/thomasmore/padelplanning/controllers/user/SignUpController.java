@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/user")
@@ -47,30 +46,72 @@ public class SignUpController {
         model.addAttribute("hasPlan", hasPlan);
         return "user/signup";
     }
+
     @PostMapping("/signup")
-    public String postPlan(Model model,
-                           @RequestParam int id,
-                           Principal principal){
+    public String postSignUp(Model model,
+                             @RequestParam int id,
+                             Principal principal){
         Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(id);
         Player player = playerRepository.findByEmail(principal.getName());
 
         if(optionalPadelDay.isPresent()){
             PadelDay padelDay = optionalPadelDay.get();
             if(!padelDay.getSignedUpPlayers().contains(player) && !padelDay.getReservedPlayers().contains(player)){
-                Collection<Player> reservePlayers = padelDay.getReservedPlayers();
-                Collection<Player> signedUpPlayers = padelDay.getSignedUpPlayers();
+                List<Player> reservePlayers = padelDay.getReservedPlayers();
+                List<Player> signedUpPlayers = padelDay.getSignedUpPlayers();
 
                 reservePlayers.add(player);
                 if(reservePlayers.size() == 4 && signedUpPlayers.size() < padelDay.getFields().size()*4){
                     signedUpPlayers.addAll(reservePlayers);
                     //Send a notification to all reserve players that they moved to signed up players
-                    notificationService.createNotification("Inschrijving padeldag: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),"Er zijn voldoende spelers voor uw inschrijving te verwerken voor de padeldag te " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),  reservePlayers);
+                    notificationService.createNotification("Inschrijving padeldag: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
+                            "Er zijn voldoende spelers voor uw inschrijving te verwerken voor de padeldag te " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
+                            reservePlayers);
                     reservePlayers.clear();
                 }
                 padelDay.setSignedUpPlayers(signedUpPlayers);
                 padelDay.setReservedPlayers(reservePlayers);
                 padelDayRepository.save(padelDay);
             }
+        }
+        return "redirect:/user/signup";
+    }
+
+    @PostMapping("/signout")
+    public String postSignOut(Model model,
+                              @RequestParam int id,
+                              Principal principal){
+        Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(id);
+        if(optionalPadelDay.isPresent()){
+            PadelDay padelDay = optionalPadelDay.get();
+            List<Player> reservePlayers = padelDay.getReservedPlayers();
+            List<Player> signedUpPlayers = padelDay.getSignedUpPlayers();
+
+            Player player = playerRepository.findByEmail(principal.getName());
+
+            if(reservePlayers.contains(player)){
+                reservePlayers.remove(player);
+            }else if(signedUpPlayers.contains(player)){
+                signedUpPlayers.remove(player);
+
+                Collection<Player> forcedToSignOut = new ArrayList<Player>();
+                int counter = signedUpPlayers.size()-1;
+                while(signedUpPlayers.size()%4!=0){
+                    forcedToSignOut.add(signedUpPlayers.get(counter));
+
+                    reservePlayers.add(signedUpPlayers.get(counter));
+                    signedUpPlayers.remove(signedUpPlayers.get(counter));
+
+                    counter--;
+                }
+
+                notificationService.createNotification("Uitschrijving padeldag: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
+                        "Een van de laatste 4 inschrijvingen heeft zich uitgeschreven. U komt terug op de reservelijst.",
+                        forcedToSignOut);
+            }
+            padelDay.setSignedUpPlayers(signedUpPlayers);
+            padelDay.setReservedPlayers(reservePlayers);
+            padelDayRepository.save(padelDay);
         }
         return "redirect:/user/signup";
     }
