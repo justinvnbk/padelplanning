@@ -4,6 +4,7 @@ import be.thomasmore.padelplanning.model.PadelDay;
 import be.thomasmore.padelplanning.model.Player;
 import be.thomasmore.padelplanning.repositories.PadelDayRepository;
 import be.thomasmore.padelplanning.repositories.PlayerRepository;
+import be.thomasmore.padelplanning.services.CreatePadelDayPlanService;
 import be.thomasmore.padelplanning.services.NotificationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,11 +24,13 @@ public class SignUpController {
     private final PadelDayRepository padelDayRepository;
     private final PlayerRepository playerRepository;
     private final NotificationService notificationService;
+    private final CreatePadelDayPlanService createPadelDayPlanService;
 
-    public SignUpController(PadelDayRepository padelDayRepository, PlayerRepository playerRepository, NotificationService notificationService) {
+    public SignUpController(PadelDayRepository padelDayRepository, PlayerRepository playerRepository, NotificationService notificationService, CreatePadelDayPlanService createPadelDayPlanService) {
         this.padelDayRepository = padelDayRepository;
         this.playerRepository = playerRepository;
         this.notificationService = notificationService;
+        this.createPadelDayPlanService = createPadelDayPlanService;
     }
 
     @GetMapping("/signup")
@@ -61,6 +64,7 @@ public class SignUpController {
                 List<Player> signedUpPlayers = padelDay.getSignedUpPlayers();
 
                 reservePlayers.add(player);
+                //When there is 4 reserve player, they are added to the signedUp list
                 if(reservePlayers.size() == 4 && signedUpPlayers.size() < padelDay.getFields().size()*4){
                     signedUpPlayers.addAll(reservePlayers);
                     //Send a notification to all reserve players that they moved to signed up players
@@ -68,6 +72,10 @@ public class SignUpController {
                             "Er zijn voldoende spelers voor uw inschrijving te verwerken voor de padeldag te " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             reservePlayers);
                     reservePlayers.clear();
+                    if(padelDay.getMatches().size()>0) {
+                        //The plan is recreated, matches are filled with the new players
+                        createPadelDayPlanService.newPadelDayPlanning(padelDay);
+                    }
                 }
                 padelDay.setSignedUpPlayers(signedUpPlayers);
                 padelDay.setReservedPlayers(reservePlayers);
@@ -89,14 +97,16 @@ public class SignUpController {
 
             Player player = playerRepository.findByEmail(principal.getName());
 
+            //Reserve players will always just be removed from the list
             if(reservePlayers.contains(player)){
                 reservePlayers.remove(player);
             }else if(signedUpPlayers.contains(player)){
                 signedUpPlayers.remove(player);
 
+                //When there is no reserve players, 3 last sign-ups are also signed out te keep the right amount of people to fill the matches
                 if(reservePlayers.isEmpty()) {
                     Collection<Player> forcedToSignOut = new ArrayList<Player>();
-                    int counter = signedUpPlayers.size() - 1;
+                    int counter = signedUpPlayers.size() - 1; //To index the signedUpPlayers backwards
                     while (signedUpPlayers.size() % 4 != 0) {
                         forcedToSignOut.add(signedUpPlayers.get(counter));
 
@@ -105,18 +115,20 @@ public class SignUpController {
 
                         counter--;
                     }
+                    //Notify all forced to sign out
                     notificationService.createNotification("Uitschrijving padeldag: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             "Een van de laatste 4 inschrijvingen heeft zich uitgeschreven. U komt terug op de reservelijst.",
                             forcedToSignOut);
+                    //Notify all players, new signup needed fast
                     if (LocalDateTime.now().plusHours(4).isAfter(padelDay.getDate())) {
                         notificationService.createNotification("SNEL IEMAND NODIG VOOR VANDAAG",
                              "Iemand heeft zich binnen de laatste 4 uur uitgeschreven, schrijf je nog snel in om ons te vervoledigen",
                              playerRepository.getAll());
                     }
+
+                //When there is reserve players, add the fist one
                 }else{
                     Collection<Player> newSignedUpPlayer = new ArrayList<Player>();
-
-                    signedUpPlayers.remove(player);
 
                     signedUpPlayers.add(reservePlayers.get(0));
                     newSignedUpPlayer.add(reservePlayers.get(0));
@@ -125,6 +137,10 @@ public class SignUpController {
                     notificationService.createNotification("Inschrijving padeldag: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             "Er zijn voldoende spelers voor uw inschrijving te verwerken voor de padeldag te " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             newSignedUpPlayer);
+                }
+                if(padelDay.getMatches().size()>0) {
+                    //The plan is recreated, matches are filled without the removed players
+                    createPadelDayPlanService.newPadelDayPlanning(padelDay);
                 }
             }
             padelDay.setSignedUpPlayers(signedUpPlayers);
