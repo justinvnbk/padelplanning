@@ -6,7 +6,11 @@
                 <a class="navbar-brand logo" th:href="@{/}"></a>
             </div>
 
-            <a class="nav-link fs-3 p-1 btn btn-dark justify-content-end" sec:authorize="isAuthenticated()" th:classappend="|${hasUnseenNotifications ? 'btn btn-pma rounded-circle border-3' : ''}|" th:href="@{/user/notifications}">🔔</a>
+            <p class="ms-1 me-3 text-light mb-0 text-nowrap welcome">
+                Welcome <span th:if="${playerName != null}" th:text="|back ${playerName}|"></span>
+            </p>
+
+            <a class="nav-link fs-3 p-1 btn btn-dark justify-content-end me-0" sec:authorize="isAuthenticated()" th:classappend="|${hasUnseenNotifications ? 'btn btn-pma rounded-circle border-3' : ''}|" th:href="@{/user/notifications}">🔔</a>
 
             <button class="navbar-toggler" type="button"
                     data-bs-toggle="collapse"
@@ -17,8 +21,8 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse justify-content-center" id="navbarMenu">
-                <ul class="navbar-nav ms-4 gap-md-2 mb-2 mb-md-0">
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav ms-4 gap-md-2 mb-2 mb-md-0 text-nowrap">
                     <li class="nav-item">
                         <a class="nav-link" th:classappend="${currentUrl=='/home'||currentUrl=='/'?'active':''}" th:href="@{/}">Home</a>
                     </li>

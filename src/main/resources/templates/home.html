@@ -5,9 +5,6 @@
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 
 <main>
-    <p class="mx-5 my-3 fs-2">
-        Welcome <span th:if="${playerName != null}" th:text="|back ${playerName}|"></span> :)
-    </p>
     <div th:if="${padelDay}">
         <div class="container py-4">
             <h1 class="text-center mb-5">Overzicht Speelmomenten</h1>

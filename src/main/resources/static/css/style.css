@@ -65,8 +65,6 @@
     color: white;
 }
 
-
-
 /* Hamburger icon */
 .navbar-toggler {
     border-color: var(--pma-red);
@@ -74,16 +72,6 @@
 
 .navbar-toggler-icon {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23cf0039' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-}
-
-/* Logo placeholder — remove once real logo is in */
-.logo-placeholder {
-    display: inline-block;
-    width: 48px;
-    height: 40px;
-    background-color: #333;
-    border: 1px solid #555;
-    border-radius: 3px;
 }
 
 /* Footer */
@@ -105,14 +93,6 @@ main {
     flex: 1;
 }
 
-.logo-placeholder {
-    display: inline-block;
-    width: 48px;
-    height: 40px;
-    background-color: #333;
-    border: 1px solid #555;
-    border-radius: 3px;
-}
 
 .form-floating > label::after {
     background-color: transparent !important;
@@ -128,68 +108,48 @@ main {
     background-position: center;
 }
 
-@media screen and (max-width: 850px){
-    .nav-left{
-        margin-right: 0;
-    }
+.collapse {
+    max-width: 700px;
 }
 
-@media screen and (min-width: 901px){
-    .nav-left{
-        margin-right: 50px;
-    }
+/* Range 1: Small screens (up to 899px) */
+
+@media screen and (max-width: 766px){
+    .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.8rem; }
+    .welcome { font-size: 0.8rem;}
 }
 
-@media screen and (min-width: 951px){
-    .nav-left{
-        margin-right: 80px;
-    }
+@media screen and (min-width: 767px) and (max-width: 911px) {
+    .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.5rem; }
+    .welcome { font-size: 0.8rem;}
 }
 
-@media screen and (min-width: 990px){
-    .nav-left{
-        margin-right: 120px;
-    }
+@media screen and (min-width: 911px) and (max-width: 970px) {
+    .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.6rem; }
+    .welcome { font-size: 0.9rem;}
 }
 
-@media screen and (min-width: 1050px){
-    .nav-left{
-        margin-right: 150px;
-    }
+@media screen and (min-width: 970px) and (max-width: 999px) {
+    .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.7rem; }
+    .welcome { font-size: 0.9rem;}
 }
 
-@media screen and (min-width: 1100px){
-    .nav-left{
-        margin-right: 170px;
-    }
+@media screen and (min-width: 1000px) and (max-width: 1064px) {
+    .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.75rem; }
+    .welcome { font-size: 1rem;}
 }
 
-
-@media screen and (min-width: 1201px){
-    .nav-left{
-        margin-right: 340px;
-    }
+/* Range 2: Medium screens (900px to 1019px) */
+@media screen and (min-width: 1065px) and (max-width: 1150px) {
+    .navbar-nav .nav-link { font-size: 0.9rem; }
 }
 
-@media screen and (min-width: 1356px){
-    .nav-left{
-        margin-right: 480px;
-    }
+/* Range 3: Large screens (1020px and up) */
+@media screen and (min-width: 1150px) {
+    .navbar-nav .nav-link { font-size: 1rem; }
+    .welcome { font-size: 1.2rem;}
 }
 
-@media screen and (min-width: 1444px){
-    .nav-left{
-        margin-right: 580px;
-    }
-}
-
-
-
-
-.nav-container{
-    width: 100%;
-    margin-right: 0;
-}
 
 
 
