@@ -117,11 +117,14 @@ main {
     max-width: 700px;
 }
 
+.welcome{
+    color: #adb5bd;
+}
+
 /* Range 1: Small screens (up to 899px) */
 
 @media screen and (max-width: 766px){
     .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.8rem; }
-    .welcome {display: none;}
 }
 
 @media screen and (min-width: 767px) and (max-width: 911px) {

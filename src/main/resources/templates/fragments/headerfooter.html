@@ -6,8 +6,8 @@
                 <a class="navbar-brand logo" th:href="@{/}"></a>
             </div>
 
-            <p class="ms-1 me-3 text-light mb-0 text-nowrap welcome">
-                Welcome <span th:if="${currentUser != null}" th:text="|back ${currentUser.name}|"></span>
+            <p class="ms-1 me-3 mb-0 text-nowrap welcome d-none d-md-inline">
+                Welkom <span th:if="${currentUser != null}" th:text="|terug ${currentUser.name}|"></span>
             </p>
 
             <a class="nav-link fs-3 p-1 btn btn-dark justify-content-end me-0" sec:authorize="isAuthenticated()" th:classappend="|${currentUser.hasUnseenNotifications ? 'btn btn-pma rounded-circle border-3' : ''}|" th:href="@{/user/notifications}">🔔</a>
@@ -22,6 +22,9 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarMenu">
+                <p class="ms-1 me-3 my-3 text-nowrap welcome d-sm-inline d-md-none">
+                    Welkom <span th:if="${currentUser != null}" th:text="|terug ${currentUser.name}|"></span>
+                </p>
                 <ul class="navbar-nav ms-4 gap-md-2 mb-2 mb-md-0 text-nowrap">
                     <li class="nav-item">
                         <a class="nav-link" th:classappend="${currentUrl=='/home'||currentUrl=='/'?'active':''}" th:href="@{/}">Home</a>
