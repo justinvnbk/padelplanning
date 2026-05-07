@@ -121,7 +121,7 @@ main {
 
 @media screen and (max-width: 766px){
     .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.8rem; }
-    .welcome { font-size: 0.8rem;}
+    .welcome {display: none;}
 }
 
 @media screen and (min-width: 767px) and (max-width: 911px) {
