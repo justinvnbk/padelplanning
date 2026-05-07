@@ -22,15 +22,15 @@ public class GlobalControllerAdvice {
          return request.getRequestURI();
      }
 
-     @ModelAttribute("hasUnseenNotifications")
-     public boolean unseenNotifications(Principal principal) {
 
-        if (principal == null) {
-            return false;
-        }
+     @ModelAttribute("currentUser")
+     public Player getCurrentUser (Principal principal) {
 
-        Player player = playerRepository.findByEmail(principal.getName());
+         if (principal == null) {
+             return null;
+         }
 
-        return player.hasUnseenNotifications();
+         return playerRepository.findByEmail(principal.getName());
+
      }
 }
