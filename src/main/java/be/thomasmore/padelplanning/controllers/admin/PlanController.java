@@ -62,6 +62,7 @@ public class PlanController {
             PadelDay padelDay = optionalPadelDay.get();
             if(!padelDay.getSignedUpPlayers().isEmpty()) {
                 createPadelDayPlanService.newPadelDayPlanning(padelDay);
+                notificationService.createNotification("Nieuwe planning", "Een nieuwe planning is beschikbaar voor " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")), padelDay.getSignedUpPlayers());
             }
         }
         return "redirect:/admin/plan";
