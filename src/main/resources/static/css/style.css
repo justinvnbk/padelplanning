@@ -90,6 +90,10 @@ body {
     background-color: #e4d7d2;
 }
 
+.plantable{
+    background-color: #b9aca7;
+}
+
 main {
     flex: 1;
 }
