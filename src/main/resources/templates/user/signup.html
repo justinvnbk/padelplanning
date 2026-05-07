@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="nl" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments/head::headfragment}"></head>
 <body class="bg-dark bg-opacity-25">
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
@@ -20,7 +20,7 @@
                     <div class="fs-5 mb-5 bg-dark text-light rounded border border-dark p-2 text-center"
                          th:text="|Startuur: ${#temporals.format(padelDay.date, 'HH:mm')}|"></div>
                     <div class="fs-5 mb-5 bg-dark text-light rounded border border-dark p-2 text-center"
-                         th:text="|Dag: ${padelDay.date.getDayOfWeek()} ${#temporals.format(padelDay.date, 'dd/MM/yyyy')}|"></div>
+                         th:text="|Dag: ${#temporals.format(padelDay.date, 'EEEE', #locale.of('nl', 'NL'))} ${#temporals.format(padelDay.date, 'dd/MM/yyyy')}|"></div>
                     <div class="fs-5 mb-5 bg-dark text-light rounded border border-dark p-2 text-center"
                          th:text="|Velden: ${#strings.listJoin(padelDay.fields.![name], ', ')} (${padelDay.fields.size()*4} plaatsen)|"></div>
                 </div>
