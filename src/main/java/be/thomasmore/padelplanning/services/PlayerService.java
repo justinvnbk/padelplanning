@@ -8,6 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PlayerService {
     private final PlayerRepository playerRepository;
@@ -24,6 +26,18 @@ public class PlayerService {
         return jdbcUserDetailsManager.userExists(email);
     }
 
+    public List<Player> getPendingPlayers() {
+        return playerRepository.getAll().stream()
+                .filter(player -> !player.isApproved())
+                .toList();
+    }
+
+    public List<Player> getApprovedPlayers() {
+        return playerRepository.getAll().stream()
+                .filter(Player::isApproved)
+                .toList();
+    }
+
     public void registerPlayer(Player player) {
         UserDetails newUser = User.builder()
                 .username(player.getEmail())
@@ -35,5 +49,34 @@ public class PlayerService {
 
         player.setApproved(false);
         playerRepository.save(player);
+    }
+
+    public void approvePlayer(Integer id) {
+        Player player = playerRepository.findById(id).orElseThrow();
+        player.setApproved(true);
+        playerRepository.save(player);
+        jdbcUserDetailsManager.updateUser(
+                User.builder()
+                        .username(player.getEmail())
+                        .password(getUserPassword(player.getEmail()))
+                        .disabled(false)
+                        .roles("USER")
+                        .build()
+        );
+    }
+
+    public void rejectPlayer(Integer id) {
+        Player player = playerRepository.findById(id).orElseThrow();
+        String email = player.getEmail();
+        playerRepository.delete(player);
+        jdbcUserDetailsManager.deleteUser(email);
+    }
+
+    public void removePlayer(Integer id) {
+        rejectPlayer(id);
+    }
+
+    private String getUserPassword(String email) {
+        return jdbcUserDetailsManager.loadUserByUsername(email).getPassword();
     }
 }
