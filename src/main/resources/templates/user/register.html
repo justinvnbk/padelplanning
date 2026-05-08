@@ -26,7 +26,7 @@
                                             required
                                     />
                                     <label for="name" style="background-color: transparent; color: #adb5bd;">
-                                        name
+                                        Naam en achternaam <span class="text-danger">*</span>
                                     </label>
                                 </div>
                             </div>
@@ -42,7 +42,7 @@
                                             required
                                     />
                                     <label for="email" style="background-color: transparent; color: #adb5bd;">
-                                        email
+                                        Email <span class="text-danger">*</span>
                                     </label>
                                 </div>
                             </div>
@@ -58,12 +58,12 @@
                                             required
                                     />
                                     <label for="password" style="background-color: transparent; color: #adb5bd;">
-                                        password
+                                        Wachtwoord <span class="text-danger">*</span>
                                     </label>
                                 </div>
                             </div>
                             <div class="col-12">
-                                <label class="d-block px-3 mb-2">Gender</label>
+                                <label class="d-block px-3 mb-2">Geslacht <span class="text-danger">*</span></label>
                                 <div class="form-check form-check-inline ms-4 mb-3">
                                     <input id="genderMale" type="radio" name="gender" value="M"
                                            class="form-check-input" required
@@ -92,11 +92,11 @@
                                              placeholder="birthDate"
                                              name="birthDate"
                                              type="date"
-                                             th:max="${#temporals.format(#temporals.createNow().minusYears(18), 'dd-MM-yyyy')}"
+                                             th:max="${#temporals.format(#temporals.createNow().minusYears(12), 'dd-MM-yyyy')}"
                                              required
                                      />
                                     <label for="birthDate" style="background-color: transparent; color: #adb5bd;">
-                                        Birthdate
+                                        Geboorte <span class="text-danger">*</span>
                                     </label>
                                 </div>
                             </div>
@@ -113,12 +113,66 @@
                                             required
                                     />
                                     <label for="telephone" style="background-color: transparent; color: #adb5bd;">
-                                        telephone
+                                        GSM <span class="text-danger">*</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating mb-3">
+                                    <select id="selfEvaluation" th:field="*{selfEvaluation}"
+                                            class="form-select bg-dark text-light border-secondary" required>
+                                        <option th:each="se : ${selfEvaluations}"
+                                                th:value="${se}"
+                                                th:text="${se}"></option>
+                                    </select>
+                                    <label for="selfEvaluation" style="background-color: transparent; color: #adb5bd;">
+                                        Zelfbeoordeling <span class="text-danger">*</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating mb-3">
+                                    <select id="preferredPlayside" th:field="*{preferredPlayside}"
+                                            class="form-select bg-dark text-light border-secondary" required>
+                                        <option th:each="ps : ${playsides}"
+                                                th:value="${ps}"
+                                                th:text="${ps}"></option>
+                                    </select>
+                                    <label for="preferredPlayside" style="background-color: transparent; color: #adb5bd;">
+                                        Voorkeurzijde <span class="text-danger">*</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <select id="pRanking" name="pRanking"
+                                            class="form-select bg-dark text-light border-secondary" disabled>
+                                        <option value="">-- Kies P-ranking --</option>
+                                        <option value="50">P50</option>
+                                        <option value="100">P100</option>
+                                        <option value="200">P200</option>
+                                        <option value="300">P300</option>
+                                        <option value="400">P400</option>
+                                        <option value="500">P500</option>
+                                        <option value="700">P700</option>
+                                        <option value="1000">P1000</option>
+                                    </select>
+                                    <label for="pRanking" style="background-color: transparent; color: #adb5bd;">
+                                        P-Ranking
+                                    </label>
+                                </div>
+                                <div class="form-check mt-2 ms-1">
+                                    <input id="noPranking" type="checkbox" name="noPranking"
+                                            class="form-check-input" checked
+                                            onclick="document.getElementById('pRanking').disabled = this.checked;
+                                                     document.getElementById('pRanking').value = '';"/>
+                                    <label for="noPranking" style="background-color: transparent; color: #adb5bd;">
+                                        Geen P-Ranking (NVT)
                                     </label>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-pma btn-block mb-4">
-                                register
+                                Registreren
                             </button>
                             <div class="text-center">
                                 <p>Al geregistreerd? <a class="text-danger" th:href="@{/login}">Log in</a></p>
