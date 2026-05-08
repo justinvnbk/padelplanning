@@ -136,22 +136,22 @@ main {
 
 @media screen and (min-width: 768px) and (max-width: 911px) {
     .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.5rem; }
-    .welcome { font-size: 0.8rem;}
+    .welcome { font-size: 0.8rem !important;}
 }
 
 @media screen and (min-width: 911px) and (max-width: 970px) {
     .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.6rem; }
-    .welcome { font-size: 0.9rem;}
+    .welcome { font-size: 0.9rem !important;}
 }
 
 @media screen and (min-width: 970px) and (max-width: 999px) {
     .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.7rem; }
-    .welcome { font-size: 0.9rem;}
+    .welcome { font-size: 0.9rem !important;}
 }
 
 @media screen and (min-width: 1000px) and (max-width: 1064px) {
     .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.75rem; }
-    .welcome { font-size: 1rem;}
+    .welcome { font-size: 1rem !important;}
 }
 
 /* Range 2: Medium screens (900px to 1019px) */
@@ -162,7 +162,6 @@ main {
 /* Range 3: Large screens (1020px and up) */
 @media screen and (min-width: 1150px) {
     .navbar-nav .nav-link { font-size: 1rem; }
-    .welcome { font-size: 1.2rem;}
 }
 
 

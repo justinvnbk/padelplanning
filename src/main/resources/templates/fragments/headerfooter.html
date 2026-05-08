@@ -6,8 +6,10 @@
                 <a class="navbar-brand logo" th:href="@{/}"></a>
             </div>
 
-            <p class="ms-1 me-3 mb-0 text-nowrap welcome d-none d-md-inline">
-                Welkom <span th:if="${currentUser != null}" th:text="|terug ${currentUser.name}|"></span>
+            <p style="font-size: 1.5rem" class="ms-1 me-3 mb-0 text-nowrap welcome d-none d-md-inline">
+                <span th:if="${currentUser != null}" th:text="|Welkom terug ${currentUser.name}|"></span>
+
+                <span th:if="${currentUser == null}">Welkom op onze pagina</span>
             </p>
 
             <a class="nav-link fs-3 p-1 btn btn-dark justify-content-end me-0" sec:authorize="isAuthenticated()" th:classappend="|${currentUser.hasUnseenNotifications ? 'btn btn-pma rounded-circle border-3' : ''}|" th:href="@{/user/notifications}">🔔</a>
@@ -38,10 +40,10 @@
                     <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
                         <a class="nav-link" th:classappend="${currentUrl=='/admin/plan'?'active':''}" th:href="@{/admin/plan}">Plan padeldag</a>
                     </li>
-                    <li class="nav-item ms-md-3 login">
+                    <li class="nav-item ms-md-3 mt-1 login">
                         <a sec:authorize="!isAuthenticated()" th:class="|btn btn-pma ${currentUrl=='/login'? 'active' : ''}|" th:href="@{/login}">login</a>
                     </li>
-                    <li class="nav-item ms-md-3 logout">
+                    <li class="nav-item ms-md-3 mt-1 logout">
                         <a sec:authorize="isAuthenticated()" th:class="|btn btn-pma ${currentUrl=='/logout'? 'active' : ''}|" th:href="@{/logout}">Log out</a>
                     </li>
                 </ul>
