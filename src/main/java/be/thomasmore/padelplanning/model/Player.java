@@ -17,7 +17,8 @@ public class Player {
     private char gender;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;
-    private String selfEvaluation;
+    @Enumerated(EnumType.STRING)
+    private SelfEvaluation selfEvaluation;
     private Integer pRanking;
     private String telephone;
     private String email;
@@ -69,11 +70,11 @@ public class Player {
         this.birthDate = birthDate;
     }
 
-    public String getSelfEvaluation() {
+    public SelfEvaluation getSelfEvaluation() {
         return selfEvaluation;
     }
 
-    public void setSelfEvaluation(String selfEvaluation) {
+    public void setSelfEvaluation(SelfEvaluation selfEvaluation) {
         this.selfEvaluation = selfEvaluation;
     }
 
