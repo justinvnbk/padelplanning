@@ -128,6 +128,8 @@ main {
     .veld {font-size: 1rem !important;}
     .msg {font-size: 1rem !important;}
     .insch {font-size: 0.7rem !important;}
+    .team {font-size: 1rem !important;}
+    .name-small {font-size: 0.65rem !important;}
 }
 
 @media screen and (min-width: 768px) and (max-width: 911px) {
