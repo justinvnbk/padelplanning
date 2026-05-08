@@ -32,7 +32,7 @@
 
                             <!--team A-->
 
-                            <div style="background-color:#19466e" class="col-2 col-lg-1 fw-bold text-light border-end p-2 d-flex justify-content-center align-items-center text-center">Team A</div>
+                            <div style="font-size: 1.3rem; background-color:#19466e" class="col-2 col-lg-1 fw-bold text-light border-end p-2 d-flex justify-content-center align-items-center text-center team">Team A</div>
 
                             <div th:each="match : ${padelDay.matches}" th:class="|col border-end p-2 text-wrap|" th:if="${match.field == field}">
                                 <div th:each="player : ${match.teams[0].players}"
@@ -40,7 +40,7 @@
                                      style="background-color: #19466e;">
 
                                     <!-- Volledige naam (allen zichtbaar op grote schermen) -->
-                                    <span class="d-none d-md-inline" th:text="${player.name}"></span>
+                                    <span class="d-none d-md-inline" style="font-size: 1rem" th:text="${player.name}"></span>
 
                                     <!-- Afgekorte naam (kleinere schermen) -->
                                     <span class="d-inline d-md-none"
@@ -49,7 +49,7 @@
                                         </span>
 
                                     <!-- Ranking (alleen zichtbaar op grote schermen) -->
-                                    <span class="d-none d-md-inline" th:text="| (${player.pRanking})|"></span>
+                                    <span class="d-none d-md-inline" style="font-size: 1rem" th:text="| (${player.pRanking})|"></span>
                                 </div>
                             </div>
                         </div>
@@ -58,7 +58,7 @@
 
                             <!--team B-->
 
-                            <div style="background-color: #f6f45a" class="col-2 col-lg-1 fw-bold text-dark border-end p-2 d-flex justify-content-center align-items-center text-center">Team B</div>
+                            <div style=" font-size: 1.3rem; background-color: #f6f45a" class="col-2 col-lg-1 fw-bold text-dark border-end p-2 d-flex justify-content-center align-items-center text-center team">Team B</div>
 
                             <div th:each="match : ${padelDay.matches}" class="col border-end p-2" th:if="${match.field == field}">
                                 <div th:each="player : ${match.teams[1].players}"
@@ -66,16 +66,16 @@
                                      style="background-color: #f6f45a;">
 
                                     <!-- Volledige naam (allen zichtbaar op grote schermen) -->
-                                    <span class="d-none d-md-inline" th:text="${player.name}"></span>
+                                    <span class="d-none d-md-inline" style="font-size: 1rem" th:text="${player.name}"></span>
 
                                     <!-- Afgekorte naam (kleinere schermen) -->
-                                    <span class="d-inline d-md-none"
+                                    <span class="d-inline d-md-none text-truncate d-block" style="max-width: 80px;"
                                           th:with="nameParts=${#strings.arraySplit(player.name, ' ')}"
                                           th:text="${nameParts.length > 1} ? ${#strings.substring(nameParts[0],0,1)} + '. ' + ${nameParts[nameParts.length - 1]} : ${player.name}">
     </span>
 
                                     <!-- Ranking (alleen zichtbaar op grote schermen) -->
-                                    <span class="d-none d-md-inline" th:text="| (${player.pRanking})|"></span>
+                                    <span class="d-none d-md-inline" style="font-size: 1rem" th:text="| (${player.pRanking})|"></span>
                                 </div>
                             </div>
                         </div>
