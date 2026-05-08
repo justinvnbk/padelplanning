@@ -1,17 +1,17 @@
 INSERT INTO player (name, is_approved, gender, birth_date, self_evaluation, p_ranking, telephone, email, preferred_playside, profile_picture_url)
 VALUES
-('Liam Carter', true, 'M', '1998-05-12', 'Intermediate', 500, '111111111', 'liam@example.com', 'RIGHT', ''),
-('Noah Schmidt', true, 'M', '1995-03-22', 'Advanced', 700, '111111112', 'noah@example.com', 'LEFT', ''),
-('Emma Novak', true, 'F', '2000-07-10', 'Beginner', 300, '111111113', 'emma@example.com', 'NONE', ''),
-('Olivia Dubois', true, 'F', '1999-01-15', 'Intermediate', 500, '111111114', 'olivia@example.com', 'RIGHT', ''),
-('Lucas Silva', true, 'M', '1997-11-02', 'Advanced', 800, '111111115', 'lucas@example.com', 'LEFT', ''),
-('Sofia Ivanova', true, 'F', '1996-09-09', 'Intermediate', 600, '111111116', 'sofia@example.com', 'RIGHT', ''),
-('Ethan Brown', true, 'M', '1994-06-18', 'Advanced', 700, '111111117', 'ethan@example.com', 'LEFT', ''),
-('Mia Andersson', true, 'F', '2001-02-25', 'Beginner', 200, '111111118', 'mia@example.com', 'NONE', ''),
-('Daniel Kim', true, 'M', '1993-12-30', 'Intermediate', 600, '111111119', 'daniel@example.com', 'RIGHT', ''),
-('Chloe Martin', true, 'F', '1998-08-08', 'Intermediate', 500, '111111120', 'chloe@example.com', 'LEFT', ''),
-('Alex Johnson', true, 'M', '1992-04-14', 'Advanced', 900, '111111121', 'alex@example.com', 'RIGHT', ''),
-('Sara Khan', true, 'F', '2002-10-05', 'Beginner', 300, '111111122', 'sara@example.com', 'NONE', '');
+('Liam Carter', true, 'M', '1998-05-12', 'GEMIDDELD', 500, '111111111', 'liam@example.com', 'RECHTS', ''),
+('Noah Schmidt', true, 'M', '1995-03-22', 'GEVORDERD', 700, '111111112', 'noah@example.com', 'LINKS', ''),
+('Emma Novak', true, 'F', '2000-07-10', 'BEGINNER', 300, '111111113', 'emma@example.com', 'GEEN', ''),
+('Olivia Dubois', true, 'F', '1999-01-15', 'GEMIDDELD', 500, '111111114', 'olivia@example.com', 'RECHTS', ''),
+('Lucas Silva', true, 'M', '1997-11-02', 'PRO', 1000, '111111115', 'lucas@example.com', 'LINKS', ''),
+('Sofia Ivanova', true, 'F', '1996-09-09', 'GEMIDDELD', 500, '111111116', 'sofia@example.com', 'RECHTS', ''),
+('Ethan Brown', true, 'M', '1994-06-18', 'GEVORDERD', 700, '111111117', 'ethan@example.com', 'LINKS', ''),
+('Mia Andersson', true, 'F', '2001-02-25', 'BEGINNER', 50, '111111118', 'mia@example.com', 'GEEN', ''),
+('Daniel Kim', true, 'M', '1993-12-30', 'GEMIDDELD', 400, '111111119', 'daniel@example.com', 'RECHTS', ''),
+('Chloe Martin', true, 'F', '1998-08-08', 'GEMIDDELD', 500, '111111120', 'chloe@example.com', 'LINKS', ''),
+('Alex Johnson', true, 'M', '1992-04-14', 'PRO', 1000, '111111121', 'alex@example.com', 'RECHTS', ''),
+('Sara Khan', true, 'F', '2002-10-05', 'BEGINNER', 200, '111111122', 'sara@example.com', 'GEEN', '');
 
 INSERT INTO field (name, is_outside)
 VALUES
