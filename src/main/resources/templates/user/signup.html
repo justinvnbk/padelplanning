@@ -50,7 +50,7 @@
     <!--als er een padeldag beschikbaar is en een planning is aangemaakt:-->
     <div th:if="${hasPlan} ">
 
-        <h4 class="fs-2 p-5 text-center text-white bg-dark m-5 rounded"
+        <h4 class="fs-2 p-2 p-md-5 text-center text-white bg-dark mx-0 my-1 m-md-5 rounded msg"
             th:text="|De planning voor deze padeldag is al opgesteld ${isSignedUp ? ', u bent ingeschreven' : '. Nog ' + (4 - padelDay.reservedPlayers.size()) + ' speler(s) nodig om de volgende groep te voltooien'}.|"></h4>
         <div th:if="${padelDay}" class="d-flex justify-content-center my-5">
             <form th:action="@{/user/signup}" method="post" class="m-2">
