@@ -55,13 +55,13 @@
         <div th:if="${padelDay}" class="d-flex justify-content-center my-5">
             <form th:action="@{/user/signup}" method="post" class="m-2">
                 <input type="hidden" name="id" th:value="${padelDay.id}"/>
-                <button class="btn btn-pma px-2 fw-bold shadow-sm" th:disabled="${isSignedUp}" type="submit">Ik
+                <button class="btn btn-pma px-2 insch fw-bold shadow-sm text-nowrap" style="font-size: 1.1rem" th:disabled="${isSignedUp}" type="submit">Ik
                     wil me inschrijven
                 </button>
             </form>
             <form th:action="@{/user/signout}" method="post" class="m-2">
                 <input type="hidden" name="id" th:value="${padelDay.id}"/>
-                <button class="btn btn-pma px-2 fw-bold shadow-sm" th:disabled="${!isSignedUp}" type="submit">Ik
+                <button class="btn btn-pma px-2 insch fw-bold shadow-sm text-nowrap" style="font-size: 1.1rem" th:disabled="${!isSignedUp}" type="submit">Ik
                     wil me uitschrijven
                 </button>
             </form>
