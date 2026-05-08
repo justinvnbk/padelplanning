@@ -34,7 +34,7 @@
             <div class="col-12 g-0 m-0 border bg-dark text-light p-2 fw-bold" th:text="${#temporals.format(padelDay.date, 'dd/MM/yyyy')}"></div>
         </div>
         <div th:each="field : ${padelDay.fields}" class="row border border-end-0 border-black">
-            <div class="col-1 d-flex align-items-center justify-content-center fs-2 fw-bold" th:text="${field.name}"></div>
+            <div class="col-1 d-flex align-items-center justify-content-center fs-2 fw-bold veld" th:text="${field.name}"></div>
 
             <div class="row col-11 m-0 g-0 flex-nowrap">
                 <div class="col-4 border border-bottom-0 border-top-0 border-end-0 m-0 g-0" th:each="match, i : ${padelDay.matches}" th:if="${match.field == field}">

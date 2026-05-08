@@ -123,11 +123,12 @@ main {
 
 /* Range 1: Small screens (up to 899px) */
 
-@media screen and (max-width: 766px){
+@media screen and (max-width: 767px){
     .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.8rem; }
+    .veld {font-size: 1rem !important;}
 }
 
-@media screen and (min-width: 767px) and (max-width: 911px) {
+@media screen and (min-width: 768px) and (max-width: 911px) {
     .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.5rem; }
     .welcome { font-size: 0.8rem;}
 }
