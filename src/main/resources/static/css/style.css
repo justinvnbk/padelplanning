@@ -132,6 +132,7 @@ main {
     .name-small {font-size: 0.65rem !important;}
     .team-title {font-size: 0.8rem !important;}
     .matches {font-size: 0.8rem !important;}
+    .info-padelday {font-size: 1rem !important;}
 }
 
 @media screen and (min-width: 768px) and (max-width: 911px) {
