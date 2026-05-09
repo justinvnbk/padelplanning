@@ -40,10 +40,10 @@
                     <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
                         <a class="nav-link" th:classappend="${currentUrl=='/admin/plan'?'active':''}" th:href="@{/admin/plan}">Plan padeldag</a>
                     </li>
-                    <li class="nav-item ms-md-3 mt-1 login">
+                    <li class="nav-item ms-md-3 mt-lg-1 login">
                         <a sec:authorize="!isAuthenticated()" th:class="|btn btn-pma ${currentUrl=='/login'? 'active' : ''}|" th:href="@{/login}">login</a>
                     </li>
-                    <li class="nav-item ms-md-3 mt-1 logout">
+                    <li class="nav-item ms-md-3 mt-lg-1 logout">
                         <a sec:authorize="isAuthenticated()" th:class="|btn btn-pma ${currentUrl=='/logout'? 'active' : ''}|" th:href="@{/logout}">Log out</a>
                     </li>
                 </ul>
