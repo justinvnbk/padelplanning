@@ -10,8 +10,9 @@
         <a class="btn btn-primary px-3 fw-bold shadow-sm" th:href="@{|/admin/editpadelday/*{id}|}">⚙️Padeldag aanpassen</a>
     </div>
     <!--als er geen padeldag beschikbaar is:-->
-    <a class="btn btn-primary" th:href="@{/admin/newpadelday}" th:unless="${padelDay}">Start nieuwe padel dag</a>
-
+    <div class="d-flex justify-content-center" th:unless="${padelDay}">
+        <a class="btn btn-primary" th:href="@{/admin/newpadelday}" >Start nieuwe padel dag</a>
+    </div>
     <!--als er een padeldag beschikbaar is maar nog geen planning is gemaakt:-->
     <div th:if="${padelDay}" th:unless="${hasPlan}"  c>
         <h2 class="text-center">Inschrijvingen:</h2>
