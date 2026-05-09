@@ -15,9 +15,14 @@ VALUES
 
 INSERT INTO field (name, is_outside)
 VALUES
-('1A',true),
-('1B',false),
-('5', true);
+('A',true),
+('B',false),
+('C', true),
+('D',false),
+('1',true),
+('2',true),
+('3',false),
+('4',false);
 
 -- Liam Carter
 INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
