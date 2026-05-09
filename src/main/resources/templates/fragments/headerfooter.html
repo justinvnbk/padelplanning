@@ -34,11 +34,19 @@
                     <li class="nav-item">
                         <a class="nav-link" th:classappend="${currentUrl=='/user/signup'?'active':''}" th:href="@{/user/signup}">🧾Inschrijven</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:classappend="${currentUrl=='/about'?'active':''}" href="#">ℹ️Over ons</a>
-                    </li>
-                    <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
-                        <a class="nav-link" th:classappend="${currentUrl=='/admin/plan'?'active':''}" th:href="@{/admin/plan}">⚙️Plan padeldag</a>
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" th:classappend="${currentUrl=='/about'?'active':''}" href="#">ℹ️Over ons</a>-->
+<!--                    </li>-->
+
+                    <li class="nav-item dropdown" sec:authorize="hasAuthority('ADMIN')">
+                        <a class="nav-link dropdown-toggle" th:classappend="${currentUrl=='/admin/plan'?'active':''}"
+                           role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            ⚙️Admin options
+                        </a>
+                        <ul class="dropdown-menu bg-black ">
+                            <li><a class="dropdown-item text-white" th:href="@{/admin/plan}">Plan padeldag</a></li>
+                            <li><a class="dropdown-item text-white" th:href="@{/admin/registrations}">Spelers/register</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item mt-1 mt-md-0 mt-lg-1 login">
                         <a sec:authorize="!isAuthenticated()" th:class="|btn btn-pma ${currentUrl=='/login'? 'active' : ''}|" th:href="@{/login}">login</a>

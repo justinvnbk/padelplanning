@@ -79,6 +79,10 @@
     margin-top: 0.5rem !important;
 }
 
+.dropdown-item:hover{
+    background-color: #1c1c1c;
+}
+
 /* Footer */
 footer {
     background-color: #000000;
