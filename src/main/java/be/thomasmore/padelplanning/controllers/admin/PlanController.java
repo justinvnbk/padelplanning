@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -101,6 +102,43 @@ public class PlanController {
         notificationService.createNotification("Nieuw speelmoment opgestart",
                 "Er is een nieuw speelmoment gestart door " + loggedInAdmin.getName() + " voor " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM") )+ ". Schrijf je nu in!",
                 playerRepository.getAll());
+        return "redirect:/admin/plan";
+    }
+
+    @GetMapping("/editpadelday/{id}")
+    public String editPadelday(Model model,
+                               @PathVariable Integer id){
+        Iterable<Field> fields = fieldRepository.findAll();
+        Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(id);
+
+        if(optionalPadelDay.isPresent()){
+            PadelDay padelDay = optionalPadelDay.get();
+            model.addAttribute("padelDay", padelDay);
+        }
+        model.addAttribute("fields", fields);
+        return "admin/editpadelday";
+    }
+
+    @PostMapping("/editpadelday")
+    public String postEditPadelDay(Model model,
+                                   PadelDay padelDay,
+                                   Principal principal) {
+        Player loggedInAdmin = playerRepository.findByEmail(principal.getName());
+        Optional<PadelDay> optionalPadelDayOld = padelDayRepository.findById(padelDay.getId());
+        if(optionalPadelDayOld.isPresent()){
+            PadelDay padelDayOld = optionalPadelDayOld.get();
+            if(!padelDayOld.getMatches().isEmpty()){
+                createPadelDayPlanService.newPadelDayPlanning(padelDay);
+            }
+        }
+        padelDayRepository.save(padelDay);
+
+        List<Player> recipients = padelDay.getSignedUpPlayers();
+        recipients.addAll(padelDay.getReservedPlayers());
+
+        notificationService.createNotification("Aanpassing speelmoment",
+                "Het speelmoment is aangepast door " + loggedInAdmin.getName() + ". Bekijk het bij de inschrijvingen!",
+                recipients);
         return "redirect:/admin/plan";
     }
 }

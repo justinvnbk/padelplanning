@@ -29,21 +29,21 @@
                 </p>
                 <ul class="navbar-nav ms-4 gap-md-2 mb-2 mb-md-0 text-nowrap">
                     <li class="nav-item">
-                        <a class="nav-link" th:classappend="${currentUrl=='/home'||currentUrl=='/'?'active':''}" th:href="@{/}">Home</a>
+                        <a class="nav-link" th:classappend="${currentUrl=='/home'||currentUrl=='/'?'active':''}" th:href="@{/}">🏠Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:classappend="${currentUrl=='/user/signup'?'active':''}" th:href="@{/user/signup}">Inschrijven</a>
+                        <a class="nav-link" th:classappend="${currentUrl=='/user/signup'?'active':''}" th:href="@{/user/signup}">🧾Inschrijven</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:classappend="${currentUrl=='/about'?'active':''}" href="#">Over ons</a>
+                        <a class="nav-link" th:classappend="${currentUrl=='/about'?'active':''}" href="#">ℹ️Over ons</a>
                     </li>
                     <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
-                        <a class="nav-link" th:classappend="${currentUrl=='/admin/plan'?'active':''}" th:href="@{/admin/plan}">Plan padeldag</a>
+                        <a class="nav-link" th:classappend="${currentUrl=='/admin/plan'?'active':''}" th:href="@{/admin/plan}">⚙️Plan padeldag</a>
                     </li>
-                    <li class="nav-item ms-md-3 mt-lg-1 login">
+                    <li class="nav-item mt-1 mt-md-0 mt-lg-1 login">
                         <a sec:authorize="!isAuthenticated()" th:class="|btn btn-pma ${currentUrl=='/login'? 'active' : ''}|" th:href="@{/login}">login</a>
                     </li>
-                    <li class="nav-item ms-md-3 mt-lg-1 logout">
+                    <li class="nav-item mt-1 mt-md-0 mt-lg-1 logout">
                         <a sec:authorize="isAuthenticated()" th:class="|btn btn-pma ${currentUrl=='/logout'? 'active' : ''}|" th:href="@{/logout}">Log out</a>
                     </li>
                 </ul>
