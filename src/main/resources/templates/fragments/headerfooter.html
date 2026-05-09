@@ -32,14 +32,14 @@
                         <a class="nav-link" th:classappend="${currentUrl=='/home'||currentUrl=='/'?'active':''}" th:href="@{/}">🏠Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:classappend="${currentUrl=='/user/signup'?'active':''}" th:href="@{/user/signup}">🧾Inschrijven</a>
+                        <a class="nav-link border-start" th:classappend="${currentUrl=='/user/signup'?'active':''}" th:href="@{/user/signup}">🧾Inschrijven</a>
                     </li>
 <!--                    <li class="nav-item">-->
 <!--                        <a class="nav-link" th:classappend="${currentUrl=='/about'?'active':''}" href="#">ℹ️Over ons</a>-->
 <!--                    </li>-->
 
                     <li class="nav-item dropdown" sec:authorize="hasAuthority('ADMIN')">
-                        <a class="nav-link dropdown-toggle" th:classappend="${currentUrl=='/admin/plan'?'active':''}"
+                        <a class="nav-link dropdown-toggle border-start" th:classappend="${currentUrl=='/admin/plan'?'active':''}"
                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             ⚙️Admin options
                         </a>

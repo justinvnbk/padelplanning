@@ -76,7 +76,9 @@
 
 .nav-link{
     padding: 0 !important;
+    padding-left: 0.5rem !important;
     margin-top: 0.5rem !important;
+    border-color: #b1b1b1 !important;
 }
 
 .dropdown-item:hover{
@@ -137,7 +139,8 @@ main {
 /* Range 1: Small screens (up to 899px) */
 
 @media screen and (max-width: 767px){
-    .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.8rem; }
+    .navbar-nav .nav-link, .navbar-nav .btn { border: none !important; font-size: 0.8rem; }
+    .nav-link{ padding-left: 0 !important;}
     .veld {font-size: 1rem !important;}
     .msg {font-size: 1rem !important;}
     .team {font-size: 0.8rem !important;}
