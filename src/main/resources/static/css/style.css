@@ -127,7 +127,6 @@ main {
     .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.8rem; }
     .veld {font-size: 1rem !important;}
     .msg {font-size: 1rem !important;}
-    .insch {font-size: 0.7rem !important;}
     .team {font-size: 0.8rem !important;}
     .name-small {font-size: 0.65rem !important;}
     .team-title {font-size: 0.8rem !important;}
@@ -135,6 +134,7 @@ main {
     .info-padelday {font-size: 1rem !important;}
     .list-title {font-size: 1rem !important;}
     .list-players {font-size: 0.8rem !important;}
+    .info-title {font-size: 1.5rem !important;}
 }
 
 @media screen and (min-width: 768px) and (max-width: 911px) {
