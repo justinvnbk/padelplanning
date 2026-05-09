@@ -19,55 +19,6 @@ VALUES
 ('1B',false),
 ('5', true);
 
--- INSERT INTO team (averagepranking)
--- VALUES
--- (6.0),
--- (4.0),
--- (7.5),
--- (5.5),
--- (6.5),
--- (3.0);
-
--- INSERT INTO match (p_ranking_difference, time_slot)
--- VALUES
--- (1.0, '18:00:00'),
--- (2.0, '18:00:00'),
--- (1.5, '18:00:00'),
---
--- (0.5, '18:40:00'),
--- (1.2, '18:40:00'),
--- (2.5, '18:40:00'),
---
--- (1.0, '19:20:00'),
--- (0.8, '19:20:00'),
--- (1.7, '19:20:00');
-
--- Test padeldag met inschijvingen:
-INSERT INTO padel_day (date, number_of_matches)
-VALUES
-('2026-07-06 18:00:00', 3);
---
-INSERT INTO PADEL_DAY_FIELDS (FIELDS_ID,PADEL_DAYS_ID)
-VALUES
-    ('1','1'),
-    ('2','1'),
-    ('3','1');
---
-INSERT INTO PADEL_DAY_RESERVED_PLAYERS (PADEL_DAY_ID, RESERVED_PLAYERS_ID)
-VALUES
-    ('1','1'),
-    ('1','2'),
-    ('1','3');
-
-INSERT INTO PADEL_DAY_SIGNED_UP_PLAYERS (PADEL_DAY_ID, SIGNED_UP_PLAYERS_ID)
-VALUES
-    ('1','4'),
-    ('1','5'),
-    ('1','6'),
-    ('1','7');
-
-
-
 -- Liam Carter
 INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
 VALUES ('liam@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
@@ -151,3 +102,58 @@ VALUES ('sara@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqP
 -- password: abcd1234
 INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
 VALUES ('sara@example.com', 'USER');
+
+
+-- Test padeldag met inschijvingen:
+INSERT INTO padel_day (date, number_of_matches)
+VALUES
+('2026-07-06 18:00:00', 3);
+--
+INSERT INTO PADEL_DAY_FIELDS (FIELDS_ID,PADEL_DAYS_ID)
+VALUES
+    ('1','1'),
+    ('2','1'),
+    ('3','1');
+--
+INSERT INTO PADEL_DAY_RESERVED_PLAYERS (PADEL_DAY_ID, RESERVED_PLAYERS_ID)
+VALUES
+    ('1','1'),
+    ('1','2'),
+    ('1','3');
+
+INSERT INTO PADEL_DAY_SIGNED_UP_PLAYERS (PADEL_DAY_ID, SIGNED_UP_PLAYERS_ID)
+VALUES
+    ('1','4'),
+    ('1','5'),
+    ('1','6'),
+    ('1','7');
+
+
+--TEST DATA FOR NOTIFICATIONS
+INSERT INTO NOTIFICATION (DATE_TIME, MESSAGE, TITLE)
+VALUES
+    ('2026-07-06 18:00:00', 'TEST MESSAGE', 'TEST1'),
+    ('2026-08-06 18:00:00', 'TEST MESSAGE', 'TEST2'),
+    ('2026-09-06 18:00:00', 'TEST MESSAGE', 'TEST3'),
+    ('2026-10-06 18:00:00', 'TEST MESSAGE', 'TEST4'),
+    ('2026-11-06 18:00:00', 'TEST MESSAGE', 'TEST5'),
+    ('2026-12-06 18:00:00', 'TEST MESSAGE', 'TEST6'),
+    ('2026-05-06 18:00:00', 'TEST MESSAGE', 'TEST7'),
+    ('2026-04-06 18:00:00', 'TEST MESSAGE', 'TEST8'),
+    ('2026-03-06 18:00:00', 'TEST MESSAGE', 'TEST9'),
+    ('2026-02-06 18:00:00', 'TEST MESSAGE', 'TEST10'),
+    ('2026-01-06 18:00:00', 'TEST MESSAGE', 'TEST11');
+
+INSERT INTO NOTIFICATION_RECIPIENTS (NOTIFICATIONS_ID, RECIPIENTS_ID)
+VALUES
+    (1,11),
+    (2,11),
+    (3,11),
+    (4,11),
+    (5,11),
+    (6,11),
+    (7,11),
+    (8,11),
+    (9,11),
+    (10,11),
+    (11,11);
