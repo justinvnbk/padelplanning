@@ -38,7 +38,7 @@
                             <div th:each="match : ${padelDay.matches}" th:class="|col border-end p-2 text-wrap|" th:if="${match.field == field}">
                                 <div th:each="player : ${match.teams[0].players}"
                                      th:class="|badge rounded-pill text-light mb-1 d-block text-wrap|"
-                                     style="background-color: #19466e;">
+                                     th:classappend="${currentUser?.name==player.name?'loggedinEmpesis':''}" style="background-color: #19466e;">
 
                                     <!-- Volledige naam (allen zichtbaar op grote schermen) -->
                                     <span class="d-none d-md-inline" style="font-size: 1rem" th:text="${player.name}"></span>
@@ -64,7 +64,7 @@
                             <div th:each="match : ${padelDay.matches}" class="col border-end p-2" th:if="${match.field == field}">
                                 <div th:each="player : ${match.teams[1].players}"
                                      th:class="|badge rounded-pill text-dark mb-1 d-block text-wrap|"
-                                     style="background-color: #f6f45a;">
+                                     th:classappend="${currentUser?.name==player.name?'loggedinEmpesis':''}" style="background-color: #f6f45a;">
 
                                     <!-- Volledige naam (allen zichtbaar op grote schermen) -->
                                     <span class="d-none d-md-inline" style="font-size: 1rem" th:text="${player.name}"></span>

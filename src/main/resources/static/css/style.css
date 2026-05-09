@@ -126,6 +126,10 @@ main {
     color: #adb5bd;
 }
 
+.loggedinEmpesis{
+    background-color: green !important;
+    color: white !important;
+}
 /* Range 1: Small screens (up to 899px) */
 
 @media screen and (max-width: 767px){
