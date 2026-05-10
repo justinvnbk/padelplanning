@@ -12,7 +12,7 @@
                 <span th:if="${currentUser == null}">Welkom op onze pagina</span>
             </p>
 
-            <a class="nav-link fs-3 p-1 btn btn-dark justify-content-end me-0" sec:authorize="isAuthenticated()" th:classappend="|${currentUser.hasUnseenNotifications ? 'btn btn-pma rounded-circle border-3' : ''}|" th:href="@{/user/notifications}">🔔</a>
+            <a class="nav-link fs-3 btn btn-dark me-0" style="padding-left: 0px !important; margin-top: 0px !important;" sec:authorize="isAuthenticated()" th:classappend="|${currentUser.hasUnseenNotifications ? 'btn btn-pma rounded-circle border-3' : ''}|" th:href="@{/user/notifications}">🔔</a>
 
             <button class="navbar-toggler" type="button"
                     data-bs-toggle="collapse"
@@ -23,16 +23,19 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarMenu">
+            <div class="collapse navbar-collapse justify-content-end" id="navbarMenu">
                 <p class="ms-1 me-3 my-3 text-nowrap welcome d-sm-inline d-md-none">
                     Welkom <span th:if="${currentUser != null}" th:text="|terug ${currentUser.name}|"></span>
                 </p>
-                <ul class="navbar-nav ms-4 gap-md-2 mb-2 mb-md-0 text-nowrap">
+                <ul class="navbar-nav gap-md-2 mb-2 mb-md-0 text-nowrap">
                     <li class="nav-item">
                         <a class="nav-link" th:classappend="${currentUrl=='/home'||currentUrl=='/'?'active':''}" th:href="@{/}">🏠Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link border-start" th:classappend="${currentUrl=='/user/signup'?'active':''}" th:href="@{/user/signup}">🧾Inschrijven</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <a class="nav-link border-start" th:href="@{/user/profile}">👤Mijn Profiel</a>
                     </li>
 <!--                    <li class="nav-item">-->
 <!--                        <a class="nav-link" th:classappend="${currentUrl=='/about'?'active':''}" href="#">ℹ️Over ons</a>-->
@@ -45,7 +48,7 @@
                         </a>
                         <ul class="dropdown-menu bg-black ">
                             <li><a class="dropdown-item text-white" th:href="@{/admin/plan}">Plan padeldag</a></li>
-                            <li><a class="dropdown-item text-white" th:href="@{/admin/registrations}">Spelers/register</a></li>
+                            <li><a class="dropdown-item text-white" th:href="@{/admin/players}">Spelers/register</a></li>
                             <li><a class="dropdown-item text-white" th:href="@{/admin/fields}">Velden</a></li>
                         </ul>
                     </li>
