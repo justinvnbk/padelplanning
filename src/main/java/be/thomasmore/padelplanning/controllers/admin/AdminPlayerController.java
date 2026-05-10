@@ -40,7 +40,7 @@ public class AdminPlayerController {
         return "redirect:/admin/players";
     }
 
-    @PostMapping("/players/remove{id}")
+    @PostMapping("/players/remove/{id}")
     public String remove(@PathVariable Integer id) {
         playerService.removePlayer(id);
 

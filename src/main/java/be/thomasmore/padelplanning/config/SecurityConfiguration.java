@@ -45,7 +45,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
-                //only user with admin role can acccess requests that start with /admin/ :
+                //only user with admin role can access requests that start with /admin/ :
                 .requestMatchers("/admin/**").hasAuthority("ADMIN")
                 .requestMatchers("/user/**").hasAnyAuthority("USER","ADMIN")
                 //all other requests can be executed by anyone:
@@ -54,9 +54,9 @@ public class SecurityConfiguration {
         //http.logout(withDefaults());
         http.formLogin(form -> form.loginPage("/login"));
         http.logout(form -> form.logoutUrl("/logout").logoutSuccessUrl("/home"));
+        http.csrf(csrf -> csrf.disable());
         //to enable h2-console (default true, should be false when deployed):
         if (h2ConsoleNeeded) {
-            http.csrf(csrf -> csrf.ignoringRequestMatchers(toH2Console()));
             http.headers(headers ->
                     headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
         }
