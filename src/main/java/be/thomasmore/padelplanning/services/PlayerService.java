@@ -43,7 +43,7 @@ public class PlayerService {
                 .username(player.getEmail())
                 .password(passwordEncoder.encode(player.getPassword()))
                 .disabled(true)
-                .roles("USER")
+                .authorities("USER")
                 .build();
         jdbcUserDetailsManager.createUser(newUser);
 
@@ -60,7 +60,7 @@ public class PlayerService {
                         .username(player.getEmail())
                         .password(getUserPassword(player.getEmail()))
                         .disabled(false)
-                        .roles("USER")
+                        .authorities("USER")
                         .build()
         );
     }
