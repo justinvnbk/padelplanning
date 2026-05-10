@@ -38,6 +38,14 @@ public class PlayerService {
                 .toList();
     }
 
+    public Player getPlayerByEmail(String email) {
+        return playerRepository.findByEmail(email);
+    }
+
+    public void updatePlayerProfile(Player updatedPlayer) {
+        playerRepository.save(updatedPlayer);
+    }
+
     public void registerPlayer(Player player) {
         UserDetails newUser = User.builder()
                 .username(player.getEmail())

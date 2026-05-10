@@ -4,6 +4,7 @@ import be.thomasmore.padelplanning.model.Player;
 import be.thomasmore.padelplanning.model.PreferredPlayside;
 import be.thomasmore.padelplanning.model.SelfEvaluation;
 import be.thomasmore.padelplanning.services.PlayerService;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,5 +63,40 @@ public class UserController {
         player.setpRanking(noPranking != null ? null : pRanking);
         playerService.registerPlayer(player);
         return "redirect:/login?registered";
+    }
+
+    @GetMapping("user/profile")
+    public String profile (Model model, Principal principal) {
+        if (principal == null) return "redirect:/login";
+        Player player = playerService.getPlayerByEmail(principal.getName());
+
+        model.addAttribute("player", player);
+        model.addAttribute("playsides", PreferredPlayside.values());
+        model.addAttribute("selfEvaluations", SelfEvaluation.values());
+        return "user/profile";
+    }
+
+    @PostMapping("user/profile")
+    public String profileSubmit(@ModelAttribute Player player,
+                                @RequestParam(required = false) Integer pRanking,
+                                Principal principal,
+                                Authentication authentication) {
+        Player existing = playerService.getPlayerByEmail(principal.getName());
+
+        existing.setTelephone(player.getTelephone());
+        existing.setSelfEvaluation(player.getSelfEvaluation());
+        existing.setPreferredPlayside(player.getPreferredPlayside());
+
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ADMIN"));
+
+        if (isAdmin) {
+            existing.setEmail(player.getEmail());
+            existing.setBirthDate(player.getBirthDate());
+            existing.setpRanking(pRanking);
+        }
+
+        playerService.updatePlayerProfile(existing);
+        return "redirect:/user/profile?saved";
     }
 }
