@@ -157,17 +157,17 @@ VALUES
 --TEST DATA FOR NOTIFICATIONS
 INSERT INTO NOTIFICATION (DATE_TIME, MESSAGE, TITLE)
 VALUES
-    ('2026-07-06 18:00:00', 'TEST MESSAGE', 'TEST1'),
-    ('2026-08-06 18:00:00', 'TEST MESSAGE', 'TEST2'),
-    ('2026-09-06 18:00:00', 'TEST MESSAGE', 'TEST3'),
-    ('2026-10-06 18:00:00', 'TEST MESSAGE', 'TEST4'),
-    ('2026-11-06 18:00:00', 'TEST MESSAGE', 'TEST5'),
-    ('2026-12-06 18:00:00', 'TEST MESSAGE', 'TEST6'),
-    ('2026-05-06 18:00:00', 'TEST MESSAGE', 'TEST7'),
-    ('2026-04-06 18:00:00', 'TEST MESSAGE', 'TEST8'),
-    ('2026-03-06 18:00:00', 'TEST MESSAGE', 'TEST9'),
-    ('2026-02-06 18:00:00', 'TEST MESSAGE', 'TEST10'),
-    ('2026-01-06 18:00:00', 'TEST MESSAGE', 'TEST11');
+    ('2026-07-06 17:00:00', 'Nieuwe planning', 'Een nieuwe planning is beschikbaar'),
+    ('2026-10-06 15:00:00', 'Nieuw speelmoment opgestart', 'Er is een nieuw speelmoment gestart'),
+    ('2026-04-06 23:00:00', 'Aanpassing speelmoment', 'Het speelmoment is aangepast'),
+    ('2026-08-06 15:00:00', 'Nieuwe planning', 'Een nieuwe planning is beschikbaar'),
+    ('2026-02-06 09:00:00', 'Aanpassing speelmoment', 'Het speelmoment is aangepast'),
+    ('2026-05-06 15:00:00', 'Aanpassing speelmoment', 'Het speelmoment is aangepast'),
+    ('2026-11-06 10:00:00', 'Nieuw speelmoment opgestart', 'Er is een nieuw speelmoment gestart'),
+    ('2026-09-06 15:00:00', 'Nieuwe planning', 'Een nieuwe planning is beschikbaar'),
+    ('2026-03-06 12:00:00', 'Aanpassing speelmoment', 'Het speelmoment is aangepast'),
+    ('2026-12-06 09:00:00', 'Nieuw speelmoment opgestart', 'Er is een nieuw speelmoment gestart'),
+    ('2026-01-06 05:00:00', 'Aanpassing speelmoment', 'Het speelmoment is aangepast');
 
 INSERT INTO NOTIFICATION_RECIPIENTS (NOTIFICATIONS_ID, RECIPIENTS_ID)
 VALUES
