@@ -1,9 +1,11 @@
 package be.thomasmore.padelplanning.model;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Player {
@@ -12,20 +14,25 @@ public class Player {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private boolean isAdmin;
+    private boolean isApproved;
     private char gender;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;
-    private String selfEvaluation;
+    @Enumerated(EnumType.STRING)
+    private SelfEvaluation selfEvaluation;
     private Integer pRanking;
     private String telephone;
     private String email;
+    private boolean hasUnseenNotifications;
+    @Transient
+    private String password;
     @Enumerated(EnumType.STRING)
     private PreferredPlayside preferredPlayside;
     private String profilePictureUrl;
     @ManyToMany(mappedBy = "players")
     private Collection<Team> teams;
-//  @ManyToOne(fetch = FetchType.LAZY)
-//  private PadelDay padelDay;
+    @ManyToMany(mappedBy="recipients")
+    private List<Notification> notifications;
 
     public Integer getId() {
         return id;
@@ -43,12 +50,12 @@ public class Player {
         this.name = name;
     }
 
-    public boolean isAdmin() {
-        return isAdmin;
+    public boolean isApproved() {
+        return isApproved;
     }
 
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
+    public void setApproved(boolean approved) {
+        isApproved = approved;
     }
 
     public char getGender() {
@@ -67,11 +74,11 @@ public class Player {
         this.birthDate = birthDate;
     }
 
-    public String getSelfEvaluation() {
+    public SelfEvaluation getSelfEvaluation() {
         return selfEvaluation;
     }
 
-    public void setSelfEvaluation(String selfEvaluation) {
+    public void setSelfEvaluation(SelfEvaluation selfEvaluation) {
         this.selfEvaluation = selfEvaluation;
     }
 
@@ -99,6 +106,22 @@ public class Player {
         this.email = email;
     }
 
+    public boolean hasUnseenNotifications() {
+        return hasUnseenNotifications;
+    }
+
+    public void setHasUnseenNotifications(boolean hasUnseenNotifications) {
+        this.hasUnseenNotifications = hasUnseenNotifications;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public PreferredPlayside getPreferredPlayside() {
         return preferredPlayside;
     }
@@ -121,5 +144,13 @@ public class Player {
 
     public void setTeams(Collection<Team> teams) {
         this.teams = teams;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 }

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::headfragment}"></head>
+<body class="bg-dark bg-opacity-25">
+<header th:replace="~{fragments/headerfooter::navbar}"></header>
+
+<main class="container py-4">
+
+    <!-- Pending Players -->
+    <h2 class="mb-4">Wachtende spelers</h2>
+
+    <div th:if="${#lists.isEmpty(pendingPlayers)}" class="text-muted mb-5">
+        Geen spelers in afwachting.
+    </div>
+
+    <div th:unless="${#lists.isEmpty(pendingPlayers)}" class="table-responsive mb-5">
+        <table class="table table-dark table-bordered table-hover align-middle">
+            <thead>
+            <tr>
+                <th>Naam</th>
+                <th>Email</th>
+                <th>Geslacht</th>
+                <th>Geboortedatum</th>
+                <th>Telefoon</th>
+                <th>Niveau</th>
+                <th>P-Ranking</th>
+                <th>Speelzijde</th>
+                <th>Acties</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="player : ${pendingPlayers}">
+                <td th:text="${player.name}"></td>
+                <td th:text="${player.email}"></td>
+                <td th:text="${player.gender}"></td>
+                <td th:text="${#dates.format(player.birthDate, 'dd/MM/yyyy')}"></td>
+                <td th:text="${player.telephone}"></td>
+                <td th:text="${player.selfEvaluation}"></td>
+                <td th:text="${player.pRanking != null ? 'P' + player.pRanking : 'NVT'}"></td>
+                <td th:text="${player.preferredPlayside}"></td>
+                <td>
+                    <form th:action="@{/admin/players/approve/{id}(id=${player.id})}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-success btn-sm me-1">
+                            Goedkeuren
+                        </button>
+                    </form>
+                    <form th:action="@{/admin/players/reject/{id}(id=${player.id})}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-danger btn-sm" th:data-name="${player.name}"
+                                onclick="return confirm('Ben je zeker dat je ' + this.dataset.name + ' wilt weigeren?')">
+                            Weigeren
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Approved Players -->
+    <h2 class="mb-4">Goedgekeurde spelers</h2>
+
+    <div th:if="${#lists.isEmpty(approvedPlayers)}" class="text-muted">
+        Geen goedgekeurde spelers.
+    </div>
+
+    <div th:unless="${#lists.isEmpty(approvedPlayers)}" class="table-responsive">
+        <table class="table table-dark table-bordered table-hover align-middle">
+            <thead>
+            <tr>
+                <th>Naam</th>
+                <th>Email</th>
+                <th>Geslacht</th>
+                <th>Geboortedatum</th>
+                <th>Telefoon</th>
+                <th>Niveau</th>
+                <th>P-Ranking</th>
+                <th>Speelzijde</th>
+                <th>Acties</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="player : ${approvedPlayers}">
+                <td th:text="${player.name}"></td>
+                <td th:text="${player.email}"></td>
+                <td th:text="${player.gender}"></td>
+                <td th:text="${#dates.format(player.birthDate, 'dd/MM/yyyy')}"></td>
+                <td th:text="${player.telephone}"></td>
+                <td th:text="${player.selfEvaluation}"></td>
+                <td th:text="${player.pRanking != null ? 'P' + player.pRanking : 'NVT'}"></td>
+                <td th:text="${player.preferredPlayside}"></td>
+                <td>
+                    <form th:action="@{/admin/players/remove/{id}(id=${player.id})}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-danger btn-sm" th:data-name="${player.name}"
+                                onclick="return confirm('Ben je zeker dat je ' + this.dataset.name + ' wilt verwijderen?')">
+                            Verwijderen
+                        </button>
+                        <a th:href="@{/admin/player-detail/{id}(id=${player.id})}"
+                           class="btn btn-secondary btn-sm">✏️</a>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</main>
+<footer th:replace="~{fragments/headerfooter::footer}"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+</body>
+</html>

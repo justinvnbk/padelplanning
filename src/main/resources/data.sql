@@ -1,50 +1,28 @@
-INSERT INTO player (name, is_admin, gender, birth_date, self_evaluation, p_ranking, telephone, email, preferred_playside, profile_picture_url)
+INSERT INTO player (name, is_approved, gender, birth_date, self_evaluation, p_ranking, telephone, email, preferred_playside, profile_picture_url, has_unseen_notifications)
 VALUES
-('Liam Carter', false, 'M', '1998-05-12', 'Intermediate', 500, '111111111', 'liam@example.com', 'RIGHT', ''),
-('Noah Schmidt', false, 'M', '1995-03-22', 'Advanced', 700, '111111112', 'noah@example.com', 'LEFT', ''),
-('Emma Novak', false, 'F', '2000-07-10', 'Beginner', 300, '111111113', 'emma@example.com', 'NONE', ''),
-('Olivia Dubois', false, 'F', '1999-01-15', 'Intermediate', 500, '111111114', 'olivia@example.com', 'RIGHT', ''),
-('Lucas Silva', false, 'M', '1997-11-02', 'Advanced', 800, '111111115', 'lucas@example.com', 'LEFT', ''),
-('Sofia Ivanova', false, 'F', '1996-09-09', 'Intermediate', 600, '111111116', 'sofia@example.com', 'RIGHT', ''),
-('Ethan Brown', false, 'M', '1994-06-18', 'Advanced', 700, '111111117', 'ethan@example.com', 'LEFT', ''),
-('Mia Andersson', false, 'F', '2001-02-25', 'Beginner', 200, '111111118', 'mia@example.com', 'NONE', ''),
-('Daniel Kim', false, 'M', '1993-12-30', 'Intermediate', 600, '111111119', 'daniel@example.com', 'RIGHT', ''),
-('Chloe Martin', false, 'F', '1998-08-08', 'Intermediate', 500, '111111120', 'chloe@example.com', 'LEFT', ''),
-('Alex Johnson', true, 'M', '1992-04-14', 'Advanced', 900, '111111121', 'alex@example.com', 'RIGHT', ''),
-('Sara Khan', false, 'F', '2002-10-05', 'Beginner', 300, '111111122', 'sara@example.com', 'NONE', '');
+('Liam Carter', true, 'M', '1998-05-12', 'GEMIDDELD', 500, '111111111', 'liam@example.com', 'RECHTS', '', false),
+('Noah Schmidt', true, 'M', '1995-03-22', 'GEVORDERD', 700, '111111112', 'noah@example.com', 'LINKS', '', false),
+('Emma Novak', true, 'F', '2000-07-10', 'BEGINNER', 300, '111111113', 'emma@example.com', 'GEEN', '', false),
+('Olivia Dubois', true, 'F', '1999-01-15', 'GEMIDDELD', 500, '111111114', 'olivia@example.com', 'RECHTS', '', false),
+('Lucas Silva', true, 'M', '1997-11-02', 'PRO', 1000, '111111115', 'lucas@example.com', 'LINKS', '', false),
+('Sofia Ivanova', true, 'F', '1996-09-09', 'GEMIDDELD', 500, '111111116', 'sofia@example.com', 'RECHTS', '', false),
+('Ethan Brown', true, 'M', '1994-06-18', 'GEVORDERD', 700, '111111117', 'ethan@example.com', 'LINKS', '', false),
+('Mia Andersson', true, 'F', '2001-02-25', 'BEGINNER', 50, '111111118', 'mia@example.com', 'GEEN', '', false),
+('Daniel Kim', true, 'M', '1993-12-30', 'GEMIDDELD', 400, '111111119', 'daniel@example.com', 'RECHTS', '', false),
+('Chloe Martin', true, 'F', '1998-08-08', 'GEMIDDELD', 500, '111111120', 'chloe@example.com', 'LINKS', '', false),
+('Alex Johnson', true, 'M', '1992-04-14', 'PRO', 1000, '111111121', 'alex@example.com', 'RECHTS', '', false),
+('Sara Khan', true, 'F', '2002-10-05', 'BEGINNER', 200, '111111122', 'sara@example.com', 'GEEN', '', false);
 
 INSERT INTO field (name, is_outside)
 VALUES
-('1A',true),
-('1B',false),
-('5', true);
-
--- INSERT INTO team (averagepranking)
--- VALUES
--- (6.0),
--- (4.0),
--- (7.5),
--- (5.5),
--- (6.5),
--- (3.0);
-
--- INSERT INTO match (p_ranking_difference, time_slot)
--- VALUES
--- (1.0, '18:00:00'),
--- (2.0, '18:00:00'),
--- (1.5, '18:00:00'),
---
--- (0.5, '18:40:00'),
--- (1.2, '18:40:00'),
--- (2.5, '18:40:00'),
---
--- (1.0, '19:20:00'),
--- (0.8, '19:20:00'),
--- (1.7, '19:20:00');
-
--- INSERT INTO padel_day (date, number_of_matches)
--- VALUES
--- ('2026-04-25 18:00:00', 9);
+('A',true),
+('B',false),
+('C', true),
+('D',false),
+('1',true),
+('2',true),
+('3',false),
+('4',false);
 
 -- Liam Carter
 INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
@@ -129,3 +107,78 @@ VALUES ('sara@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqP
 -- password: abcd1234
 INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
 VALUES ('sara@example.com', 'USER');
+
+-- test data insert statements for registrations
+
+INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
+VALUES ('justin@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', false);
+-- password: abcd1234
+INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
+VALUES ('justin@example.com', 'USER');
+
+INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
+VALUES ('mustafa@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', false);
+-- password: abcd1234
+INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
+VALUES ('mustafa@example.com', 'USER');
+
+INSERT INTO player (name, is_approved, gender, birth_date, self_evaluation, p_ranking, telephone, email, preferred_playside, profile_picture_url, has_unseen_notifications)
+VALUES
+    ('Justin', false, 'M', '1998-05-12', 'GEMIDDELD', 500, '111111111', 'justin@example.com', 'RECHTS', '', false),
+    ('Mustafa', false, 'M', '1995-03-22', 'GEVORDERD', 700, '111111112', 'mustafa@example.com', 'LINKS', '', false);
+
+
+
+-- Test padeldag met inschijvingen:
+INSERT INTO padel_day (date, number_of_matches)
+VALUES
+('2026-07-06 18:00:00', 3);
+--
+INSERT INTO PADEL_DAY_FIELDS (FIELDS_ID,PADEL_DAYS_ID)
+VALUES
+    ('1','1'),
+    ('2','1'),
+    ('3','1');
+--
+INSERT INTO PADEL_DAY_RESERVED_PLAYERS (PADEL_DAY_ID, RESERVED_PLAYERS_ID)
+VALUES
+    ('1','1'),
+    ('1','2'),
+    ('1','3');
+
+INSERT INTO PADEL_DAY_SIGNED_UP_PLAYERS (PADEL_DAY_ID, SIGNED_UP_PLAYERS_ID)
+VALUES
+    ('1','4'),
+    ('1','5'),
+    ('1','6'),
+    ('1','7');
+
+
+--TEST DATA FOR NOTIFICATIONS
+INSERT INTO NOTIFICATION (DATE_TIME, MESSAGE, TITLE)
+VALUES
+    ('2026-07-06 18:00:00', 'TEST MESSAGE', 'TEST1'),
+    ('2026-08-06 18:00:00', 'TEST MESSAGE', 'TEST2'),
+    ('2026-09-06 18:00:00', 'TEST MESSAGE', 'TEST3'),
+    ('2026-10-06 18:00:00', 'TEST MESSAGE', 'TEST4'),
+    ('2026-11-06 18:00:00', 'TEST MESSAGE', 'TEST5'),
+    ('2026-12-06 18:00:00', 'TEST MESSAGE', 'TEST6'),
+    ('2026-05-06 18:00:00', 'TEST MESSAGE', 'TEST7'),
+    ('2026-04-06 18:00:00', 'TEST MESSAGE', 'TEST8'),
+    ('2026-03-06 18:00:00', 'TEST MESSAGE', 'TEST9'),
+    ('2026-02-06 18:00:00', 'TEST MESSAGE', 'TEST10'),
+    ('2026-01-06 18:00:00', 'TEST MESSAGE', 'TEST11');
+
+INSERT INTO NOTIFICATION_RECIPIENTS (NOTIFICATIONS_ID, RECIPIENTS_ID)
+VALUES
+    (1,11),
+    (2,11),
+    (3,11),
+    (4,11),
+    (5,11),
+    (6,11),
+    (7,11),
+    (8,11),
+    (9,11),
+    (10,11),
+    (11,11);

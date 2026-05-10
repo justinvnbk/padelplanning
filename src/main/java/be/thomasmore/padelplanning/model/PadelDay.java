@@ -24,10 +24,10 @@ public class PadelDay {
     private List<Field> fields;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private Collection<Player> signedUpPlayers;
+    private List<Player> signedUpPlayers;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private Collection<Player> reservedPlayers;
+    private List<Player> reservedPlayers;
 
     public Integer getId() {
         return id;
@@ -69,19 +69,19 @@ public class PadelDay {
         this.fields = fields;
     }
 
-    public Collection<Player> getSignedUpPlayers() {
+    public List<Player> getSignedUpPlayers() {
         return signedUpPlayers;
     }
 
-    public void setSignedUpPlayers(Collection<Player> signedUpPlayers) {
+    public void setSignedUpPlayers(List<Player> signedUpPlayers) {
         this.signedUpPlayers = signedUpPlayers;
     }
 
-    public Collection<Player> getReservedPlayers() {
+    public List<Player> getReservedPlayers() {
         return reservedPlayers;
     }
 
-    public void setReservedPlayers(Collection<Player> reservedPlayers) {
+    public void setReservedPlayers(List<Player> reservedPlayers) {
         this.reservedPlayers = reservedPlayers;
     }
 

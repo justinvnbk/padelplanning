@@ -5,12 +5,15 @@
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 
 <main class="container py-4">
-    <h1 class="text-center mb-5">Nieuw plan opstarten en openen voor inschrijvingen</h1>
-    <form th:action="@{/admin/newpadelday}" th:object="${padelDay}" method="post">
+    <h1 class="text-center mb-5">Gegevens van deze padeldag aanpassen</h1>
+    <form th:action="@{/admin/editpadelday}" th:object="${padelDay}" method="post">
         <div class="row">
+            <input type="hidden" th:field="*{signedUpPlayers}" />
+            <input type="hidden" th:field="*{reservedPlayers}" />
+            <input type="hidden" th:field="*{id}" />
             <div class="col-12">
                 <label for="padelDayDate" class="form-label fw-bold">Start datum en uur:</label>
-                <input id="padelDayDate" autofocus class="form-control" type="datetime-local" th:field="*{date}" th:errorclass="is-invalid">
+                <input id="padelDayDate" autofocus class="form-control" type="datetime-local" name="date" th:value="*{date}" th:errorclass="is-invalid">
             </div>
             <div class="col-12">
                 <label for="padelDayMatches" class="form-label fw-bold">Aantal matches:</label>
@@ -28,7 +31,7 @@
             </div>
             <div class="d-flex justify-content-between align-items-center mt-5 pt-3 border-top">
                 <a class="btn btn-danger px-4" th:href="@{/admin/plan}">Annuleer</a>
-                <button class="btn btn-primary px-5 fw-bold shadow-sm" type="submit">Maak aan</button>
+                <button class="btn btn-primary px-5 fw-bold shadow-sm" type="submit">Opslaan</button>
             </div>
         </div>
     </form>
