@@ -129,3 +129,22 @@ VALUES ('sara@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqP
 -- password: abcd1234
 INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
 VALUES ('sara@example.com', 'USER');
+
+-- test data insert statements for registrations
+
+INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
+VALUES ('justin@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', false);
+-- password: abcd1234
+INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
+VALUES ('justin@example.com', 'USER');
+
+INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
+VALUES ('mustafa@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', false);
+-- password: abcd1234
+INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
+VALUES ('mustafa@example.com', 'USER');
+
+INSERT INTO player (name, is_approved, gender, birth_date, self_evaluation, p_ranking, telephone, email, preferred_playside, profile_picture_url)
+VALUES
+    ('Justin', false, 'M', '1998-05-12', 'GEMIDDELD', 500, '111111111', 'justin@example.com', 'RECHTS', ''),
+    ('Mustafa', false, 'M', '1995-03-22', 'GEVORDERD', 700, '111111112', 'mustafa@example.com', 'LINKS', '');
