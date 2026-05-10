@@ -94,6 +94,8 @@
                                 onclick="return confirm('Ben je zeker dat je ' + this.dataset.name + ' wilt verwijderen?')">
                             Verwijderen
                         </button>
+                        <a th:href="@{/admin/player-detail/{id}(id=${player.id})}"
+                           class="btn btn-secondary btn-sm">✏️</a>
                     </form>
                 </td>
             </tr>

@@ -38,6 +38,10 @@ public class PlayerService {
                 .toList();
     }
 
+    public Player getPlayerById(Integer id) {
+        return playerRepository.findById(id).orElseThrow();
+    }
+
     public Player getPlayerByEmail(String email) {
         return playerRepository.findByEmail(email);
     }
@@ -86,5 +90,20 @@ public class PlayerService {
 
     private String getUserPassword(String email) {
         return jdbcUserDetailsManager.loadUserByUsername(email).getPassword();
+    }
+
+    public void updatePlayerEmail(String oldEmail, String newEmail) {
+        if (oldEmail.equals(newEmail)) return;
+
+        String encodedPassword = getUserPassword(oldEmail);
+        jdbcUserDetailsManager.deleteUser(oldEmail);
+        jdbcUserDetailsManager.createUser(
+                User.builder()
+                        .username(newEmail)
+                        .password(encodedPassword)
+                        .disabled(false)
+                        .authorities("USER")
+                        .build()
+        );
     }
 }
