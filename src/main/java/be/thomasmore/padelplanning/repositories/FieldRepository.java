@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface FieldRepository extends CrudRepository<Field, Integer> {
     @Query("SELECT f FROM Field f")
-    List<Field> getAvailable();
+    List<Field> getAll();
 }

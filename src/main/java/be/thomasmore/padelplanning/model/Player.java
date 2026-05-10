@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Player {
@@ -22,6 +23,7 @@ public class Player {
     private Integer pRanking;
     private String telephone;
     private String email;
+    private boolean hasUnseenNotifications;
     @Transient
     private String password;
     @Enumerated(EnumType.STRING)
@@ -29,6 +31,8 @@ public class Player {
     private String profilePictureUrl;
     @ManyToMany(mappedBy = "players")
     private Collection<Team> teams;
+    @ManyToMany(mappedBy="recipients")
+    private List<Notification> notifications;
 
     public Integer getId() {
         return id;
@@ -102,6 +106,14 @@ public class Player {
         this.email = email;
     }
 
+    public boolean hasUnseenNotifications() {
+        return hasUnseenNotifications;
+    }
+
+    public void setHasUnseenNotifications(boolean hasUnseenNotifications) {
+        this.hasUnseenNotifications = hasUnseenNotifications;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -132,5 +144,13 @@ public class Player {
 
     public void setTeams(Collection<Team> teams) {
         this.teams = teams;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 }
