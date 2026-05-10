@@ -122,10 +122,10 @@ VALUES ('mustafa@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1g
 INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
 VALUES ('mustafa@example.com', 'USER');
 
-INSERT INTO player (name, is_approved, gender, birth_date, self_evaluation, p_ranking, telephone, email, preferred_playside, profile_picture_url)
+INSERT INTO player (name, is_approved, gender, birth_date, self_evaluation, p_ranking, telephone, email, preferred_playside, profile_picture_url, has_unseen_notifications)
 VALUES
-    ('Justin', false, 'M', '1998-05-12', 'GEMIDDELD', 500, '111111111', 'justin@example.com', 'RECHTS', ''),
-    ('Mustafa', false, 'M', '1995-03-22', 'GEVORDERD', 700, '111111112', 'mustafa@example.com', 'LINKS', '');
+    ('Justin', false, 'M', '1998-05-12', 'GEMIDDELD', 500, '111111111', 'justin@example.com', 'RECHTS', '', false),
+    ('Mustafa', false, 'M', '1995-03-22', 'GEVORDERD', 700, '111111112', 'mustafa@example.com', 'LINKS', '', false);
 
 
 
