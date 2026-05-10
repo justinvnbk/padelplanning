@@ -40,10 +40,15 @@
                 <td th:text="${player.preferredPlayside}"></td>
                 <td>
                     <form th:action="@{/admin/players/approve/{id}(id=${player.id})}" method="post" class="d-inline">
-                        <button type="submit" class="btn btn-success btn-sm me-1">Goedkeuren</button>
+                        <button type="submit" class="btn btn-success btn-sm me-1">
+                            Goedkeuren
+                        </button>
                     </form>
                     <form th:action="@{/admin/players/reject/{id}(id=${player.id})}" method="post" class="d-inline">
-                        <button type="submit" class="btn btn-danger btn-sm">Weigeren</button>
+                        <button type="submit" class="btn btn-danger btn-sm" th:data-name="${player.name}"
+                                onclick="return confirm('Ben je zeker dat je ' + this.dataset.name + ' wilt weigeren?')">
+                            Weigeren
+                        </button>
                     </form>
                 </td>
             </tr>
@@ -85,7 +90,10 @@
                 <td th:text="${player.preferredPlayside}"></td>
                 <td>
                     <form th:action="@{/admin/players/remove/{id}(id=${player.id})}" method="post" class="d-inline">
-                        <button type="submit" class="btn btn-danger btn-sm">Verwijderen</button>
+                        <button type="submit" class="btn btn-danger btn-sm" th:data-name="${player.name}"
+                                onclick="return confirm('Ben je zeker dat je ' + this.dataset.name + ' wilt verwijderen?')">
+                            Verwijderen
+                        </button>
                     </form>
                 </td>
             </tr>
