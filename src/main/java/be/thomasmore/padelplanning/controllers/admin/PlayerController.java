@@ -3,19 +3,28 @@ package be.thomasmore.padelplanning.controllers.admin;
 import be.thomasmore.padelplanning.model.Player;
 import be.thomasmore.padelplanning.model.PreferredPlayside;
 import be.thomasmore.padelplanning.model.SelfEvaluation;
+import be.thomasmore.padelplanning.repositories.PlayerRepository;
+import be.thomasmore.padelplanning.services.NotificationService;
 import be.thomasmore.padelplanning.services.PlayerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
 public class PlayerController {
 
     private final PlayerService playerService;
+    private final NotificationService notificationService;
+    private final PlayerRepository playerRepository;
 
-    public PlayerController(PlayerService playerService) {
+    public PlayerController(PlayerService playerService, NotificationService notificationService, PlayerRepository playerRepository) {
         this.playerService = playerService;
+        this.notificationService = notificationService;
+        this.playerRepository = playerRepository;
     }
 
     @GetMapping("/players")
@@ -29,6 +38,14 @@ public class PlayerController {
     @PostMapping("/players/approve/{id}")
     public String approve(@PathVariable Integer id) {
         playerService.approvePlayer(id);
+
+        Optional<Player> optionalPlayer = playerRepository.findById(id);
+        if (optionalPlayer.isPresent()) {
+            Player player = optionalPlayer.get();
+            notificationService.createNotification("Welkom",
+                    "U registratie is geaccepteerd, als er een padeldag gepland is kan u ervoor inschrijven via de navigatie.",
+                    List.of(player));
+        }
 
         return "redirect:/admin/players";
     }
