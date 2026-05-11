@@ -1,160 +1,200 @@
+--PLAYERS
 INSERT INTO player (name, is_approved, gender, birth_date, self_evaluation, p_ranking, telephone, email, preferred_playside, profile_picture_url, has_unseen_notifications)
 VALUES
-('Liam Carter', true, 'M', '1998-05-12', 'GEMIDDELD', 500, '111111111', 'liam@example.com', 'RECHTS', '', false),
-('Noah Schmidt', true, 'M', '1995-03-22', 'GEVORDERD', 700, '111111112', 'noah@example.com', 'LINKS', '', false),
-('Emma Novak', true, 'F', '2000-07-10', 'BEGINNER', 300, '111111113', 'emma@example.com', 'GEEN', '', false),
-('Olivia Dubois', true, 'F', '1999-01-15', 'GEMIDDELD', 500, '111111114', 'olivia@example.com', 'RECHTS', '', false),
-('Lucas Silva', true, 'M', '1997-11-02', 'PRO', 1000, '111111115', 'lucas@example.com', 'LINKS', '', false),
-('Sofia Ivanova', true, 'F', '1996-09-09', 'GEMIDDELD', 500, '111111116', 'sofia@example.com', 'RECHTS', '', false),
-('Ethan Brown', true, 'M', '1994-06-18', 'GEVORDERD', 700, '111111117', 'ethan@example.com', 'LINKS', '', false),
-('Mia Andersson', true, 'F', '2001-02-25', 'BEGINNER', 50, '111111118', 'mia@example.com', 'GEEN', '', false),
-('Daniel Kim', true, 'M', '1993-12-30', 'GEMIDDELD', 400, '111111119', 'daniel@example.com', 'RECHTS', '', false),
-('Chloe Martin', true, 'F', '1998-08-08', 'GEMIDDELD', 500, '111111120', 'chloe@example.com', 'LINKS', '', false),
-('Alex Johnson', true, 'M', '1992-04-14', 'PRO', 1000, '111111121', 'alex@example.com', 'RECHTS', '', false),
-('Sara Khan', true, 'F', '2002-10-05', 'BEGINNER', 200, '111111122', 'sara@example.com', 'GEEN', '', false);
+    ('Liam Carter', true, 'M', '1998-05-12', 'GEMIDDELD', 500, '111111111', 'liam@example.com', 'RECHTS', '', false),
+    ('Noah Schmidt', true, 'M', '1995-03-22', 'GEVORDERD', 700, '111111112', 'noah@example.com', 'LINKS', '', false),
+    ('Emma Novak', true, 'F', '2000-07-10', 'BEGINNER', 300, '111111113', 'emma@example.com', 'GEEN', '', false),
+    ('Olivia Dubois', true, 'F', '1999-01-15', 'GEMIDDELD', 500, '111111114', 'olivia@example.com', 'RECHTS', '', false),
+    ('Lucas Silva', true, 'M', '1997-11-02', 'PRO', 1000, '111111115', 'lucas@example.com', 'LINKS', '', false),
+    ('Sofia Ivanova', true, 'F', '1996-09-09', 'GEMIDDELD', 500, '111111116', 'sofia@example.com', 'RECHTS', '', false),
+    ('Ethan Brown', true, 'M', '1994-06-18', 'GEVORDERD', 700, '111111117', 'ethan@example.com', 'LINKS', '', false),
+    ('Mia Andersson', true, 'F', '2001-02-25', 'BEGINNER', 50, '111111118', 'mia@example.com', 'GEEN', '', false),
+    ('Daniel Kim', true, 'M', '1993-12-30', 'GEMIDDELD', 400, '111111119', 'daniel@example.com', 'RECHTS', '', false),
+    ('Chloe Martin', true, 'F', '1998-08-08', 'GEMIDDELD', 500, '111111120', 'chloe@example.com', 'LINKS', '', false),
+    ('Alex Johnson', true, 'M', '1992-04-14', 'PRO', 1000, '111111121', 'alex@example.com', 'RECHTS', '', false),
+    ('Sara Khan', true, 'F', '2002-10-05', 'BEGINNER', 200, '111111122', 'sara@example.com', 'GEEN', '', false),
+    ('Amelie Lefebvre', true, 'F', '1994-11-22', 'GEMIDDELD', 550, '111111124', 'amelie@example.com', 'RECHTS', '', false),
+    ('Lukas Weber', true, 'M', '1988-06-05', 'PRO', 1100, '111111125', 'lukasw@example.com', 'LINKS', '', false),
+    ('Elena Rossi', true, 'F', '1996-01-19', 'BEGINNER', 250, '111111126', 'elena@example.com', 'GEEN', '', false),
+    ('William Jones', true, 'M', '1992-08-14', 'GEMIDDELD', 450, '111111127', 'william@example.com', 'RECHTS', '', false),
+    ('Isabella Martinez', true, 'F', '2000-12-01', 'GEVORDERD', 650, '111111128', 'isabella@example.com', 'LINKS', '', false),
+    ('Arjun Singh', true, 'M', '1995-05-30', 'GEMIDDELD', 500, '111111129', 'arjun@example.com', 'RECHTS', '', false),
+    ('Zoe Chen', true, 'F', '1997-09-12', 'PRO', 950, '111111130', 'zoe@example.com', 'LINKS', '', false),
+    ('Matteo Conti', true, 'M', '1991-04-25', 'BEGINNER', 150, '111111131', 'matteo@example.com', 'GEEN', '', false),
+    ('Sophie Müller', true, 'F', '1993-07-08', 'GEMIDDELD', 520, '111111132', 'sophie@example.com', 'RECHTS', '', false),
+    ('Hugo Nielsen', true, 'M', '1985-10-10', 'GEVORDERD', 800, '111111133', 'hugo@example.com', 'LINKS', '', false),
+    ('Clara Vidal', true, 'F', '1999-02-28', 'GEMIDDELD', 480, '111111134', 'clara@example.com', 'RECHTS', '', false),
+    ('Gabriel Santos', true, 'M', '1996-12-14', 'PRO', 1050, '111111135', 'gabriel@example.com', 'LINKS', '', false),
+    ('Layla Haddad', true, 'F', '2001-05-05', 'BEGINNER', 100, '111111136', 'layla@example.com', 'GEEN', '', false),
+    ('Oscar Berg', true, 'M', '1994-08-20', 'GEMIDDELD', 500, '111111137', 'oscar@example.com', 'RECHTS', '', false),
+    ('Yuki Tanaka', true, 'F', '1998-03-11', 'GEVORDERD', 720, '111111138', 'yuki@example.com', 'LINKS', '', false),
+    ('Thomas Wright', true, 'M', '1990-11-30', 'GEMIDDELD', 400, '111111139', 'thomas@example.com', 'RECHTS', '', false),
+    ('Nina Petrova', true, 'F', '1995-06-25', 'PRO', 1200, '111111140', 'nina@example.com', 'LINKS', '', false),
+    ('Justin', false, 'M', '1998-05-12', 'GEMIDDELD', 500, '111111111', 'justin@example.com', 'RECHTS', '', false),
+    ('Mustafa', false, 'M', '1995-03-22', 'GEVORDERD', 700, '111111112', 'mustafa@example.com', 'LINKS', '', false),
+    ('Benjamin Garcia', true, 'M', '1990-03-15', 'GEVORDERD', 750, '111111123', 'benjamin@example.com', 'LINKS', '', false);
 
+--USERS (LINKED TO PLAYERS BY EMAIL)
+INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
+VALUES
+    ('liam@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('noah@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('emma@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('olivia@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('lucas@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('sofia@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('ethan@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('mia@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('daniel@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('chloe@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('alex@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('sara@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('benjamin@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('amelie@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('lukasw@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('elena@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('william@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('isabella@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('arjun@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('zoe@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('matteo@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('sophie@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('hugo@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('clara@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('gabriel@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('layla@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('oscar@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('yuki@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('thomas@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('nina@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true),
+    ('justin@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', false),
+    ('mustafa@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', false);
+
+--AUTHORITIES
+INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
+VALUES
+    ('liam@example.com', 'USER'),
+    ('noah@example.com', 'USER'),
+    ('emma@example.com', 'USER'),
+    ('olivia@example.com', 'USER'),
+    ('lucas@example.com', 'USER'),
+    ('sofia@example.com', 'USER'),
+    ('ethan@example.com', 'USER'),
+    ('mia@example.com', 'USER'),
+    ('daniel@example.com', 'USER'),
+    ('chloe@example.com', 'USER'),
+    ('alex@example.com', 'ADMIN'),
+    ('sara@example.com', 'USER'),
+    ('mustafa@example.com', 'USER'),
+    ('justin@example.com', 'USER'),
+    ('benjamin@example.com', 'USER'),
+    ('amelie@example.com', 'USER'),
+    ('lukasw@example.com', 'USER'),
+    ('elena@example.com', 'USER'),
+    ('william@example.com', 'USER'),
+    ('isabella@example.com', 'USER'),
+    ('arjun@example.com', 'USER'),
+    ('zoe@example.com', 'USER'),
+    ('matteo@example.com', 'USER'),
+    ('sophie@example.com', 'USER'),
+    ('hugo@example.com', 'USER'),
+    ('clara@example.com', 'USER'),
+    ('gabriel@example.com', 'USER'),
+    ('layla@example.com', 'USER'),
+    ('oscar@example.com', 'USER'),
+    ('yuki@example.com', 'USER'),
+    ('thomas@example.com', 'USER'),
+    ('nina@example.com', 'USER');
+
+
+--FIELDS
 INSERT INTO field (name, is_outside)
 VALUES
-('A',true),
-('B',false),
-('C', true),
-('D',false),
-('1',true),
-('2',true),
-('3',false),
-('4',false);
+    ('A',true),
+    ('B',false),
+    ('C', true),
+    ('D',false),
+    ('1',true),
+    ('2',true),
+    ('3',false),
+    ('4',false);
 
--- Liam Carter
-INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
-VALUES ('liam@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
--- password: abcd1234
-INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
-VALUES ('liam@example.com', 'USER');
-
--- Noah Schmidt
-INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
-VALUES ('noah@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
--- password: abcd1234
-INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
-VALUES ('noah@example.com', 'USER');
-
--- Emma Novak
-INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
-VALUES ('emma@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
--- password: abcd1234
-INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
-VALUES ('emma@example.com', 'USER');
-
--- Olivia Dubois
-INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
-VALUES ('olivia@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
--- password: abcd1234
-INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
-VALUES ('olivia@example.com', 'USER');
-
--- Lucas Silva
-INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
-VALUES ('lucas@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
--- password: abcd1234
-INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
-VALUES ('lucas@example.com', 'USER');
-
--- Sofia Ivanova
-INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
-VALUES ('sofia@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
--- password: abcd1234
-INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
-VALUES ('sofia@example.com', 'USER');
-
--- Ethan Brown
-INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
-VALUES ('ethan@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
--- password: abcd1234
-INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
-VALUES ('ethan@example.com', 'USER');
-
--- Mia Andersson
-INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
-VALUES ('mia@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
--- password: abcd1234
-INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
-VALUES ('mia@example.com', 'USER');
-
--- Daniel Kim
-INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
-VALUES ('daniel@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
--- password: abcd1234
-INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
-VALUES ('daniel@example.com', 'USER');
-
--- Chloe Martin
-INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
-VALUES ('chloe@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
--- password: abcd1234
-INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
-VALUES ('chloe@example.com', 'USER');
-
--- Alex Johnson (Admin)
-INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
-VALUES ('alex@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
--- password: abcd1234
-INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
-VALUES ('alex@example.com', 'ADMIN');
-
--- Sara Khan
-INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
-VALUES ('sara@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', true);
--- password: abcd1234
-INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
-VALUES ('sara@example.com', 'USER');
-
--- test data insert statements for registrations
-
-INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
-VALUES ('justin@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', false);
--- password: abcd1234
-INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
-VALUES ('justin@example.com', 'USER');
-
-INSERT INTO USERS (USERNAME, PASSWORD, ENABLED)
-VALUES ('mustafa@example.com', '$2a$10$CB8dz.jJdSTQvmtUa45Yfuixhwh/nKLXFjVsDrU1gxqPDRKAaPCqO', false);
--- password: abcd1234
-INSERT INTO AUTHORITIES (USERNAME, AUTHORITY)
-VALUES ('mustafa@example.com', 'USER');
-
-INSERT INTO player (name, is_approved, gender, birth_date, self_evaluation, p_ranking, telephone, email, preferred_playside, profile_picture_url, has_unseen_notifications)
-VALUES
-    ('Justin', false, 'M', '1998-05-12', 'GEMIDDELD', 500, '111111111', 'justin@example.com', 'RECHTS', '', false),
-    ('Mustafa', false, 'M', '1995-03-22', 'GEVORDERD', 700, '111111112', 'mustafa@example.com', 'LINKS', '', false);
-
-
-
--- Test padeldag met inschijvingen:
+--PADELDAYS
 INSERT INTO padel_day (date, number_of_matches)
 VALUES
-('2026-07-06 18:00:00', 3);
---
+    ('2026-02-22 14:00:00', 3),
+    ('2026-03-01 14:00:00', 3),
+    ('2026-03-08 14:00:00', 3),
+    ('2026-03-15 14:00:00', 3),
+    ('2026-03-22 14:00:00', 3),
+    ('2026-03-29 14:00:00', 3),
+    ('2026-04-05 14:00:00', 3),
+    ('2026-04-12 14:00:00', 3),
+    ('2026-04-19 14:00:00', 3),
+    ('2026-04-26 14:00:00', 3),
+    ('2026-05-03 14:00:00', 3),
+    ('2026-05-10 14:00:00', 3),
+    ('2026-05-17 14:00:00', 3),
+    ('2026-05-24 14:00:00', 3),
+    ('2026-05-29 14:00:00', 3);
+
 INSERT INTO PADEL_DAY_FIELDS (FIELDS_ID,PADEL_DAYS_ID)
 VALUES
-    ('1','1'),
-    ('2','1'),
-    ('3','1');
---
+    ('1','1'),('2','1'),('3','1'),('4','1'),('5','1'),('6','1'),('7','1'),('8','1'),
+    ('1','2'),('2','2'),('3','2'),('4','2'),('5','2'),('6','2'),('7','2'),('8','2'),
+    ('1','3'),('2','3'),('3','3'),('4','3'),('5','3'),('6','3'),('7','3'),('8','3'),
+    ('1','4'),('2','4'),('3','4'),('4','4'),('5','4'),('6','4'),('7','4'),('8','4'),
+    ('1','5'),('2','5'),('3','5'),('4','5'),('5','5'),('6','5'),('7','5'),('8','5'),
+    ('1','6'),('2','6'),('3','6'),('4','6'),('5','6'),('6','6'),('7','6'),('8','6'),
+    ('1','7'),('2','7'),('3','7'),('4','7'),('5','7'),('6','7'),('7','7'),('8','7'),
+    ('1','8'),('2','8'),('3','8'),('4','8'),('5','8'),('6','8'),('7','8'),('8','8'),
+    ('1','9'),('2','9'),('3','9'),('4','9'),('5','9'),('6','9'),('7','9'),('8','9'),
+    ('1','10'),('2','10'),('3','10'),('4','10'),('5','10'),('6','10'),('7','10'),('8','10'),
+    ('1','11'),('2','11'),('3','11'),('4','11'),('5','11'),('6','11'),('7','11'),('8','11'),
+    ('1','12'),('2','12'),('3','12'),('4','12'),('5','12'),('6','12'),('7','12'),('8','12'),
+    ('1','13'),('2','13'),('3','13'),('4','13'),('5','13'),('6','13'),('7','13'),('8','13'),
+    ('1','14'),('2','14'),('3','14'),('4','14'),('5','14'),('6','14'),('7','14'),('8','14'),
+    ('1','15'),('2','15'),('3','15'),('4','15'),('5','15'),('6','15'),('7','15'),('8','15');
+
+-- PADEL_DAY_RESERVED_PLAYERS
+-- Assigning a rotating number of reserved players (0 to 3)
 INSERT INTO PADEL_DAY_RESERVED_PLAYERS (PADEL_DAY_ID, RESERVED_PLAYERS_ID)
 VALUES
-    ('1','1'),
-    ('1','2'),
-    ('1','3');
+    ('1','1'), ('1','2'), ('1','3'),
+    ('2','4'), ('2','5'),
+    ('3','6'),
+    ('5','7'), ('5','8'), ('5','9'),
+    ('6','10'), ('6','11'),
+    ('7','12'),
+    ('9','13'), ('9','14'), ('9','15'),
+    ('10','16'), ('10','17'),
+    ('11','18'),
+    ('13','19'), ('13','20'), ('13','21'),
+    ('14','22'), ('14','23'),
+    ('15','24');
+
+-- PADEL_DAY_SIGNED_UP_PLAYERS
 
 INSERT INTO PADEL_DAY_SIGNED_UP_PLAYERS (PADEL_DAY_ID, SIGNED_UP_PLAYERS_ID)
 VALUES
-    ('1','4'),
-    ('1','5'),
-    ('1','6'),
-    ('1','7');
+    ('1','4'),('1','5'),('1','6'),('1','7'),('1','8'),('1','9'),('1','10'),('1','11'),('1','12'),('1','13'),('1','14'),('1','15'),
+    ('2','6'),('2','7'),('2','8'),('2','9'),('2','10'),('2','11'),('2','12'),('2','13'),('2','14'),('2','15'),('2','16'),('2','17'),('2','18'),('2','19'),('2','20'),('2','21'),
+    ('3','1'),('3','2'),('3','3'),('3','4'),('3','5'),('3','6'),('3','7'),('3','8'),('3','9'),('3','10'),('3','11'),('3','12'),('3','13'),('3','14'),('3','15'),('3','16'),('3','17'),('3','18'),('3','19'),('3','20'),
+    ('4','1'),('4','2'),('4','3'),('4','4'),('4','5'),('4','6'),('4','7'),('4','8'),('4','9'),('4','10'),('4','11'),('4','12'),('4','13'),('4','14'),('4','15'),('4','16'),('4','17'),('4','18'),('4','19'),('4','20'),('4','21'),('4','22'),('4','23'),('4','24'),
+    ('5','10'),('5','11'),('5','12'),('5','13'),('5','14'),('5','15'),('5','16'),('5','17'),('5','18'),('5','19'),('5','20'),('5','21'),
+    ('6','12'),('6','13'),('6','14'),('6','15'),('6','16'),('6','17'),('6','18'),('6','19'),('6','20'),('6','21'),('6','22'),('6','23'),('6','24'),('6','25'),('6','26'),('6','27'),
+    ('7','1'),('7','2'),('7','3'),('7','4'),('7','5'),('7','6'),('7','7'),('7','8'),('7','9'),('7','10'),('7','11'),('7','12'),('7','13'),('7','14'),('7','15'),('7','16'),('7','17'),('7','18'),('7','19'),('7','20'),
+    ('8','7'),('8','8'),('8','9'),('8','10'),('8','11'),('8','12'),('8','13'),('8','14'),('8','15'),('8','16'),('8','17'),('8','18'),('8','19'),('8','20'),('8','21'),('8','22'),('8','23'),('8','24'),('8','25'),('8','26'),('8','27'),('8','28'),('8','29'),('8','30'),
+    ('9','1'),('9','2'),('9','3'),('9','4'),('9','5'),('9','6'),('9','7'),('9','8'),('9','9'),('9','10'),('9','11'),('9','12'),
+    ('10','1'),('10','2'),('10','3'),('10','4'),('10','5'),('10','6'),('10','7'),('10','8'),('10','9'),('10','10'),('10','11'),('10','12'),('10','13'),('10','14'),('10','15'),('10','16'),
+    ('11','11'),('11','12'),('11','13'),('11','14'),('11','15'),('11','16'),('11','17'),('11','18'),('11','19'),('11','20'),('11','21'),('11','22'),('11','23'),('11','24'),('11','25'),('11','26'),('11','27'),('11','28'),('11','29'),('11','30'),
+    ('12','1'),('12','2'),('12','3'),('12','4'),('12','5'),('12','6'),('12','7'),('12','8'),('12','9'),('12','10'),('12','11'),('12','12'),('12','13'),('12','14'),('12','15'),('12','16'),('12','17'),('12','18'),('12','19'),('12','20'),('12','21'),('12','22'),('12','23'),('12','24'),
+    ('13','18'),('13','19'),('13','20'),('13','21'),('13','22'),('13','23'),('13','24'),('13','25'),('13','26'),('13','27'),('13','28'),('13','29'),
+    ('14','5'),('14','6'),('14','7'),('14','8'),('14','9'),('14','10'),('14','11'),('14','12'),('14','13'),('14','14'),('14','15'),('14','16'),('14','17'),('14','18'),('14','19'),('14','20'),
+    ('15','1'),('15','2'),('15','3'),('15','4'),('15','5'),('15','6'),('15','7'),('15','8'),('15','9'),('15','10'),('15','11'),('15','12'),('15','13'),('15','14'),('15','15'),('15','16'),('15','17'),('15','18'),('15','19'),('15','20');
 
 
---TEST DATA FOR NOTIFICATIONS
+--NOTIFICATIONS
 INSERT INTO NOTIFICATION (DATE_TIME, MESSAGE, TITLE)
 VALUES
     ('2026-07-06 17:00:00', 'Nieuwe planning', 'Een nieuwe planning is beschikbaar'),
