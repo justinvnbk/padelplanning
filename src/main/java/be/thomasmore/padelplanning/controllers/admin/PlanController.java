@@ -107,13 +107,26 @@ public class PlanController {
             }
         }
 
+        // huidige spelers
+        List<Integer> currentIds = existingTeam.getPlayers().stream()
+                .map(Player::getId)
+                .toList();
+
+        // nieuwe spelers (als veranderd)
         List<Integer> cleanIds = playerIds.stream().filter(id -> id != 0).toList();
-        List<Player> players = playerRepository.findAllByIds(cleanIds);
 
-        existingTeam.setPlayers(players);
-        teamRepository.save(existingTeam);
+        // als spelers veranderd zijn
+        if (!currentIds.equals(cleanIds)) {
+            List<Player> players = playerRepository.findAllByIds(cleanIds);
+            existingTeam.setPlayers(players);
+            teamRepository.save(existingTeam);
 
-        ra.addFlashAttribute("success", "Succesvol geüpdatet!");
+            ra.addFlashAttribute("success", "Succesvol geüpdatet!");
+
+        } else {
+
+            ra.addFlashAttribute("info", "Geen veranderingen gemaakt");
+        }
 
         return "redirect:/admin/plan";
     }
