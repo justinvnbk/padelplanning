@@ -1,13 +1,7 @@
 package be.thomasmore.padelplanning.controllers.admin;
 
-import be.thomasmore.padelplanning.model.Field;
-import be.thomasmore.padelplanning.model.PadelDay;
-import be.thomasmore.padelplanning.model.Player;
-import be.thomasmore.padelplanning.model.Team;
-import be.thomasmore.padelplanning.repositories.FieldRepository;
-import be.thomasmore.padelplanning.repositories.PadelDayRepository;
-import be.thomasmore.padelplanning.repositories.PlayerRepository;
-import be.thomasmore.padelplanning.repositories.TeamRepository;
+import be.thomasmore.padelplanning.model.*;
+import be.thomasmore.padelplanning.repositories.*;
 import be.thomasmore.padelplanning.services.CreatePadelDayPlanService;
 import be.thomasmore.padelplanning.services.NotificationService;
 import org.slf4j.Logger;
@@ -15,9 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.List;
@@ -29,15 +25,17 @@ public class PlanController {
     private final FieldRepository fieldRepository;
     private final PlayerRepository playerRepository;
     private final CreatePadelDayPlanService createPadelDayPlanService;
+    private final MatchRepository matchRepository;
     private final PadelDayRepository padelDayRepository;
     private final Logger logger= LoggerFactory.getLogger(this.getClass());
     private final TeamRepository teamRepository;
     private final NotificationService notificationService;
 
-    public PlanController(FieldRepository fieldRepository, PlayerRepository playerRepository, CreatePadelDayPlanService createPadelDayPlanService, PadelDayRepository padelDayRepository, TeamRepository teamRepository, NotificationService notificationService) {
+    public PlanController(FieldRepository fieldRepository, PlayerRepository playerRepository, CreatePadelDayPlanService createPadelDayPlanService, MatchRepository matchRepository, PadelDayRepository padelDayRepository, TeamRepository teamRepository, NotificationService notificationService) {
         this.fieldRepository = fieldRepository;
         this.playerRepository = playerRepository;
         this.createPadelDayPlanService = createPadelDayPlanService;
+        this.matchRepository = matchRepository;
         this.padelDayRepository = padelDayRepository;
         this.teamRepository = teamRepository;
         this.notificationService = notificationService;
@@ -71,27 +69,46 @@ public class PlanController {
 
     //Edit the plan
     @PostMapping("/planEdit")
-    public String postPlanEdit(@ModelAttribute Team team, @RequestParam List<Integer> playerIds){
+    public String postPlanEdit(@RequestParam List<Integer> playerIds,
+                               @RequestParam Integer teamId,
+                               RedirectAttributes ra) {
 
-        boolean valid = true;
+        Team existingTeam = teamRepository.findById(teamId).orElseThrow();
+        Match currentMatch = existingTeam.getMatches().get(0);
+        LocalTime time = currentMatch.getTimeSlot();
 
-        Optional<Player> optionalPlayer1 = playerRepository.findById(playerIds.get(0));
-        Optional<Player> optionalPlayer2 = playerRepository.findById(playerIds.get(1));
-        if(optionalPlayer1.isPresent() && optionalPlayer2.isPresent()){
-            Player player1 = optionalPlayer1.get();
-            Player player2 = optionalPlayer2.get();
+        // om te voorkomen dat duplicate spelers in hetzelfde team zitten
+        if (playerIds.size() >= 2 && playerIds.get(0).equals(playerIds.get(1))) {
+            ra.addFlashAttribute("error", "A player cannot be their own partner");
+            return "redirect:/admin/plan";
+        }
 
-            if (player1 == player2) {
-                valid = false;
-            }
+        //Is de speler beschikbaar?
+        for (Integer pId : playerIds) {
 
+            // lus roept null eerst
+            if (pId == 0) continue;
 
+            // speelt de speler?
+            if (matchRepository.isPlayerBusy(time, pId)) {
 
-            if (valid) {
-                team.setPlayers(List.of(player1, player2));
-                teamRepository.save(team);
+                //als de speler speelt op dit team, krijgen we true
+                boolean alreadyInThisTeam = existingTeam.getPlayers().stream()
+                        .anyMatch(p -> p.getId().equals(pId));
+
+                //als false, dat betekent dat de speler al op een ander team speelt
+                if (!alreadyInThisTeam) {
+                    ra.addFlashAttribute("error", "Player " + pId + " is already playing at this time.");
+                    return "redirect:/admin/plan";
+                }
             }
         }
+
+        List<Integer> cleanIds = playerIds.stream().filter(id -> id != 0).toList();
+        List<Player> players = playerRepository.findAllByIds(cleanIds);
+
+        existingTeam.setPlayers(players);
+        teamRepository.save(existingTeam);
 
         return "redirect:/admin/plan";
     }
