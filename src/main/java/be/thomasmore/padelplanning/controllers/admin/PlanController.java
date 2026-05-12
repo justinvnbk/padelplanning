@@ -1,13 +1,7 @@
 package be.thomasmore.padelplanning.controllers.admin;
 
-import be.thomasmore.padelplanning.model.Field;
-import be.thomasmore.padelplanning.model.PadelDay;
-import be.thomasmore.padelplanning.model.Player;
-import be.thomasmore.padelplanning.model.Team;
-import be.thomasmore.padelplanning.repositories.FieldRepository;
-import be.thomasmore.padelplanning.repositories.PadelDayRepository;
-import be.thomasmore.padelplanning.repositories.PlayerRepository;
-import be.thomasmore.padelplanning.repositories.TeamRepository;
+import be.thomasmore.padelplanning.model.*;
+import be.thomasmore.padelplanning.repositories.*;
 import be.thomasmore.padelplanning.services.CreatePadelDayPlanService;
 import be.thomasmore.padelplanning.services.NotificationService;
 import org.slf4j.Logger;
@@ -15,9 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -27,15 +23,17 @@ import java.util.Optional;
 public class PlanController {
     private final FieldRepository fieldRepository;
     private final PlayerRepository playerRepository;
+    private final MatchRepository matchRepository;
     private final CreatePadelDayPlanService createPadelDayPlanService;
     private final PadelDayRepository padelDayRepository;
     private final Logger logger= LoggerFactory.getLogger(this.getClass());
     private final TeamRepository teamRepository;
     private final NotificationService notificationService;
 
-    public PlanController(FieldRepository fieldRepository, PlayerRepository playerRepository, CreatePadelDayPlanService createPadelDayPlanService, PadelDayRepository padelDayRepository, TeamRepository teamRepository, NotificationService notificationService) {
+    public PlanController(FieldRepository fieldRepository, PlayerRepository playerRepository, MatchRepository matchRepository, CreatePadelDayPlanService createPadelDayPlanService, PadelDayRepository padelDayRepository, TeamRepository teamRepository, NotificationService notificationService) {
         this.fieldRepository = fieldRepository;
         this.playerRepository = playerRepository;
+        this.matchRepository = matchRepository;
         this.createPadelDayPlanService = createPadelDayPlanService;
         this.padelDayRepository = padelDayRepository;
         this.teamRepository = teamRepository;
@@ -59,18 +57,66 @@ public class PlanController {
 
     //Edit the plan
     @PostMapping("/planEdit")
-    public String postPlanEdit(@ModelAttribute Team team,
-                               @RequestParam List<Integer> playerIds,
-                               @RequestParam Integer padelDayId){
-        Optional<Player> optionalPlayer1 = playerRepository.findById(playerIds.get(0));
-        Optional<Player> optionalPlayer2 = playerRepository.findById(playerIds.get(1));
-        if(optionalPlayer1.isPresent() && optionalPlayer2.isPresent()){
-            Player player1 = optionalPlayer1.get();
-            Player player2 = optionalPlayer2.get();
+    public String postPlanEdit(@RequestParam List<Integer> playerIds,
+                               @RequestParam Integer padelDayId,
+                               @RequestParam Integer teamId,
+                               RedirectAttributes ra){
 
-            team.setPlayers(List.of(player1, player2));
-            teamRepository.save(team);
+        Team existingTeam = teamRepository.findById(teamId).orElseThrow();
+        Match currentMatch = existingTeam.getMatches().get(0);
+        LocalTime time = currentMatch.getTimeSlot();
+
+        // om te voorkomen dat duplicate spelers in hetzelfde team zitten
+        if (playerIds.size() >= 2 && playerIds.get(0).equals(playerIds.get(1))) {
+            ra.addFlashAttribute("error", "Een speler kan niet zijn eigen partner zijn.");
+            return "redirect:/user/signup/" + padelDayId;
         }
+
+        //Is de speler beschikbaar?
+        for (Integer pId : playerIds) {
+
+            // lus roept null eerst
+            if (pId == 0) continue;
+
+            // speelt de speler?
+            if (matchRepository.isPlayerBusy(time, pId)) {
+
+                //als de speler speelt op dit team, krijgen we true
+                boolean alreadyInThisTeam = existingTeam.getPlayers().stream()
+                        .anyMatch(p -> p.getId().equals(pId));
+
+                //als false, dat betekent dat de speler al op een ander team speelt
+                if (!alreadyInThisTeam) {
+                    Player busyPlayer = playerRepository.findById(pId).orElseThrow();
+
+                    ra.addFlashAttribute("error", busyPlayer.getName() + " speelt al op dit tijdslot.");
+
+                    return "redirect:/user/signup/" + padelDayId;
+                }
+            }
+        }
+
+        // huidige spelers
+        List<Integer> currentIds = existingTeam.getPlayers().stream()
+                .map(Player::getId)
+                .toList();
+
+        // nieuwe spelers (als veranderd)
+        List<Integer> cleanIds = playerIds.stream().filter(id -> id != 0).toList();
+
+        // als spelers veranderd zijn
+        if (!currentIds.equals(cleanIds)) {
+            List<Player> players = playerRepository.findAllByIds(cleanIds);
+            existingTeam.setPlayers(players);
+            teamRepository.save(existingTeam);
+
+            ra.addFlashAttribute("success", "Succesvol geüpdatet!");
+
+        } else {
+
+            ra.addFlashAttribute("info", "Geen veranderingen gemaakt");
+        }
+
         return "redirect:/user/signup/" + padelDayId;
     }
 
