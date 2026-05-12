@@ -63,7 +63,6 @@ public class PlanController {
             PadelDay padelDay = optionalPadelDay.get();
             if(!padelDay.getSignedUpPlayers().isEmpty()) {
                 createPadelDayPlanService.newPadelDayPlanning(padelDay);
-                notificationService.createNotification("Nieuwe planning", "Een nieuwe planning is beschikbaar voor " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")), padelDay.getSignedUpPlayers());
             }
         }
         return "redirect:/admin/plan";
@@ -102,6 +101,18 @@ public class PlanController {
         notificationService.createNotification("Nieuw speelmoment opgestart",
                 "Er is een nieuw speelmoment gestart door " + loggedInAdmin.getName() + " voor " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM") )+ ". Schrijf je nu in!",
                 playerRepository.getAll());
+        return "redirect:/admin/plan";
+    }
+
+    @PostMapping("/plan/publish/{id}")
+    public String publishPlan(@PathVariable Integer id) {
+        Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(id);
+        optionalPadelDay.ifPresent(pd -> {
+            pd.setPublished(true);
+            padelDayRepository.save(pd);
+            notificationService.createNotification("Nieuwe planning", "Een nieuwe planning is beschikbaar voor " + pd.getDate().format(DateTimeFormatter.ofPattern("dd/MM")), pd.getSignedUpPlayers());
+
+        });
         return "redirect:/admin/plan";
     }
 
