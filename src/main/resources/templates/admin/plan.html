@@ -33,6 +33,9 @@
 
     <!--als er een padeldag beschikbaar is en een planning is aangemaakt:-->
     <div th:if="${hasPlan}">
+
+
+
         <div class="row border border-black">
             <div class="col-12 g-0 m-0 border bg-dark text-light p-2 fw-bold" th:text="${#temporals.format(padelDay.date, 'dd/MM/yyyy')}"></div>
         </div>
@@ -48,7 +51,7 @@
                     </div>
 
                     <form th:each="team, i : ${match.getTeams()}" th:object="${team}" th:action="@{/admin/planEdit}" method="post" class="box-shadow m-0 border border-dark border-bottom-0 bg-dark bg-opacity-10">
-                        <input type="hidden" name="id" th:value="${team.id}" />
+                        <input type="hidden" name="teamId" th:value="${team.id}" />
                         <div class="m-1" th:each="teamplayer : ${team.getPlayers()}">
                             <select class="form-select my-3" name="playerIds" th:style="|background-color: ${i.index==0 ? '#19466e' : '#f6f45a'}; color: ${i.index==0 ? '#FFFFFF' : '#000000'};|">
                                 <option th:each="player : ${padelDay.getSignedUpPlayers()}"
