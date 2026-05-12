@@ -34,7 +34,17 @@
     <!--als er een padeldag beschikbaar is en een planning is aangemaakt:-->
     <div th:if="${hasPlan}">
 
+        <!-- Display Error Message -->
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Oops!</strong> <span th:text="${error}">Error message goes here</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
 
+        <!-- Optional: Display Success Message -->
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span th:text="${success}">Success message goes here</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
 
         <div class="row border border-black">
             <div class="col-12 g-0 m-0 border bg-dark text-light p-2 fw-bold" th:text="${#temporals.format(padelDay.date, 'dd/MM/yyyy')}"></div>
