@@ -16,6 +16,7 @@ public class PadelDay {
     private Integer id;
     private LocalDateTime date;
     private int numberOfMatches;
+    private boolean isPublished = false;
 
     @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Match> matches;
@@ -51,6 +52,14 @@ public class PadelDay {
 
     public void setNumberOfMatches(int numberOfMatches) {
         this.numberOfMatches = numberOfMatches;
+    }
+
+    public boolean isPublished() {
+        return isPublished;
+    }
+
+    public void setPublished(boolean published) {
+        isPublished = published;
     }
 
     public Collection<Match> getMatches() {
