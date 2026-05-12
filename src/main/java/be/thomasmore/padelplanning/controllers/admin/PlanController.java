@@ -100,7 +100,7 @@ public class PlanController {
                 if (!alreadyInThisTeam) {
                     Player busyPlayer = playerRepository.findById(pId).orElseThrow();
 
-                    ra.addFlashAttribute("error", busyPlayer.getName() + " is already playing at this time.");
+                    ra.addFlashAttribute("error", busyPlayer.getName() + " speelt al op dit tijdslot.");
 
                     return "redirect:/admin/plan";
                 }
@@ -113,7 +113,7 @@ public class PlanController {
         existingTeam.setPlayers(players);
         teamRepository.save(existingTeam);
 
-        ra.addFlashAttribute("success", "Team updated successfully!");
+        ra.addFlashAttribute("success", "Succesvol geüpdatet!");
 
         return "redirect:/admin/plan";
     }
