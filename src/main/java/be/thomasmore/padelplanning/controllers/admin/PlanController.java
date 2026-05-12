@@ -72,14 +72,25 @@ public class PlanController {
     //Edit the plan
     @PostMapping("/planEdit")
     public String postPlanEdit(@ModelAttribute Team team, @RequestParam List<Integer> playerIds){
+
+        boolean valid = true;
+
         Optional<Player> optionalPlayer1 = playerRepository.findById(playerIds.get(0));
         Optional<Player> optionalPlayer2 = playerRepository.findById(playerIds.get(1));
         if(optionalPlayer1.isPresent() && optionalPlayer2.isPresent()){
             Player player1 = optionalPlayer1.get();
             Player player2 = optionalPlayer2.get();
 
-            team.setPlayers(List.of(player1, player2));
-            teamRepository.save(team);
+            if (player1 == player2) {
+                valid = false;
+            }
+
+
+
+            if (valid) {
+                team.setPlayers(List.of(player1, player2));
+                teamRepository.save(team);
+            }
         }
 
         return "redirect:/admin/plan";
