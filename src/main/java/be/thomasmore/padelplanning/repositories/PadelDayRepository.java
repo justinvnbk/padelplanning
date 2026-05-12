@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface PadelDayRepository extends CrudRepository<PadelDay, Integer> {
-    @Query("SELECT pd FROM PadelDay pd WHERE pd.date >= :now ORDER BY pd.date DESC LIMIT 1")
-    Optional<PadelDay> getLast(@Param("now") LocalDateTime now);
+    @Query("SELECT pd FROM PadelDay pd WHERE pd.date >= :now ORDER BY pd.date LIMIT 1")
+    Optional<PadelDay> getNext(@Param("now") LocalDateTime now);
+
+    @Query("SELECT pd FROM PadelDay pd ORDER BY pd.date DESC")
+    Iterable<PadelDay> findAllOrdered();
 }

@@ -5,12 +5,13 @@
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 
 <main class="container py-4" th:object="${padelDay}">
-
-    <!--als er geen padeldag beschikbaar is:-->
-    <div class="fs-2 p-5 text-center text-white bg-dark m-5 rounded" th:unless="${padelDay}">
-        Er is momenteel geen padeldag gepland.
+    <div class="float-end" sec:authorize="hasAuthority('ADMIN')">
+        <a class="btn btn-primary px-3 fw-bold shadow-sm" th:href="@{|/admin/editpadelday/*{id}|}">⚙️Padeldag aanpassen</a>
     </div>
-
+    <form th:action="@{/admin/plan}" th:if="${!hasPlan}" method="post" class="float-start" sec:authorize="hasAuthority('ADMIN')">
+        <input type="hidden" name="id" th:value="${padelDay.id}" />
+        <button class="btn btn-pma px-3 fw-bold shadow-sm" type="submit">Maak planning aan</button>
+    </form>
     <!--als er een padeldag beschikbaar is maar nog geen planning is gemaakt:-->
     <div th:if="${padelDay}" th:unless="${hasPlan}">
         <h2 style="font-size: 2.5rem" class="mb-4 text-center info-title">Algemene informatie over de volgende padeldag:</h2>
@@ -76,7 +77,7 @@
     </div>
 
     <!--als er een padeldag beschikbaar is en een planning is aangemaakt:-->
-    <div th:if="${hasPlan} ">
+    <div th:if="${hasPlan}">
 
         <h4 class="fs-2 p-2 p-md-5 text-center text-white bg-dark mx-0 my-1 m-md-5 rounded msg"
             th:text="|De planning voor deze padeldag is al opgesteld ${isSignedUp ? ', u bent ingeschreven' : '. Nog ' + (4 - padelDay.reservedPlayers.size()) + ' speler(s) nodig om de volgende groep te voltooien'}.|"></h4>
@@ -95,8 +96,45 @@
             </form>
         </div>
 
-        <div th:replace="~{fragments/plantable::plantablefragment}"></div>
+<!--        VIEW FOR USERS-->
+        <div th:replace="~{fragments/plantable::plantablefragment}" sec:authorize="hasAuthority('USER')"></div>
 
+<!--        VIEW FOR ADMIN TO EDIT-->
+        <div sec:authorize="hasAuthority('ADMIN')">
+            <div class="row border border-black">
+                <div class="col-12 g-0 m-0 border bg-dark text-light p-2 fw-bold" th:text="${#temporals.format(padelDay.date, 'dd/MM/yyyy')}"></div>
+            </div>
+            <div th:each="field : ${padelDay.fields}" class="row border border-end-0 border-black">
+                <div class="col-1 d-flex align-items-center justify-content-center fs-2 fw-bold veld" th:text="${field.name}"></div>
+
+                <div class="row col-11 m-0 g-0 flex-nowrap">
+                    <div class="col border border-bottom-0 border-top-0 border-end-0 m-0 g-0" th:each="match, i : ${padelDay.matches}" th:if="${match.field == field}">
+                        <div class="col-12 m-0 g-0">
+                            <h6 class="fw-bold p-3 bg-dark bg-opacity-75 text-light m-0 g-0"
+                                th:text="|Matches van ${match.getTimeSlot()}|">
+                            </h6>
+                        </div>
+
+                        <form th:each="team, i : ${match.getTeams()}" th:object="${team}" th:action="@{/admin/planEdit}" method="post" class="box-shadow m-0 border border-dark border-bottom-0 bg-dark bg-opacity-10">
+                            <input type="hidden" name="id" th:value="${team.id}" />
+                            <input type="hidden" name="padelDayId" th:value="${padelDay.id}" />
+                            <div class="m-1" th:each="teamplayer : ${team.getPlayers()}">
+                                <select class="form-select my-3" name="playerIds" th:style="|background-color: ${i.index==0 ? '#19466e' : '#f6f45a'}; color: ${i.index==0 ? '#FFFFFF' : '#000000'};|">
+                                    <option th:each="player : ${padelDay.getSignedUpPlayers()}"
+                                            th:value="${player.getId()}"
+                                            th:text="|${player.getName()} (P-${player.pRanking})|"
+                                            th:selected="${player.getId() == teamplayer.getId()}"></option>
+                                    <option th:value="0"></option>
+                                </select>
+                            </div>
+
+                            <button class="btn btn-pma m-2 fw-bold shadow-sm" type="submit">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
         <div class="mt-4">
             <h3 class="border-dark border-bottom text-center">Reservelijst: </h3>
             <div class="mt-3 text-center" th:each="p : ${padelDay.reservedPlayers}">
@@ -105,7 +143,7 @@
             <div class="mt-3 fs-5 text-center"
                  th:text="${padelDay.reservedPlayers.size()==0?'Reservelijst is leeg':''}"></div>
         </div>
-    </div>
+        </div>
 
 </main>
 <footer th:replace="~{fragments/headerfooter::footer}"></footer>

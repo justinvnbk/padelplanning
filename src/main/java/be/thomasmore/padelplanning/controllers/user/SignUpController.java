@@ -8,10 +8,7 @@ import be.thomasmore.padelplanning.services.CreatePadelDayPlanService;
 import be.thomasmore.padelplanning.services.NotificationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -33,10 +30,18 @@ public class SignUpController {
         this.createPadelDayPlanService = createPadelDayPlanService;
     }
 
-    @GetMapping("/signup")
+    @GetMapping("/padeldays")
+    public String padeldays(Model model, Principal principal) {
+        Iterable<PadelDay> padelDays = padelDayRepository.findAllOrdered();
+        model.addAttribute("padelDays", padelDays);
+        return "user/padeldays";
+    }
+
+    @GetMapping("/signup/{padelDayId}")
     public String reserve(Model model,
-                          Principal principal) {
-        Optional<PadelDay> optionalPadelDay = padelDayRepository.getLast(LocalDateTime.now());
+                          Principal principal,
+                          @PathVariable Integer padelDayId) {
+        Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(padelDayId);
         boolean hasPlan = false;
         if(optionalPadelDay.isPresent()){
             PadelDay padelDay = optionalPadelDay.get();
@@ -82,7 +87,7 @@ public class SignUpController {
                 padelDayRepository.save(padelDay);
             }
         }
-        return "redirect:/user/signup";
+        return "redirect:/user/signup/" + id;
     }
 
     @PostMapping("/signout")
@@ -147,6 +152,6 @@ public class SignUpController {
             padelDay.setReservedPlayers(reservePlayers);
             padelDayRepository.save(padelDay);
         }
-        return "redirect:/user/signup";
+        return "redirect:/user/signup/" + id;
     }
 }

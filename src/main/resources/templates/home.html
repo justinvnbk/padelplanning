@@ -6,7 +6,7 @@
 
 <main>
     <div th:if="${padelDay}">
-        <h1 class="text-center my-5">Overzicht Speelmomenten</h1>
+        <h1 class="text-center my-5">Overzicht eerst volgende speelmomenten</h1>
        <div th:replace="~{fragments/plantable::plantablefragment}"></div>
     </div>
     <div class="fs-2 p-5 text-center text-white bg-dark m-5 rounded" th:unless="${padelDay}">Er is nog geen nieuwe padel dag gepland, kom later terug</div>
