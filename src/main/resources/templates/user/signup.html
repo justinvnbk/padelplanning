@@ -101,6 +101,24 @@
 
 <!--        VIEW FOR ADMIN TO EDIT-->
         <div sec:authorize="hasAuthority('ADMIN')">
+
+            <div class="row">
+                <div th:if="${error}" class="alert alert-danger alert-dismissible fade show col-11 col-md-5 ms-3 mx-md-0" role="alert">
+                    <strong>Niet opgeslagen!</strong> <span th:text="${error}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <div th:if="${success}" class="alert alert-success alert-dismissible fade show col-11 col-md-5 ms-3 mx-md-0" role="alert">
+                    <span th:text="${success}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <div th:if="${info}" class="alert alert-info alert-dismissible fade show col-11 col-md-5 ms-3 mx-md-0" role="alert">
+                    <span th:text="${info}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+
             <div class="row border border-black">
                 <div class="col-12 g-0 m-0 border bg-dark text-light p-2 fw-bold" th:text="${#temporals.format(padelDay.date, 'dd/MM/yyyy')}"></div>
             </div>
