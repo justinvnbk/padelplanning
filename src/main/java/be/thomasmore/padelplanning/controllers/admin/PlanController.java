@@ -79,7 +79,7 @@ public class PlanController {
 
         // om te voorkomen dat duplicate spelers in hetzelfde team zitten
         if (playerIds.size() >= 2 && playerIds.get(0).equals(playerIds.get(1))) {
-            ra.addFlashAttribute("error", "A player cannot be their own partner");
+            ra.addFlashAttribute("error", "Een speler kan niet zijn eigen partner zijn.");
             return "redirect:/admin/plan";
         }
 
@@ -98,7 +98,10 @@ public class PlanController {
 
                 //als false, dat betekent dat de speler al op een ander team speelt
                 if (!alreadyInThisTeam) {
-                    ra.addFlashAttribute("error", "Player " + pId + " is already playing at this time.");
+                    Player busyPlayer = playerRepository.findById(pId).orElseThrow();
+
+                    ra.addFlashAttribute("error", busyPlayer.getName() + " is already playing at this time.");
+
                     return "redirect:/admin/plan";
                 }
             }
@@ -109,6 +112,8 @@ public class PlanController {
 
         existingTeam.setPlayers(players);
         teamRepository.save(existingTeam);
+
+        ra.addFlashAttribute("success", "Team updated successfully!");
 
         return "redirect:/admin/plan";
     }
