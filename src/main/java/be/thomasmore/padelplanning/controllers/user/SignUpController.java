@@ -30,6 +30,13 @@ public class SignUpController {
         this.createPadelDayPlanService = createPadelDayPlanService;
     }
 
+    @GetMapping("/padeldays")
+    public String padeldays(Model model, Principal principal) {
+        Iterable<PadelDay> padelDays = padelDayRepository.findAllOrdered();
+        model.addAttribute("padelDays", padelDays);
+        return "user/padeldays";
+    }
+
     @GetMapping("/signup/{padelDayId}")
     public String reserve(Model model,
                           Principal principal,
