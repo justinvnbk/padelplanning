@@ -36,7 +36,7 @@ public class SignUpController {
     @GetMapping("/signup")
     public String reserve(Model model,
                           Principal principal) {
-        Optional<PadelDay> optionalPadelDay = padelDayRepository.getLast(LocalDateTime.now());
+        Optional<PadelDay> optionalPadelDay = padelDayRepository.getNext(LocalDateTime.now());
         boolean hasPlan = false;
         if(optionalPadelDay.isPresent()){
             PadelDay padelDay = optionalPadelDay.get();

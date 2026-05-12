@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +44,7 @@ public class PlanController {
 
     @GetMapping("/plan")
     public String plan(Model model){
-        Optional<PadelDay> optionalPadelDay = padelDayRepository.getLast(LocalDateTime.now());
+        Optional<PadelDay> optionalPadelDay = padelDayRepository.getNext(LocalDateTime.now());
         boolean hasPlan = false;
         if(optionalPadelDay.isPresent()){
             model.addAttribute("padelDay", optionalPadelDay.get());
