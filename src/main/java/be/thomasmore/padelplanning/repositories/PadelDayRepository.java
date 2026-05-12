@@ -11,4 +11,7 @@ import java.util.Optional;
 public interface PadelDayRepository extends CrudRepository<PadelDay, Integer> {
     @Query("SELECT pd FROM PadelDay pd WHERE pd.date >= :now ORDER BY pd.date DESC LIMIT 1")
     Optional<PadelDay> getLast(@Param("now") LocalDateTime now);
+
+    @Query("SELECT pd FROM PadelDay pd WHERE pd.date >= :now AND pd.isPublished = true ORDER BY pd.date DESC LIMIT 1")
+    Optional<PadelDay> getLastPublished(@Param("now") LocalDateTime now);
 }
