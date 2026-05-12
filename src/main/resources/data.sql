@@ -130,9 +130,9 @@ VALUES
 
 
 -- Test padeldag met inschijvingen:
-INSERT INTO padel_day (date, number_of_matches)
+INSERT INTO padel_day (date, number_of_matches, is_published)
 VALUES
-('2026-07-06 18:00:00', 3);
+('2026-07-06 14:00:00', 3, false);
 --
 INSERT INTO PADEL_DAY_FIELDS (FIELDS_ID,PADEL_DAYS_ID)
 VALUES
