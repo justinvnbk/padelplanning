@@ -42,17 +42,6 @@ public class PlanController {
         this.notificationService = notificationService;
     }
 
-    @GetMapping("/plan")
-    public String plan(Model model){
-        Optional<PadelDay> optionalPadelDay = padelDayRepository.getNext(LocalDateTime.now());
-        boolean hasPlan = false;
-        if(optionalPadelDay.isPresent()){
-            model.addAttribute("padelDay", optionalPadelDay.get());
-            hasPlan = !optionalPadelDay.get().getMatches().isEmpty();
-        }
-        model.addAttribute("hasPlan", hasPlan);
-        return "admin/plan";
-    }
 
     //Create a new plan for the curren PadelDay
     @PostMapping("/plan")
@@ -65,12 +54,14 @@ public class PlanController {
                 notificationService.createNotification("Nieuwe planning", "Een nieuwe planning is beschikbaar voor " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")), padelDay.getSignedUpPlayers());
             }
         }
-        return "redirect:/admin/plan";
+        return "redirect:/user/signup/" + id;
     }
 
     //Edit the plan
     @PostMapping("/planEdit")
-    public String postPlanEdit(@ModelAttribute Team team, @RequestParam List<Integer> playerIds){
+    public String postPlanEdit(@ModelAttribute Team team,
+                               @RequestParam List<Integer> playerIds,
+                               @RequestParam Integer padelDayId){
         Optional<Player> optionalPlayer1 = playerRepository.findById(playerIds.get(0));
         Optional<Player> optionalPlayer2 = playerRepository.findById(playerIds.get(1));
         if(optionalPlayer1.isPresent() && optionalPlayer2.isPresent()){
@@ -80,8 +71,7 @@ public class PlanController {
             team.setPlayers(List.of(player1, player2));
             teamRepository.save(team);
         }
-
-        return "redirect:/admin/plan";
+        return "redirect:/user/signup/" + padelDayId;
     }
 
     @GetMapping("/newpadelday")
@@ -101,7 +91,7 @@ public class PlanController {
         notificationService.createNotification("Nieuw speelmoment opgestart",
                 "Er is een nieuw speelmoment gestart door " + loggedInAdmin.getName() + " voor " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM") )+ ". Schrijf je nu in!",
                 playerRepository.getAll());
-        return "redirect:/admin/plan";
+        return "redirect:/admin/padeldays";
     }
 
     @GetMapping("/editpadelday/{id}")
@@ -138,6 +128,6 @@ public class PlanController {
         notificationService.createNotification("Aanpassing speelmoment",
                 "Het speelmoment is aangepast door " + loggedInAdmin.getName() + ". Bekijk het bij de inschrijvingen!",
                 recipients);
-        return "redirect:/admin/plan";
+        return "redirect:/admin/padeldays";
     }
 }

@@ -5,6 +5,9 @@
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 
 <main class="container py-4">
+    <div class="float-end">
+        <a class="btn btn-primary" th:href="@{/admin/newpadelday}" >+ Plan nieuwe padel dag</a>
+    </div>
     <h1 class="text-center mb-5">Padel dagen</h1>
     <div class="row row-cols-1 row-cols-md-4 g-4">
         <div class="col" th:each="padelDay: ${padelDays}" th:object="${padelDay}">
