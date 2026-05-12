@@ -15,5 +15,5 @@ public interface PlayerRepository extends CrudRepository<Player, Integer> {
     Player findByEmail(@Param("email") String email);
 
     @Query("SELECT p FROM Player p WHERE p.id IN :ids")
-    List<Player> findAllById(@Param("ids") Iterable<Integer> ids);
+    List<Player> findAllByIds(@Param("ids") Iterable<Integer> ids);
 }
