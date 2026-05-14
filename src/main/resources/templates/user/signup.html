@@ -19,11 +19,11 @@
                 </div>
         <div class="row d-none d-md-flex mb-3">
             <div class="col-6 d-flex justify-content-end" sec:authorize="hasAuthority('ADMIN')">
-                <a style="font-size: 1.1rem" class="btn btn-primary px-3 fw-bold shadow-sm" th:href="@{|/admin/editpadelday/*{id}|}">⚙️Padeldag aanpassen</a>
+                <a style="font-size: 1.3rem" class="btn btn-primary px-3 fw-bold shadow-sm" th:href="@{|/admin/editpadelday/*{id}|}">⚙️Padeldag aanpassen</a>
             </div>
             <form class="col-6" th:action="@{/admin/plan}" th:if="${!hasPlan}" method="post"sec:authorize="hasAuthority('ADMIN')">
                 <input type="hidden" name="id" th:value="${padelDay.id}" />
-                <button style="font-size: 1rem" class="btn btn-pma px-3 fw-bold shadow-sm" type="submit">Maak planning aan</button>
+                <button style="font-size: 1.1rem" class="btn btn-pma px-3 fw-bold shadow-sm" type="submit">Maak planning aan</button>
             </form>
         </div>
                 <div style="font-size: 1.5rem" class="info-padelday col-12 col-md-6 mx-md-auto">
