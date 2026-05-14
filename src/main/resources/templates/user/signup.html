@@ -5,23 +5,58 @@
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 
 <main class="container py-4" th:object="${padelDay}">
-    <div class="float-end" sec:authorize="hasAuthority('ADMIN')">
-        <a class="btn btn-primary px-3 fw-bold shadow-sm" th:href="@{|/admin/editpadelday/*{id}|}">⚙️Padeldag aanpassen</a>
-    </div>
-    <form th:action="@{/admin/plan}" th:if="${!hasPlan}" method="post" class="float-start" sec:authorize="hasAuthority('ADMIN')">
-        <input type="hidden" name="id" th:value="${padelDay.id}" />
-        <button class="btn btn-pma px-3 fw-bold shadow-sm" type="submit">Maak planning aan</button>
-    </form>
     <!--als er een padeldag beschikbaar is maar nog geen planning is gemaakt:-->
     <div th:if="${padelDay}" th:unless="${hasPlan}">
-        <h2 style="font-size: 2.5rem" class="mb-4 text-center info-title">Algemene informatie over de volgende padeldag:</h2>
+                 <h2 style="font-size: 2.5rem" class="mb-4 text-center info-title">Algemene informatie over de volgende padeldag:</h2>
+                 <div class="row d-flex d-md-none mb-3">
+                    <div class="col-6 d-flex justify-content-end" sec:authorize="hasAuthority('ADMIN')">
+                       <a style="font-size: 0.70rem" class="btn btn-primary px-3 fw-bold shadow-sm" th:href="@{|/admin/editpadelday/*{id}|}">⚙️Padeldag aanpassen</a>
+                    </div>
+                    <form class="col-6" th:action="@{/admin/plan}" th:if="${!hasPlan}" method="post"sec:authorize="hasAuthority('ADMIN')">
+                       <input type="hidden" name="id" th:value="${padelDay.id}" />
+                       <button style="font-size: 0.66rem" class="btn btn-pma px-3 fw-bold shadow-sm" type="submit">Maak planning aan</button>
+                    </form>
+                </div>
+        <div class="row d-none d-md-flex mb-3">
+            <div class="col-6 d-flex justify-content-end" sec:authorize="hasAuthority('ADMIN')">
+                <a style="font-size: 1.1rem" class="btn btn-primary px-3 fw-bold shadow-sm" th:href="@{|/admin/editpadelday/*{id}|}">⚙️Padeldag aanpassen</a>
+            </div>
+            <form class="col-6" th:action="@{/admin/plan}" th:if="${!hasPlan}" method="post"sec:authorize="hasAuthority('ADMIN')">
+                <input type="hidden" name="id" th:value="${padelDay.id}" />
+                <button style="font-size: 1rem" class="btn btn-pma px-3 fw-bold shadow-sm" type="submit">Maak planning aan</button>
+            </form>
+        </div>
                 <div style="font-size: 1.5rem" class="info-padelday col-12 col-md-6 mx-md-auto">
-                    <div class="mb-5 bg-dark text-light rounded border border-dark p-2 text-center"
+                    <div class="mb-3 mb-md-5 bg-dark text-light rounded border border-dark p-2 text-center"
                          th:text="|Startuur: ${#temporals.format(padelDay.date, 'HH:mm')}|"></div>
-                    <div class="mb-5 bg-dark text-light rounded border border-dark p-2 text-center"
+                    <div class="mb-3 mb-md-5  bg-dark text-light rounded border border-dark p-2 text-center"
                          th:text="|Dag: ${#temporals.format(padelDay.date, 'EEEE', #locale.of('nl', 'NL'))} ${#temporals.format(padelDay.date, 'dd/MM/yyyy')}|"></div>
-                    <div class="mb-5 bg-dark text-light rounded border border-dark p-2 text-center"
+                    <div class="mb-3 mb-md-5  bg-dark text-light rounded border border-dark p-2 text-center"
                          th:text="|Velden: ${#strings.listJoin(padelDay.fields.![name], ', ')} (${padelDay.fields.size()*4} plaatsen)|"></div>
+                </div>
+
+                <div class="mt-4 mx-auto d-none d-md-inline" sec:authorize="hasAuthority('ADMIN')">
+                    <div class="mb-5">
+                         <h3 style="font-size: 2rem" class="border-dark border-bottom text-center list-title">Inschrijvingen:</h3>
+                <!-- Container for the names -->
+                        <div class="d-flex flex-wrap justify-content-center mt-3 list-players" style="font-size: 1.3rem">
+                    <!-- Each name takes up 50% width -->
+                            <div th:each="p : ${padelDay.signedUpPlayers}"
+                              class="px-2" style="flex: 0 0 25%;" th:text="|-${p.name}|">
+                            </div>
+                        </div>
+                        <div class="mt-3 fs-5 text-center"
+                             th:text="${padelDay.signedUpPlayers.size()==0?'Nog geen inschrijvingen':''}"></div>
+                    </div>
+
+                    <div class="mb-5">
+                         <h3 style="font-size: 2rem" class="border-dark border-bottom text-center list-title">Reservelijst: </h3>
+                         <div style="font-size: 1.3rem" class="mt-3 text-center list-players" th:each="p : ${padelDay.reservedPlayers}">
+                             <div th:text="|-${p.name}|"></div>
+                         </div>
+                         <div class="mt-3 fs-5 text-center"
+                           th:text="${padelDay.reservedPlayers.size()==0?'Reservelijst is leeg':''}"></div>
+                    </div>
                 </div>
                 <div class="justify-content-center d-none d-md-flex">
                     <form th:action="@{/user/signup}" method="post" class="m-2">
@@ -38,25 +73,32 @@
                     </form>
                 </div>
             </div>
-<!--            <div class="col-6 col-md-5 mt-4">-->
-<!--                <div class="mb-5">-->
-<!--                    <h3 style="font-size: 2rem" class="border-dark border-bottom text-center list-title">Inschrijvingen:</h3>-->
-<!--                    <div style="font-size: 1.3rem" class="mt-3 text-center list-players" th:each="p : ${padelDay.signedUpPlayers}">-->
-<!--                        <div th:text="|-${p.name}|"></div>-->
-<!--                    </div>-->
-<!--                    <div class="mt-3 fs-5 text-center"-->
-<!--                         th:text="${padelDay.signedUpPlayers.size()==0?'Nog geen inschrijvingen':''}"></div>-->
-<!--                </div>-->
 
-<!--                <div class="mb-2">-->
-<!--                    <h3 style="font-size: 2rem" class="border-dark border-bottom text-center list-title">Reservelijst: </h3>-->
-<!--                    <div style="font-size: 1.3rem" class="mt-3 text-center list-players" th:each="p : ${padelDay.reservedPlayers}">-->
-<!--                        <div th:text="|-${p.name}|"></div>-->
-<!--                    </div>-->
-<!--                    <div class="mt-3 fs-5 text-center"-->
-<!--                         th:text="${padelDay.reservedPlayers.size()==0?'Reservelijst is leeg':''}"></div>-->
-<!--                </div>-->
-<!--            </div>-->
+            <div class="mt-4 mx-auto d-inline d-md-none" sec:authorize="hasAuthority('ADMIN')">
+                <div class="mb-5">
+                    <h3 style="font-size: 2rem" class="border-dark border-bottom text-center list-title">Inschrijvingen:</h3>
+                    <!-- Container for the names -->
+                    <div class="d-flex flex-wrap justify-content-center mt-3 list-players" style="font-size: 1.3rem">
+                        <!-- Each name takes up 50% width -->
+                        <div th:each="p : ${padelDay.signedUpPlayers}"
+                             class="px-2"
+                             style="flex: 0 0 33%;"
+                             th:text="|-${p.name}|">
+                        </div>
+                    </div>
+                    <div class="mt-3 text-center"
+                         th:text="${padelDay.signedUpPlayers.size()==0?'Nog geen inschrijvingen':''}"></div>
+                </div>
+
+                <div class="mb-2">
+                    <h3 style="font-size: 2rem" class="border-dark border-bottom text-center list-title">Reservelijst: </h3>
+                    <div style="font-size: 1.3rem" class="mt-3 text-center list-players" th:each="p : ${padelDay.reservedPlayers}">
+                        <div th:text="|-${p.name}|"></div>
+                    </div>
+                    <div class="mt-3 text-center"
+                         th:text="${padelDay.reservedPlayers.size()==0?'Reservelijst is leeg':''}"></div>
+                </div>
+            </div>
             <div class="d-flex justify-content-center mb-5 d-md-none">
                 <form th:action="@{/user/signup}" method="post" class="m-2">
                     <input type="hidden" name="id" th:value="${padelDay.id}"/>
