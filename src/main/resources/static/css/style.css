@@ -136,7 +136,6 @@ main {
     background-color: green !important;
     color: white !important;
 }
-/* Range 1: Small screens (up to 899px) */
 
 @media screen and (max-width: 767px){
     .navbar-nav .nav-link, .navbar-nav .btn { border: none !important; font-size: 0.8rem; }
@@ -154,33 +153,34 @@ main {
 }
 
 @media screen and (min-width: 768px) and (max-width: 911px) {
-    .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.5rem; }
+    .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.6rem; }
     .welcome { font-size: 0.8rem !important;}
 }
 
 @media screen and (min-width: 911px) and (max-width: 970px) {
-    .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.6rem; }
-    .welcome { font-size: 0.9rem !important;}
+    .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.65rem; }
+    .welcome { font-size: 0.8rem !important;}
 }
 
 @media screen and (min-width: 970px) and (max-width: 999px) {
     .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.7rem; }
-    .welcome { font-size: 0.9rem !important;}
+    .welcome { font-size: 0.82rem !important;}
 }
 
 @media screen and (min-width: 1000px) and (max-width: 1064px) {
     .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.75rem; }
-    .welcome { font-size: 1rem !important;}
+    .welcome { font-size: 0.87rem !important;}
 }
 
-/* Range 2: Medium screens (900px to 1019px) */
 @media screen and (min-width: 1065px) and (max-width: 1150px) {
-    .navbar-nav .nav-link { font-size: 0.9rem; }
+    .navbar-nav .nav-link { font-size: 0.82rem; }
+    .welcome { font-size: 0.9rem !important;}
 }
 
-/* Range 3: Large screens (1020px and up) */
-@media screen and (min-width: 1150px) {
-    .navbar-nav .nav-link { font-size: 1rem; }
+@media screen and (min-width: 1151px) and (max-width: 1280px)  {
+    .navbar-nav .nav-link { font-size: 0.85rem;}
+    .welcome { font-size: 1rem !important;}
+    .noti-btn{ font-size: 25px}
 }
 
 
