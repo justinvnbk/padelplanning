@@ -180,7 +180,6 @@ main {
 @media screen and (min-width: 1151px) and (max-width: 1280px)  {
     .navbar-nav .nav-link { font-size: 0.85rem;}
     .welcome { font-size: 1rem !important;}
-    .noti-btn{ font-size: 25px}
 }
 
 
