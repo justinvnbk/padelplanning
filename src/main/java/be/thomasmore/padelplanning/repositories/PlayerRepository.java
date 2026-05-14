@@ -18,4 +18,13 @@ public interface PlayerRepository extends CrudRepository<Player, Integer> {
 
     @Query("SELECT p FROM Player p WHERE p.id IN :ids")
     List<Player> findAllByIds(@Param("ids") Iterable<Integer> ids);
+
+//    @Query("SELECT p FROM Player p JOIN p.authorities a WHERE a.authority = 'ADMIN'")
+//    List<Player> findAllAdmins();
+
+    @Query(value = "SELECT p.* FROM player p " +
+            "JOIN authorities a ON p.email = a.username " +
+            "WHERE a.authority = 'ADMIN'",
+            nativeQuery = true)
+    List<Player> findAllAdmins();
 }
