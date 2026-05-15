@@ -15,12 +15,12 @@
                     <div style="font-size: 1.2rem"
                          th:each="timeSlot : ${padelDay.uniqueTimeSlots}"
                          th:class="|col border-end p-2 fw-bold text-center mt-1 matches|"
-                         th:text="'Match ' + ${timeSlotStat.count} + ' (' + ${timeSlot} + ')'"></div> <!--th:class="|col-${12 / padelDay.fields.size()} border-end ps-2 fw-bold|"-->
+                         th:text="'Match ' + ${timeSlotStat.count} + ' (' + ${timeSlot} + ')'"></div>
                 </div>
             </div>
         </div>
 
-        <div th:each="field : ${padelDay.fields}" class="border border-black">
+        <div th:each="field : ${padelDay.fields}" th:if="${!field.matches.isEmpty()}" class="border border-black">
             <div class="container-fluid p-0">
 
                 <div class="row g-0 border-start border-end border-bottom">
