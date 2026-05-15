@@ -4,6 +4,7 @@ import be.thomasmore.padelplanning.model.PadelDay;
 import be.thomasmore.padelplanning.model.Player;
 import be.thomasmore.padelplanning.repositories.PadelDayRepository;
 import be.thomasmore.padelplanning.repositories.PlayerRepository;
+import be.thomasmore.padelplanning.services.NotificationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,10 +21,12 @@ import java.util.Optional;
 public class PaymentController {
     private final PlayerRepository playerRepository;
     private final PadelDayRepository padelDayRepository;
+    private final NotificationService notificationService;
 
-    public PaymentController(PlayerRepository playerRepository, PadelDayRepository padelDayRepository) {
+    public PaymentController(PlayerRepository playerRepository, PadelDayRepository padelDayRepository, NotificationService notificationService) {
         this.playerRepository = playerRepository;
         this.padelDayRepository = padelDayRepository;
+        this.notificationService = notificationService;
     }
 
     @PostMapping("/payed")
@@ -40,6 +44,10 @@ public class PaymentController {
                 player.setPayedPadelDays(player.getPayedPadelDays());
 
                 playerRepository.save(player);
+
+                notificationService.createNotification("Speler heeft betaald",
+                        player.getName() + " heeft betaald voor de padel dag op: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                        playerRepository.findAllAdmins());
             }
         }
         return "redirect:/user/signup/" + id;
