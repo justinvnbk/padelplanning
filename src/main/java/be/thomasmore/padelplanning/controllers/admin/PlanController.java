@@ -66,26 +66,26 @@ public class PlanController {
         Match currentMatch = existingTeam.getMatches().get(0);
         LocalTime time = currentMatch.getTimeSlot();
 
-        // om te voorkomen dat duplicate spelers in hetzelfde team zitten
+        // to prevent duplicate players on the same team
         if (playerIds.size() >= 2 && playerIds.get(0).equals(playerIds.get(1))) {
             ra.addFlashAttribute("error", "Een speler kan niet zijn eigen partner zijn.");
             return "redirect:/user/signup/" + padelDayId;
         }
 
-        //Is de speler beschikbaar?
+        // is the player availible?
         for (Integer pId : playerIds) {
 
-            // lus roept null eerst
+            // the loop calls null first
             if (pId == 0) continue;
 
-            // speelt de speler?
+            // does the player play at that time?
             if (matchRepository.isPlayerBusy(time, pId)) {
 
-                //als de speler speelt op dit team, krijgen we true
+                // if the player is already on the team, it returns true
                 boolean alreadyInThisTeam = existingTeam.getPlayers().stream()
                         .anyMatch(p -> p.getId().equals(pId));
 
-                //als false, dat betekent dat de speler al op een ander team speelt
+                // if false, it means that the player is already on another team
                 if (!alreadyInThisTeam) {
                     Player busyPlayer = playerRepository.findById(pId).orElseThrow();
 
@@ -96,15 +96,15 @@ public class PlanController {
             }
         }
 
-        // huidige spelers
+        // current players
         List<Integer> currentIds = existingTeam.getPlayers().stream()
                 .map(Player::getId)
                 .toList();
 
-        // nieuwe spelers (als veranderd)
+        // new players (if changed)
         List<Integer> cleanIds = playerIds.stream().filter(id -> id != 0).toList();
 
-        // als spelers veranderd zijn
+        // if the players are changed
         if (!currentIds.equals(cleanIds)) {
             List<Player> players = playerRepository.findAllByIds(cleanIds);
             existingTeam.setPlayers(players);
