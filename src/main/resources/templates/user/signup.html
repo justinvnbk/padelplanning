@@ -5,7 +5,7 @@
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 
 <main class="container py-4" th:object="${padelDay}">
-    <!--als er een padeldag beschikbaar is maar nog geen planning is gemaakt:-->
+    <!--There is a padelday but there is no plan available yet:-->
     <div th:if="${padelDay}" th:unless="${hasPlan}">
                  <h2 style="font-size: 2.5rem" class="mb-4 text-center info-title">Algemene informatie over de volgende padeldag:</h2>
                  <div class="row d-flex d-md-none mb-3">
@@ -130,7 +130,7 @@
                 </div>
             </div>
 
-    <!--als er een padeldag beschikbaar is en een planning is aangemaakt:-->
+    <!--There is a padelday and there is a plan available:-->
     <div th:if="${hasPlan}">
 
         <h4 class="fs-2 p-2 p-md-5 text-center text-white bg-dark mx-0 my-1 m-md-5 rounded msg"
