@@ -79,7 +79,7 @@ public class SignUpController {
                     reservePlayers.clear();
                     if(padelDay.getMatches().size()>0) {
                         //The plan is recreated, matches are filled with the new players
-                        createPadelDayPlanService.newPadelDayPlanning(padelDay);
+                        createPadelDayPlanService.newPadelDayPlan(padelDay);
                     }
                 }
                 padelDay.setSignedUpPlayers(signedUpPlayers);
@@ -150,7 +150,7 @@ public class SignUpController {
                 }
                 if(padelDay.getMatches().size()>0) {
                     //The plan is recreated, matches are filled without the removed players
-                    createPadelDayPlanService.newPadelDayPlanning(padelDay);
+                    createPadelDayPlanService.newPadelDayPlan(padelDay);
                 }
             }
             padelDay.setSignedUpPlayers(signedUpPlayers);
