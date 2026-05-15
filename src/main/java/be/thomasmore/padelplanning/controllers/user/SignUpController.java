@@ -49,6 +49,7 @@ public class SignUpController {
 
             Player loggedPlayer = playerRepository.findByEmail(principal.getName());
             model.addAttribute("isSignedUp", padelDay.getSignedUpPlayers().contains(loggedPlayer) || padelDay.getReservedPlayers().contains(loggedPlayer));
+            model.addAttribute("hasPayed", loggedPlayer.getPayedPadelDays().contains(padelDay));
             hasPlan = !optionalPadelDay.get().getMatches().isEmpty();
         }
         model.addAttribute("hasPlan", hasPlan);

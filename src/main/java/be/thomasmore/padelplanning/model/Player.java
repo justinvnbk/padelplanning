@@ -24,15 +24,23 @@ public class Player {
     private String telephone;
     private String email;
     private boolean hasUnseenNotifications;
+
     @Transient
     private String password;
+
     @Enumerated(EnumType.STRING)
     private PreferredPlayside preferredPlayside;
+
     private String profilePictureUrl;
-    @ManyToMany(mappedBy = "players")
+
+    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "players")
     private Collection<Team> teams;
-    @ManyToMany(mappedBy="recipients")
+
+    @ManyToMany(fetch = FetchType.LAZY,mappedBy="recipients")
     private List<Notification> notifications;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<PadelDay> payedPadelDays;
 
     public Integer getId() {
         return id;
@@ -152,5 +160,13 @@ public class Player {
 
     public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;
+    }
+
+    public List<PadelDay> getPayedPadelDays() {
+        return payedPadelDays;
+    }
+
+    public void setPayedPadelDays(List<PadelDay> payedPadelDays) {
+        this.payedPadelDays = payedPadelDays;
     }
 }
