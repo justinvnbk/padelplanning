@@ -24,15 +24,9 @@ public class HomeController {
     }
 
     @GetMapping({"/","/home"})
-    public String home(Model model,
-                       Authentication authentication){
+    public String home(Model model){
         Optional<PadelDay> optionalPadelDay = padelDayRepository.getNext(LocalDateTime.now());
 
-        if (authentication != null && authentication.isAuthenticated()) {
-            String email = authentication.getName();
-            Player player = playerRepository.findByEmail(email);
-            model.addAttribute("playerName", player.getName());
-        }
         if(optionalPadelDay.isPresent()){
             List<LocalTime> getUniqueTimeSlots = optionalPadelDay.get().getMatches().stream()
                     .map(Match::getTimeSlot)
