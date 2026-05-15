@@ -8,6 +8,9 @@
     <!--There is a padelday but there is no plan available yet:-->
     <div th:if="${padelDay}" th:unless="${hasPlan}">
                  <h2 style="font-size: 2.5rem" class="mb-4 text-center info-title">Algemene informatie over de volgende padeldag:</h2>
+                <div class="d-flex justify-content-center mb-2" sec:authorize="hasAuthority('ADMIN')">
+                    <a style="font-size: 0.70rem" class="btn btn-primary px-3 fw-bold shadow-sm" th:href="@{|/admin/payments/*{id}|}">🏦Bekijk betalingen</a>
+                </div>
                  <div class="row d-flex d-md-none mb-3">
                     <div class="col-6 d-flex justify-content-end" sec:authorize="hasAuthority('ADMIN')">
                        <a style="font-size: 0.70rem" class="btn btn-primary px-3 fw-bold shadow-sm" th:href="@{|/admin/editpadelday/*{id}|}">⚙️Padeldag aanpassen</a>
@@ -72,7 +75,7 @@
                         </button>
                     </form>
                 </div>
-                <div class="justify-content-center d-none d-md-flex">
+                <div class="justify-content-center d-md-flex">
                     <form th:action="@{/user/payed}" method="post" class="m-2">
                         <input type="hidden" name="id" th:value="${padelDay.id}"/>
                         <button class="btn btn-pma px-2 insch fw-bold shadow-sm text-nowrap" style="font-size: 1.1rem" th:disabled="${!isSignedUp || hasPayed} " type="submit">
@@ -120,10 +123,10 @@
                         wil me uitschrijven
                     </button>
                 </form>
-                <div class="justify-content-center d-none d-md-flex">
+                <div class="justify-content-center d-md-flex">
                     <form th:action="@{/user/payed}" method="post" class="m-2">
                         <input type="hidden" name="id" th:value="${padelDay.id}"/>
-                        <button class="btn btn-pma px-2 insch fw-bold shadow-sm text-nowrap" style="font-size: 1.1rem" th:disabled="${!isSignedUp}" type="submit">Ik
+                        <button class="btn btn-pma px-2 insch fw-bold shadow-sm text-nowrap" style="font-size: 1.1rem" th:disabled="${!isSignedUp || hasPayed} " type="submit">
                             Ik heb betaald
                         </button>
                     </form>
@@ -132,7 +135,9 @@
 
     <!--There is a padelday and there is a plan available:-->
     <div th:if="${hasPlan}">
-
+        <div class="d-flex justify-content-center mb-2" sec:authorize="hasAuthority('ADMIN')">
+            <a style="font-size: 0.70rem" class="btn btn-primary px-3 fw-bold shadow-sm" th:href="@{|/admin/payments/*{id}|}">🏦Bekijk betalingen</a>
+        </div>
         <h4 class="fs-2 p-2 p-md-5 text-center text-white bg-dark mx-0 my-1 m-md-5 rounded msg"
             th:text="|De planning voor deze padeldag is al opgesteld ${isSignedUp ? ', u bent ingeschreven' : '. Nog ' + (4 - padelDay.reservedPlayers.size()) + ' speler(s) nodig om de volgende groep te voltooien'}.|"></h4>
         <div th:if="${padelDay}" class="d-flex justify-content-center mt-5">
@@ -149,10 +154,10 @@
                 </button>
             </form>
         </div>
-        <div class="justify-content-center d-none d-md-flex">
+        <div class="justify-content-center d-md-flex">
             <form th:action="@{/user/payed}" method="post" class="m-2">
-                <input type="hidden" name="padelDay" th:value="${padelDay}"/>
-                <button class="btn btn-pma px-2 insch fw-bold shadow-sm text-nowrap" style="font-size: 1.1rem" th:disabled="${!isSignedUp}" type="submit">Ik
+                <input type="hidden" name="id" th:value="${padelDay.id}"/>
+                <button class="btn btn-pma px-2 insch fw-bold shadow-sm text-nowrap" style="font-size: 1.1rem" th:disabled="${!isSignedUp || hasPayed} " type="submit">
                     Ik heb betaald
                 </button>
             </form>
