@@ -48,7 +48,7 @@ public class PlanController {
         if(optionalPadelDay.isPresent()){
             PadelDay padelDay = optionalPadelDay.get();
             if(!padelDay.getSignedUpPlayers().isEmpty()) {
-                createPadelDayPlanService.newPadelDayPlanning(padelDay);
+                createPadelDayPlanService.newPadelDayPlan(padelDay);
                 notificationService.createNotification("Nieuwe planning", "Een nieuwe planning is beschikbaar voor " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")), padelDay.getSignedUpPlayers());
             }
         }
@@ -163,7 +163,7 @@ public class PlanController {
         if(optionalPadelDayOld.isPresent()){
             PadelDay padelDayOld = optionalPadelDayOld.get();
             if(!padelDayOld.getMatches().isEmpty()){
-                createPadelDayPlanService.newPadelDayPlanning(padelDay);
+                createPadelDayPlanService.newPadelDayPlan(padelDay);
             }
         }
         padelDayRepository.save(padelDay);
