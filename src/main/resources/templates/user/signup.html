@@ -174,13 +174,20 @@
                         <form th:each="team, i : ${match.getTeams()}" th:object="${team}" th:action="@{/admin/planEdit}" method="post" class="box-shadow m-0 border border-dark border-bottom-0 bg-dark bg-opacity-10">
                             <input type="hidden" name="teamId" th:value="${team.id}" />
                             <input type="hidden" name="padelDayId" th:value="${padelDay.id}" />
-                            <div class="m-1" th:each="teamplayer : ${team.getPlayers()}">
-                                <select class="form-select my-3" name="playerIds" th:style="|background-color: ${i.index==0 ? '#19466e' : '#f6f45a'}; color: ${i.index==0 ? '#FFFFFF' : '#000000'};|">
+                            <!-- Change the inner loop to use a fixed sequence (0 to 1 for two players) -->
+                            <div class="m-1" th:each="index : ${#numbers.sequence(0, 1)}">
+                                <select class="form-select my-3" name="playerIds"
+                                        th:style="|background-color: ${i.index==0 ? '#19466e' : '#f6f45a'}; color: ${i.index==0 ? '#FFFFFF' : '#000000'};|">
+
+                                    <!-- Logic to check if a player exists at this index -->
                                     <option th:each="player : ${padelDay.getSignedUpPlayers()}"
                                             th:value="${player.getId()}"
                                             th:text="|${player.getName()} (P-${player.pRanking})|"
-                                            th:selected="${player.getId() == teamplayer.getId()}"></option>
-                                    <option th:value="0"></option>
+                                            th:selected="${team.getPlayers().size() > index && team.getPlayers().get(index).getId() == player.getId()}">
+                                    </option>
+
+                                    <!-- The empty option -->
+                                    <option th:value="0" th:selected="${team.getPlayers().size() <= index}">Leeg</option>
                                 </select>
                             </div>
 
