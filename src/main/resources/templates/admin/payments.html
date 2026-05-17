@@ -11,8 +11,26 @@
             <h3 style="font-size: 2rem" class="border-dark border-bottom text-center list-title">Betaald:</h3>
             <!-- Container for the names -->
             <div class="row mt-3 mx-auto px-5" style="font-size: 1.3rem">
-                <div th:each="p : ${padelDay.signedUpPlayers}"
-                     class="col-12 col-lg-6 px-2" th:if="${p.payedPadelDays.contains(padelDay)}" th:text="|-${p.name}|">
+                <span class="fs-5 text-success">Groen = bevestigd</span>
+                <span class="fs-5 text-danger">Rood = nog niet bevestigd</span>
+                <div th:each="p : ${padelDay.signedUpPlayers}" class="col-12 col-lg-6 px-2" th:if="${p.payedPadelDays.contains(padelDay)}">
+                    <form th:action="@{/admin/confirmPayment}" th:unless="${p.confirmedPayedPadelDays.contains(padelDay)}" method="post" class="d-inline p-0 m-0">
+                        <input type="hidden" name="playerId" th:value="${p.id}" />
+                        <input type="hidden" name="padelDayId" th:value="${padelDay.id}" />
+                        <button type="submit" class="btn btn-link text-decoration-none p-0 m-0 border-0 bg-transparent shadow-none">
+                            ✅
+                        </button>
+                    </form>
+                    <form th:action="@{/admin/unconfirmPayment}" th:if="${p.confirmedPayedPadelDays.contains(padelDay)}" method="post" class="d-inline p-0 m-0">
+                        <input type="hidden" name="playerId" th:value="${p.id}" />
+                        <input type="hidden" name="padelDayId" th:value="${padelDay.id}" />
+                        <button type="submit" class="btn btn-link text-decoration-none p-0 m-0 border-0 bg-transparent shadow-none">
+                            ❌
+                        </button>
+                    </form>
+                    <span th:text="|-${p.name}|"
+                          th:classappend="${p.confirmedPayedPadelDays.contains(padelDay)?'text-success':'text-danger'}">
+                    </span>
                 </div>
             </div>
         </div>
