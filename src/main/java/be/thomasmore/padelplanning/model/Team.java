@@ -3,6 +3,7 @@ package be.thomasmore.padelplanning.model;
 import jakarta.persistence.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Team {
@@ -14,7 +15,7 @@ public class Team {
     @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Player> players;
     @ManyToMany(mappedBy = "teams")
-    private Collection<Match> matches;
+    private List<Match> matches;
 
     public Integer getId() {
         return id;
@@ -40,11 +41,11 @@ public class Team {
         this.players = players;
     }
 
-    public Collection<Match> getMatches() {
+    public List<Match> getMatches() {
         return matches;
     }
 
-    public void setMatches(Collection<Match> matches) {
+    public void setMatches(List<Match> matches) {
         this.matches = matches;
     }
 }

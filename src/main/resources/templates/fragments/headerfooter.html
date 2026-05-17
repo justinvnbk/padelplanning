@@ -2,17 +2,17 @@
     <nav class="navbar navbar-expand-md">
         <div class="container-fluid nav-container">
 
-            <div class="d-flex align-items-center ms-0 p-0 nav-left">
+            <div class="d-flex align-items-center mx-0 p-0 nav-left">
                 <a class="navbar-brand logo" th:href="@{/}"></a>
             </div>
 
-            <p style="font-size: 1.5rem" class="ms-1 me-3 mb-0 text-nowrap welcome d-none d-md-inline">
+            <p style="font-size: 1.2rem" class="me-3 mb-0 mt-1 text-nowrap welcome d-none d-md-inline">
                 <span th:if="${currentUser != null}" th:text="|Welkom terug ${currentUser.name}|"></span>
 
                 <span th:if="${currentUser == null}">Welkom op onze pagina</span>
             </p>
 
-            <a class="nav-link fs-3 btn btn-dark me-0" style="padding-left: 0px !important; margin-top: 0px !important;" sec:authorize="isAuthenticated()" th:classappend="|${currentUser.hasUnseenNotifications ? 'btn btn-pma rounded-circle border-3' : ''}|" th:href="@{/user/notifications}">🔔</a>
+            <a class="nav-link btn btn-dark mb-1 me-0" style="padding-left: 0 !important; font-size: 1.5rem !important;" sec:authorize="isAuthenticated()" th:classappend="|${currentUser.hasUnseenNotifications ? 'btn btn-pma rounded-circle border-3' : ''}|" th:href="@{/user/notifications}">🔔</a>
 
             <button class="navbar-toggler" type="button"
                     data-bs-toggle="collapse"
@@ -27,36 +27,36 @@
                 <p class="ms-1 me-3 my-3 text-nowrap welcome d-sm-inline d-md-none">
                     Welkom <span th:if="${currentUser != null}" th:text="|terug ${currentUser.name}|"></span>
                 </p>
-                <ul class="navbar-nav gap-md-2 mb-2 mb-md-0 text-nowrap">
-                    <li class="nav-item">
+                <ul class="navbar-nav gap-md-2 mb-0 text-nowrap">
+                    <li class="nav-item mt-1">
                         <a class="nav-link" th:classappend="${currentUrl=='/home'||currentUrl=='/'?'active':''}" th:href="@{/}">🏠Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link border-start" th:classappend="${currentUrl=='/user/signup'?'active':''}" th:href="@{/user/signup}">🧾Inschrijven</a>
+                    <li class="nav-item mt-1">
+                        <a class="nav-link border-start" th:classappend="${currentUrl=='/user/padeldays'?'active':''}" th:href="@{/user/padeldays}">🧾Inschrijven</a>
                     </li>
-                    <li class="nav-item" sec:authorize="isAuthenticated()">
-                        <a class="nav-link border-start" th:href="@{/user/profile}">👤Mijn Profiel</a>
+                    <li class="nav-item mt-1" sec:authorize="isAuthenticated()">
+                        <a class="nav-link border-start" th:classappend="${currentUrl=='/user/profile'?'active':''}" th:href="@{/user/profile}">👤Mijn Profiel</a>
                     </li>
 <!--                    <li class="nav-item">-->
 <!--                        <a class="nav-link" th:classappend="${currentUrl=='/about'?'active':''}" href="#">ℹ️Over ons</a>-->
 <!--                    </li>-->
 
-                    <li class="nav-item dropdown" sec:authorize="hasAuthority('ADMIN')">
-                        <a class="nav-link dropdown-toggle border-start" th:classappend="${currentUrl=='/admin/plan'?'active':''}"
+                    <li class="nav-item dropdown mt-1" sec:authorize="hasAuthority('ADMIN')">
+                        <a class="nav-link dropdown-toggle border-start" th:classappend="${currentUrl.startsWith('/admin/')?'active':''}"
                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             ⚙️Admin options
                         </a>
                         <ul class="dropdown-menu bg-black ">
-                            <li><a class="dropdown-item text-white" th:href="@{/admin/plan}">Plan padeldag</a></li>
-                            <li><a class="dropdown-item text-white" th:href="@{/admin/players}">Spelers/register</a></li>
-                            <li><a class="dropdown-item text-white" th:href="@{/admin/fields}">Velden</a></li>
+                            <li><a class="dropdown-item text-white" th:classappend="${currentUrl=='/admin/padeldays'?'active':''}" th:href="@{/admin/padeldays}">Padeldagen</a></li>
+                            <li><a class="dropdown-item text-white" th:classappend="${currentUrl=='/admin/players'?'active':''}" th:href="@{/admin/players}">Spelers/register</a></li>
+                            <li><a class="dropdown-item text-white" th:classappend="${currentUrl=='/admin/fields'?'active':''}" th:href="@{/admin/fields}">Velden</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item mt-1 mt-md-0 mt-lg-1 login">
-                        <a sec:authorize="!isAuthenticated()" th:class="|btn btn-pma ${currentUrl=='/login'? 'active' : ''}|" th:href="@{/login}">login</a>
+                    <li class="nav-item mt-3 mt-md-1 mt-lg-1 login">
+                        <a sec:authorize="!isAuthenticated()" th:class="|btn btn-pma|" th:href="@{/login}">login</a>
                     </li>
-                    <li class="nav-item mt-1 mt-md-0 mt-lg-1 logout">
-                        <a sec:authorize="isAuthenticated()" th:class="|btn btn-pma ${currentUrl=='/logout'? 'active' : ''}|" th:href="@{/logout}">Log out</a>
+                    <li class="nav-item mt-3 mt-md-1 me-3 mt-lg-1 logout">
+                        <a sec:authorize="isAuthenticated()" th:class="|btn btn-pma|" th:href="@{/logout}">Log out</a>
                     </li>
                 </ul>
             </div>

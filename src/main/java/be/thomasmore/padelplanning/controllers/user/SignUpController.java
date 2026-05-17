@@ -8,10 +8,7 @@ import be.thomasmore.padelplanning.services.CreatePadelDayPlanService;
 import be.thomasmore.padelplanning.services.NotificationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -33,10 +30,18 @@ public class SignUpController {
         this.createPadelDayPlanService = createPadelDayPlanService;
     }
 
-    @GetMapping("/signup")
+    @GetMapping("/padeldays")
+    public String padeldays(Model model, Principal principal) {
+        Iterable<PadelDay> padelDays = padelDayRepository.findAllOrdered();
+        model.addAttribute("padelDays", padelDays);
+        return "user/padeldays";
+    }
+
+    @GetMapping("/signup/{padelDayId}")
     public String reserve(Model model,
-                          Principal principal) {
-        Optional<PadelDay> optionalPadelDay = padelDayRepository.getLast(LocalDateTime.now());
+                          Principal principal,
+                          @PathVariable Integer padelDayId) {
+        Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(padelDayId);
         boolean hasPlan = false;
         if(optionalPadelDay.isPresent()){
             PadelDay padelDay = optionalPadelDay.get();
@@ -44,6 +49,7 @@ public class SignUpController {
 
             Player loggedPlayer = playerRepository.findByEmail(principal.getName());
             model.addAttribute("isSignedUp", padelDay.getSignedUpPlayers().contains(loggedPlayer) || padelDay.getReservedPlayers().contains(loggedPlayer));
+            model.addAttribute("hasPayed", loggedPlayer.getPayedPadelDays().contains(padelDay));
             hasPlan = !optionalPadelDay.get().getMatches().isEmpty();
         }
         model.addAttribute("hasPlan", hasPlan);
@@ -74,7 +80,7 @@ public class SignUpController {
                     reservePlayers.clear();
                     if(padelDay.getMatches().size()>0) {
                         //The plan is recreated, matches are filled with the new players
-                        createPadelDayPlanService.newPadelDayPlanning(padelDay);
+                        createPadelDayPlanService.newPadelDayPlan(padelDay);
                     }
                 }
                 padelDay.setSignedUpPlayers(signedUpPlayers);
@@ -82,7 +88,7 @@ public class SignUpController {
                 padelDayRepository.save(padelDay);
             }
         }
-        return "redirect:/user/signup";
+        return "redirect:/user/signup/" + id;
     }
 
     @PostMapping("/signout")
@@ -94,6 +100,7 @@ public class SignUpController {
             PadelDay padelDay = optionalPadelDay.get();
             List<Player> reservePlayers = padelDay.getReservedPlayers();
             List<Player> signedUpPlayers = padelDay.getSignedUpPlayers();
+            List<Player> admins = playerRepository.findAllAdmins();
 
             Player player = playerRepository.findByEmail(principal.getName());
 
@@ -119,6 +126,10 @@ public class SignUpController {
                     notificationService.createNotification("Uitschrijving padeldag: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             "Een van de laatste 4 inschrijvingen heeft zich uitgeschreven. U komt terug op de reservelijst.",
                             forcedToSignOut);
+                    //Notify admin
+                    notificationService.createNotification("Ontbrekende speler: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
+                            "Een van de laatste 4 inschrijvingen heeft zich uitgeschreven. Drie spelers staan weer op de reservelijst.",
+                            admins);
                     //Notify all players, new signup needed fast
                     if (LocalDateTime.now().plusHours(4).isAfter(padelDay.getDate())) {
                         notificationService.createNotification("SNEL IEMAND NODIG VOOR VANDAAG",
@@ -140,13 +151,13 @@ public class SignUpController {
                 }
                 if(padelDay.getMatches().size()>0) {
                     //The plan is recreated, matches are filled without the removed players
-                    createPadelDayPlanService.newPadelDayPlanning(padelDay);
+                    createPadelDayPlanService.newPadelDayPlan(padelDay);
                 }
             }
             padelDay.setSignedUpPlayers(signedUpPlayers);
             padelDay.setReservedPlayers(reservePlayers);
             padelDayRepository.save(padelDay);
         }
-        return "redirect:/user/signup";
+        return "redirect:/user/signup/" + id;
     }
 }

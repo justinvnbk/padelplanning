@@ -24,7 +24,7 @@ public class CreatePadelDayPlanService {
 
     //This Service is used to create a new PadelDay object, all related objects (matches and teams) will also
     //be created and added to the database.
-    public void newPadelDayPlanning(PadelDay padelDay) {
+    public void newPadelDayPlan(PadelDay padelDay) {
 
         int numberOfMatches = padelDay.getNumberOfMatches();
         List<Field> availableFields = padelDay.getFields();
@@ -35,10 +35,18 @@ public class CreatePadelDayPlanService {
 
 
         //For now to create fair matches, the signed up players are sorted by p-ranking
-        //later this would be replaced by an algorithm to make fair matches.
         List<Player> signedUpPlayers = padelDay.getSignedUpPlayers().stream().sorted(Comparator.comparing(Player::getpRanking)).toList();
 
-        padelDay.setMatches(newMatches(numberOfMatches, availableFields, padelDay.getDate().toLocalTime(), signedUpPlayers));
+        //Players are then moved around to have more spread averages
+        List<Player> orderedSignedUpPlayers = new ArrayList<>();
+        for (int i = 0; i<=signedUpPlayers.size()-4; i+=4) {
+            orderedSignedUpPlayers.add(signedUpPlayers.get(i));
+            orderedSignedUpPlayers.add(signedUpPlayers.get(i+3));
+            orderedSignedUpPlayers.add(signedUpPlayers.get(i+1));
+            orderedSignedUpPlayers.add(signedUpPlayers.get(i+2));
+        }
+
+        padelDay.setMatches(newMatches(numberOfMatches, availableFields, padelDay.getDate().toLocalTime(), orderedSignedUpPlayers));
 
         padelDayRepository.save(padelDay);
     }
