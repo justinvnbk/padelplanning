@@ -3,18 +3,19 @@
 <head th:replace="~{fragments/head::headfragment}"></head>
 <body>
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
-
 <main class="container py-4">
     <h1 class="text-center mb-5">Nieuw plan opstarten en openen voor inschrijvingen</h1>
     <form th:action="@{/admin/newpadelday}" th:object="${padelDay}" method="post">
         <div class="row">
             <div class="col-12">
                 <label for="padelDayDate" class="form-label fw-bold">Start datum en uur:</label>
-                <input id="padelDayDate" autofocus class="form-control" type="datetime-local" th:field="*{date}" th:errorclass="is-invalid">
+                <input id="padelDayDate" autofocus class="form-control" type="datetime-local" th:field="*{date}"
+                       th:errorclass="is-invalid">
             </div>
             <div class="col-12">
                 <label for="padelDayMatches" class="form-label fw-bold">Aantal matches:</label>
-                <input id="padelDayMatches" class="form-control" th:field="*{numberOfMatches}" th:errorclass="is-invalid">
+                <input id="padelDayMatches" class="form-control" th:field="*{numberOfMatches}"
+                       th:errorclass="is-invalid">
             </div>
             <div class="col-12">
                 <label for="padelDayAvailableFields" class="form-label fw-bold">Beschikbare velden:</label>

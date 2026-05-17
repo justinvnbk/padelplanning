@@ -29,7 +29,7 @@ public class CreatePadelDayPlanService {
         int numberOfMatches = padelDay.getNumberOfMatches();
         List<Field> availableFields = padelDay.getFields();
 
-        if (padelDay.getSignedUpPlayers().size()%4 != 0){
+        if (padelDay.getSignedUpPlayers().size() % 4 != 0) {
             throw new IllegalArgumentException("Padel Day needs signed up players to be devisable by 4 to be planned");
         }
 
@@ -39,11 +39,11 @@ public class CreatePadelDayPlanService {
 
         //Players are then moved around to have more spread averages
         List<Player> orderedSignedUpPlayers = new ArrayList<>();
-        for (int i = 0; i<=signedUpPlayers.size()-4; i+=4) {
+        for (int i = 0; i <= signedUpPlayers.size() - 4; i += 4) {
             orderedSignedUpPlayers.add(signedUpPlayers.get(i));
-            orderedSignedUpPlayers.add(signedUpPlayers.get(i+3));
-            orderedSignedUpPlayers.add(signedUpPlayers.get(i+1));
-            orderedSignedUpPlayers.add(signedUpPlayers.get(i+2));
+            orderedSignedUpPlayers.add(signedUpPlayers.get(i + 3));
+            orderedSignedUpPlayers.add(signedUpPlayers.get(i + 1));
+            orderedSignedUpPlayers.add(signedUpPlayers.get(i + 2));
         }
 
         padelDay.setMatches(newMatches(numberOfMatches, availableFields, padelDay.getDate().toLocalTime(), orderedSignedUpPlayers));
@@ -59,12 +59,12 @@ public class CreatePadelDayPlanService {
         List<Player> playersToAssign = new ArrayList<>(signedUpPlayers);
 
         //creating new list of teams so we can have different teams per timeslot
-        List<Team> teamsToAssign = newTeams(playersToAssign,availableFields);
+        List<Team> teamsToAssign = newTeams(playersToAssign, availableFields);
 
         //Creates a match for every timeslot
         for (int i = 0; i < timeSlots; i++) {
             for (Field availableField : availableFields) {
-                if(!teamsToAssign.isEmpty()) {
+                if (!teamsToAssign.isEmpty()) {
                     Match match = new Match();
                     match.setField(availableField);
 
@@ -90,7 +90,7 @@ public class CreatePadelDayPlanService {
 
             //For now only the first matches of the day are 'fair' and the rest of the matches are fully shuffled
             Collections.shuffle(playersToAssign);
-            teamsToAssign = newTeams(playersToAssign,availableFields);
+            teamsToAssign = newTeams(playersToAssign, availableFields);
         }
         return matches;
     }
@@ -100,7 +100,7 @@ public class CreatePadelDayPlanService {
 
         //Create 2 teams for every available field
         for (int i = 0; i < availableFields.size(); i++) {
-            if(!playersToAssign.isEmpty()) {
+            if (!playersToAssign.isEmpty()) {
                 for (int j = 0; j < 2; j++) {
                     Team team = new Team();
 
@@ -111,9 +111,9 @@ public class CreatePadelDayPlanService {
 
                     //P-Ranking of a player can be null
                     OptionalDouble optionalAveragePRanking = team.getPlayers().stream().mapToDouble(Player::getpRanking).average();
-                    if(optionalAveragePRanking.isPresent()) {
+                    if (optionalAveragePRanking.isPresent()) {
                         team.setAveragePRanking(optionalAveragePRanking.getAsDouble());
-                    }else{
+                    } else {
                         team.setAveragePRanking(null);
                     }
 

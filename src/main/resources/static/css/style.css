@@ -58,7 +58,7 @@
     transition: background-color 0.2s ease;
 }
 
-.btn-outline-pma:hover{
+.btn-outline-pma:hover {
     border: solid;
     border-color: var(--pma-red);
     background-color: var(--pma-red-bright);
@@ -74,14 +74,14 @@
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23cf0039' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
-.nav-link{
+.nav-link {
     padding: 0 !important;
     padding-left: 0.5rem !important;
     margin-top: 0.5rem !important;
     border-color: #b1b1b1 !important;
 }
 
-.dropdown-item:hover{
+.dropdown-item:hover {
     background-color: #1c1c1c;
 }
 
@@ -101,7 +101,7 @@ body {
     background-color: #e4d7d2;
 }
 
-.plantable{
+.plantable {
     background-color: #b9aca7;
 }
 
@@ -117,9 +117,9 @@ main {
 .logo {
     background-image: url("/logo/padelclub_logo.png");
     display: inline-block; /* Allows the element to have width and height */
-    width: 150px;          /* Adjust to your logo's width */
-    height: 50px;          /* Adjust to your logo's height */
-    background-size: contain;   /* Ensures the logo fits inside the box */
+    width: 150px; /* Adjust to your logo's width */
+    height: 50px; /* Adjust to your logo's height */
+    background-size: contain; /* Ensures the logo fits inside the box */
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -128,60 +128,129 @@ main {
     max-width: 700px;
 }
 
-.welcome{
+.welcome {
     color: #adb5bd;
 }
 
-.loggedinEmpesis{
+.loggedinEmpesis {
     background-color: green !important;
     color: white !important;
 }
 
-@media screen and (max-width: 767px){
-    .navbar-nav .nav-link, .navbar-nav .btn { border: none !important; font-size: 0.8rem; }
-    .nav-link{ padding-left: 0 !important;}
-    .veld {font-size: 1rem !important;}
-    .msg {font-size: 1rem !important;}
-    .team {font-size: 0.8rem !important;}
-    .name-small {font-size: 0.65rem !important;}
-    .team-title {font-size: 0.8rem !important;}
-    .matches {font-size: 0.8rem !important;}
-    .info-padelday {font-size: 1rem !important;}
-    .list-title {font-size: 1rem !important;}
-    .list-players {font-size: 0.8rem !important;
-        flex: 0 0 50% !important;}
-    .info-title {font-size: 1.5rem !important;}
-    .admin-btn {font-size: 0.7rem !important;}
+@media screen and (max-width: 767px) {
+    .navbar-nav .nav-link, .navbar-nav .btn {
+        border: none !important;
+        font-size: 0.8rem;
+    }
+
+    .nav-link {
+        padding-left: 0 !important;
+    }
+
+    .veld {
+        font-size: 1rem !important;
+    }
+
+    .msg {
+        font-size: 1rem !important;
+    }
+
+    .team {
+        font-size: 0.8rem !important;
+    }
+
+    .name-small {
+        font-size: 0.65rem !important;
+    }
+
+    .team-title {
+        font-size: 0.8rem !important;
+    }
+
+    .matches {
+        font-size: 0.8rem !important;
+    }
+
+    .info-padelday {
+        font-size: 1rem !important;
+    }
+
+    .list-title {
+        font-size: 1rem !important;
+    }
+
+    .list-players {
+        font-size: 0.8rem !important;
+        flex: 0 0 50% !important;
+    }
+
+    .info-title {
+        font-size: 1.5rem !important;
+    }
+
+    .admin-btn {
+        font-size: 0.7rem !important;
+    }
 }
 
 @media screen and (min-width: 768px) and (max-width: 911px) {
-    .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.6rem; }
-    .welcome { font-size: 0.8rem !important;}
+    .navbar-nav .nav-link, .navbar-nav .btn {
+        font-size: 0.6rem;
+    }
+
+    .welcome {
+        font-size: 0.8rem !important;
+    }
 }
 
 @media screen and (min-width: 911px) and (max-width: 970px) {
-    .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.65rem; }
-    .welcome { font-size: 0.8rem !important;}
+    .navbar-nav .nav-link, .navbar-nav .btn {
+        font-size: 0.65rem;
+    }
+
+    .welcome {
+        font-size: 0.8rem !important;
+    }
 }
 
 @media screen and (min-width: 970px) and (max-width: 999px) {
-    .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.7rem; }
-    .welcome { font-size: 0.82rem !important;}
+    .navbar-nav .nav-link, .navbar-nav .btn {
+        font-size: 0.7rem;
+    }
+
+    .welcome {
+        font-size: 0.82rem !important;
+    }
 }
 
 @media screen and (min-width: 1000px) and (max-width: 1064px) {
-    .navbar-nav .nav-link, .navbar-nav .btn { font-size: 0.75rem; }
-    .welcome { font-size: 0.87rem !important;}
+    .navbar-nav .nav-link, .navbar-nav .btn {
+        font-size: 0.75rem;
+    }
+
+    .welcome {
+        font-size: 0.87rem !important;
+    }
 }
 
 @media screen and (min-width: 1065px) and (max-width: 1150px) {
-    .navbar-nav .nav-link { font-size: 0.82rem; }
-    .welcome { font-size: 0.9rem !important;}
+    .navbar-nav .nav-link {
+        font-size: 0.82rem;
+    }
+
+    .welcome {
+        font-size: 0.9rem !important;
+    }
 }
 
-@media screen and (min-width: 1151px) and (max-width: 1280px)  {
-    .navbar-nav .nav-link { font-size: 0.85rem;}
-    .welcome { font-size: 1rem !important;}
+@media screen and (min-width: 1151px) and (max-width: 1280px) {
+    .navbar-nav .nav-link {
+        font-size: 0.85rem;
+    }
+
+    .welcome {
+        font-size: 1rem !important;
+    }
 }
 
 

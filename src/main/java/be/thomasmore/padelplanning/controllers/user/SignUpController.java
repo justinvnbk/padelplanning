@@ -43,7 +43,7 @@ public class SignUpController {
                           @PathVariable Integer padelDayId) {
         Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(padelDayId);
         boolean hasPlan = false;
-        if(optionalPadelDay.isPresent()){
+        if (optionalPadelDay.isPresent()) {
             PadelDay padelDay = optionalPadelDay.get();
             model.addAttribute("padelDay", padelDay);
 
@@ -59,26 +59,26 @@ public class SignUpController {
     @PostMapping("/signup")
     public String postSignUp(Model model,
                              @RequestParam int id,
-                             Principal principal){
+                             Principal principal) {
         Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(id);
         Player player = playerRepository.findByEmail(principal.getName());
 
-        if(optionalPadelDay.isPresent()){
+        if (optionalPadelDay.isPresent()) {
             PadelDay padelDay = optionalPadelDay.get();
-            if(!padelDay.getSignedUpPlayers().contains(player) && !padelDay.getReservedPlayers().contains(player)){
+            if (!padelDay.getSignedUpPlayers().contains(player) && !padelDay.getReservedPlayers().contains(player)) {
                 List<Player> reservePlayers = padelDay.getReservedPlayers();
                 List<Player> signedUpPlayers = padelDay.getSignedUpPlayers();
 
                 reservePlayers.add(player);
                 //When there is 4 reserve player, they are added to the signedUp list
-                if(reservePlayers.size() == 4 && signedUpPlayers.size() < padelDay.getFields().size()*4){
+                if (reservePlayers.size() == 4 && signedUpPlayers.size() < padelDay.getFields().size() * 4) {
                     signedUpPlayers.addAll(reservePlayers);
                     //Send a notification to all reserve players that they moved to signed up players
                     notificationService.createNotification("Inschrijving padeldag: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             "Er zijn voldoende spelers voor uw inschrijving te verwerken voor de padeldag te " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             reservePlayers);
                     reservePlayers.clear();
-                    if(padelDay.getMatches().size()>0) {
+                    if (padelDay.getMatches().size() > 0) {
                         //The plan is recreated, matches are filled with the new players
                         createPadelDayPlanService.newPadelDayPlan(padelDay);
                     }
@@ -94,9 +94,9 @@ public class SignUpController {
     @PostMapping("/signout")
     public String postSignOut(Model model,
                               @RequestParam int id,
-                              Principal principal){
+                              Principal principal) {
         Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(id);
-        if(optionalPadelDay.isPresent()){
+        if (optionalPadelDay.isPresent()) {
             PadelDay padelDay = optionalPadelDay.get();
             List<Player> reservePlayers = padelDay.getReservedPlayers();
             List<Player> signedUpPlayers = padelDay.getSignedUpPlayers();
@@ -105,13 +105,13 @@ public class SignUpController {
             Player player = playerRepository.findByEmail(principal.getName());
 
             //Reserve players will always just be removed from the list
-            if(reservePlayers.contains(player)){
+            if (reservePlayers.contains(player)) {
                 reservePlayers.remove(player);
-            }else if(signedUpPlayers.contains(player)){
+            } else if (signedUpPlayers.contains(player)) {
                 signedUpPlayers.remove(player);
 
                 //When there is no reserve players, 3 last sign-ups are also signed out te keep the right amount of people to fill the matches
-                if(reservePlayers.isEmpty()) {
+                if (reservePlayers.isEmpty()) {
                     Collection<Player> forcedToSignOut = new ArrayList<Player>();
                     int counter = signedUpPlayers.size() - 1; //To index the signedUpPlayers backwards
                     while (signedUpPlayers.size() % 4 != 0) {
@@ -133,12 +133,12 @@ public class SignUpController {
                     //Notify all players, new signup needed fast
                     if (LocalDateTime.now().plusHours(4).isAfter(padelDay.getDate())) {
                         notificationService.createNotification("SNEL IEMAND NODIG VOOR VANDAAG",
-                             "Iemand heeft zich binnen de laatste 4 uur uitgeschreven, schrijf je nog snel in om ons te vervoledigen",
-                             playerRepository.getAll());
+                                "Iemand heeft zich binnen de laatste 4 uur uitgeschreven, schrijf je nog snel in om ons te vervoledigen",
+                                playerRepository.getAll());
                     }
 
-                //When there is reserve players, add the fist one
-                }else{
+                    //When there is reserve players, add the fist one
+                } else {
                     Collection<Player> newSignedUpPlayer = new ArrayList<Player>();
 
                     signedUpPlayers.add(reservePlayers.get(0));
@@ -149,7 +149,7 @@ public class SignUpController {
                             "Er zijn voldoende spelers voor uw inschrijving te verwerken voor de padeldag te " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             newSignedUpPlayer);
                 }
-                if(padelDay.getMatches().size()>0) {
+                if (padelDay.getMatches().size() > 0) {
                     //The plan is recreated, matches are filled without the removed players
                     createPadelDayPlanService.newPadelDayPlan(padelDay);
                 }

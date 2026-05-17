@@ -3,14 +3,14 @@
 <head th:replace="~{fragments/head::headfragment}"></head>
 <body>
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
-
 <main class="container py-4">
     <h1 class="text-center mb-5">Velden</h1>
     <div class="d-flex justify-content-end mb-4">
         <a class="btn btn-primary px-3 fw-bold shadow-sm" th:href="@{/admin/newfield}">+ Nieuw veld toevoegen</a>
     </div>
     <div class="row">
-        <div class="card col-4 col-md-2 m-2 bg-secondary text-white text-nowrap" th:each="field : ${fields}" th:object="${field}">
+        <div class="card col-4 col-md-2 m-2 bg-secondary text-white text-nowrap" th:each="field : ${fields}"
+             th:object="${field}">
             <h5 class="card-title border-bottom" th:text="|Veld: *{name}|"></h5>
             <span class="card-text" th:text="|Locatie: ${field.isOutside?'Buiten':'Binnen'}|"></span>
         </div>

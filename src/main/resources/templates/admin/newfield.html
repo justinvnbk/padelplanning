@@ -3,7 +3,6 @@
 <head th:replace="~{fragments/head::headfragment}"></head>
 <body>
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
-
 <main class="container py-4">
     <h1 class="text-center mb-5">Nieuw veld toevoegen om te gebruiken</h1>
     <form th:action="@{/admin/newfield}" th:object="${field}" method="post">

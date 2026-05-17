@@ -3,21 +3,22 @@
 <head th:replace="~{fragments/head::headfragment}"></head>
 <body>
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
-
 <main class="container py-4">
     <h1 class="text-center mb-5">Gegevens van deze padeldag aanpassen</h1>
     <form th:action="@{/admin/editpadelday}" th:object="${padelDay}" method="post">
         <div class="row">
-            <input type="hidden" th:field="*{signedUpPlayers}" />
-            <input type="hidden" th:field="*{reservedPlayers}" />
-            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{signedUpPlayers}"/>
+            <input type="hidden" th:field="*{reservedPlayers}"/>
+            <input type="hidden" th:field="*{id}"/>
             <div class="col-12">
                 <label for="padelDayDate" class="form-label fw-bold">Start datum en uur:</label>
-                <input id="padelDayDate" autofocus class="form-control" type="datetime-local" name="date" th:value="*{date}" th:errorclass="is-invalid">
+                <input id="padelDayDate" autofocus class="form-control" type="datetime-local" name="date"
+                       th:value="*{date}" th:errorclass="is-invalid">
             </div>
             <div class="col-12">
                 <label for="padelDayMatches" class="form-label fw-bold">Aantal matches:</label>
-                <input id="padelDayMatches" class="form-control" th:field="*{numberOfMatches}" th:errorclass="is-invalid">
+                <input id="padelDayMatches" class="form-control" th:field="*{numberOfMatches}"
+                       th:errorclass="is-invalid">
             </div>
             <div class="col-12">
                 <label for="padelDayAvailableFields" class="form-label fw-bold">Beschikbare velden:</label>

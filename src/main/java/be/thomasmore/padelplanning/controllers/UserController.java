@@ -32,7 +32,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login (Model model, Principal principal) {
+    public String login(Model model, Principal principal) {
 
         if (principal != null) return "redirect:/";
 
@@ -40,7 +40,7 @@ public class UserController {
     }
 
     @GetMapping("/logout")
-    public String logout (Model model, Principal principal) {
+    public String logout(Model model, Principal principal) {
 
         if (principal == null) return "redirect:/";
 
@@ -48,7 +48,7 @@ public class UserController {
     }
 
     @GetMapping("/register")
-    public String registerForm (Model model, Principal principal) {
+    public String registerForm(Model model, Principal principal) {
         if (principal != null) return "redirect:/";
 
         model.addAttribute("player", new Player());
@@ -59,15 +59,14 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String registerSubmit (@ModelAttribute Player player,
-                                  @RequestParam(required = false) String noPranking,
-                                  @RequestParam(required = false) Integer pRanking,
-                                  Authentication authentication,
-                                  Model model) {
+    public String registerSubmit(@ModelAttribute Player player,
+                                 @RequestParam(required = false) String noPranking,
+                                 @RequestParam(required = false) Integer pRanking,
+                                 Authentication authentication,
+                                 Model model) {
 
 
         Collection<Player> admins = playerRepository.findAllAdmins();
-
 
 
         if (playerService.emailExists(player.getEmail())) {
@@ -84,7 +83,7 @@ public class UserController {
     }
 
     @GetMapping("user/profile")
-    public String profile (Model model, Principal principal) {
+    public String profile(Model model, Principal principal) {
         if (principal == null) return "redirect:/login";
         Player player = playerService.getPlayerByEmail(principal.getName());
 

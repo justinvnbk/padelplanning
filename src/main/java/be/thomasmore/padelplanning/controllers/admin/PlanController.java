@@ -26,7 +26,7 @@ public class PlanController {
     private final MatchRepository matchRepository;
     private final CreatePadelDayPlanService createPadelDayPlanService;
     private final PadelDayRepository padelDayRepository;
-    private final Logger logger= LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final TeamRepository teamRepository;
     private final NotificationService notificationService;
 
@@ -43,11 +43,11 @@ public class PlanController {
 
     //Create a new plan for the curren PadelDay
     @PostMapping("/plan")
-    public String postPlan(Model model,@RequestParam int id){
+    public String postPlan(Model model, @RequestParam int id) {
         Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(id);
-        if(optionalPadelDay.isPresent()){
+        if (optionalPadelDay.isPresent()) {
             PadelDay padelDay = optionalPadelDay.get();
-            if(!padelDay.getSignedUpPlayers().isEmpty()) {
+            if (!padelDay.getSignedUpPlayers().isEmpty()) {
                 createPadelDayPlanService.newPadelDayPlan(padelDay);
                 notificationService.createNotification("Nieuwe planning", "Een nieuwe planning is beschikbaar voor " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")), padelDay.getSignedUpPlayers());
             }
@@ -60,7 +60,7 @@ public class PlanController {
     public String postPlanEdit(@RequestParam List<Integer> playerIds,
                                @RequestParam Integer padelDayId,
                                @RequestParam Integer teamId,
-                               RedirectAttributes ra){
+                               RedirectAttributes ra) {
 
         Team existingTeam = teamRepository.findById(teamId).orElseThrow();
         Match currentMatch = existingTeam.getMatches().get(0);
@@ -121,7 +121,7 @@ public class PlanController {
     }
 
     @GetMapping("/newpadelday")
-    public String nieuwPadelday(Model model){
+    public String nieuwPadelday(Model model) {
         Iterable<Field> fields = fieldRepository.findAll();
         model.addAttribute("fields", fields);
         model.addAttribute("padelDay", new PadelDay());
@@ -135,18 +135,18 @@ public class PlanController {
         Player loggedInAdmin = playerRepository.findByEmail(principal.getName());
         padelDayRepository.save(padelDay);
         notificationService.createNotification("Nieuw speelmoment opgestart",
-                "Er is een nieuw speelmoment gestart door " + loggedInAdmin.getName() + " voor " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM") )+ ". Schrijf je nu in!",
+                "Er is een nieuw speelmoment gestart door " + loggedInAdmin.getName() + " voor " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")) + ". Schrijf je nu in!",
                 playerRepository.getAll());
         return "redirect:/admin/padeldays";
     }
 
     @GetMapping("/editpadelday/{id}")
     public String editPadelday(Model model,
-                               @PathVariable Integer id){
+                               @PathVariable Integer id) {
         Iterable<Field> fields = fieldRepository.findAll();
         Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(id);
 
-        if(optionalPadelDay.isPresent()){
+        if (optionalPadelDay.isPresent()) {
             PadelDay padelDay = optionalPadelDay.get();
             model.addAttribute("padelDay", padelDay);
         }
@@ -160,9 +160,9 @@ public class PlanController {
                                    Principal principal) {
         Player loggedInAdmin = playerRepository.findByEmail(principal.getName());
         Optional<PadelDay> optionalPadelDayOld = padelDayRepository.findById(padelDay.getId());
-        if(optionalPadelDayOld.isPresent()){
+        if (optionalPadelDayOld.isPresent()) {
             PadelDay padelDayOld = optionalPadelDayOld.get();
-            if(!padelDayOld.getMatches().isEmpty()){
+            if (!padelDayOld.getMatches().isEmpty()) {
                 createPadelDayPlanService.newPadelDayPlan(padelDay);
             }
         }

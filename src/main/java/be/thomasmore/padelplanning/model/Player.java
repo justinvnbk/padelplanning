@@ -33,10 +33,10 @@ public class Player {
 
     private String profilePictureUrl;
 
-    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "players")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "players")
     private Collection<Team> teams;
 
-    @ManyToMany(fetch = FetchType.LAZY,mappedBy="recipients")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "recipients")
     private List<Notification> notifications;
 
     @ManyToMany(fetch = FetchType.LAZY)

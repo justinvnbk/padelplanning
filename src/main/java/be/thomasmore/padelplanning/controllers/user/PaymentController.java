@@ -31,13 +31,13 @@ public class PaymentController {
 
     @PostMapping("/payed")
     public String postPayed(Principal principal,
-                        @RequestParam Integer id) {
+                            @RequestParam Integer id) {
         Player player = playerRepository.findByEmail(principal.getName());
         Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(id);
 
         if (optionalPadelDay.isPresent()) {
             PadelDay padelDay = optionalPadelDay.get();
-            if(!player.getPayedPadelDays().contains(padelDay)) {
+            if (!player.getPayedPadelDays().contains(padelDay)) {
                 List<PadelDay> payedPadelDays = player.getPayedPadelDays();
                 payedPadelDays.add(padelDay);
 

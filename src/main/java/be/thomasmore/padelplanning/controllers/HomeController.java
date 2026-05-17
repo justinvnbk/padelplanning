@@ -23,12 +23,12 @@ public class HomeController {
         this.playerRepository = playerRepository;
     }
 
-    @GetMapping({"/","/home"})
-    public String home(Model model){
+    @GetMapping({"/", "/home"})
+    public String home(Model model) {
         LocalDateTime now = LocalDateTime.now();
         Optional<PadelDay> optionalPadelDay = padelDayRepository.getNext(now.minusDays(1)); //So the plan can still be seen on the day itself
 
-        if(optionalPadelDay.isPresent()){
+        if (optionalPadelDay.isPresent()) {
             List<LocalTime> getUniqueTimeSlots = optionalPadelDay.get().getMatches().stream()
                     .map(Match::getTimeSlot)
                     .distinct()

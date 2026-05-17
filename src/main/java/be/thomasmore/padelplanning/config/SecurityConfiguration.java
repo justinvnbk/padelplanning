@@ -25,6 +25,7 @@ public class SecurityConfiguration {
     @Value(value = "${security.h2-console-needed:true}")
     private boolean h2ConsoleNeeded;
     private final DataSource dataSource;
+
     //datasource specifies how we connect with the database - see applications.properties file
     public SecurityConfiguration(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -47,7 +48,7 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(auth -> auth
                 //only user with admin role can access requests that start with /admin/ :
                 .requestMatchers("/admin/**").hasAuthority("ADMIN")
-                .requestMatchers("/user/**").hasAnyAuthority("USER","ADMIN")
+                .requestMatchers("/user/**").hasAnyAuthority("USER", "ADMIN")
                 //all other requests can be executed by anyone:
                 .anyRequest().permitAll());
         //http.formLogin(withDefaults());

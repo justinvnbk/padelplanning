@@ -18,19 +18,19 @@ public class GlobalControllerAdvice {
     }
 
     @ModelAttribute("currentUrl")
-     public String getCurrentUrl(HttpServletRequest request) {
-         return request.getRequestURI();
-     }
+    public String getCurrentUrl(HttpServletRequest request) {
+        return request.getRequestURI();
+    }
 
 
-     @ModelAttribute("currentUser")
-     public Player getCurrentUser (Principal principal) {
+    @ModelAttribute("currentUser")
+    public Player getCurrentUser(Principal principal) {
 
-         if (principal == null) {
-             return null;
-         }
+        if (principal == null) {
+            return null;
+        }
 
-         return playerRepository.findByEmail(principal.getName());
+        return playerRepository.findByEmail(principal.getName());
 
-     }
+    }
 }

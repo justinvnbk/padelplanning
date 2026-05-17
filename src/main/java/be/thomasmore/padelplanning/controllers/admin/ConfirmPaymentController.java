@@ -45,8 +45,8 @@ public class ConfirmPaymentController {
 
     @PostMapping("/confirmPayment")
     public String postConfirmPayment(Principal principal,
-                            @RequestParam Integer playerId,
-                            @RequestParam Integer padelDayId) {
+                                     @RequestParam Integer playerId,
+                                     @RequestParam Integer padelDayId) {
         Player admin = playerRepository.findByEmail(principal.getName());
         Optional<Player> optionalPlayer = playerRepository.findById(playerId);
         Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(padelDayId);
@@ -55,7 +55,7 @@ public class ConfirmPaymentController {
             PadelDay padelDay = optionalPadelDay.get();
             Player player = optionalPlayer.get();
 
-            if(player.getPayedPadelDays().contains(padelDay)) {
+            if (player.getPayedPadelDays().contains(padelDay)) {
                 List<PadelDay> confirmedPayedPadelDays = player.getConfirmedPayedPadelDays();
                 confirmedPayedPadelDays.add(padelDay);
 
@@ -73,8 +73,8 @@ public class ConfirmPaymentController {
 
     @PostMapping("/unconfirmPayment")
     public String postUnconfirmPayment(Principal principal,
-                            @RequestParam Integer playerId,
-                            @RequestParam Integer padelDayId) {
+                                       @RequestParam Integer playerId,
+                                       @RequestParam Integer padelDayId) {
         Player admin = playerRepository.findByEmail(principal.getName());
         Optional<Player> optionalPlayer = playerRepository.findById(playerId);
         Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(padelDayId);
@@ -83,7 +83,7 @@ public class ConfirmPaymentController {
             PadelDay padelDay = optionalPadelDay.get();
             Player player = optionalPlayer.get();
 
-            if(player.getPayedPadelDays().contains(padelDay)) {
+            if (player.getPayedPadelDays().contains(padelDay)) {
                 List<PadelDay> confirmedPayedPadelDays = player.getConfirmedPayedPadelDays();
                 confirmedPayedPadelDays.remove(padelDay);
 

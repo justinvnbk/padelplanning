@@ -13,10 +13,13 @@ public class Match {
     private Integer id;
     private Double pRankingDifference;
     private LocalTime timeSlot;
+
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<Team> teams;//ik heb deze veranderd naar List omdat er zijn indexes nodig om die te kunnen omzetten naar kolommen en rijen
+    private List<Team> teams;
+
     @ManyToMany(mappedBy = "matches")
-    private List<PadelDay> padelDays; //veranderd naar List omdat er zijn indexes nodig om te roepen
+    private List<PadelDay> padelDays;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Field field;
 

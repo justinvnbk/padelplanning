@@ -20,7 +20,8 @@
 
                             <!-- Info read-only only for users -->
                             <div class="col-12">
-                                <p class="text-secondary mb-1" style="font-size: 0.85rem;" sec:authorize="!hasAuthority('ADMIN')">Enkel leesbaar</p>
+                                <p class="text-secondary mb-1" style="font-size: 0.85rem;"
+                                   sec:authorize="!hasAuthority('ADMIN')">Enkel leesbaar</p>
                                 <!-- Email -->
                                 <div class="form-floating mb-3" sec:authorize="!hasAuthority('ADMIN')">
                                     <input id="emailReadonly" th:value="${player.email}" type="email"
@@ -32,15 +33,18 @@
                                     <input id="email" th:field="*{email}" type="email"
                                            class="form-control bg-dark text-light border-secondary"
                                            placeholder="email" required/>
-                                    <label for="email" style="background-color: transparent; color: #adb5bd;">Email</label>
+                                    <label for="email"
+                                           style="background-color: transparent; color: #adb5bd;">Email</label>
                                 </div>
 
                                 <!-- Birth Date -->
                                 <div class="form-floating mb-3" sec:authorize="!hasAuthority('ADMIN')">
-                                    <input id="birthDateReadonly" th:value="${#dates.format(player.birthDate, 'dd/MM/yyyy')}"
+                                    <input id="birthDateReadonly"
+                                           th:value="${#dates.format(player.birthDate, 'dd/MM/yyyy')}"
                                            class="form-control bg-dark text-secondary border-secondary"
                                            placeholder="birthDate" disabled/>
-                                    <label for="birthDateReadonly" style="background-color: transparent; color: #adb5bd;">Geboortedatum</label>
+                                    <label for="birthDateReadonly"
+                                           style="background-color: transparent; color: #adb5bd;">Geboortedatum</label>
                                 </div>
                                 <div class="form-floating mb-3" sec:authorize="hasAuthority('ADMIN')">
                                     <input id="birthDate" th:field="*{birthDate}" type="date"
@@ -51,10 +55,12 @@
 
                                 <!-- P-Ranking -->
                                 <div class="form-floating mb-3" sec:authorize="!hasAuthority('ADMIN')">
-                                    <input id="pRankingReadonly" th:value="${player.pRanking != null ? 'P' + player.pRanking : 'NVT'}"
+                                    <input id="pRankingReadonly"
+                                           th:value="${player.pRanking != null ? 'P' + player.pRanking : 'NVT'}"
                                            class="form-control bg-dark text-secondary border-secondary"
                                            placeholder="pRanking" disabled/>
-                                    <label for="pRankingReadonly" style="background-color: transparent; color: #adb5bd;">P-Ranking</label>
+                                    <label for="pRankingReadonly"
+                                           style="background-color: transparent; color: #adb5bd;">P-Ranking</label>
                                 </div>
                                 <div class="form-floating mb-3" sec:authorize="hasAuthority('ADMIN')">
                                     <select id="pRanking" name="pRanking"
@@ -111,7 +117,8 @@
                                                 th:value="${ps}"
                                                 th:text="${ps}"></option>
                                     </select>
-                                    <label for="preferredPlayside" style="background-color: transparent; color: #adb5bd;">
+                                    <label for="preferredPlayside"
+                                           style="background-color: transparent; color: #adb5bd;">
                                         Voorkeurszijde <span class="text-danger">*</span>
                                     </label>
                                 </div>

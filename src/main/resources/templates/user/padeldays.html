@@ -7,11 +7,14 @@
 <main class="container py-4">
     <h1 class="text-center mb-5">Geplande padel dagen</h1>
     <div class="row row-cols-1 row-cols-md-4 g-4">
-        <div class="col" th:each="padelDay: ${padelDays}" th:object="${padelDay}" th:if="${padelDay.date.isAfter(#temporals.createNow().minusDays(1))}">
+        <div class="col" th:each="padelDay: ${padelDays}" th:object="${padelDay}"
+             th:if="${padelDay.date.isAfter(#temporals.createNow().minusDays(1))}">
             <div class="card h-100 shadow-sm">
                 <a th:href="@{|/user/signup/*{id}|}" class="text-decoration-none text-black">
-                    <div class="card-header text-white" th:classappend="*{date.toLocalDate().isAfter(#temporals.createToday().minusDays(1))} ? 'bg-danger' : 'bg-secondary'">
-                        <h5 class="card-title mb-0" th:text="|*{#temporals.format(date, 'EE', #locale.of('nl', 'NL'))} *{#temporals.format(date, 'dd/MM/yyyy')}|"></h5>
+                    <div class="card-header text-white"
+                         th:classappend="*{date.toLocalDate().isAfter(#temporals.createToday().minusDays(1))} ? 'bg-danger' : 'bg-secondary'">
+                        <h5 class="card-title mb-0"
+                            th:text="|*{#temporals.format(date, 'EE', #locale.of('nl', 'NL'))} *{#temporals.format(date, 'dd/MM/yyyy')}|"></h5>
                     </div>
                     <div class="card-body">
                         <p class="card-text">
