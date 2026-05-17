@@ -3,11 +3,11 @@
 <head th:replace="~{fragments/head::headfragment}"></head>
 <body>
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
-<main class="container-fluid bg-dark">
+<main class="container-fluid">
     <form th:action="@{/register}" th:object="${player}" method="post">
         <div class="row justify-content-center">
             <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4 mt-5">
-                <div class="card border border-light-subtle rounded-3 shadow-sm">
+                <div class="card border border-subtle rounded-3 shadow-sm">
                     <div class="card-body p-3 p-md-4 p-xl-5">
                         <div class="row gy-2">
 
@@ -20,12 +20,12 @@
                                     <input
                                             id="name"
                                             th:field="*{name}"
-                                            class="form-control bg-dark text-light border-secondary"
+                                            class="form-control border-secondary"
                                             placeholder="name"
                                             name="name"
                                             required
                                     />
-                                    <label for="name" style="background-color: transparent; color: #adb5bd;">
+                                    <label for="name" style="background-color: transparent;">
                                         Naam en achternaam <span class="text-danger">*</span>
                                     </label>
                                 </div>
@@ -35,13 +35,13 @@
                                     <input
                                             id="email"
                                             th:field="*{email}"
-                                            class="form-control bg-dark text-light border-secondary"
+                                            class="form-control border-secondary"
                                             placeholder="email"
                                             name="email"
                                             type="email"
                                             required
                                     />
-                                    <label for="email" style="background-color: transparent; color: #adb5bd;">
+                                    <label for="email" style="background-color: transparent;">
                                         Email <span class="text-danger">*</span>
                                     </label>
                                 </div>
@@ -51,13 +51,13 @@
                                     <input
                                             id="password"
                                             th:field="*{password}"
-                                            class="form-control bg-dark text-light border-secondary"
+                                            class="form-control border-secondary"
                                             placeholder="password"
                                             name="password"
                                             type="password"
                                             required
                                     />
-                                    <label for="password" style="background-color: transparent; color: #adb5bd;">
+                                    <label for="password" style="background-color: transparent;">
                                         Wachtwoord <span class="text-danger">*</span>
                                     </label>
                                 </div>
@@ -88,14 +88,14 @@
                                     <input
                                             id="birthDate"
                                             th:field="*{birthDate}"
-                                            class="form-control bg-dark text-light border-secondary"
+                                            class="form-control border-secondary"
                                             placeholder="birthDate"
                                             name="birthDate"
                                             type="date"
                                             th:max="${#temporals.format(#temporals.createNow().minusYears(12), 'dd-MM-yyyy')}"
                                             required
                                     />
-                                    <label for="birthDate" style="background-color: transparent; color: #adb5bd;">
+                                    <label for="birthDate" style="background-color: transparent;">
                                         Geboorte <span class="text-danger">*</span>
                                     </label>
                                 </div>
@@ -105,14 +105,14 @@
                                     <input
                                             id="telephone"
                                             th:field="*{telephone}"
-                                            class="form-control bg-dark text-light border-secondary"
+                                            class="form-control border-secondary"
                                             placeholder="GSM"
                                             name="telephone"
                                             type="tel"
                                             pattern="[0-9]{10}"
                                             required
                                     />
-                                    <label for="telephone" style="background-color: transparent; color: #adb5bd;">
+                                    <label for="telephone" style="background-color: transparent;">
                                         GSM <span class="text-danger">*</span>
                                     </label>
                                 </div>
@@ -120,12 +120,12 @@
                             <div class="col-12">
                                 <div class="form-floating mb-3">
                                     <select id="selfEvaluation" th:field="*{selfEvaluation}"
-                                            class="form-select bg-dark text-light border-secondary" required>
+                                            class="form-select border-secondary" required>
                                         <option th:each="se : ${selfEvaluations}"
                                                 th:value="${se}"
                                                 th:text="${se}"></option>
                                     </select>
-                                    <label for="selfEvaluation" style="background-color: transparent; color: #adb5bd;">
+                                    <label for="selfEvaluation" style="background-color: transparent;">
                                         Zelfbeoordeling <span class="text-danger">*</span>
                                     </label>
                                 </div>
@@ -133,13 +133,13 @@
                             <div class="col-12">
                                 <div class="form-floating mb-3">
                                     <select id="preferredPlayside" th:field="*{preferredPlayside}"
-                                            class="form-select bg-dark text-light border-secondary" required>
+                                            class="form-select border-secondary" required>
                                         <option th:each="ps : ${playsides}"
                                                 th:value="${ps}"
                                                 th:text="${ps}"></option>
                                     </select>
                                     <label for="preferredPlayside"
-                                           style="background-color: transparent; color: #adb5bd;">
+                                           style="background-color: transparent;">
                                         Voorkeurzijde <span class="text-danger">*</span>
                                     </label>
                                 </div>
@@ -147,7 +147,7 @@
                             <div class="col-12">
                                 <div class="form-floating">
                                     <select id="pRanking" name="pRanking"
-                                            class="form-select bg-dark text-light border-secondary" disabled>
+                                            class="form-select border-secondary" disabled>
                                         <option value="">-- Kies P-ranking --</option>
                                         <option value="50">P50</option>
                                         <option value="100">P100</option>
@@ -158,7 +158,7 @@
                                         <option value="700">P700</option>
                                         <option value="1000">P1000</option>
                                     </select>
-                                    <label for="pRanking" style="background-color: transparent; color: #adb5bd;">
+                                    <label for="pRanking" style="background-color: transparent;">
                                         P-Ranking
                                     </label>
                                 </div>
@@ -167,7 +167,7 @@
                                            class="form-check-input" checked
                                            onclick="document.getElementById('pRanking').disabled = this.checked;
                                                      document.getElementById('pRanking').value = '';"/>
-                                    <label for="noPranking" style="background-color: transparent; color: #adb5bd;">
+                                    <label for="noPranking" style="background-color: transparent;">
                                         Geen P-Ranking (NVT)
                                     </label>
                                 </div>

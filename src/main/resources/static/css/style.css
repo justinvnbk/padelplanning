@@ -65,6 +65,12 @@
     color: white;
 }
 
+.btn-pma:disabled {
+    background-color: #6c757d;
+    color: #ffffff !important;
+    opacity: 1;
+}
+
 /* Hamburger icon */
 .navbar-toggler {
     border-color: var(--pma-red);
@@ -98,7 +104,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: #e4d7d2;
+    background-color: #ffffff;
 }
 
 .plantable {
