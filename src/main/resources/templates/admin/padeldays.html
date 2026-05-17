@@ -15,7 +15,7 @@
                 <a th:href="*{date.isAfter(#temporals.createNow())} ? @{|/user/signup/*{id}|} : @{|/admin/padeldaydetails/*{id}|}"
                    class="text-decoration-none text-black">
                     <div class="card-header text-white"
-                         th:classappend="*{date.toLocalDate().isAfter(#temporals.createToday())} ? 'bg-danger' : 'bg-secondary'">
+                         th:classappend="*{date.toLocalDate().isAfter(#temporals.createToday().minusDays(1))} ? 'bg-danger' : 'bg-secondary'">
                         <h5 class="card-title mb-0"
                             th:text="|*{#temporals.format(date, 'EE', #locale.of('nl', 'NL'))} *{#temporals.format(date, 'dd/MM/yyyy')}|"></h5>
                     </div>
