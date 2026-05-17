@@ -46,7 +46,7 @@
                                     <!-- Afgekorte naam (kleinere schermen) -->
                                     <span class="d-inline d-md-none name-small"
                                           th:with="nameParts=${#strings.arraySplit(player.name, ' ')}"
-                                          th:text="${nameParts.length > 1} ? ${#strings.substring(nameParts[0],0,1)} + '. ' + ${nameParts[nameParts.length - 1]} : ${player.name}">
+                                          th:text="${nameParts.length > 1} ?  ${nameParts[nameParts.length - 2]} + ' ' + ${#strings.substring(nameParts[1],0,1)} + '.' : ${player.name}">
                                     </span>
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                                     <!-- Afgekorte naam (kleinere schermen) -->
                                     <span class="d-inline d-md-none name-small" style="max-width: 80px;"
                                           th:with="nameParts=${#strings.arraySplit(player.name, ' ')}"
-                                          th:text="${nameParts.length > 1} ? ${#strings.substring(nameParts[0],0,1)} + '. ' + ${nameParts[nameParts.length - 1]} : ${player.name}">
+                                          th:text="${nameParts.length > 1} ?  ${nameParts[nameParts.length - 2]} + ' ' + ${#strings.substring(nameParts[1],0,1)} + '.' : ${player.name}">
                                     </span>
                                 </div>
                             </div>
