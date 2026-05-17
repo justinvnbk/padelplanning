@@ -47,10 +47,7 @@
                                     <span class="d-inline d-md-none name-small"
                                           th:with="nameParts=${#strings.arraySplit(player.name, ' ')}"
                                           th:text="${nameParts.length > 1} ? ${#strings.substring(nameParts[0],0,1)} + '. ' + ${nameParts[nameParts.length - 1]} : ${player.name}">
-                                        </span>
-
-                                    <!-- Ranking (alleen zichtbaar op grote schermen) -->
-                                    <span class="d-none d-md-inline" style="font-size: 1rem" th:text="| (${player.pRanking})|"></span>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -73,10 +70,7 @@
                                     <span class="d-inline d-md-none text-truncate d-block name-small" style="max-width: 80px;"
                                           th:with="nameParts=${#strings.arraySplit(player.name, ' ')}"
                                           th:text="${nameParts.length > 1} ? ${#strings.substring(nameParts[0],0,1)} + '. ' + ${nameParts[nameParts.length - 1]} : ${player.name}">
-    </span>
-
-                                    <!-- Ranking (alleen zichtbaar op grote schermen) -->
-                                    <span class="d-none d-md-inline" style="font-size: 1rem" th:text="| (${player.pRanking})|"></span>
+                                    </span>
                                 </div>
                             </div>
                         </div>
