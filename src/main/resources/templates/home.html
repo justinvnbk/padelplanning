@@ -5,11 +5,11 @@
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 
 <main>
-    <div th:if="${padelDay.matches.size() > 0}">
+    <div th:if="${padelDay != null and !padelDay.matches.isEmpty()}">
         <h1 class="text-center my-5">Overzicht eerst volgende speelmomenten</h1>
        <div th:replace="~{fragments/plantable::plantablefragment}"></div>
     </div>
-    <div class="fs-2 p-5 text-center text-white bg-dark m-5 rounded" th:if="${padelDay.matches.isEmpty()}">
+    <div class="fs-2 p-5 text-center text-white bg-dark m-5 rounded" th:if="${padelDay == null or padelDay.matches.isEmpty()}">
         Er is nog geen planning voor de komende padel dag, kom later terug of log in en kijk bij de <a th:href="@{/user/padeldays}">Inshrijvingen</a>
     </div>
 </main>
