@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -26,7 +25,6 @@ public class PlanController {
     private final MatchRepository matchRepository;
     private final CreatePadelDayPlanService createPadelDayPlanService;
     private final PadelDayRepository padelDayRepository;
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final TeamRepository teamRepository;
     private final NotificationService notificationService;
 

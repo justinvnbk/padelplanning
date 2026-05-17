@@ -1,6 +1,5 @@
 package be.thomasmore.padelplanning.config;
 
-import be.thomasmore.padelplanning.model.Notification;
 import be.thomasmore.padelplanning.model.Player;
 import be.thomasmore.padelplanning.repositories.PlayerRepository;
 import jakarta.servlet.http.HttpServletRequest;

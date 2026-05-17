@@ -2,7 +2,6 @@ package be.thomasmore.padelplanning.controllers;
 
 import be.thomasmore.padelplanning.model.*;
 import be.thomasmore.padelplanning.repositories.*;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +15,9 @@ import java.util.stream.Collectors;
 @Controller
 public class HomeController {
     private final PadelDayRepository padelDayRepository;
-    private final PlayerRepository playerRepository;
 
-    public HomeController(PadelDayRepository padelDayRepository, PlayerRepository playerRepository) {
+    public HomeController(PadelDayRepository padelDayRepository) {
         this.padelDayRepository = padelDayRepository;
-        this.playerRepository = playerRepository;
     }
 
     @GetMapping({"/", "/home"})

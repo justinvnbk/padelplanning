@@ -3,7 +3,6 @@ package be.thomasmore.padelplanning.model;
 import jakarta.persistence.*;
 
 import java.time.LocalTime;
-import java.util.Collection;
 import java.util.List;
 
 @Entity

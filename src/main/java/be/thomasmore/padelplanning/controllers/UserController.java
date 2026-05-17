@@ -6,7 +6,6 @@ import be.thomasmore.padelplanning.model.SelfEvaluation;
 import be.thomasmore.padelplanning.repositories.PlayerRepository;
 import be.thomasmore.padelplanning.services.NotificationService;
 import be.thomasmore.padelplanning.services.PlayerService;
-import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.Collection;
 
 @Controller
@@ -62,7 +60,6 @@ public class UserController {
     public String registerSubmit(@ModelAttribute Player player,
                                  @RequestParam(required = false) String noPranking,
                                  @RequestParam(required = false) Integer pRanking,
-                                 Authentication authentication,
                                  Model model) {
 
 
