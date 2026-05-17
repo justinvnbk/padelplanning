@@ -4,12 +4,13 @@ import be.thomasmore.padelplanning.model.PadelDay;
 import be.thomasmore.padelplanning.model.Player;
 import be.thomasmore.padelplanning.repositories.PadelDayRepository;
 import be.thomasmore.padelplanning.repositories.PlayerRepository;
+import be.thomasmore.padelplanning.services.NotificationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,10 +19,12 @@ import java.util.Optional;
 public class ConfirmPaymentController {
     private final PadelDayRepository padelDayRepository;
     private final PlayerRepository playerRepository;
+    private final NotificationService notificationService;
 
-    public ConfirmPaymentController(PadelDayRepository padelDayRepository, PlayerRepository playerRepository) {
+    public ConfirmPaymentController(PadelDayRepository padelDayRepository, PlayerRepository playerRepository, NotificationService notificationService) {
         this.padelDayRepository = padelDayRepository;
         this.playerRepository = playerRepository;
+        this.notificationService = notificationService;
     }
 
     @GetMapping("/payments/{id}")
@@ -38,5 +41,61 @@ public class ConfirmPaymentController {
         }
 
         return "admin/payments";
+    }
+
+    @PostMapping("/confirmPayment")
+    public String postConfirmPayment(Principal principal,
+                            @RequestParam Integer playerId,
+                            @RequestParam Integer padelDayId) {
+        Player admin = playerRepository.findByEmail(principal.getName());
+        Optional<Player> optionalPlayer = playerRepository.findById(playerId);
+        Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(padelDayId);
+
+        if (optionalPadelDay.isPresent() && optionalPlayer.isPresent()) {
+            PadelDay padelDay = optionalPadelDay.get();
+            Player player = optionalPlayer.get();
+
+            if(player.getPayedPadelDays().contains(padelDay)) {
+                List<PadelDay> confirmedPayedPadelDays = player.getConfirmedPayedPadelDays();
+                confirmedPayedPadelDays.add(padelDay);
+
+                player.setConfirmedPayedPadelDays(player.getConfirmedPayedPadelDays());
+
+                playerRepository.save(player);
+
+                notificationService.createNotification("Betaling bevestigd",
+                        admin.getName() + " heeft uw betaling voor de padel dag op " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " bevestigd",
+                        List.of(player));
+            }
+        }
+        return "redirect:/admin/payments/" + padelDayId;
+    }
+
+    @PostMapping("/unconfirmPayment")
+    public String postUnconfirmPayment(Principal principal,
+                            @RequestParam Integer playerId,
+                            @RequestParam Integer padelDayId) {
+        Player admin = playerRepository.findByEmail(principal.getName());
+        Optional<Player> optionalPlayer = playerRepository.findById(playerId);
+        Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(padelDayId);
+
+        if (optionalPadelDay.isPresent() && optionalPlayer.isPresent()) {
+            PadelDay padelDay = optionalPadelDay.get();
+            Player player = optionalPlayer.get();
+
+            if(player.getPayedPadelDays().contains(padelDay)) {
+                List<PadelDay> confirmedPayedPadelDays = player.getConfirmedPayedPadelDays();
+                confirmedPayedPadelDays.remove(padelDay);
+
+                player.setConfirmedPayedPadelDays(player.getConfirmedPayedPadelDays());
+
+                playerRepository.save(player);
+
+                notificationService.createNotification("Betaling niet langer bevestigd!",
+                        admin.getName() + " heeft uw betaling voor de padel dag op " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " is niet langer bevestigd",
+                        List.of(player));
+            }
+        }
+        return "redirect:/admin/payments/" + padelDayId;
     }
 }

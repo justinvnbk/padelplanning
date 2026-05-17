@@ -33,6 +33,9 @@ public class PadelDay {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "payedPadelDays")
     private List<Player> payedPlayers;
 
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "confirmedPayedPadelDays")
+    private List<Player> confirmedPayedPlayers;
+
     public Integer getId() {
         return id;
     }
@@ -111,5 +114,13 @@ public class PadelDay {
 
     public void setPayedPlayers(List<Player> payedPlayers) {
         this.payedPlayers = payedPlayers;
+    }
+
+    public List<Player> getConfirmedPayedPlayers() {
+        return confirmedPayedPlayers;
+    }
+
+    public void setConfirmedPayedPlayers(List<Player> confirmedPayedPlayers) {
+        this.confirmedPayedPlayers = confirmedPayedPlayers;
     }
 }

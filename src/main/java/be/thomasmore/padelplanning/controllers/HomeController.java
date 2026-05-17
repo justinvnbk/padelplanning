@@ -25,7 +25,8 @@ public class HomeController {
 
     @GetMapping({"/","/home"})
     public String home(Model model){
-        Optional<PadelDay> optionalPadelDay = padelDayRepository.getNext(LocalDateTime.now());
+        LocalDateTime now = LocalDateTime.now();
+        Optional<PadelDay> optionalPadelDay = padelDayRepository.getNext(now.minusDays(1)); //So the plan can still be seen on the day itself
 
         if(optionalPadelDay.isPresent()){
             List<LocalTime> getUniqueTimeSlots = optionalPadelDay.get().getMatches().stream()
