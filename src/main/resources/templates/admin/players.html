@@ -13,47 +13,34 @@
         Geen spelers in afwachting.
     </div>
 
-    <div th:unless="${#lists.isEmpty(pendingPlayers)}" class="table-responsive mb-5">
-        <table class="table table-dark table-bordered table-hover align-middle">
-            <thead>
-            <tr>
-                <th>Naam</th>
-                <th>Email</th>
-                <th>Geslacht</th>
-                <th>Geboortedatum</th>
-                <th>Telefoon</th>
-                <th>Niveau</th>
-                <th>P-Ranking</th>
-                <th>Speelzijde</th>
-                <th>Acties</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="player : ${pendingPlayers}">
-                <td th:text="${player.name}"></td>
-                <td th:text="${player.email}"></td>
-                <td th:text="${player.gender}"></td>
-                <td th:text="${#dates.format(player.birthDate, 'dd/MM/yyyy')}"></td>
-                <td th:text="${player.telephone}"></td>
-                <td th:text="${player.selfEvaluation}"></td>
-                <td th:text="${player.pRanking != null ? 'P' + player.pRanking : 'NVT'}"></td>
-                <td th:text="${player.preferredPlayside}"></td>
-                <td>
-                    <form th:action="@{/admin/players/approve/{id}(id=${player.id})}" method="post" class="d-inline">
-                        <button type="submit" class="btn btn-success btn-sm me-1">
-                            Goedkeuren
-                        </button>
-                    </form>
-                    <form th:action="@{/admin/players/reject/{id}(id=${player.id})}" method="post" class="d-inline">
-                        <button type="submit" class="btn btn-danger btn-sm" th:data-name="${player.name}"
-                                onclick="return confirm('Ben je zeker dat je ' + this.dataset.name + ' wilt weigeren?')">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 mb-5">
+        <div class="col" th:each="player : ${pendingPlayers}">
+            <div class="card h-100 shadow-sm border-warning">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold" th:text="${player.name}"></h5>
+                    <p class="card-text mb-1"><strong>Email:</strong> <span th:text="${player.email}"></span></p>
+                    <p class="card-text mb-1"><strong>Geslacht:</strong> <span th:text="${player.gender}"></span></p>
+                    <p class="card-text mb-1"><strong>Geboortedatum:</strong> <span th:text="${#dates.format(player.birthDate, 'dd/MM/yyyy')}"></span></p>
+                    <p class="card-text mb-1"><strong>Telefoon:</strong> <span th:text="${player.telephone}"></span></p>
+                    <p class="card-text mb-1"><strong>Niveau:</strong> <span th:text="${player.selfEvaluation}"></span></p>
+                    <p class="card-text mb-1"><strong>P-Ranking:</strong> <span th:text="${player.pRanking != null ? 'P' + player.pRanking : 'NVT'}"></span></p>
+                    <p class="card-text mb-3"><strong>Speelzijde:</strong> <span th:text="${player.preferredPlayside}"></span></p>
+                    <div class="d-flex gap-2">
+                        <form th:action="@{/admin/players/approve/{id}(id=${player.id})}" method="post">
+                            <button type="submit" class="btn btn-success btn-sm">Goedkeuren</button>
+                        </form>
+                        <button type="button" class="btn btn-danger btn-sm"
+                                th:data-id="${player.id}"
+                                th:data-name="${player.name}"
+                                th:data-action="@{/admin/players/reject/{id}(id=${player.id})}"
+                                th:data-message="|Ben je zeker dat je ${player.name} wilt weigeren?|"
+                                data-bs-toggle="modal" data-bs-target="#confirmModal">
                             Weigeren
                         </button>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Approved Players -->
@@ -63,48 +50,60 @@
         Geen goedgekeurde spelers.
     </div>
 
-    <div th:unless="${#lists.isEmpty(approvedPlayers)}" class="table-responsive">
-        <table class="table table-dark table-bordered table-hover align-middle">
-            <thead>
-            <tr>
-                <th>Naam</th>
-                <th>Email</th>
-                <th>Geslacht</th>
-                <th>Geboortedatum</th>
-                <th>Telefoon</th>
-                <th>Niveau</th>
-                <th>P-Ranking</th>
-                <th>Speelzijde</th>
-                <th>Acties</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="player : ${approvedPlayers}">
-                <td th:text="${player.name}"></td>
-                <td th:text="${player.email}"></td>
-                <td th:text="${player.gender}"></td>
-                <td th:text="${#dates.format(player.birthDate, 'dd/MM/yyyy')}"></td>
-                <td th:text="${player.telephone}"></td>
-                <td th:text="${player.selfEvaluation}"></td>
-                <td th:text="${player.pRanking != null ? 'P' + player.pRanking : 'NVT'}"></td>
-                <td th:text="${player.preferredPlayside}"></td>
-                <td>
-                    <form th:action="@{/admin/players/remove/{id}(id=${player.id})}" method="post" class="d-inline">
-                        <button type="submit" class="btn btn-danger btn-sm" th:data-name="${player.name}"
-                                onclick="return confirm('Ben je zeker dat je ' + this.dataset.name + ' wilt verwijderen?')">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+        <div class="col" th:each="player : ${approvedPlayers}">
+            <div class="card h-100 shadow-sm border-success">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold" th:text="${player.name}"></h5>
+                    <p class="card-text mb-1"><strong>Email:</strong> <span th:text="${player.email}"></span></p>
+                    <p class="card-text mb-1"><strong>Geslacht:</strong> <span th:text="${player.gender}"></span></p>
+                    <p class="card-text mb-1"><strong>Geboortedatum:</strong> <span th:text="${#dates.format(player.birthDate, 'dd/MM/yyyy')}"></span></p>
+                    <p class="card-text mb-1"><strong>Telefoon:</strong> <span th:text="${player.telephone}"></span></p>
+                    <p class="card-text mb-1"><strong>Niveau:</strong> <span th:text="${player.selfEvaluation}"></span></p>
+                    <p class="card-text mb-1"><strong>P-Ranking:</strong> <span th:text="${player.pRanking != null ? 'P' + player.pRanking : 'NVT'}"></span></p>
+                    <p class="card-text mb-3"><strong>Speelzijde:</strong> <span th:text="${player.preferredPlayside}"></span></p>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-danger btn-sm"
+                                th:data-id="${player.id}"
+                                th:data-name="${player.name}"
+                                th:data-action="@{/admin/players/remove/{id}(id=${player.id})}"
+                                th:data-message="|Ben je zeker dat je ${player.name} wilt verwijderen?|"
+                                data-bs-toggle="modal" data-bs-target="#confirmModal">
                             Verwijderen
                         </button>
-                        <a th:href="@{/admin/player-detail/{id}(id=${player.id})}"
-                           class="btn btn-secondary btn-sm">✏️</a>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                        <a th:href="@{/admin/player-detail/{id}(id=${player.id})}" class="btn btn-secondary btn-sm">✏️ Bewerken</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Ben je zeker?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="confirmModalMessage"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuleren</button>
+                    <form id="confirmModalForm" method="post">
+                        <button type="submit" class="btn btn-danger">Bevestigen</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 <footer th:replace="~{fragments/headerfooter::footer}"></footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+<script>
+    document.getElementById('confirmModal').addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        document.getElementById('confirmModalMessage').textContent = button.dataset.message;
+        document.getElementById('confirmModalForm').action = button.dataset.action;
+    });
+</script>
 </body>
 </html>
