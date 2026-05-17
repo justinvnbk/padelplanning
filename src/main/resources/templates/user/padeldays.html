@@ -8,14 +8,14 @@
     <h1 class="text-center mb-5">Geplande padel dagen</h1>
     <div class="row row-cols-1 row-cols-md-4 g-4">
         <div class="col" th:each="padelDay: ${padelDays}" th:object="${padelDay}" th:if="${padelDay.date.isAfter(#temporals.createNow())}">
-            <div class="card h-100 shadow-sm">
+            <div class="card h-100" style="border: none;">
                 <a th:href="@{|/user/signup/*{id}|}" class="text-decoration-none text-black">
                     <div class="card-header text-white"
                          th:classappend="*{date.toLocalDate().isAfter(#temporals.createToday().minusDays(1))} ? 'bg-danger' : 'bg-secondary'">
                         <h5 class="card-title mb-0"
                             th:text="|*{#temporals.format(date, 'EE', #locale.of('nl', 'NL'))} *{#temporals.format(date, 'dd/MM/yyyy')}|"></h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body border border-solid border-dark-subtle rounded-bottom-2 border-top-0">
                         <p class="card-text">
                             <strong>Startuur:</strong>
                             <span th:text="*{#temporals.format(date, 'HH:mm')}"></span>
