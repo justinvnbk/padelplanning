@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CreatePadelDayPlanService {
@@ -34,20 +35,53 @@ public class CreatePadelDayPlanService {
         }
 
 
-        //For now to create fair matches, the signed up players are sorted by p-ranking
-        List<Player> signedUpPlayers = padelDay.getSignedUpPlayers().stream().sorted(Comparator.comparing(Player::getpRanking)).toList();
+        //Separated lists for men and women
+        List<Player> women = padelDay.getSignedUpPlayers().stream()
+                .filter(p -> p.getGender() == 'F')
+                .sorted(Comparator.comparing(Player::getpRanking))
+                .collect(Collectors.toCollection(ArrayList::new));
 
-        //Players are then moved around to have more spread averages
+        List<Player> men = padelDay.getSignedUpPlayers().stream()
+                .filter(p -> p.getGender() == 'M')
+                .sorted(Comparator.comparing(Player::getpRanking))
+                .collect(Collectors.toCollection(ArrayList::new));
+
         List<Player> orderedSignedUpPlayers = new ArrayList<>();
-        for (int i = 0; i <= signedUpPlayers.size() - 4; i += 4) {
-            orderedSignedUpPlayers.add(signedUpPlayers.get(i));
-            orderedSignedUpPlayers.add(signedUpPlayers.get(i + 3));
-            orderedSignedUpPlayers.add(signedUpPlayers.get(i + 1));
-            orderedSignedUpPlayers.add(signedUpPlayers.get(i + 2));
+
+        //Grouping women until it's not divisible with 4
+        while (women.size() >= 4) {
+            List<Player> fourWomen = new ArrayList<>(women.subList(0, 4));
+            women.subList(0, 4).clear();
+
+            //Players are then moved around to have more spread averages
+            orderedSignedUpPlayers.add(fourWomen.get(0));
+            orderedSignedUpPlayers.add(fourWomen.get(3));
+            orderedSignedUpPlayers.add(fourWomen.get(1));
+            orderedSignedUpPlayers.add(fourWomen.get(2));
+        }
+
+        //Add remaining women to men's list
+        if (!women.isEmpty()) {
+
+            men.addAll(women);
+
+            //Women's pranking is cut in half and priority given to higher rank
+            men.sort((p1, p2) -> {
+                double r1 = (p1.getGender() == 'F') ? p1.getpRanking() / 2.0 : p1.getpRanking();
+                double r2 = (p2.getGender() == 'F') ? p2.getpRanking() / 2.0 : p2.getpRanking();
+                return Double.compare(r1, r2);
+            });
+        }
+
+        //Handle the remaining players
+        for (int i = 0; i <= men.size() - 4; i += 4) {
+            orderedSignedUpPlayers.add(men.get(i));
+            orderedSignedUpPlayers.add(men.get(i + 3));
+            orderedSignedUpPlayers.add(men.get(i + 1));
+            orderedSignedUpPlayers.add(men.get(i + 2));
         }
 
         padelDay.setMatches(newMatches(numberOfMatches, availableFields, padelDay.getDate().toLocalTime(), orderedSignedUpPlayers));
-
         padelDayRepository.save(padelDay);
     }
 
