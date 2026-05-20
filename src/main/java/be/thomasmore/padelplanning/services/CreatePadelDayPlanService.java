@@ -40,7 +40,7 @@ public class CreatePadelDayPlanService {
                 .filter(p -> p.getGender() == 'F')
                 .sorted(Comparator.comparing(Player::getpRanking)
                         .thenComparing(Player::getPreferredPlayside)
-                        .thenComparing(Player::getBirthDate)) // Chronological: Oldest players first
+                        .thenComparing(Player::getBirthDate))
                 .collect(Collectors.toCollection(ArrayList::new));
 
         List<Player> men = padelDay.getSignedUpPlayers().stream()
