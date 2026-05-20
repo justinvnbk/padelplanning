@@ -51,13 +51,15 @@ public class CreatePadelDayPlanService {
         //Grouping women until it's not divisible with 4
         while (women.size() >= 4) {
             List<Player> fourWomen = new ArrayList<>(women.subList(0, 4));
-            women.subList(0, 4).clear();
+
 
             //Players are then moved around to have more spread averages
             orderedSignedUpPlayers.add(fourWomen.get(0));
             orderedSignedUpPlayers.add(fourWomen.get(3));
             orderedSignedUpPlayers.add(fourWomen.get(1));
             orderedSignedUpPlayers.add(fourWomen.get(2));
+
+            women.subList(0, 4).clear();
         }
 
         //Add remaining women to men's list
