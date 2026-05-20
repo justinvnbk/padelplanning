@@ -38,12 +38,16 @@ public class CreatePadelDayPlanService {
         //Separated lists for men and women
         List<Player> women = padelDay.getSignedUpPlayers().stream()
                 .filter(p -> p.getGender() == 'F')
-                .sorted(Comparator.comparing(Player::getpRanking))
+                .sorted(Comparator.comparing(Player::getpRanking)
+                        .thenComparing(Player::getPreferredPlayside)
+                        .thenComparing(Player::getBirthDate)) // Chronological: Oldest players first
                 .collect(Collectors.toCollection(ArrayList::new));
 
         List<Player> men = padelDay.getSignedUpPlayers().stream()
                 .filter(p -> p.getGender() == 'M')
-                .sorted(Comparator.comparing(Player::getpRanking))
+                .sorted(Comparator.comparing(Player::getpRanking)
+                        .thenComparing(Player::getPreferredPlayside)
+                        .thenComparing(Player::getBirthDate))
                 .collect(Collectors.toCollection(ArrayList::new));
 
         List<Player> orderedSignedUpPlayers = new ArrayList<>();
@@ -67,12 +71,12 @@ public class CreatePadelDayPlanService {
 
             men.addAll(women);
 
-            //Women's pranking is cut in half and priority given to higher rank
-            men.sort((p1, p2) -> {
-                double r1 = (p1.getGender() == 'F') ? p1.getpRanking() / 2.0 : p1.getpRanking();
-                double r2 = (p2.getGender() == 'F') ? p2.getpRanking() / 2.0 : p2.getpRanking();
-                return Double.compare(r1, r2);
-            });
+            //Women's pranking is cut in half and priority given to higher rank and then other criteria's
+            men.sort(
+                    Comparator.comparingDouble((Player p) -> (p.getGender() == 'F') ? p.getpRanking() / 2.0 : p.getpRanking())
+                            .thenComparing(Player::getPreferredPlayside)
+                            .thenComparing(Player::getBirthDate)
+            );
         }
 
         //Handle the remaining players
