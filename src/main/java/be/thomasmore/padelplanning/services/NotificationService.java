@@ -29,7 +29,7 @@ public class NotificationService {
         this.playerRepository = playerRepository;
     }
 
-    public void createNotification(String title, String message, Collection<Player> recipients) {
+    public void createNotification(String title, String message, Collection<Player> recipients, boolean sendEmail) {
         Notification notification = new Notification();
         notification.setTitle(title);
         notification.setMessage(message);
@@ -43,7 +43,9 @@ public class NotificationService {
             playerRepository.save(p);
         }
 
-        MailtrapJavaSDKTest(title,message,recipients);
+        if (sendEmail) {
+            MailtrapJavaSDKTest(title, message, recipients);
+        }
     }
 
     private void MailtrapJavaSDKTest(String title, String message, Collection<Player> recipients) {

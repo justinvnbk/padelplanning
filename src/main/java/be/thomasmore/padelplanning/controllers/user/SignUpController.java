@@ -76,7 +76,8 @@ public class SignUpController {
                     //Send a notification to all reserve players that they moved to signed up players
                     notificationService.createNotification("Inschrijving padeldag: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             "Er zijn voldoende spelers voor uw inschrijving te verwerken voor de padeldag te " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
-                            reservePlayers);
+                            reservePlayers,
+                            true);
                     reservePlayers.clear();
                     if (padelDay.getMatches().size() > 0) {
                         //The plan is recreated, matches are filled with the new players
@@ -125,16 +126,19 @@ public class SignUpController {
                     //Notify all forced to sign out
                     notificationService.createNotification("Uitschrijving padeldag: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             "Een van de laatste 4 inschrijvingen heeft zich uitgeschreven. U komt terug op de reservelijst.",
-                            forcedToSignOut);
+                            forcedToSignOut,
+                            true);
                     //Notify admin
                     notificationService.createNotification("Ontbrekende speler: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             "Een van de laatste 4 inschrijvingen heeft zich uitgeschreven. Drie spelers staan weer op de reservelijst.",
-                            admins);
+                            admins,
+                            true);
                     //Notify all players, new signup needed fast
                     if (LocalDateTime.now().plusHours(4).isAfter(padelDay.getDate())) {
                         notificationService.createNotification("SNEL IEMAND NODIG VOOR VANDAAG",
                                 "Iemand heeft zich binnen de laatste 4 uur uitgeschreven, schrijf je nog snel in om ons te vervoledigen",
-                                playerRepository.getAll());
+                                playerRepository.getAll(),
+                                true);
                     }
 
                     //When there is reserve players, add the fist one
@@ -147,7 +151,8 @@ public class SignUpController {
 
                     notificationService.createNotification("Inschrijving padeldag: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             "Er zijn voldoende spelers voor uw inschrijving te verwerken voor de padeldag te " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
-                            newSignedUpPlayer);
+                            newSignedUpPlayer,
+                            true);
                 }
                 if (padelDay.getMatches().size() > 0) {
                     //The plan is recreated, matches are filled without the removed players
