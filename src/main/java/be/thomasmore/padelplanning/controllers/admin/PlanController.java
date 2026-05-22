@@ -119,9 +119,12 @@ public class PlanController {
 
     @GetMapping("/newpadelday")
     public String nieuwPadelday(Model model) {
+
+        PadelDay padelDay = new PadelDay();
+        padelDay.setNumberOfMatches(3);
         Iterable<Field> fields = fieldRepository.findAll();
         model.addAttribute("fields", fields);
-        model.addAttribute("padelDay", new PadelDay());
+        model.addAttribute("padelDay", padelDay);
         return "admin/newpadelday";
     }
 
