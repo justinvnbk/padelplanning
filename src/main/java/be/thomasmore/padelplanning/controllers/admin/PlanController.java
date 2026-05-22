@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -54,69 +53,44 @@ public class PlanController {
 
     //Edit the plan
     @PostMapping("/planEdit")
-    public String postPlanEdit(@RequestParam List<Integer> playerIds,
+    public String postPlanEdit(@RequestParam Integer playerAId,
+                               @RequestParam Integer teamAId,
+                               @RequestParam Integer playerBId,
+                               @RequestParam Integer teamBId,
                                @RequestParam Integer padelDayId,
-                               @RequestParam Integer teamId,
                                RedirectAttributes ra) {
 
-        Team existingTeam = teamRepository.findById(teamId).orElseThrow();
-        Match currentMatch = existingTeam.getMatches().get(0);
-        LocalTime time = currentMatch.getTimeSlot();
+        Player actualPlayerA = playerRepository.findById(playerAId).orElseThrow();
+        Player actualPlayerB = playerRepository.findById(playerBId).orElseThrow();
 
-        // to prevent a player from filling both positions in a team
-        if (playerIds.size() >= 2 && playerIds.get(0).equals(playerIds.get(1))) {
-            ra.addFlashAttribute("error", "Een speler kan niet zijn eigen partner zijn.");
+        Team actualTeamA = teamRepository.findById(teamAId).orElseThrow();
+        Team actualTeamB = teamRepository.findById(teamBId).orElseThrow();
+
+        // ensuring that the swap is happening within one timeslot (server-side Validation)
+        /*if (!actualTeamA.getMatches().getTimeSlot().equals(actualTeamB.getMatch().getTimeSlot())) {
+
+            ra.addFlashAttribute("error", "Players must be in the same timeslot.");
             return "redirect:/user/signup/" + padelDayId;
-        }
+        }*/
+        // awaiting the relation between Team-Match to be changed to one-to-many
 
-        // is the player available?
-        for (Integer pId : playerIds) {
+        List<Player> TeamAplayers = new java.util.ArrayList<>(actualTeamA.getPlayers().stream().toList());
+        int spotA = TeamAplayers.indexOf(actualPlayerA);
 
-            // the loop calls zero first, and skips it
-            if (pId == 0) continue;
+        List<Player> TeamBplayers = new java.util.ArrayList<>(actualTeamB.getPlayers().stream().toList());
+        int spotB = TeamBplayers.indexOf(actualPlayerB);
 
-            // check whether the player already play in the timeslot?
-            if (matchRepository.isPlayerBusy(time, pId)) {
+        TeamBplayers.set(spotB, actualPlayerA);
+        TeamAplayers.set(spotA, actualPlayerB);
 
-                // determine whether the player already on this team is, returns true if they are
-                boolean alreadyInThisTeam = existingTeam.getPlayers().stream()
-                        .anyMatch(p -> p.getId().equals(pId));
+        actualTeamA.setPlayers(TeamAplayers);
+        actualTeamB.setPlayers(TeamBplayers);
 
-                // if false: the player is already on another team
-                // send error message to front-end
-                if (!alreadyInThisTeam) {
-                    Player busyPlayer = playerRepository.findById(pId).orElseThrow();
-
-                    ra.addFlashAttribute("error", busyPlayer.getName() + " speelt al op dit tijdslot.");
-
-                    return "redirect:/user/signup/" + padelDayId;
-                }
-            }
-        }
-
-        // list of current players
-        List<Integer> currentIds = existingTeam.getPlayers().stream()
-                .map(Player::getId)
-                .toList();
-
-        // list of new players (if changed)
-        List<Integer> cleanIds = playerIds.stream().filter(id -> id != 0).toList();
-
-        // if the players are changed
-        if (!currentIds.equals(cleanIds)) {
-            List<Player> players = playerRepository.findAllByIds(cleanIds);
-            existingTeam.setPlayers(players);
-            teamRepository.save(existingTeam);
-
-            ra.addFlashAttribute("success", "Succesvol geüpdatet!");
-
-        } else {
-
-            ra.addFlashAttribute("info", "Geen veranderingen gemaakt");
-        }
-
+        teamRepository.save(actualTeamA);
+        teamRepository.save(actualTeamB);
         return "redirect:/user/signup/" + padelDayId;
     }
+    // if you attempt to switch players who are in the same team, the second one gets overwritten instead of switched
 
     @GetMapping("/newpadelday")
     public String nieuwPadelday(Model model) {
