@@ -69,7 +69,7 @@ public class PlanController {
             return "redirect:/user/signup/" + padelDayId;
         }
 
-        // is the player availible?
+        // is the player available?
         for (Integer pId : playerIds) {
 
             // the loop calls null first
