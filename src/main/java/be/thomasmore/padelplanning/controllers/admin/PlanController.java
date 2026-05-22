@@ -63,7 +63,7 @@ public class PlanController {
         Match currentMatch = existingTeam.getMatches().get(0);
         LocalTime time = currentMatch.getTimeSlot();
 
-        // to prevent duplicate players on the same team
+        // to prevent a player from filling both positions in a team
         if (playerIds.size() >= 2 && playerIds.get(0).equals(playerIds.get(1))) {
             ra.addFlashAttribute("error", "Een speler kan niet zijn eigen partner zijn.");
             return "redirect:/user/signup/" + padelDayId;
@@ -72,17 +72,18 @@ public class PlanController {
         // is the player available?
         for (Integer pId : playerIds) {
 
-            // the loop calls null first
+            // the loop calls zero first, and skips it
             if (pId == 0) continue;
 
-            // does the player play at that time?
+            // check whether the player already play in the timeslot?
             if (matchRepository.isPlayerBusy(time, pId)) {
 
-                // if the player is already on the team, it returns true
+                // determine whether the player already on this team is, returns true if they are
                 boolean alreadyInThisTeam = existingTeam.getPlayers().stream()
                         .anyMatch(p -> p.getId().equals(pId));
 
-                // if false, it means that the player is already on another team
+                // if false: the player is already on another team
+                // send error message to front-end
                 if (!alreadyInThisTeam) {
                     Player busyPlayer = playerRepository.findById(pId).orElseThrow();
 
@@ -93,12 +94,12 @@ public class PlanController {
             }
         }
 
-        // current players
+        // list of current players
         List<Integer> currentIds = existingTeam.getPlayers().stream()
                 .map(Player::getId)
                 .toList();
 
-        // new players (if changed)
+        // list of new players (if changed)
         List<Integer> cleanIds = playerIds.stream().filter(id -> id != 0).toList();
 
         // if the players are changed
