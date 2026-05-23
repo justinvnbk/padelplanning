@@ -1,16 +1,26 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments/head::headfragment}"></head>
 <body>
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 
-<main>
+<main sec:authorize="isAuthenticated()">
     <div th:if="${padelDay != null and !padelDay.matches.isEmpty()}">
         <h1 class="text-center my-5">Overzicht eerst volgende speelmomenten</h1>
         <div th:replace="~{fragments/plantable::plantablefragment}"></div>
     </div>
-    <div class="fs-2 p-5 text-center text-white bg-dark m-5 rounded" th:if="${padelDay == null or padelDay.matches.isEmpty()}">
+    <div class="fs-2 p-3 text-center text-white bg-dark m-5 rounded home-message" th:if="${padelDay == null or padelDay.matches.isEmpty()}">
         Er is nog geen planning voor de komende padel dag, kom later terug of log in en kijk bij de <a th:href="@{/user/padeldays}">Inshrijvingen</a>
+    </div>
+</main>
+<main sec:authorize="!isAuthenticated()">
+    <div class="fs-2 p-2 text-center text-white bg-dark m-5 rounded home-message">
+        <div class="mb-3">
+            Welkom :)
+        </div>
+        <div>
+            <a class="text-decoration-none" th:href="@{/login}">Log in</a> of <a class="text-decoration-none" th:href="@{/register}">registreer</a> u om de planning van de volgende padeldag te bekijken
+        </div>
     </div>
 </main>
 <footer th:replace="~{fragments/headerfooter::footer}"></footer>
