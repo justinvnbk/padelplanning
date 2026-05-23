@@ -14,6 +14,8 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Controller
 @RequestMapping("/user")
@@ -32,8 +34,21 @@ public class SignUpController {
 
     @GetMapping("/padeldays")
     public String padeldays(Model model, Principal principal) {
-        Iterable<PadelDay> padelDays = padelDayRepository.findAllOrdered();
+
+        List<PadelDay> padelDays = padelDayRepository.findAllOrdered().stream()
+                .toList();
+
+        Player loggedPlayer = playerRepository.findByEmail(principal.getName());
+
+        Map<Integer, Boolean> signedUpMap = padelDays.stream().collect(Collectors.toMap(
+                PadelDay::getId,
+                padelDay -> padelDay.getSignedUpPlayers().contains(loggedPlayer)
+                        || padelDay.getReservedPlayers().contains(loggedPlayer)
+        ));
+
         model.addAttribute("padelDays", padelDays);
+        model.addAttribute("signedUpMap", signedUpMap);
+
         return "user/padeldays";
     }
 
