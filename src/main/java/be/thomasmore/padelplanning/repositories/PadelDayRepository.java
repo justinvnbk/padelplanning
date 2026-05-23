@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface PadelDayRepository extends CrudRepository<PadelDay, Integer> {
@@ -13,5 +14,5 @@ public interface PadelDayRepository extends CrudRepository<PadelDay, Integer> {
     Optional<PadelDay> getNext(@Param("now") LocalDateTime now);
 
     @Query("SELECT pd FROM PadelDay pd ORDER BY pd.date DESC")
-    Iterable<PadelDay> findAllOrdered();
+    List<PadelDay> findAllOrdered();
 }
