@@ -6,14 +6,18 @@ import be.thomasmore.padelplanning.services.CreatePadelDayPlanService;
 import be.thomasmore.padelplanning.services.NotificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Optional;
 
@@ -121,7 +125,16 @@ public class PlanController {
     public String nieuwPadelday(Model model) {
 
         PadelDay padelDay = new PadelDay();
+
+        LocalDateTime nextSunday = LocalDateTime.now()
+                .with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY))
+                .with(LocalTime.of(14, 0));
+
+
+        padelDay.setDate(nextSunday);
+
         padelDay.setNumberOfMatches(3);
+
         Iterable<Field> fields = fieldRepository.findAll();
         model.addAttribute("fields", fields);
         model.addAttribute("padelDay", padelDay);
