@@ -77,6 +77,7 @@ public class UserController {
         notificationService.createNotification("Nieuwe registratie",
                 player.getName() + " wil zich registreren op de website.",
                 admins,
+                true,
                 true);
         return "redirect:/login?registered";
     }

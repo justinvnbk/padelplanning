@@ -45,6 +45,7 @@ public class PlayerController {
             notificationService.createNotification("Welkom",
                     "U registratie is geaccepteerd, als er een padeldag gepland is kan u ervoor inschrijven via de navigatie.",
                     List.of(player),
+                    true,
                     true);
         }
 
