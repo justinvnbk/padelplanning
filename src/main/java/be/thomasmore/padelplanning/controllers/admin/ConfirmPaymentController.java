@@ -65,7 +65,8 @@ public class ConfirmPaymentController {
 
                 notificationService.createNotification("Betaling bevestigd",
                         admin.getName() + " heeft uw betaling voor de padel dag op " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " bevestigd",
-                        List.of(player));
+                        List.of(player),
+                        true);
             }
         }
         return "redirect:/admin/payments/" + padelDayId;
@@ -92,8 +93,9 @@ public class ConfirmPaymentController {
                 playerRepository.save(player);
 
                 notificationService.createNotification("Betaling niet langer bevestigd!",
-                        admin.getName() + " heeft uw betaling voor de padel dag op " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " is niet langer bevestigd",
-                        List.of(player));
+                        admin.getName() + " heeft uw betaling voor de padel dag op " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " niet langer bevestigd",
+                        List.of(player),
+                        true);
             }
         }
         return "redirect:/admin/payments/" + padelDayId;

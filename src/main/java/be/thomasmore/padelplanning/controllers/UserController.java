@@ -75,7 +75,9 @@ public class UserController {
         player.setpRanking(noPranking != null ? null : pRanking);
         playerService.registerPlayer(player);
         notificationService.createNotification("Nieuwe registratie",
-                player.getName() + " wil zich registreren op de website.", admins);
+                player.getName() + " wil zich registreren op de website.",
+                admins,
+                true);
         return "redirect:/login?registered";
     }
 

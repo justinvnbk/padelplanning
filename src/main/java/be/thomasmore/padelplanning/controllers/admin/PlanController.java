@@ -149,7 +149,8 @@ public class PlanController {
         padelDayRepository.save(padelDay);
         notificationService.createNotification("Nieuw speelmoment opgestart",
                 "Er is een nieuw speelmoment gestart door " + loggedInAdmin.getName() + " voor " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")) + ". Schrijf je nu in!",
-                playerRepository.getAll());
+                playerRepository.getAll(),
+                true);
         return "redirect:/admin/padeldays";
     }
 
@@ -186,7 +187,8 @@ public class PlanController {
 
         notificationService.createNotification("Aanpassing speelmoment",
                 "Het speelmoment is aangepast door " + loggedInAdmin.getName() + ". Bekijk het bij de inschrijvingen!",
-                recipients);
+                recipients,
+                true);
         return "redirect:/admin/padeldays";
     }
 
@@ -200,7 +202,8 @@ public class PlanController {
             notificationService.createNotification(
                     "Planning gepubliceerd",
                     "De planning voor " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")) + " is gepubliceerd!",
-                    padelDay.getSignedUpPlayers()
+                    padelDay.getSignedUpPlayers(),
+                    true
             );
             ra.addFlashAttribute("success", "Planning gepubliceerd!");
         }

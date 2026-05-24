@@ -46,7 +46,8 @@ public class PaymentController {
 
                 notificationService.createNotification("Speler heeft betaald",
                         player.getName() + " heeft betaald voor de padel dag op: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-                        playerRepository.findAllAdmins());
+                        playerRepository.findAllAdmins(),
+                        true);
             }
         }
         return "redirect:/user/signup/" + id;

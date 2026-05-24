@@ -44,7 +44,8 @@ public class PlayerController {
             Player player = optionalPlayer.get();
             notificationService.createNotification("Welkom",
                     "U registratie is geaccepteerd, als er een padeldag gepland is kan u ervoor inschrijven via de navigatie.",
-                    List.of(player));
+                    List.of(player),
+                    true);
         }
 
         return "redirect:/admin/players";
