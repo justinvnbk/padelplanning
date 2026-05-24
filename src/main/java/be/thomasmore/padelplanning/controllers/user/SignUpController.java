@@ -92,6 +92,7 @@ public class SignUpController {
                     notificationService.createNotification("Inschrijving padeldag: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             "Er zijn voldoende spelers voor uw inschrijving te verwerken voor de padeldag te " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             reservePlayers,
+                            true,
                             true);
                     reservePlayers.clear();
                     if (padelDay.getMatches().size() > 0) {
@@ -142,17 +143,20 @@ public class SignUpController {
                     notificationService.createNotification("Uitschrijving padeldag: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             "Een van de laatste 4 inschrijvingen heeft zich uitgeschreven. U komt terug op de reservelijst.",
                             forcedToSignOut,
+                            true,
                             true);
                     //Notify admin
                     notificationService.createNotification("Ontbrekende speler: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             "Een van de laatste 4 inschrijvingen heeft zich uitgeschreven. Drie spelers staan weer op de reservelijst.",
                             admins,
+                            true,
                             true);
                     //Notify all players, new signup needed fast
                     if (LocalDateTime.now().plusHours(4).isAfter(padelDay.getDate())) {
                         notificationService.createNotification("SNEL IEMAND NODIG VOOR VANDAAG",
                                 "Iemand heeft zich binnen de laatste 4 uur uitgeschreven, schrijf je nog snel in om ons te vervoledigen",
                                 playerRepository.getAll(),
+                                true,
                                 true);
                     }
 
@@ -167,6 +171,7 @@ public class SignUpController {
                     notificationService.createNotification("Inschrijving padeldag: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             "Er zijn voldoende spelers voor uw inschrijving te verwerken voor de padeldag te " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             newSignedUpPlayer,
+                            true,
                             true);
                 }
                 if (padelDay.getMatches().size() > 0) {

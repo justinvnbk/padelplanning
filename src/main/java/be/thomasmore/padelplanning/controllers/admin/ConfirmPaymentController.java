@@ -1,5 +1,8 @@
 package be.thomasmore.padelplanning.controllers.admin;
 
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 import be.thomasmore.padelplanning.model.PadelDay;
 import be.thomasmore.padelplanning.model.Player;
 import be.thomasmore.padelplanning.repositories.PadelDayRepository;
@@ -66,6 +69,7 @@ public class ConfirmPaymentController {
                 notificationService.createNotification("Betaling bevestigd",
                         admin.getName() + " heeft uw betaling voor de padel dag op " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " bevestigd",
                         List.of(player),
+                        true,
                         true);
             }
         }
@@ -95,6 +99,7 @@ public class ConfirmPaymentController {
                 notificationService.createNotification("Betaling niet langer bevestigd!",
                         admin.getName() + " heeft uw betaling voor de padel dag op " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " niet langer bevestigd",
                         List.of(player),
+                        true,
                         true);
             }
         }
