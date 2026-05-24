@@ -21,7 +21,7 @@ import java.util.Collection;
 public class NotificationService {
     private final NotificationRepository notificationRepository;
     private final PlayerRepository playerRepository;
-    //Token for mailing
+    //Token for mailing (current token is for sandbox environment)
     private static final String TOKEN = "5832c48314d3ccfec3b4115c6516b0a3";
 
     public NotificationService(NotificationRepository notificationRepository, PlayerRepository playerRepository) {
@@ -44,11 +44,11 @@ public class NotificationService {
         }
 
         if (sendEmail) {
-            MailtrapJavaSDKTest(title, message, recipients);
+            sendEmail(title, message, recipients);
         }
     }
 
-    private void MailtrapJavaSDKTest(String title, String message, Collection<Player> recipients) {
+    private void sendEmail(String title, String message, Collection<Player> recipients) {
         final MailtrapConfig config = new MailtrapConfig.Builder()
                 .sandbox(true)
                 .inboxId(4645421L)
@@ -66,6 +66,7 @@ public class NotificationService {
                 .text(message)
                 .build();
 
+        //Currently just sout for logging, not important due to being in a sandbox environment
         try {
             System.out.println(client.send(mail));
         } catch (Exception e) {
