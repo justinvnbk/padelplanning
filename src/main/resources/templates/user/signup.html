@@ -10,13 +10,9 @@
         <h2 style="font-size: 2.5rem" class="mb-4 text-center info-title">Algemene informatie over de volgende
             padeldag:</h2>
         <div class="row d-flex mb-3">
-            <div class="col-6 d-flex justify-content-end" sec:authorize="hasAuthority('ADMIN')">
+            <div class="col-12 d-flex justify-content-center" sec:authorize="hasAuthority('ADMIN')">
                 <a style="font-size: 1.3rem" class="btn btn-primary px-3 fw-bold shadow-sm admin-btn"
                    th:href="@{|/admin/editpadelday/*{id}|}">⚙️Padeldag aanpassen</a>
-            </div>
-            <div class="col-6 col-md-5  ms-md-4 d-flex justify-content-start" sec:authorize="hasAuthority('ADMIN')">
-                <a style="font-size: 1.3rem" class="btn btn-primary px-3 fw-bold shadow-sm admin-btn"
-                   th:href="@{|/admin/payments/*{id}|}">🏦Bekijk betalingen</a>
             </div>
         </div>
 
