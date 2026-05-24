@@ -146,6 +146,7 @@ public class PlanController {
                                     PadelDay padelDay,
                                     Principal principal) {
         Player loggedInAdmin = playerRepository.findByEmail(principal.getName());
+        padelDay.setNumberOfMatches(3);
         padelDayRepository.save(padelDay);
         notificationService.createNotification("Nieuw speelmoment opgestart",
                 "Er is een nieuw speelmoment gestart door " + loggedInAdmin.getName() + " voor " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")) + ". Schrijf je nu in!",
