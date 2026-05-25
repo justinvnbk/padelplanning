@@ -201,6 +201,10 @@ main {
     .home-message{
         font-size: medium !important;
     }
+
+    .notification-title{
+        font-size: xx-large !important;
+    }
 }
 
 @media screen and (min-width: 768px) and (max-width: 911px) {
