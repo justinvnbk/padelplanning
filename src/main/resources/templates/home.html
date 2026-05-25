@@ -10,7 +10,7 @@
         <div th:replace="~{fragments/plantable::plantablefragment}"></div>
     </div>
     <div class="fs-2 p-3 text-center text-white bg-dark m-5 rounded home-message" th:if="${padelDay == null or padelDay.matches.isEmpty()}">
-        Er is nog geen planning voor de komende padel dag, kom later terug of log in en kijk bij de <a class="text-decoration-none" th:href="@{/user/padeldays}">Inschrijven</a> pagina.
+        Er is nog geen planning voor de komende padel dag, kom later terug of kijk bij de <a class="text-decoration-none" th:href="@{/user/padeldays}">Inschrijven</a> pagina.
     </div>
 </main>
 <main sec:authorize="!isAuthenticated()">

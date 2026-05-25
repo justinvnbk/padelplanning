@@ -90,7 +90,7 @@ public class SignUpController {
                     signedUpPlayers.addAll(reservePlayers);
                     //Send a notification to all reserve players that they moved to signed up players
                     notificationService.createNotification("Inschrijving padeldag: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
-                            "Er zijn voldoende spelers voor uw inschrijving te verwerken voor de padeldag te " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
+                            "Er zijn voldoende spelers voor uw inschrijving te verwerken voor de padeldag op " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             reservePlayers,
                             true);
                     reservePlayers.clear();
