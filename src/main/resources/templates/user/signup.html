@@ -86,7 +86,11 @@
 
         <div class="d-flex row justify-content-center flex-wrap g-2 my-4 mt-md-1">
             <div>
-                <h3 class="fs-2 p-2 p-md-5 text-center text-white bg-dark mx-0 my-1 m-md-5 rounded msg">Je kan niet meer in of uitschrijven<span sec:authorize="hasAuthority('USER')">, contacteer een admin bij problemen</span></h3>
+                <h3 class="fs-2 p-2 p-md-4 text-center text-white bg-dark mx-0 my-1 rounded msg">
+                    Je kan niet meer in of uitschrijven
+                    <span sec:authorize="hasAuthority('USER')">, contacteer een admin bij problemen.</span>
+                    Als u de betaling heeft gedaan, klik dan op de onderstaande knop om uw betaling door een admin te laten controleren.
+                </h3>
             </div>
             <form th:action="@{/user/payed}" method="post" class="col-12 d-flex justify-content-center mt-4">
                 <input type="hidden" name="id" th:value="${padelDay.id}"/>
@@ -95,7 +99,7 @@
                         th:text="${hasPayed ? '✅ Betaald' : 'Ik heb betaald'}">
                 </button>
             </form>
-            <h3 class="text-center" th:if="${padelDay.reservedPlayers.contains(currentUser)}">Je staat op de reservelijst, je hoeft niet te betalen.</h3>
+            <h3 class="mt-4 p-2 text-center col-12 col-md-8 msg" th:if="${padelDay.reservedPlayers.contains(currentUser)}">Je staat op de reservelijst, je hoeft niet te betalen.</h3>
         </div>
 
         <div class="d-flex justify-content-center gap-4 my-3 my-md-5" sec:authorize="hasAuthority('ADMIN')">
