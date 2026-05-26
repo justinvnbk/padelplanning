@@ -16,13 +16,15 @@
             </div>
         </div>
 
-        <div style="font-size: 1.5rem" class="info-padelday col-12 col-md-6 mx-md-auto">
+        <div style="font-size: 1.5rem" class="info-padelday col-12 col-md-7 mx-md-auto">
             <div class="mb-3 mb-md-5 bg-dark text-light rounded border border-dark p-2 text-center"
                  th:text="|Startuur: ${#temporals.format(padelDay.date, 'HH:mm')}|"></div>
             <div class="mb-3 mb-md-5  bg-dark text-light rounded border border-dark p-2 text-center"
                  th:text="|Dag: ${#temporals.format(padelDay.date, 'EEEE', #locale.of('nl', 'NL'))} ${#temporals.format(padelDay.date, 'dd/MM/yyyy')}|"></div>
             <div class="mb-3 mb-md-5  bg-dark text-light rounded border border-dark p-2 text-center"
                  th:text="|Velden: ${#strings.listJoin(padelDay.fields.![name], ', ')} (${padelDay.fields.size()*4} plaatsen)|"></div>
+            <div class="mb-3 mb-md-5  bg-dark text-light rounded border border-dark p-2 text-center"
+                 th:text="|${isSignedUp ? '' : 'Nog ' + (4 - padelDay.reservedPlayers.size()) + ' speler(s) nodig om de volgende groep te voltooien'}.|"></div>
         </div>
 
         <form class="col-12 d-flex justify-content-center my-3 my-md-5" th:action="@{/admin/plan}" th:if="${!hasPlan}"
@@ -32,6 +34,7 @@
                 planning aan
             </button>
         </form>
+
 
         <div class="mt-4 mx-auto inline" sec:authorize="hasAuthority('ADMIN')">
             <div class="mb-5">
@@ -80,9 +83,6 @@
 
     <!--There is a padelday and there is a plan available:-->
     <div th:if="${hasPlan}">
-
-        <h4 class="fs-2 p-2 p-md-5 text-center text-white bg-dark mx-0 my-1 m-md-5 rounded msg"
-            th:text="|De planning voor deze padeldag is al opgesteld ${isSignedUp ? ', u bent ingeschreven' : '. Nog ' + (4 - padelDay.reservedPlayers.size()) + ' speler(s) nodig om de volgende groep te voltooien'}.|"></h4>
 
         <div class="d-flex row justify-content-center flex-wrap g-2 my-4 mt-md-1">
             <div>
