@@ -24,7 +24,8 @@
             <div class="mb-3 mb-md-5  bg-dark text-light rounded border border-dark p-2 text-center"
                  th:text="|Velden: ${#strings.listJoin(padelDay.fields.![name], ', ')} (${padelDay.fields.size()*4} plaatsen)|"></div>
             <div class="mb-3 mb-md-5  bg-dark text-light rounded border border-dark p-2 text-center"
-                 th:text="|${isSignedUp ? '' : 'Nog ' + (4 - padelDay.reservedPlayers.size()) + ' speler(s) nodig om de volgende groep te voltooien'}.|"></div>
+                 th:if="${!isSignedUp}"
+                 th:text="|${isSignedUp ? '' : 'Nog ' + (4 - padelDay.reservedPlayers.size()) + ' speler(s) nodig om de volgende groep te voltooien'}|"></div>
         </div>
 
         <form class="col-12 d-flex justify-content-center my-3 my-md-5" th:action="@{/admin/plan}" th:if="${!hasPlan}"
