@@ -91,7 +91,7 @@
             <form th:action="@{/user/payed}" method="post" class="col-12 d-flex justify-content-center mt-4">
                 <input type="hidden" name="id" th:value="${padelDay.id}"/>
                 <button class="btn btn-pma px-2 insch fw-bold shadow-sm text-nowrap admin-btn" style="font-size: 1.1rem"
-                        th:disabled="${padelDay.reservedPlayers.contains(currentUser) || hasPayed}" type="submit"
+                        th:disabled="${!padelDay.signedUpPlayers.contains(currentUser) || hasPayed}" type="submit"
                         th:text="${hasPayed ? '✅ Betaald' : 'Ik heb betaald'}">
                 </button>
             </form>
