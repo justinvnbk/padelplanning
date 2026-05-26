@@ -89,7 +89,7 @@
                 <h3 class="fs-2 p-2 p-md-4 text-center text-white bg-dark mx-0 my-1 rounded msg">
                     Je kan niet meer in of uitschrijven
                     <span sec:authorize="hasAuthority('USER')">, contacteer een admin bij problemen.</span>
-                    Als u de betaling heeft gedaan, klik dan op de onderstaande knop om uw betaling door een admin te laten controleren.
+                    <span th:if="${padelDay.signedUpPlayers.contains(currentUser)}">Als u de betaling heeft gedaan, klik dan op de onderstaande knop om uw betaling door een admin te laten controleren.</span>
                 </h3>
             </div>
             <form th:action="@{/user/payed}" method="post" class="col-12 d-flex justify-content-center mt-4">
