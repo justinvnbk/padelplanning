@@ -56,15 +56,15 @@ public class PlanController {
     @PostMapping("/planEdit")
     public String postPlanEdit(@RequestParam List<Integer> playerIds,
                                @RequestParam Integer padelDayId,
-                               @RequestParam List<Integer> teamId,
+                               @RequestParam List<Integer> teamIds,
                                RedirectAttributes ra) {
 
         // 1. Get the whole planning
         Map<Integer, List<Integer>> editedTeamPlayers = new HashMap<>(); // teamId -> list of playerIds
         Map<LocalTime, List<Integer>> timeSlotPlayers = new HashMap<>(); // time -> list of all playerIds in that timeslot
 
-        for (int i = 0; i < teamId.size(); i++) {
-            Integer currentTeamId = teamId.get(i);
+        for (int i = 0; i < teamIds.size(); i++) {
+            Integer currentTeamId = teamIds.get(i);
             Integer p1 = playerIds.get(i * 2);
             Integer p2 = playerIds.get((i * 2) + 1);
 
@@ -89,7 +89,7 @@ public class PlanController {
         }
 
         // 2. Validate availability using the new teams
-        for (Integer currentTeamId : teamId) {
+        for (Integer currentTeamId : teamIds) {
             List<Integer> cleanIds = editedTeamPlayers.get(currentTeamId);
 
             Team existingTeam = teamRepository.findById(currentTeamId).orElseThrow();
@@ -112,7 +112,7 @@ public class PlanController {
 
         // 3. Save the changes
         boolean anyChangesMade = false;
-        for (Integer currentTeamId : teamId) {
+        for (Integer currentTeamId : teamIds) {
             List<Integer> cleanIds = editedTeamPlayers.get(currentTeamId);
 
             Team existingTeam = teamRepository.findById(currentTeamId).orElseThrow();
