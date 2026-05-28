@@ -17,10 +17,10 @@
             </div>
             <div class="col-12">
                 <label for="padelDayAvailableFields" class="form-label fw-bold">Beschikbare velden:</label>
-                <select multiple id="padelDayAvailableFields" class="form-select" th:field="*{fields}" size="5">
+                <select multiple id="padelDayAvailableFields" class="form-select" th:field="*{fields}" size="11">
                     <option th:each="f : ${fields}"
                             th:value="${f.id}"
-                            th:text="|${f.name}|">
+                            th:text="${f.name} + ' (' + (${f.isOutside} ? (${f.isCovered} ? 'buiten overdekt' : 'buiten niet overdekt') : 'binnen') + ')'">
                     </option>
                 </select>
                 <div class="form-text mt-2">Houd Ctrl (of Cmd) ingedrukt om selectie te wijzigen.</div>

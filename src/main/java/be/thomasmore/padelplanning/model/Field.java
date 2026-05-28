@@ -12,7 +12,8 @@ public class Field {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private boolean isOutside;
+    private String isOutside;
+    private String isCovered;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "field")
     private List<Match> matches;
@@ -36,12 +37,28 @@ public class Field {
         this.name = name;
     }
 
-    public boolean isOutside() {
+    public String isOutside() {
         return isOutside;
     }
 
-    public void setOutside(boolean outside) {
+    public void setOutside(String outside) {
         isOutside = outside;
+    }
+
+    public String getIsOutside() {
+        return isOutside;
+    }
+
+    public void setIsOutside(String isOutside) {
+        this.isOutside = isOutside;
+    }
+
+    public String getIsCovered() {
+        return isCovered;
+    }
+
+    public void setIsCovered(String isCovered) {
+        this.isCovered = isCovered;
     }
 
     public List<Match> getMatches() {

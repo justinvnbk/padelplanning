@@ -108,16 +108,19 @@ VALUES
 
 
 --FIELDS
-INSERT INTO field (name, is_outside)
+INSERT INTO field (name, is_outside, is_covered)
 VALUES
-    ('A',true),
-    ('B',false),
-    ('C', true),
-    ('D',false),
-    ('1',true),
-    ('2',true),
-    ('3',false),
-    ('4',false);
+    ('A',false, true),
+    ('B',false, true),
+    ('C', false, true),
+    ('1',true, true),
+    ('2',true, true),
+    ('3',true, true),
+    ('4',true, false),
+    ('5',true, false),
+    ('6',true, true),
+    ('7',true, true),
+    ('8',true, true);
 
 --PADELDAYS
 INSERT INTO padel_day (date, number_of_matches, is_published)
