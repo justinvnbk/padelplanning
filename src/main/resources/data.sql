@@ -132,11 +132,11 @@ VALUES
     ('2026-04-12 14:00:00', 3, false),
     ('2026-04-19 14:00:00', 3, false),
     ('2026-04-26 14:00:00', 3, false),
-    ('2026-06-03 14:00:00', 3, false),
-    ('2026-06-10 14:00:00', 3, false),
-    ('2026-06-17 14:00:00', 3, false),
-    ('2026-05-24 14:00:00', 3, false),
-    ('2026-05-29 14:00:00', 3, false);
+    ('2026-05-03 14:00:00', 3, false),
+    ('2026-05-10 14:00:00', 3, false),
+    (CAST(CURRENT_DATE AS TIMESTAMP) + INTERVAL '1' DAY + INTERVAL '14' HOUR, 3, true),
+    (CAST(CURRENT_DATE AS TIMESTAMP) + INTERVAL '7' DAY + INTERVAL '14' HOUR, 3, false),
+    (CAST(CURRENT_DATE AS TIMESTAMP) + INTERVAL '14' DAY + INTERVAL '14' HOUR, 3, false);
 
 --AVAILABLE FIELDS FOR PADELDAYS
 INSERT INTO PADEL_DAY_FIELDS (FIELDS_ID,PADEL_DAYS_ID)
@@ -243,7 +243,7 @@ VALUES
     ('15','1'),('15','2'),('15','3'),('15','4'),('15','5'),('15','6'),('15','7'),('15','8'),('15','9'),('15','10');
 
 
---An attempt to insert Matches and teams
+--insert Matches and teams
 INSERT INTO MATCH(FIELD_ID, P_RANKING_DIFFERENCE, TIME_SLOT)
 VALUES
     (1, 50.0, '14:00:00'),
