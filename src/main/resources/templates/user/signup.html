@@ -167,7 +167,7 @@
 
                             <div th:each="team, i : ${match.getTeams()}" th:object="${team}"
                                  class="box-shadow m-0 border border-dark border-bottom-0 bg-dark bg-opacity-10">
-                                <input type="hidden" name="teamId" th:value="${team.id}"/>
+                                <input type="hidden" name="teamIds" th:value="${team.id}"/>
 
                                 <!-- Change the inner loop to use a fixed sequence (0 to 1 for two players) -->
                                 <div class="m-1 d-flex" th:each="index : ${#numbers.sequence(0, 1)}">
