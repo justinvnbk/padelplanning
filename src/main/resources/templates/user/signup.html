@@ -144,7 +144,11 @@
 
             <form th:action="@{/admin/planEdit}"
                   method="post">
-                <button class="btn btn-pma m-2 fw-bold shadow-sm" type="submit">Save</button>
+
+                <div class="d-flex justify-content-center">
+                    <button th:if="${!padelDay.published}" style="font-size: 1.3rem" class="btn btn-pma m-2 fw-bold shadow-sm admin-btn" type="submit">Save</button>
+
+                </div>
 
                 <input type="hidden" name="padelDayId" th:value="${padelDay.id}"/>
 
@@ -178,11 +182,8 @@
                                         <option th:each="player : ${padelDay.getSignedUpPlayers()}"
                                                 th:value="${player.getId()}"
                                                 th:text="|${player.getName()} (P-${player.pRanking})|"
+                                                th:disabled="${padelDay.published}"
                                                 th:selected="${team.getPlayers().size() > index && team.getPlayers().get(index).getId() == player.getId()}">
-                                        </option>
-
-                                        <!-- The empty option -->
-                                        <option th:value="0" th:selected="${team.getPlayers().size() <= index}">Leeg
                                         </option>
                                     </select>
                                 </div>
