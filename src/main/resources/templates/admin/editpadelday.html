@@ -15,8 +15,8 @@
                 <input id="padelDayDate" autofocus class="form-control" type="datetime-local" name="date"
                        th:value="*{date}" th:errorclass="is-invalid">
             </div>
-            <div class="col-12">
-                <span>Een padel dag heeft 3 matchmomenten van 40 minuten dus eindigt 2 uur na start</span>
+            <div class="col-12 my-4">
+                <span th:text="|Een padel dag heeft 3 matchmomenten van 40 minuten dus deze padeldag eindigt om ${#temporals.format(padelDay.date.plusHours(2), 'HH:mm')}.|"></span>
             </div>
             <div class="col-12">
                 <label for="padelDayAvailableFields" class="form-label fw-bold">Beschikbare velden:</label>
