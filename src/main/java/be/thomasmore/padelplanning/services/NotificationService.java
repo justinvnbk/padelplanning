@@ -44,7 +44,7 @@ public class NotificationService {
         }
 
         if (sendEmail) {
-            sendEmail(title, message, recipients);
+//            sendEmail(title, message, recipients); //Commented to not overflow sandbox
         }
     }
 
