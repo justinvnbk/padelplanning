@@ -4,9 +4,6 @@ import be.thomasmore.padelplanning.model.*;
 import be.thomasmore.padelplanning.repositories.*;
 import be.thomasmore.padelplanning.services.CreatePadelDayPlanService;
 import be.thomasmore.padelplanning.services.NotificationService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +15,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/admin")
@@ -43,7 +39,7 @@ public class PlanController {
     }
 
 
-    //Create a new plan for the curren PadelDay
+    //Create a new plan for the current PadelDay
     @PostMapping("/plan")
     public String postPlan(Model model, @RequestParam int id) {
         Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(id);
@@ -60,61 +56,81 @@ public class PlanController {
     @PostMapping("/planEdit")
     public String postPlanEdit(@RequestParam List<Integer> playerIds,
                                @RequestParam Integer padelDayId,
-                               @RequestParam Integer teamId,
+                               @RequestParam List<Integer> teamIds,
                                RedirectAttributes ra) {
 
-        Team existingTeam = teamRepository.findById(teamId).orElseThrow();
-        Match currentMatch = existingTeam.getMatches().get(0);
-        LocalTime time = currentMatch.getTimeSlot();
+        // 1. Get the whole planning
+        Map<Integer, List<Integer>> editedTeamPlayers = new HashMap<>(); // teamId -> list of playerIds
+        Map<LocalTime, List<Integer>> timeSlotPlayers = new HashMap<>(); // time -> list of all playerIds in that timeslot
 
-        // to prevent duplicate players on the same team
-        if (playerIds.size() >= 2 && playerIds.get(0).equals(playerIds.get(1))) {
-            ra.addFlashAttribute("error", "Een speler kan niet zijn eigen partner zijn.");
-            return "redirect:/user/signup/" + padelDayId;
+        for (int i = 0; i < teamIds.size(); i++) {
+            Integer currentTeamId = teamIds.get(i);
+            Integer p1 = playerIds.get(i * 2);
+            Integer p2 = playerIds.get((i * 2) + 1);
+
+            // Prevent duplicate partners within the same team
+            if (!p1.equals(0) && p1.equals(p2)) {
+                ra.addFlashAttribute("error", "Een speler kan niet zijn eigen partner zijn.");
+                return "redirect:/user/signup/" + padelDayId;
+            }
+
+            List<Integer> cleanIds = new ArrayList<>();
+
+            if (!p1.equals(0)) cleanIds.add(p1);
+            if (!p2.equals(0)) cleanIds.add(p2);
+
+            editedTeamPlayers.put(currentTeamId, cleanIds);
+
+            // Track who is playing at what time
+            Team existingTeam = teamRepository.findById(currentTeamId).orElseThrow();
+            LocalTime time = existingTeam.getMatches().get(0).getTimeSlot();
+
+            timeSlotPlayers.computeIfAbsent(time, k -> new ArrayList<>()).addAll(cleanIds);
         }
 
-        // is the player availible?
-        for (Integer pId : playerIds) {
+        // 2. Validate availability using the new teams
+        for (Integer currentTeamId : teamIds) {
+            List<Integer> cleanIds = editedTeamPlayers.get(currentTeamId);
 
-            // the loop calls null first
-            if (pId == 0) continue;
+            Team existingTeam = teamRepository.findById(currentTeamId).orElseThrow();
+            LocalTime time = existingTeam.getMatches().get(0).getTimeSlot();
 
-            // does the player play at that time?
-            if (matchRepository.isPlayerBusy(time, pId)) {
+            for (Integer pId : cleanIds) {
+                // Check 1: Are they duplicated on the current page for this timeslot?
+                // Count how many times this player appears in this timeslot
+                long occurrencesOnPage = timeSlotPlayers.get(time).stream()
+                        .filter(id -> id.equals(pId))
+                        .count();
 
-                // if the player is already on the team, it returns true
-                boolean alreadyInThisTeam = existingTeam.getPlayers().stream()
-                        .anyMatch(p -> p.getId().equals(pId));
-
-                // if false, it means that the player is already on another team
-                if (!alreadyInThisTeam) {
+                if (occurrencesOnPage > 1) { // More than 1 means they are assigned to multiple teams at the same time
                     Player busyPlayer = playerRepository.findById(pId).orElseThrow();
-
-                    ra.addFlashAttribute("error", busyPlayer.getName() + " speelt al op dit tijdslot.");
-
+                    ra.addFlashAttribute("error", busyPlayer.getName() + " is meerdere keren geselecteerd voor het tijdslot van " + time + ".");
                     return "redirect:/user/signup/" + padelDayId;
                 }
             }
         }
 
-        // current players
-        List<Integer> currentIds = existingTeam.getPlayers().stream()
-                .map(Player::getId)
-                .toList();
+        // 3. Save the changes
+        boolean anyChangesMade = false;
+        for (Integer currentTeamId : teamIds) {
+            List<Integer> cleanIds = editedTeamPlayers.get(currentTeamId);
 
-        // new players (if changed)
-        List<Integer> cleanIds = playerIds.stream().filter(id -> id != 0).toList();
+            Team existingTeam = teamRepository.findById(currentTeamId).orElseThrow();
+            List<Integer> currentIds = existingTeam.getPlayers().stream()
+                    .map(Player::getId)
+                    .toList();
 
-        // if the players are changed
-        if (!currentIds.equals(cleanIds)) {
-            List<Player> players = playerRepository.findAllByIds(cleanIds);
-            existingTeam.setPlayers(players);
-            teamRepository.save(existingTeam);
+            if (!currentIds.equals(cleanIds)) {
+                List<Player> players = playerRepository.findAllByIds(cleanIds);
+                existingTeam.setPlayers(players);
+                teamRepository.save(existingTeam);
+                anyChangesMade = true;
+            }
+        }
 
+        if (anyChangesMade) {
             ra.addFlashAttribute("success", "Succesvol geüpdatet!");
-
         } else {
-
             ra.addFlashAttribute("info", "Geen veranderingen gemaakt");
         }
 
