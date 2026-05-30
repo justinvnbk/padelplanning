@@ -86,7 +86,7 @@ public class PadelDay {
     }
 
     public List<Player> getSignedUpPlayers() {
-        return signedUpPlayers.stream().sorted(Comparator.comparing(Player::getName)).toList();
+        return signedUpPlayers;
     }
 
     public void setSignedUpPlayers(List<Player> signedUpPlayers) {
@@ -110,7 +110,7 @@ public class PadelDay {
     }
 
     public List<Player> getPayedPlayers() {
-        return payedPlayers.stream().sorted(Comparator.comparing(Player::getName)).toList();
+        return payedPlayers;
     }
 
     public void setPayedPlayers(List<Player> payedPlayers) {
@@ -118,7 +118,7 @@ public class PadelDay {
     }
 
     public List<Player> getConfirmedPayedPlayers() {
-        return confirmedPayedPlayers.stream().sorted(Comparator.comparing(Player::getName)).toList();
+        return confirmedPayedPlayers;
     }
 
     public void setConfirmedPayedPlayers(List<Player> confirmedPayedPlayers) {
