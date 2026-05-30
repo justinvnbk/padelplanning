@@ -26,26 +26,6 @@ public class PlayerService {
         return jdbcUserDetailsManager.userExists(email);
     }
 
-    public List<Player> getPendingPlayers() {
-        return playerRepository.getAll().stream()
-                .filter(player -> !player.isApproved())
-                .toList();
-    }
-
-    public List<Player> getApprovedPlayers() {
-        return playerRepository.getAll().stream()
-                .filter(Player::isApproved)
-                .toList();
-    }
-
-    public Player getPlayerById(Integer id) {
-        return playerRepository.findById(id).orElseThrow();
-    }
-
-    public Player getPlayerByEmail(String email) {
-        return playerRepository.findByEmail(email);
-    }
-
     public void updatePlayerProfile(Player updatedPlayer) {
         playerRepository.save(updatedPlayer);
     }
