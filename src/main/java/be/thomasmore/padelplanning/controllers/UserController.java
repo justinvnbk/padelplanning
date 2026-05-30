@@ -66,7 +66,7 @@ public class UserController {
         Collection<Player> admins = playerRepository.findAllAdmins();
 
 
-        if (playerService.emailExists(player.getEmail())) {
+        if (playerService.emailExists(player.getEmail().toLowerCase())) {
             model.addAttribute("error", "Email already exists!");
             model.addAttribute("playsides", PreferredPlayside.values());
             model.addAttribute("selfEvaluations", SelfEvaluation.values());
