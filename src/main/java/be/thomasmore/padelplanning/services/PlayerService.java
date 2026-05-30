@@ -32,7 +32,7 @@ public class PlayerService {
 
     public void registerPlayer(Player player) {
         UserDetails newUser = User.builder()
-                .username(player.getEmail().toLowerCase())
+                .username(player.getEmail())
                 .password(passwordEncoder.encode(player.getPassword()))
                 .disabled(true)
                 .authorities("USER")
