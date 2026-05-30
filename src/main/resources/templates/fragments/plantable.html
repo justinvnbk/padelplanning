@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <div th:each="field : ${padelDay.fields}" th:if="${!field.matches.isEmpty()}" class="border border-black">
+    <div th:each="field : ${padelDay.fields}" th:if="${#lists.contains(padelDay.matches.![field], field)}" class="border border-black">
         <div class="container-fluid p-0">
 
             <div class="row g-0 border-start border-end border-bottom">
@@ -53,10 +53,10 @@
                                 <span class="d-none d-md-inline" style="font-size: 1rem"
                                       th:text="${player.name}"></span>
 
-                                    <!-- Afgekorte naam (kleinere schermen) -->
-                                    <span class="d-inline d-md-none name-small"
-                                          th:with="nameParts=${#strings.arraySplit(player.name, ' ')}"
-                                          th:text="${nameParts.length > 1} ?  ${nameParts[nameParts.length - 2]} + ' ' + ${#strings.substring(nameParts[1],0,1)} + '.' : ${player.name}">
+                                <!-- Afgekorte naam (kleinere schermen) -->
+                                <span class="d-inline d-md-none name-small"
+                                      th:with="nameParts=${#strings.arraySplit(player.name, ' ')}"
+                                      th:text="${nameParts.length > 1} ?  ${nameParts[nameParts.length - 2]} + ' ' + ${#strings.substring(nameParts[1],0,1)} + '.' : ${player.name}">
                                     </span>
                             </div>
                         </div>
@@ -82,12 +82,11 @@
                                 <span class="d-none d-md-inline" style="font-size: 1rem"
                                       th:text="${player.name}"></span>
 
-                                    <!-- Afgekorte naam (kleinere schermen) -->
-                                    <span class="d-inline d-md-none name-small" style="max-width: 80px;"
-                                          th:with="nameParts=${#strings.arraySplit(player.name, ' ')}"
-                                          th:text="${nameParts.length > 1} ?  ${nameParts[nameParts.length - 2]} + ' ' + ${#strings.substring(nameParts[1],0,1)} + '.' : ${player.name}">
+                                <!-- Afgekorte naam (kleinere schermen) -->
+                                <span class="d-inline d-md-none name-small" style="max-width: 80px;"
+                                      th:with="nameParts=${#strings.arraySplit(player.name, ' ')}"
+                                      th:text="${nameParts.length > 1} ?  ${nameParts[nameParts.length - 2]} + ' ' + ${#strings.substring(nameParts[1],0,1)} + '.' : ${player.name}">
                                     </span>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -95,3 +94,4 @@
             </div>
         </div>
     </div>
+</div>
