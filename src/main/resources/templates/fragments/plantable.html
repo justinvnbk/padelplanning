@@ -1,6 +1,6 @@
 <div th:fragment="plantablefragment" class="container p-0 plantable mb-5">
     <div class="row g-0 border border-black">
-        <div class="col-12 border bg-dark text-light p-2 fw-bold"
+        <div class="col-12 border-bottom  bg-dark text-light p-2 fw-bold"
              th:text="${#temporals.format(padelDay.date, 'dd/MM/yyyy')}"></div>
     </div>
 
@@ -26,7 +26,7 @@
     <div th:each="field : ${padelDay.fields}" th:if="${#lists.contains(padelDay.matches.![field], field)}" class="border border-black">
         <div class="container-fluid p-0">
 
-            <div class="row g-0 border-start border-end border-bottom">
+            <div class="row g-0 border-start border-end border-bottom border-dark">
 
                 <div class="col-1 border-end d-flex align-items-center justify-content-center fs-2 fw-bold veld"
                      th:text="${field.name}"></div>
