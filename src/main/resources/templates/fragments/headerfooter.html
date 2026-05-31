@@ -76,10 +76,10 @@
                     </li>
 
                     <li class="nav-item py-2 py-md-0 mt-1 ms-2 login">
-                        <a sec:authorize="!isAuthenticated()" th:class="|btn btn-pma|" th:href="@{/login}">login</a>
+                        <a sec:authorize="!isAuthenticated()" th:class="|btn btn-pma|" th:href="@{/login}">Inloggen</a>
                     </li>
                     <li class="nav-item py-2 py-md-0 mt-1 ms-2 logout">
-                        <a sec:authorize="isAuthenticated()" th:class="|btn btn-pma|" th:href="@{/logout}">Log out</a>
+                        <a sec:authorize="isAuthenticated()" th:class="|btn btn-pma|" th:href="@{/logout}">Uitloggen</a>
                     </li>
                 </ul>
             </div>

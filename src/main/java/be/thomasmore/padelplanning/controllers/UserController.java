@@ -62,7 +62,6 @@ public class UserController {
                                  @RequestParam(required = false) Integer pRanking,
                                  Model model) {
 
-
         Collection<Player> admins = playerRepository.findAllAdmins();
 
 
@@ -72,6 +71,9 @@ public class UserController {
             model.addAttribute("selfEvaluations", SelfEvaluation.values());
             return "user/register";
         }
+
+        String tel = player.getTelephone();
+        player.setTelephone("+32" + tel);
         player.setpRanking(noPranking != null ? null : pRanking);
         playerService.registerPlayer(player);
         notificationService.createNotification("Nieuwe registratie",
