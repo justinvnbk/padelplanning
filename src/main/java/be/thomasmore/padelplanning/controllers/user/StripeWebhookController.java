@@ -12,6 +12,7 @@ import com.stripe.net.Webhook;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.stripe.exception.StripeException;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -46,12 +47,14 @@ public class StripeWebhookController {
         }
 
         if ("checkout.session.completed".equals(event.getType())) {
-            Session session = (Session) event.getDataObjectDeserializer()
-                    .getObject()
-                    .orElse(null);
+            try {
+                Session session = (Session) event.getDataObjectDeserializer()
+                        .deserializeUnsafe();
 
-            if (session != null) {
                 handleCheckoutSessionCompleted(session);
+            } catch (StripeException e) {
+                System.out.println("Could not deserialize session: " + e.getMessage());
+                return ResponseEntity.badRequest().body("Could not deserialize session");
             }
         }
 
