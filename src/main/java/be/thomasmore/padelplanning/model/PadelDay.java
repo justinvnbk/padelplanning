@@ -93,6 +93,10 @@ public class PadelDay {
         this.signedUpPlayers = signedUpPlayers;
     }
 
+    public List<Player> getSortedSignedUpPlayers() {
+        return this.getSignedUpPlayers().stream().sorted(Comparator.comparing(Player::getName)).toList();
+    }
+
     public List<Player> getReservedPlayers() {
         return reservedPlayers;
     }

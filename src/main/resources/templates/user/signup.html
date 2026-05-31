@@ -151,15 +151,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             </div>
-
-
             <form th:action="@{/admin/planEdit}"
                   method="post">
-
-
-
                 <input type="hidden" name="padelDayId" th:value="${padelDay.id}"/>
-
                 <div class="row border border-black">
                     <div class="col-12 g-0 m-0 border bg-dark text-light p-2 fw-bold"
                          th:text="${#temporals.format(padelDay.date, 'dd/MM/yyyy')}"></div>
@@ -167,7 +161,6 @@
                 <div th:each="field : ${padelDay.fields}" th:if="${#lists.contains(padelDay.matches.![field], field)}" class="row border border-end-0 border-black">
                     <div class="col-1 d-flex align-items-center justify-content-center fs-2 fw-bold veld"
                          th:text="${field.name}"></div>
-
                     <div class="row col-11 m-0 g-0 flex-nowrap">
                         <div class="col border border-bottom-0 border-top-0 border-end-0 m-0 g-0"
                              th:each="match, i : ${padelDay.matches}" th:if="${match.field == field}">
@@ -176,7 +169,6 @@
                                     th:text="|Matches van ${match.getTimeSlot()}|">
                                 </h6>
                             </div>
-
                             <div th:each="team, i : ${match.getTeams()}" th:object="${team}"
                                  class="box-shadow m-0 border border-dark border-bottom-0 bg-dark bg-opacity-10">
                                 <input type="hidden" name="teamIds" th:value="${team.id}"/>
@@ -187,7 +179,7 @@
                                             th:style="|background-color: ${i.index==0 ? '#19466e' : '#f6f45a'}; color: ${i.index==0 ? '#FFFFFF' : '#000000'};|">
 
                                         <!-- Logic to check if a player exists at this index -->
-                                        <option th:each="player : ${padelDay.getSignedUpPlayers()}"
+                                        <option th:each="player : ${padelDay.getSortedSignedUpPlayers()}"
                                                 th:value="${player.getId()}"
                                                 th:text="|${player.getName()} (P-${player.pRanking})|"
                                                 th:disabled="${padelDay.published}"
