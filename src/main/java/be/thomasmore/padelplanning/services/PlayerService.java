@@ -91,12 +91,14 @@ public class PlayerService {
     public List<Player> getPaidPlayers(PadelDay padelDay) {
         return padelDay.getSignedUpPlayers().stream()
                 .filter(player -> player.getPayedPadelDays().contains(padelDay))
+                .sorted((p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()))
                 .toList();
     }
 
     public List<Player> getUnpaidPlayers(PadelDay padelDay) {
         return padelDay.getSignedUpPlayers().stream()
                 .filter(player -> !player.getPayedPadelDays().contains(padelDay))
+                .sorted((p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()))
                 .toList();
     }
 }
