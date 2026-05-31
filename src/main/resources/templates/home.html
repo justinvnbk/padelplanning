@@ -9,17 +9,21 @@
         <h1 class="text-center my-5">Overzicht eerst volgende speelmomenten</h1>
         <div th:replace="~{fragments/plantable::plantablefragment}"></div>
     </div>
-    <div class="fs-2 p-3 text-center text-white bg-dark m-5 rounded home-message" th:if="${padelDay == null or padelDay.matches.isEmpty()}">
-        Er is nog geen planning voor de komende padeldag<span sec:authorize="hasAuthority('USER')">, kom later terug of kijk bij de <a class="text-decoration-none" th:href="@{/user/padeldays}">Inschrijven</a> pagina.</span>
+    <div class="fs-2 p-3 text-center text-white bg-dark m-5 rounded home-message"
+         th:if="${padelDay == null or padelDay.matches.isEmpty()}">
+        Er is nog geen planning voor de komende padeldag<span sec:authorize="hasAuthority('USER')">, kom later terug of kijk bij de <a
+            class="text-decoration-none" th:href="@{/user/padeldays}">Inschrijven</a> pagina.</span>
     </div>
 </main>
 <main sec:authorize="!isAuthenticated()">
     <div class="fs-2 p-2 text-center text-white bg-dark m-5 rounded home-message">
         <div class="mb-3">
-            Welkom :)
+            Welkom!
         </div>
         <div>
-            <a class="text-decoration-none" th:href="@{/login}">Log in</a> of <a class="text-decoration-none" th:href="@{/register}">registreer</a> u om de planning van de volgende padeldag te bekijken
+            <a class="text-decoration-none" th:href="@{/login}">Log in</a> of <a class="text-decoration-none"
+                                                                                 th:href="@{/register}">registreer</a> u
+            om de planning van de volgende padeldag te bekijken
         </div>
     </div>
 </main>
