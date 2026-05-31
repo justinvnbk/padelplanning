@@ -1,5 +1,6 @@
 package be.thomasmore.padelplanning.services;
 
+import be.thomasmore.padelplanning.model.PadelDay;
 import be.thomasmore.padelplanning.model.Player;
 import be.thomasmore.padelplanning.repositories.PlayerRepository;
 import org.springframework.security.core.userdetails.User;
@@ -85,5 +86,17 @@ public class PlayerService {
                         .authorities("USER")
                         .build()
         );
+    }
+
+    public List<Player> getPaidPlayers(PadelDay padelDay) {
+        return padelDay.getSignedUpPlayers().stream()
+                .filter(player -> player.getPayedPadelDays().contains(padelDay))
+                .toList();
+    }
+
+    public List<Player> getUnpaidPlayers(PadelDay padelDay) {
+        return padelDay.getSignedUpPlayers().stream()
+                .filter(player -> !player.getPayedPadelDays().contains(padelDay))
+                .toList();
     }
 }
