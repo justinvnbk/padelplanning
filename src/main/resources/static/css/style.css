@@ -203,6 +203,10 @@ main {
     }
 
     .admin-btn {
+        font-size: 0.7rem !important;
+    }
+
+    .admin-btn-spec {
         font-size: 0.8rem !important;
     }
 

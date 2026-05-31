@@ -11,13 +11,13 @@
             padeldag:</h2>
         <div class="row mb-3" sec:authorize="hasAuthority('ADMIN')">
             <div class="col-12 d-flex justify-content-center align-items-center gap-3 my-3 my-md-5">
-                <a style="font-size: 1.2rem" class="btn btn-primary px-3 py-2 fw-bold shadow-sm admin-btn"
+                <a style="font-size: 1.2rem" class="btn btn-primary px-3 py-2 fw-bold shadow-sm admin-btn-spec"
                    th:href="@{|/admin/editpadelday/*{id}|}">
                     ⚙️Padeldag aanpassen
                 </a>
                 <form class="m-0" th:action="@{/admin/plan}" th:if="${!hasPlan}" method="post">
                     <input type="hidden" name="id" th:value="${padelDay.id}"/>
-                    <button style="font-size: 1.2rem" class="btn btn-primary px-3 py-2 fw-bold shadow-sm admin-btn" type="submit">
+                    <button style="font-size: 1.2rem" class="btn btn-primary px-3 py-2 fw-bold shadow-sm admin-btn-spec" type="submit">
                         📋Maak planning aan
                     </button>
                 </form>
@@ -138,9 +138,9 @@
         </div>
 
         <div class="d-flex justify-content-center gap-4 my-md-5" sec:authorize="hasAuthority('ADMIN')">
-            <a style="font-size: 1.3rem" class="btn btn-primary px-3 fw-bold shadow-sm admin-btn" th:href="@{|/admin/payments/*{id}|}">🏦Bekijk betalingen</a>
+            <a style="font-size: 1.3rem" class="btn btn-primary px-3 fw-bold shadow-sm admin-btn-spec" th:href="@{|/admin/payments/*{id}|}">🏦Bekijk betalingen</a>
 
-            <span th:if="${padelDay.published}" style="font-size: 1.3rem" class="btn btn-success disabled px-3 fw-bold shadow-sm admin-btn">✅ Planning gepubliceerd</span>
+            <span th:if="${padelDay.published}" style="font-size: 1.3rem" class="btn btn-success disabled px-3 fw-bold shadow-sm admin-btn-spec">✅ Planning gepubliceerd</span>
         </div>
 
 
@@ -227,7 +227,7 @@
             <div class="mb-5">
                 <h3 style="font-size: 2rem" class="border-dark border-bottom text-center list-title-signup mt-3 mt-md-5 pb-2">
                     Reservelijst:
-                </h3 style="font-size: 2rem">
+                </h3>
                 <div style="font-size: 1.3rem" class="mt-3 text-center list-players-signup"
                      th:each="p : ${padelDay.reservedPlayers}">
                     <div th:text="|• ${p.name}|"></div>
