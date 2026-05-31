@@ -156,7 +156,7 @@
                     <div class="col-12 g-0 m-0 border bg-dark text-light p-2 fw-bold"
                          th:text="${#temporals.format(padelDay.date, 'dd/MM/yyyy')}"></div>
                 </div>
-                <div th:each="field : ${padelDay.fields}" class="row border border-end-0 border-black">
+                <div th:each="field : ${padelDay.fields}" th:if="${#lists.contains(padelDay.matches.![field], field)}" class="row border border-end-0 border-black">
                     <div class="col-1 d-flex align-items-center justify-content-center fs-2 fw-bold veld"
                          th:text="${field.name}"></div>
 

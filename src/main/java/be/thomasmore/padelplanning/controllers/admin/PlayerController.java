@@ -29,8 +29,8 @@ public class PlayerController {
 
     @GetMapping("/players")
     public String players(Model model) {
-        model.addAttribute("pendingPlayers", playerService.getPendingPlayers());
-        model.addAttribute("approvedPlayers", playerService.getApprovedPlayers());
+        model.addAttribute("pendingPlayers", playerRepository.getPendingPlayers());
+        model.addAttribute("approvedPlayers", playerRepository.getApprovedPlayers());
 
         return "admin/players";
     }
@@ -67,7 +67,7 @@ public class PlayerController {
 
     @GetMapping("/player-detail/{id}")
     public String playerDetail(@PathVariable Integer id, Model model) {
-        model.addAttribute("player", playerService.getPlayerById(id));
+        model.addAttribute("player", playerRepository.findById(id).orElseThrow());
         model.addAttribute("playsides", PreferredPlayside.values());
         model.addAttribute("selfEvaluations", SelfEvaluation.values());
         return "admin/player-detail";
@@ -77,7 +77,7 @@ public class PlayerController {
     public String playerDetailSubmit(@PathVariable Integer id,
                                      @ModelAttribute Player player,
                                      @RequestParam(required = false) Integer pRanking) {
-        Player existing = playerService.getPlayerById(id);
+        Player existing = playerRepository.findById(id).orElseThrow();
         String oldEmail = existing.getEmail();
 
         existing.setTelephone(player.getTelephone());
