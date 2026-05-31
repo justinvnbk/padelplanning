@@ -4,7 +4,7 @@
 <body>
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 <main class="container py-4 w-50">
-    <h1 class="text-center mb-5">Nieuw plan opstarten en openen voor inschrijvingen</h1>
+    <h1 class="text-center mb-5">Nieuwe padel dag aanmaken</h1>
     <form th:action="@{/admin/newpadelday}" th:object="${padelDay}" method="post">
         <div class="row">
             <div class="col-12">
@@ -13,7 +13,7 @@
                        th:errorclass="is-invalid">
             </div>
             <div class="col-12">
-                <span>Een padel dag heeft 3 matchmomenten van 40 minuten dus eindigt 2 uur na start</span>
+                <span class="text-secondary small">Een padel dag heeft 3 matchmomenten van 40 minuten dus eindigt 2 uur na start.</span>
             </div>
             <div class="col-12 mt-2">
                 <label class="form-label fw-bold">Beschikbare velden:</label>
