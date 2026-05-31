@@ -33,6 +33,13 @@ public class PaymentController {
     @PostMapping("/create-checkout-session")
     @ResponseBody
     public String createCheckoutSession(@RequestParam Integer id) throws StripeException {
+
+        Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(id);
+
+        if (optionalPadelDay.isEmpty() || !optionalPadelDay.get().isPublished()) {
+            throw new IllegalStateException("Betaling niet toegestaan voor publicatie");
+        }
+
         SessionCreateParams.LineItem.PriceData.ProductData productData =
                 SessionCreateParams.LineItem.PriceData.ProductData.builder()
                         .setName("Padel Day")
