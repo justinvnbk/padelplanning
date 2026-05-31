@@ -23,9 +23,9 @@ public interface PlayerRepository extends CrudRepository<Player, Integer> {
             nativeQuery = true)
     List<Player> findAllAdmins();
 
-    @Query("SELECT p FROM Player p WHERE NOT p.isApproved ORDER BY p.name")
+    @Query("SELECT p FROM Player p WHERE NOT p.isApproved ORDER BY LOWER(p.name)")
     List<Player> getPendingPlayers();
 
-    @Query("SELECT p FROM Player p WHERE p.isApproved ORDER BY p.name")
+    @Query("SELECT p FROM Player p WHERE p.isApproved ORDER BY LOWER(p.name)")
     List<Player> getApprovedPlayers();
 }
