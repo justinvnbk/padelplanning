@@ -12,8 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -32,9 +30,10 @@ public class PaymentController {
 
     @PostMapping("/create-checkout-session")
     @ResponseBody
-    public String createCheckoutSession(@RequestParam Integer id) throws StripeException {
+    public String createCheckoutSession(@RequestParam Integer id, Principal principal) throws StripeException {
 
         Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(id);
+        Player player = playerRepository.findByEmail(principal.getName());
 
         if (optionalPadelDay.isEmpty() || !optionalPadelDay.get().isPublished()) {
             throw new IllegalStateException("Betaling niet toegestaan voor publicatie");
@@ -63,6 +62,8 @@ public class PaymentController {
                         .setMode(SessionCreateParams.Mode.PAYMENT)
                         .setSuccessUrl("http://localhost:8080/user/payment-success?id=" + id)
                         .setCancelUrl("http://localhost:8080/user/payment-cancel")
+                        .putMetadata("playerId", player.getId().toString())
+                        .putMetadata("padelDayId", id.toString())
                         .addLineItem(lineItem)
                         .build();
 
@@ -72,26 +73,7 @@ public class PaymentController {
     }
 
     @GetMapping("/payment-success")
-    public String paymentSuccess(Principal principal,
-                                 @RequestParam Integer id) {
-
-        Player player = playerRepository.findByEmail(principal.getName());
-        Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(id);
-
-        if (optionalPadelDay.isPresent()) {
-            PadelDay padelDay = optionalPadelDay.get();
-
-            if (!player.getPayedPadelDays().contains(padelDay)) {
-                player.getPayedPadelDays().add(padelDay);
-                playerRepository.save(player);
-
-                notificationService.createNotification("Speler heeft betaald",
-                        player.getName() + " heeft betaald voor de padel dag op: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-                        playerRepository.findAllAdmins(),
-                        true);
-            }
-        }
-
+    public String paymentSuccess(@RequestParam Integer id) {
         return "redirect:/user/signup/" + id;
     }
 }
