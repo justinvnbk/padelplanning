@@ -2,13 +2,13 @@ DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS authorities;
 CREATE TABLE users
 (
-    username varchar(50) not null primary key,
+    username varchar_IGNORECASE(50) not null primary key,
     password varchar(100) not null,
     enabled boolean not null
 );
 CREATE TABLE authorities
 (
-    username VARCHAR(50) NOT NULL,
+    username VARCHAR_IGNORECASE(50) NOT NULL,
     authority VARCHAR(50) NOT NULL,
     FOREIGN KEY (username) REFERENCES users (username)
 );

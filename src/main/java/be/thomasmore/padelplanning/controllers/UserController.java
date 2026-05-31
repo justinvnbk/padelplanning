@@ -86,7 +86,7 @@ public class UserController {
     @GetMapping("user/profile")
     public String profile(Model model, Principal principal) {
         if (principal == null) return "redirect:/login";
-        Player player = playerService.getPlayerByEmail(principal.getName());
+        Player player = playerRepository.findByEmail(principal.getName());
 
         model.addAttribute("player", player);
         model.addAttribute("playsides", PreferredPlayside.values());
@@ -99,7 +99,7 @@ public class UserController {
                                 @RequestParam(required = false) Integer pRanking,
                                 Principal principal,
                                 Authentication authentication) {
-        Player existing = playerService.getPlayerByEmail(principal.getName());
+        Player existing = playerRepository.findByEmail(principal.getName());
 
         existing.setTelephone(player.getTelephone());
         existing.setSelfEvaluation(player.getSelfEvaluation());

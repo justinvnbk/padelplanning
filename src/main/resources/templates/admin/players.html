@@ -16,8 +16,8 @@
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 mb-5">
         <div class="col" th:each="player : ${pendingPlayers}">
             <div class="card h-100 shadow-sm border-warning">
+                <h5 class="card-header bg-warning fw-bold" th:text="${player.name}"></h5>
                 <div class="card-body">
-                    <h5 class="card-title fw-bold" th:text="${player.name}"></h5>
                     <p class="card-text mb-1"><strong>Email:</strong> <span th:text="${player.email}"></span></p>
                     <p class="card-text mb-1"><strong>Geslacht:</strong> <span th:text="${player.gender}"></span></p>
                     <p class="card-text mb-1"><strong>Geboortedatum:</strong> <span th:text="${#dates.format(player.birthDate, 'dd/MM/yyyy')}"></span></p>
@@ -53,8 +53,8 @@
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
         <div class="col" th:each="player : ${approvedPlayers}">
             <div class="card h-100 shadow-sm border-success">
+                <h5 class="card-header bg-success text-white fw-bold" th:text="${player.name}"></h5>
                 <div class="card-body">
-                    <h5 class="card-title fw-bold" th:text="${player.name}"></h5>
                     <p class="card-text mb-1"><strong>Email:</strong> <span th:text="${player.email}"></span></p>
                     <p class="card-text mb-1"><strong>Geslacht:</strong> <span th:text="${player.gender}"></span></p>
                     <p class="card-text mb-1"><strong>Geboortedatum:</strong> <span th:text="${#dates.format(player.birthDate, 'dd/MM/yyyy')}"></span></p>
