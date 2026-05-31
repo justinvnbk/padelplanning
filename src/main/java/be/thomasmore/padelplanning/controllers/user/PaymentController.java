@@ -41,7 +41,7 @@ public class PaymentController {
         SessionCreateParams.LineItem.PriceData priceData =
                 SessionCreateParams.LineItem.PriceData.builder()
                         .setCurrency("eur")
-                        .setUnitAmount(1000L)
+                        .setUnitAmount(800L)
                         .setProductData(productData)
                         .build();
 
