@@ -24,7 +24,7 @@ public class PaymentController {
     private final PlayerRepository playerRepository;
     private final NotificationService notificationService;
 
-    public PaymentController(PadelDayRepository padelDayRepository, PlayerRepository playerRepository,  NotificationService notificationService) {
+    public PaymentController(PadelDayRepository padelDayRepository, PlayerRepository playerRepository, NotificationService notificationService) {
         this.padelDayRepository = padelDayRepository;
         this.playerRepository = playerRepository;
         this.notificationService = notificationService;

@@ -25,16 +25,16 @@ public class ConfirmPaymentController {
                            @PathVariable Integer id) {
         Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(id);
 
-        if (optionalPadelDay.isEmpty()) return "redirect:/";
-
-        if (optionalPadelDay.isPresent()) {
-            PadelDay padelDay = optionalPadelDay.get();
-
-            model.addAttribute("padelDay", padelDay);
-            model.addAttribute("paidPlayers", playerService.getPaidPlayers(padelDay));
-            model.addAttribute("unpaidPlayers", playerService.getUnpaidPlayers(padelDay));
-            model.addAttribute("reservedPlayers", padelDay.getReservedPlayers());
+        if (optionalPadelDay.isEmpty()) {
+            return "redirect:/";
         }
+
+        PadelDay padelDay = optionalPadelDay.get();
+
+        model.addAttribute("padelDay", padelDay);
+        model.addAttribute("paidPlayers", playerService.getPaidPlayers(padelDay));
+        model.addAttribute("unpaidPlayers", playerService.getUnpaidPlayers(padelDay));
+        model.addAttribute("reservedPlayers", padelDay.getReservedPlayers());
 
         return "admin/payments";
     }
