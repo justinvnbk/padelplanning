@@ -5,7 +5,7 @@
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 <main class="container py-4">
     <h1 class="text-center mb-5">Gegevens van deze padeldag aanpassen</h1>
-    <form th:action="@{/admin/editpadelday}" th:object="${padelDay}" method="post">
+    <form class="w-75 mx-auto" th:action="@{/admin/editpadelday}" th:object="${padelDay}" method="post">
         <div class="row">
             <input type="hidden" th:field="*{signedUpPlayers}"/>
             <input type="hidden" th:field="*{reservedPlayers}"/>
@@ -19,14 +19,26 @@
                 <span th:text="|Een padel dag heeft 3 matchmomenten van 40 minuten dus deze padeldag eindigt om ${#temporals.format(padelDay.date.plusHours(2), 'HH:mm')}.|"></span>
             </div>
             <div class="col-12">
-                <label for="padelDayAvailableFields" class="form-label fw-bold">Beschikbare velden:</label>
-                <select multiple id="padelDayAvailableFields" class="form-select" th:field="*{fields}" size="5">
-                    <option th:each="f : ${fields}"
-                            th:value="${f.id}"
-                            th:text="|${f.name}|">
-                    </option>
-                </select>
-                <div class="form-text mt-2">Houd Ctrl (of Cmd) ingedrukt om selectie te wijzigen.</div>
+                <label class="form-label fw-bold">Beschikbare velden:</label>
+
+                <div class="d-flex flex-column gap-2 mt-2">
+                    <div th:each="f : ${fields}" class="form-check">
+                        <input
+                                class="form-check-input border-secondary"
+                                type="checkbox"
+                                th:id="${'field-' + f.id}"
+                                th:value="${f.id}"
+                                th:field="*{fields}"
+                        />
+                        <label class="form-check-label" th:for="${'field-' + f.id}">
+                            <span th:text="${f.name}">Veld Naam</span>
+                            <span class="text-secondary small"
+                                  th:text="'(' + (${f.isOutside} ? (${f.isCovered} ? 'buiten overdekt' : 'buiten niet overdekt') : 'binnen') + ')'">
+                                (type)
+                            </span>
+                        </label>
+                    </div>
+                </div>
             </div>
             <div class="d-flex justify-content-between align-items-center mt-5 pt-3 border-top">
                 <a class="btn btn-danger px-4" th:href="@{|/user/signup/*{id}|}">Annuleer</a>
