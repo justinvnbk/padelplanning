@@ -45,6 +45,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
                 //only user with admin role can access requests that start with /admin/ :
+                .requestMatchers("/stripe/webhook").permitAll()
                 .requestMatchers("/admin/**").hasAuthority("ADMIN")
                 .requestMatchers("/user/**").hasAnyAuthority("USER", "ADMIN")
                 //all other requests can be executed by anyone:
