@@ -11,7 +11,7 @@ VALUES
     ('Mia Andersson', true, 'F', '2001-02-25', 'BEGINNER', 50, '+32111111118', 'mia@example.com', 'GEEN', '', false),
     ('Daniel Kim', true, 'M', '1993-12-30', 'GEMIDDELD', 400, '+32111111119', 'daniel@example.com', 'RECHTS', '', false),
     ('Chloe Martin', true, 'F', '1998-08-08', 'GEMIDDELD', 500, '+32111111120', 'chloe@example.com', 'LINKS', '', false),
-    ('Tom Van Den Broeck', true, 'M', '1992-04-14', 'PRO', 1000, '+32111111121', 'alex@example.com', 'RECHTS', '', false),
+    ('Tom Van Den Broeck', true, 'M', '1992-04-14', 'PRO', 1000, '+32111111121', 'tomvdb@example.com', 'RECHTS', '', false),
     ('Sara Khan', true, 'F', '2002-10-05', 'BEGINNER', 200, '+32111111122', 'sara@example.com', 'GEEN', '', false),
     ('Amelie Lefebvre', true, 'F', '1994-11-22', 'GEMIDDELD', 550, '+32111111124', 'amelie@example.com', 'RECHTS', '', false),
     ('Lukas Weber', true, 'M', '1988-06-05', 'PRO', 1100, '+32111111125', 'lukasw@example.com', 'LINKS', '', false),
