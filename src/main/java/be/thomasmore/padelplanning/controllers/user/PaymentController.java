@@ -10,6 +10,7 @@ import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -17,6 +18,8 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/user")
 public class PaymentController {
+    @Value("${app.base-url}")
+    private String appBaseUrl;
 
     private final PadelDayRepository padelDayRepository;
     private final PlayerRepository playerRepository;
@@ -60,8 +63,8 @@ public class PaymentController {
         SessionCreateParams params =
                 SessionCreateParams.builder()
                         .setMode(SessionCreateParams.Mode.PAYMENT)
-                        .setSuccessUrl("http://localhost:8080/user/payment-success?id=" + id)
-                        .setCancelUrl("http://localhost:8080/user/payment-cancel")
+                        .setSuccessUrl(appBaseUrl + "/user/payment-success?id=" + id)
+                        .setCancelUrl(appBaseUrl + "/user/payment-cancel")
                         .putMetadata("playerId", player.getId().toString())
                         .putMetadata("padelDayId", id.toString())
                         .addLineItem(lineItem)
