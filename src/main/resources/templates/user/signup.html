@@ -153,7 +153,7 @@
         <!--        VIEW FOR ADMIN TO EDIT-->
         <div sec:authorize="hasAuthority('ADMIN')">
 
-            <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3">
+            <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3 mb-4 ">
 
                 <a style="font-size: 1.3rem" class="btn btn-primary px-3 fw-bold shadow-sm admin-btn-spec" th:href="@{|/admin/payments/*{id}|}">
                     🏦Bekijk betalingen
@@ -175,7 +175,7 @@
                 </form>
 
             </div>
-            <div class="row justify-content-center">
+            <div id="alert-section" class="row justify-content-center">
                 <div th:if="${error}"
                      class="alert alert-danger alert-dismissible fade show col-11 col-md-5" role="alert">
                     <strong>Niet opgeslagen!</strong> <span th:text="${error}"></span>
@@ -237,7 +237,7 @@
                 <div class="d-flex justify-content-center align-items-center gap-3 my-3">
                     <button th:if="${!padelDay.published}"
                             style="font-size: 1.2rem"
-                            class="btn btn-primary px-3 py-2 fw-bold shadow-sm admin-btn"
+                            class="btn btn-primary px-3 py-2 fw-bold shadow-sm admin-btn-spec"
                             type="submit">
                         💾Planning opslaan
                     </button>
@@ -278,6 +278,23 @@
             alert("Payment failed");
         }
     }
+
+    // Handles smooth fallback scrolling if hash anchoring loses placement context
+    document.addEventListener('DOMContentLoaded', () => {
+        const targetSection = document.getElementById('alert-section');
+
+        if (targetSection) {
+            // Find any template alerts that successfully rendered on screen
+            const hasAlerts = targetSection.querySelector('.alert');
+
+            if (hasAlerts) {
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }
+        }
+    });
 </script>
 </body>
 </html>
