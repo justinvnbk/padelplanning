@@ -24,7 +24,7 @@ public class StripeWebhookController {
     private final PadelDayRepository padelDayRepository;
     private final NotificationService notificationService;
 
-    @Value("${stripe.webhook.secret:true}")
+    @Value("${stripe.webhook.secret}")
     private String endpointSecret;
 
     public StripeWebhookController(PlayerRepository playerRepository,
