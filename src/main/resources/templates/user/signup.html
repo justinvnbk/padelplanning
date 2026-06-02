@@ -218,9 +218,12 @@
                 </div>
                 <div th:each="field : ${padelDay.fields}" th:if="${#lists.contains(padelDay.matches.![field], field)}"
                      class="row border border-end-0 border-black">
-                    <div class="col-1 d-flex align-items-center justify-content-center fs-2 fw-bold veld"
-                         style="background-color: #C6C6C6;"
-                         th:text="${field.name}"></div>
+                    <div class="col-1 border-end d-flex flex-column align-items-center justify-content-center text-center"
+                         style="background-color: #c6c6c6">
+                        <div class="fs-4 fs-md-2 fw-bold veld" th:text="${field.name}"></div>
+                        <div class="text-secondary small d-none d-md-block" th:text="'(' + (${field.isOutside} ? 'buiten' : 'binnen)')"></div>
+                        <div class="text-secondary small d-none d-md-block" th:if="${field.isOutside}" th:text="(${field.isCovered} ? 'overdekt' : 'niet overdekt') + ')'"></div>
+                    </div>
                     <div class="row col-11 m-0 g-0 flex-nowrap">
                         <div class="col border border-bottom-0 border-top-0 border-end-0 m-0 g-0"
                              th:each="match, i : ${padelDay.matches}" th:if="${match.field == field}">
