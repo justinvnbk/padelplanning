@@ -28,9 +28,12 @@
 
             <div class="row g-0 border-start border-end border-bottom border-dark">
 
-                <div class="col-1 border-end d-flex align-items-center justify-content-center fs-2 fw-bold veld"
-                     style="background-color: #c6c6c6"
-                     th:text="${field.name}"></div>
+                <div class="col-1 border-end d-flex flex-column align-items-center justify-content-center text-center"
+                     style="background-color: #c6c6c6">
+                    <div class="fs-4 fs-md-2 fw-bold veld" th:text="${field.name}"></div>
+                    <div class="text-secondary small d-none d-md-block" th:text="'(' + (${field.isOutside} ? 'buiten' : 'binnen)')"></div>
+                    <div class="text-secondary small d-none d-md-block" th:if="${field.isOutside}" th:text="(${field.isCovered} ? 'overdekt' : 'niet overdekt') + ')'"></div>
+                </div>
 
                 <div class="col-11">
 
