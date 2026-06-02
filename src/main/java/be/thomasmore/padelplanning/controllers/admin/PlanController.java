@@ -193,15 +193,32 @@ public class PlanController {
         Optional<PadelDay> optionalPadelDayOld = padelDayRepository.findById(padelDay.getId());
         if (optionalPadelDayOld.isPresent()) {
             PadelDay padelDayOld = optionalPadelDayOld.get();
-            if (!padelDayOld.getMatches().isEmpty()) {
+            List<Player> signedUpPlayers = padelDay.getSignedUpPlayers();
+            List<Player> reservePlayers = padelDay.getReservedPlayers();
+
+            while(signedUpPlayers.size() > padelDay.getFields().size()*4){
+                for (int i = 0; i < 4; i++) {
+                    reservePlayers.add(0,signedUpPlayers.get(signedUpPlayers.size() - 1));
+                    signedUpPlayers.remove(signedUpPlayers.size() - 1);
+                }
+            }
+            while((padelDay.getFields().size()*4) - signedUpPlayers.size() >= 4 && reservePlayers.size() >= 4){
+                for (int i = 0; i < 4; i++) {
+                    signedUpPlayers.add(reservePlayers.get(0));
+                    reservePlayers.remove(0);
+                }
+            }
+
+            if (padelDayOld.isPublished()) {
                 createPadelDayPlanService.newPadelDayPlan(padelDay);
             }
         }
+        padelDay.setNumberOfMatches(3);
         padelDayRepository.save(padelDay);
+
 
         List<Player> recipients = padelDay.getSignedUpPlayers();
         recipients.addAll(padelDay.getReservedPlayers());
-
         notificationService.createNotification("Aanpassing speelmoment",
                 "Het speelmoment is aangepast door " + loggedInAdmin.getName() + ". Bekijk het bij de inschrijvingen!",
                 recipients,
