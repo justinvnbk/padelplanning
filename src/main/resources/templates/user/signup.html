@@ -39,14 +39,15 @@
             <div class="mb-3 mb-md-5  bg-dark text-light rounded border border-dark p-2 text-center"
                  th:text="|Velden: ${#strings.listJoin(padelDay.fields.![name], ', ')} (${padelDay.fields.size()*4} plaatsen)|"></div>
             <div class="mb-3 mb-md-5  bg-dark text-light rounded border border-dark p-2 text-center"
-                 th:if="${!isSignedUp}"
-                 th:text="|${isSignedUp ? '' : 'Nog ' + (4 - padelDay.reservedPlayers.size()) + ' speler(s) nodig om de volgende groep te voltooien'}|"></div>
+                 th:text="|Nog ${(padelDay.fields.size()*4) - padelDay.signedUpPlayers.size()} vrije plaatsen|"></div>
+            <div class="mb-3 mb-md-5  bg-dark text-light rounded border border-dark p-2 text-center"
+                 th:text="|${'Nog ' + (4 - padelDay.reservedPlayers.size()) + ' speler(s) nodig om de volgende groep te in te schrijven'}|"></div>
             <div class="mb-3 mb-md-5 bg-success bg-opacity-75 text-dark rounded border border-success p-2 text-center"
                  th:if="${padelDay.signedUpPlayers.contains(currentUser)}"
                  th:text="|U bent ingeschreven|"></div>
             <div class="mb-3 mb-md-5 bg-warning bg-opacity-75 text-dark rounded border border-warning p-2 text-center"
                  th:if="${padelDay.reservedPlayers.contains(currentUser)}"
-                 th:text="|U komt op de reservelijst|"></div>
+                 th:text="|U staat op de reservelijst|"></div>
         </div>
 
 
