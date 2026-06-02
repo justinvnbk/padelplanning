@@ -39,15 +39,16 @@
             <div class="mb-3 mb-md-5  bg-dark text-light rounded border border-dark p-2 text-center"
                  th:text="|Velden: ${#strings.listJoin(padelDay.fields.![name], ', ')} (${padelDay.fields.size()*4} plaatsen)|"></div>
             <div class="mb-3 mb-md-5  bg-dark text-light rounded border border-dark p-2 text-center"
-                 th:text="|Nog ${(padelDay.fields.size()*4) - padelDay.signedUpPlayers.size() - padelDay.reservedPlayers.size()} vrije plaatsen|"></div>
+                 th:text="|Nog ${(padelDay.fields.size()*4) - padelDay.signedUpPlayers.size() - padelDay.reservedPlayers.size() < 1?0:(padelDay.fields.size()*4) - padelDay.signedUpPlayers.size() - padelDay.reservedPlayers.size()} vrije plaatsen|"></div>
             <div class="mb-3 mb-md-5  bg-dark text-light rounded border border-dark p-2 text-center"
+                 th:if="${!(padelDay.signedUpPlayers.size() == padelDay.fields.size()*4)}"
                  th:text="|${'Nog ' + (4 - padelDay.reservedPlayers.size()) + ' speler(s) nodig om de volgende groep te in te schrijven'}|"></div>
-            <div class="mb-3 mb-md-5 bg-success bg-opacity-75 text-dark rounded border border-success p-2 text-center"
+            <div class="mb-3 mb-md-5 bg-success bg-opacity-75 text-dark rounded border border-success p-2 text-center text-white"
                  th:if="${padelDay.signedUpPlayers.contains(currentUser)}"
-                 th:text="|U bent ingeschreven|"></div>
+                 th:text="|U bent ingeschreven, 4 uur voor start vindt u de planning op de startpagina|"></div>
             <div class="mb-3 mb-md-5 bg-warning bg-opacity-75 text-dark rounded border border-warning p-2 text-center"
                  th:if="${padelDay.reservedPlayers.contains(currentUser)}"
-                 th:text="|U staat op de reservelijst|"></div>
+                 th:text="|U staat op de reservelijst ${padelDay.signedUpPlayers.size()<padelDay.fields.size()*4?' tot er voldoende personen zijn ingeschreven':''}|"></div>
         </div>
 
 
