@@ -39,8 +39,9 @@
             <div class="mb-3 mb-md-5  bg-dark text-light rounded border border-dark p-2 text-center"
                  th:text="|Velden: ${#strings.listJoin(padelDay.fields.![name], ', ')} (${padelDay.fields.size()*4} plaatsen)|"></div>
             <div class="mb-3 mb-md-5  bg-dark text-light rounded border border-dark p-2 text-center"
-                 th:text="|Nog ${(padelDay.fields.size()*4) - padelDay.signedUpPlayers.size() - padelDay.reservedPlayers.size()} vrije plaatsen|"></div>
+                 th:text="|Nog ${(padelDay.fields.size()*4) - padelDay.signedUpPlayers.size() - padelDay.reservedPlayers.size() < 1?0:(padelDay.fields.size()*4) - padelDay.signedUpPlayers.size() - padelDay.reservedPlayers.size()} vrije plaatsen|"></div>
             <div class="mb-3 mb-md-5  bg-dark text-light rounded border border-dark p-2 text-center"
+                 th:if="${!(padelDay.signedUpPlayers.size() == padelDay.fields.size()*4)}"
                  th:text="|${'Nog ' + (4 - padelDay.reservedPlayers.size()) + ' speler(s) nodig om de volgende groep te in te schrijven'}|"></div>
             <div class="mb-3 mb-md-5 bg-success bg-opacity-75 text-dark rounded border border-success p-2 text-center"
                  th:if="${padelDay.signedUpPlayers.contains(currentUser)}"
