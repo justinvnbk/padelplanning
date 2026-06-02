@@ -28,9 +28,11 @@ public class PlayerController {
     }
 
     @GetMapping("/players")
-    public String players(Model model) {
-        model.addAttribute("pendingPlayers", playerRepository.getPendingPlayers());
-        model.addAttribute("approvedPlayers", playerRepository.getApprovedPlayers());
+    public String players(Model model,
+                          @RequestParam(required = false) String keyword) {
+        if(keyword == null) keyword = "";
+        model.addAttribute("pendingPlayers", playerRepository.getPendingPlayers(keyword));
+        model.addAttribute("approvedPlayers", playerRepository.getApprovedPlayers(keyword));
 
         return "admin/players";
     }
