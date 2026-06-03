@@ -195,7 +195,6 @@ main {
 
     .list-players {
         font-size: 1rem !important;
-        flex: 0 0 50% !important;
     }
 
     .list-players-signup {
