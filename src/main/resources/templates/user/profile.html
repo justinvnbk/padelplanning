@@ -67,7 +67,7 @@
                                            type="date"
                                            class="form-control border-secondary"
                                            placeholder="birthDate"
-                                           th:max="${#temporals.format(#temporals.createNow().minusYears(12), 'yyyy-MM-dd')}" />
+                                           th:max="${#temporals.format(#temporals.createNow().minusYears(8), 'yyyy-MM-dd')}" />
                                     <label for="birthDate" style="background-color: transparent;">Geboortedatum</label>
 
                                     <div th:if="${#fields.hasErrors('birthDate')}" class="text-danger small mt-1" th:errors="*{birthDate}"></div>

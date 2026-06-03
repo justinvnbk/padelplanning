@@ -93,7 +93,7 @@
                                             placeholder="birthDate"
                                             name="birthDate"
                                             type="date"
-                                            th:max="${#temporals.format(#temporals.createNow().minusYears(12), 'yyyy-MM-dd')}"
+                                            th:max="${#temporals.format(#temporals.createNow().minusYears(8), 'yyyy-MM-dd')}"
                                             required
                                     />
                                     <label for="birthDate" style="background-color: transparent;">
