@@ -1,17 +1,17 @@
 <header th:fragment="navbar" xmlns:sec="http://www.w3.org/1999/xhtml">
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid nav-container align-items-center">
 
             <div class="d-flex align-items-center p-0 nav-left">
                 <a class="navbar-brand logo" th:href="@{/}"></a>
             </div>
 
-            <p class="m-0 text-nowrap welcome d-none d-md-block" style="font-size: 1.2rem">
-                <span th:if="${currentUser != null}" th:text="|Welkom terug ${currentUser.name}|"></span>
+            <p class="m-0 text-nowrap welcome d-none d-lg-block" style="font-size: 1.2rem">
+                <span th:if="${currentUser != null}" th:text="|Welkom ${currentUser.name}|"></span>
                 <span th:if="${currentUser == null}">Welkom op onze pagina</span>
             </p>
 
-            <div class="d-flex align-items-center ms-auto d-md-none gap-2">
+            <div class="d-flex align-items-center ms-auto d-lg-none gap-2">
 
                 <a class="btn d-flex align-items-center justify-content-center me-3 p-0"
                    sec:authorize="isAuthenticated()"
@@ -34,12 +34,12 @@
             </div>
 
             <div class="collapse navbar-collapse justify-content-end align-items-center" id="navbarMenu">
-                <p class="m-0 py-2 text-nowrap welcome d-block d-md-none">
+                <p class="m-0 py-2 text-nowrap welcome d-block d-lg-none">
                     Welkom <span th:if="${currentUser != null}" th:text="|terug ${currentUser.name}|"></span>
                 </p>
 
-                <ul class="navbar-nav gap-2 mb-0 text-nowrap align-items-md-center">
-                    <li class="nav-item d-none d-md-flex">
+                <ul class="navbar-nav gap-2 mb-0 text-nowrap align-items-lg-center">
+                    <li class="nav-item d-none d-lg-flex">
                         <a class="btn d-flex align-items-center justify-content-center ms-2 me-3 mt-2"
                            sec:authorize="isAuthenticated()"
                            th:classappend="|${currentUser.hasUnseenNotifications ? 'btn-pma' : 'btn-dark'} rounded-circle|"
@@ -54,16 +54,16 @@
                            th:href="@{/}">🏠Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link border-start-md" th:classappend="${currentUrl=='/user/padeldays'?'active':''}"
+                        <a class="nav-link border-start-lg" th:classappend="${currentUrl=='/user/padeldays'?'active':''}"
                            th:href="@{/user/padeldays}">🧾Inschrijven</a>
                     </li>
                     <li class="nav-item" sec:authorize="isAuthenticated()">
-                        <a class="nav-link border-start-md" th:classappend="${currentUrl=='/user/profile'?'active':''}"
+                        <a class="nav-link border-start-lg" th:classappend="${currentUrl=='/user/profile'?'active':''}"
                            th:href="@{/user/profile}">👤Mijn Profiel</a>
                     </li>
 
                     <li class="nav-item dropdown" sec:authorize="hasAuthority('ADMIN')">
-                        <a class="nav-link dropdown-toggle border-start-md"
+                        <a class="nav-link dropdown-toggle border-start-lg"
                            th:classappend="${currentUrl.startsWith('/admin/')?'active':''}"
                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             ⚙️Admin options
@@ -75,10 +75,10 @@
                         </ul>
                     </li>
 
-                    <li class="nav-item py-2 py-md-0 mt-1 ms-2 login">
+                    <li class="nav-item py-2 py-lg-0 mt-1 ms-2 login">
                         <a sec:authorize="!isAuthenticated()" th:class="|btn btn-pma|" th:href="@{/login}">Inloggen</a>
                     </li>
-                    <li class="nav-item py-2 py-md-0 mt-1 ms-2 logout">
+                    <li class="nav-item py-2 py-lg-0 mt-1 ms-2 logout">
                         <a sec:authorize="isAuthenticated()" th:class="|btn btn-pma|" th:href="@{/logout}">Uitloggen</a>
                     </li>
                 </ul>
