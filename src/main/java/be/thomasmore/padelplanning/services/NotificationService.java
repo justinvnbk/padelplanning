@@ -29,12 +29,13 @@ public class NotificationService {
         this.playerRepository = playerRepository;
     }
 
-    public void createNotification(String title, String message, Collection<Player> recipients, boolean sendEmail) {
+    public void createNotification(String title, String message, Collection<Player> recipients, boolean sendEmail, Integer padelDayId) {
         Notification notification = new Notification();
         notification.setTitle(title);
         notification.setMessage(message);
         notification.setRecipients(new ArrayList<>(recipients));
         notification.setDateTime(LocalDateTime.now());
+        notification.setPadelDayId(padelDayId);
 
         notificationRepository.save(notification);
 
@@ -46,6 +47,11 @@ public class NotificationService {
         if (sendEmail) {
 //            sendEmail(title, message, recipients); //Commented to not overflow sandbox
         }
+    }
+
+    public void createNotification(String title, String message, Collection<Player> recipients, boolean sendEmail) {
+        // This keeps your existing code working perfectly without changing old method calls!
+        createNotification(title, message, recipients, sendEmail, null);
     }
 
     private void sendEmail(String title, String message, Collection<Player> recipients) {
