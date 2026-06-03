@@ -62,10 +62,15 @@
                                            style="background-color: transparent;">Geboortedatum</label>
                                 </div>
                                 <div class="form-floating mb-3" sec:authorize="hasAuthority('ADMIN')">
-                                    <input id="birthDate" th:field="*{birthDate}" type="date"
+                                    <input id="birthDate"
+                                           th:field="*{birthDate}"
+                                           type="date"
                                            class="form-control border-secondary"
-                                           placeholder="birthDate"/>
+                                           placeholder="birthDate"
+                                           th:max="${#temporals.format(#temporals.createNow().minusYears(12), 'yyyy-MM-dd')}" />
                                     <label for="birthDate" style="background-color: transparent;">Geboortedatum</label>
+
+                                    <div th:if="${#fields.hasErrors('birthDate')}" class="text-danger small mt-1" th:errors="*{birthDate}"></div>
                                 </div>
 
                                 <!-- P-Ranking -->
