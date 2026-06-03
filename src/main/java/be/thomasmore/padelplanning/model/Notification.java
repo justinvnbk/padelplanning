@@ -14,6 +14,7 @@ public class Notification {
 
     private String title;
     private String message;
+    private Integer padelDayId;
     private LocalDateTime dateTime;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -42,6 +43,10 @@ public class Notification {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public Integer getPadelDayId() {return padelDayId;}
+
+    public void setPadelDayId(Integer padelDayId) {this.padelDayId = padelDayId;}
 
     public LocalDateTime getDateTime() {
         return dateTime;
