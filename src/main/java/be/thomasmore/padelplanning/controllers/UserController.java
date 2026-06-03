@@ -112,6 +112,7 @@ public class UserController {
             existing.setEmail(player.getEmail());
             existing.setBirthDate(player.getBirthDate());
             existing.setpRanking(pRanking);
+            existing.setName(player.getName());
         }
 
         playerService.updatePlayerProfile(existing);

@@ -18,6 +18,17 @@
 
                         <div class="row gy-2">
 
+                            <div class="col-12">
+                                <div class="form-floating mb-3">
+                                    <input id="name" th:field="*{name}" type="text"
+                                           class="form-control border-secondary"
+                                           placeholder="name" required/>
+                                    <label for="name" style="background-color: transparent;">
+                                        Naam <span class="text-danger">*</span>
+                                    </label>
+                                </div>
+                            </div>
+
                             <!-- Email -->
                             <div class="col-12">
                                 <div class="form-floating mb-3">

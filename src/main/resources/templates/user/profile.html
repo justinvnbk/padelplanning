@@ -22,6 +22,21 @@
                             <div class="col-12">
                                 <p class="text-secondary mb-1" style="font-size: 0.85rem;"
                                    sec:authorize="!hasAuthority('ADMIN')">Enkel leesbaar</p>
+
+                                <div class="form-floating mb-3" sec:authorize="!hasAuthority('ADMIN')">
+                                    <input id="nameReadonly" th:value="${player.name}" type="text"
+                                           class="form-control text-secondary border-secondary"
+                                           placeholder="name" disabled/>
+                                    <label for="nameReadonly" style="background-color: transparent;">Naam</label>
+                                </div>
+                                <div class="form-floating mb-3" sec:authorize="hasAuthority('ADMIN')">
+                                    <input id="name" th:field="*{name}" type="text"
+                                           class="form-control border-secondary"
+                                           placeholder="name" required/>
+                                    <label for="name"
+                                           style="background-color: transparent;">Naam</label>
+                                </div>
+
                                 <!-- Email -->
                                 <div class="form-floating mb-3" sec:authorize="!hasAuthority('ADMIN')">
                                     <input id="emailReadonly" th:value="${player.email}" type="email"
