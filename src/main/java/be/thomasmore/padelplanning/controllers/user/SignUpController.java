@@ -9,6 +9,7 @@ import be.thomasmore.padelplanning.services.NotificationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -74,7 +75,8 @@ public class SignUpController {
     @PostMapping("/signup")
     public String postSignUp(Model model,
                              @RequestParam int id,
-                             Principal principal) {
+                             Principal principal,
+                             RedirectAttributes redirectAttributes) { // Added RedirectAttributes
         Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(id);
         Player player = playerRepository.findByEmail(principal.getName());
 
@@ -85,20 +87,30 @@ public class SignUpController {
                 List<Player> signedUpPlayers = padelDay.getSignedUpPlayers();
 
                 reservePlayers.add(player);
+                boolean movedToActive = false;
+
                 //When there is 4 reserve player, they are added to the signedUp list
                 if (reservePlayers.size() == 4 && signedUpPlayers.size() < padelDay.getFields().size() * 4) {
                     signedUpPlayers.addAll(reservePlayers);
-                    //Send a notification to all reserve players that they moved to signed up players
+                    movedToActive = true;
+
                     notificationService.createNotification("Inschrijving padeldag: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             "Er zijn voldoende spelers voor uw inschrijving te verwerken voor de padeldag op " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             reservePlayers,
                             true);
                     reservePlayers.clear();
                     if (padelDay.getMatches().size() > 0) {
-                        //The plan is recreated, matches are filled with the new players
                         createPadelDayPlanService.newPadelDayPlan(padelDay);
                     }
                 }
+
+                // Set alert messages based on registration status
+                if (movedToActive) {
+                    redirectAttributes.addFlashAttribute("alertSuccess", "Je bent succesvol ingeschreven! Er zijn genoeg spelers om een match te vullen.");
+                } else {
+                    redirectAttributes.addFlashAttribute("alertWarning", "Je bent toegevoegd aan de reservelijst. Wacht op 3 extra spelers.");
+                }
+
                 padelDay.setSignedUpPlayers(signedUpPlayers);
                 padelDay.setReservedPlayers(reservePlayers);
                 padelDayRepository.save(padelDay);
@@ -110,7 +122,8 @@ public class SignUpController {
     @PostMapping("/signout")
     public String postSignOut(Model model,
                               @RequestParam int id,
-                              Principal principal) {
+                              Principal principal,
+                              RedirectAttributes redirectAttributes) { // Added RedirectAttributes
         Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(id);
         if (optionalPadelDay.isPresent()) {
             PadelDay padelDay = optionalPadelDay.get();
@@ -120,16 +133,18 @@ public class SignUpController {
 
             Player player = playerRepository.findByEmail(principal.getName());
 
-            //Reserve players will always just be removed from the list
             if (reservePlayers.contains(player)) {
                 reservePlayers.remove(player);
+                redirectAttributes.addFlashAttribute("alertInfo", "U bent succesvol uitgeschreven van de reservelijst.");
             } else if (signedUpPlayers.contains(player)) {
                 signedUpPlayers.remove(player);
+                boolean cascadeTriggered = false;
 
                 //When there is no reserve players, 3 last sign-ups are also signed out te keep the right amount of people to fill the matches
                 if (reservePlayers.isEmpty()) {
+                    cascadeTriggered = true;
                     Collection<Player> forcedToSignOut = new ArrayList<Player>();
-                    int counter = signedUpPlayers.size() - 1; //To index the signedUpPlayers backwards
+                    int counter = signedUpPlayers.size() - 1;
                     while (signedUpPlayers.size() % 4 != 0) {
                         forcedToSignOut.add(signedUpPlayers.get(counter));
 
@@ -138,17 +153,16 @@ public class SignUpController {
 
                         counter--;
                     }
-                    //Notify all forced to sign out
+                    //Notifications
                     notificationService.createNotification("Uitschrijving padeldag: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             "Een van de laatste 4 inschrijvingen heeft zich uitgeschreven. U komt terug op de reservelijst.",
                             forcedToSignOut,
                             true);
-                    //Notify admin
                     notificationService.createNotification("Ontbrekende speler: " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")),
                             "Een van de laatste 4 inschrijvingen heeft zich uitgeschreven. Drie spelers staan weer op de reservelijst.",
                             admins,
                             true);
-                    //Notify all players, new signup needed fast
+
                     if (LocalDateTime.now().plusHours(4).isAfter(padelDay.getDate())) {
                         notificationService.createNotification("SNEL IEMAND NODIG VOOR VANDAAG",
                                 "Iemand heeft zich binnen de laatste 4 uur uitgeschreven, schrijf je nog snel in om ons te vervoledigen",
@@ -156,7 +170,6 @@ public class SignUpController {
                                 true);
                     }
 
-                    //When there is reserve players, add the fist one
                 } else {
                     Collection<Player> newSignedUpPlayer = new ArrayList<Player>();
 
@@ -169,8 +182,14 @@ public class SignUpController {
                             newSignedUpPlayer,
                             true);
                 }
+
+                if (cascadeTriggered) {
+                    redirectAttributes.addFlashAttribute("alertDanger", "U bent succesvol uitgeschreven.");
+                } else {
+                    redirectAttributes.addFlashAttribute("alertSuccess", "U bent succesvol uitgeschreven. Een speler uit de reservelijst neemt uw plaats in!");
+                }
+
                 if (padelDay.getMatches().size() > 0) {
-                    //The plan is recreated, matches are filled without the removed players
                     createPadelDayPlanService.newPadelDayPlan(padelDay);
                 }
             }
