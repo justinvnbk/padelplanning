@@ -179,8 +179,7 @@
                  th:if="${!(padelDay.signedUpPlayers.size() == padelDay.fields.size()*4) && !hasPlan}"
                  th:text="|${'Nog ' + (4 - padelDay.reservedPlayers.size()) + ' speler(s) nodig om de volgende groep te in te schrijven'}|"></div>
             <div class="m-3 bg-success bg-opacity-75 text-dark rounded border border-success p-2 text-center text-white"
-                 th:if="${padelDay.signedUpPlayers.contains(currentUser)}"
-                 th:text="|U bent ingeschreven, 4 uur voor start vindt u de planning op de startpagina|"></div>
+                 th:if="${padelDay.signedUpPlayers.contains(currentUser)}">U bent ingeschreven <p style="font-size: 0.9rem" class="p-0 m-0">4 uur voor start vindt u de planning op de startpagina</p></div>
             <div class="m-3 bg-warning bg-opacity-75 text-dark rounded border border-warning p-2 text-center"
                  th:if="${padelDay.reservedPlayers.contains(currentUser)}"
                  th:text="|U staat op de reservelijst ${padelDay.signedUpPlayers.size()<padelDay.fields.size()*4?' tot er voldoende personen zijn ingeschreven':''}|"></div>
