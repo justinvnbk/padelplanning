@@ -71,7 +71,6 @@ public class PlanController {
 
         return "redirect:/user/signup/" + padelDayId;
     }
-    // if you attempt to switch players who are in the same team, the second one gets overwritten instead of switched
 
     @GetMapping("/newpadelday")
     public String nieuwPadelday(Model model) {
