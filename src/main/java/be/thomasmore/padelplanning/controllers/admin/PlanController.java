@@ -53,41 +53,21 @@ public class PlanController {
 
     //Edit the plan
     @PostMapping("/planEdit")
-    public String postPlanEdit(@RequestParam Integer playerAId,
-                               @RequestParam Integer teamAId,
-                               @RequestParam Integer playerBId,
-                               @RequestParam Integer teamBId,
+    public String postPlanEdit(@RequestParam List<Integer> playerIds,
+                               @RequestParam List<Integer> teamIds,
                                @RequestParam Integer padelDayId,
                                RedirectAttributes ra) {
 
-        Player actualPlayerA = playerRepository.findById(playerAId).orElseThrow();
-        Player actualPlayerB = playerRepository.findById(playerBId).orElseThrow();
+        for (int i = 0; i < teamIds.size(); i++) {
+            Team team = teamRepository.findById(teamIds.get(i)).orElseThrow();
+            Player player = playerRepository.findById(playerIds.get(i)).orElseThrow();
 
-        Team actualTeamA = teamRepository.findById(teamAId).orElseThrow();
-        Team actualTeamB = teamRepository.findById(teamBId).orElseThrow();
+            //List<Player> players = team.getPlayers();
+            int slotIndex = i % 2; // two players per team
+            //players.set(slotIndex, player);
+            teamRepository.save(team);
+        }
 
-        // ensuring that the swap is happening within one timeslot (server-side Validation)
-        /*if (!actualTeamA.getMatches().getTimeSlot().equals(actualTeamB.getMatch().getTimeSlot())) {
-
-            ra.addFlashAttribute("error", "Players must be in the same timeslot.");
-            return "redirect:/user/signup/" + padelDayId;
-        }*/
-        // awaiting the relation between Team-Match to be changed to one-to-many
-
-        List<Player> TeamAplayers = new java.util.ArrayList<>(actualTeamA.getPlayers().stream().toList());
-        int spotA = TeamAplayers.indexOf(actualPlayerA);
-
-        List<Player> TeamBplayers = new java.util.ArrayList<>(actualTeamB.getPlayers().stream().toList());
-        int spotB = TeamBplayers.indexOf(actualPlayerB);
-
-        TeamBplayers.set(spotB, actualPlayerA);
-        TeamAplayers.set(spotA, actualPlayerB);
-
-        actualTeamA.setPlayers(TeamAplayers);
-        actualTeamB.setPlayers(TeamBplayers);
-
-        teamRepository.save(actualTeamA);
-        teamRepository.save(actualTeamB);
         return "redirect:/user/signup/" + padelDayId;
     }
     // if you attempt to switch players who are in the same team, the second one gets overwritten instead of switched

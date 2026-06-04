@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="nl" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments/head::headfragment}"></head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.6/Sortable.min.js" integrity="sha512-csIng5zcB+XpulRUa+ev1zKo7zRNGpEaVfNB9On1no9KYTEY/rLGAEEpvgdw6nim1WdTuihZY1eqZ31K7/fZjw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <body>
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 
@@ -160,18 +161,22 @@
                 <div class="col-12 g-0 m-0 border bg-dark text-light p-2 fw-bold"
                      th:text="${#temporals.format(padelDay.date, 'dd/MM/yyyy')}"></div>
             </div>
-            <div th:each="field : ${padelDay.fields}" class="row border border-end-0 border-black">
-                <div class="col-1 d-flex align-items-center justify-content-center fs-2 fw-bold veld"
-                     th:text="${field.name}"></div>
 
-                <div class="row col-11 m-0 g-0 flex-nowrap">
-                    <div class="col border border-bottom-0 border-top-0 border-end-0 m-0 g-0"
-                         th:each="match, i : ${padelDay.matches}" th:if="${match.field == field}">
-                        <div class="col-12 m-0 g-0">
-                            <h6 class="fw-bold p-3 bg-dark bg-opacity-75 text-light m-0 g-0"
-                                th:text="|Matches van ${match.getTimeSlot()}|">
-                            </h6>
-                        </div>
+            <form th:action="@{/admin/planEdit}" method="post">
+                <input type="hidden" name="padelDayId" th:value="${padelDay.id}"/>
+
+                <div th:each="field : ${padelDay.fields}" class="row border border-end-0 border-black">
+                    <div class="col-1 d-flex align-items-center justify-content-center fs-2 fw-bold veld"
+                         th:text="${field.name}"></div>
+
+                    <div class="row col-11 m-0 g-0 flex-nowrap">
+                        <div class="col border border-bottom-0 border-top-0 border-end-0 m-0 g-0"
+                             th:each="match, i : ${padelDay.matches}" th:if="${match.field.id == field.id}">
+                            <div class="col-12 m-0 g-0">
+                                <h6 class="fw-bold p-3 bg-dark bg-opacity-75 text-light m-0 g-0"
+                                    th:text="|Matches van ${match.getTimeSlot()}|">
+                                </h6>
+                            </div>
 
                         <form th:each="team, i : ${match.getTeams()}" th:object="${team}" th:action="@{/admin/planEdit}"
                               method="post"
@@ -182,6 +187,12 @@
                             <div class="m-1" th:each="index : ${#numbers.sequence(0, 1)}">
                                 <select class="form-select my-3" name="playerIds"
                                         th:style="|background-color: ${i.index==0 ? '#19466e' : '#f6f45a'}; color: ${i.index==0 ? '#FFFFFF' : '#000000'};|">
+                            <div class="swap-matches" th:data-match-id="${match.id}"> <!--th:data-timeslot="${match.timeSlot}"-->
+                                <div th:each="team, i : ${match.getTeams()}"
+                                     class="swap-teams box-shadow m-0 border border-dark"
+                                     th:data-timeslot="${match.timeSlot.hashCode()*-1}">
+
+                                <input type="hidden" name="teamId" th:value="${team.id}"/>
 
                                     <!-- Logic to check if a player exists at this index -->
                                     <option th:each="player : ${padelDay.getSignedUpPlayers()}"
@@ -189,6 +200,9 @@
                                             th:text="|${player.getName()} (P-${player.pRanking})|"
                                             th:selected="${team.getPlayers().size() > index && team.getPlayers().get(index).getId() == player.getId()}">
                                     </option>
+                                    <div th:each="index : ${#numbers.sequence(0, 1)}"
+                                         class="swappable-player m-2 p-2 rounded fw-bold"
+                                         th:style="|background-color: ${i.index==0 ? '#19466e' : '#f6f45a'}; color: ${i.index==0 ? '#FFFFFF' : '#000000'}; cursor: grab;|">
 
                                     <!-- The empty option -->
                                     <option th:value="0" th:selected="${team.getPlayers().size() <= index}">Leeg
@@ -198,9 +212,25 @@
 
                             <button class="btn btn-pma m-2 fw-bold shadow-sm" type="submit">Save</button>
                         </form>
+                                        <input type="hidden" name="playerIds"
+                                               th:value="${team.getPlayers().size() > index ? team.getPlayers().get(index).getId() : 0}"/>
+
+                                        <span th:text="${team.getPlayers().size() > index ? team.getPlayers().get(index).getName() + ' (P-' + team.getPlayers().get(index).pRanking + ')' : 'Leeg'}"></span>
+                                    </div>
+                                </div><!-- /.swap-teams -->
+                            </div><!-- /.swap-matches -->
+                        </div>
                     </div>
                 </div>
-            </div>
+
+                <!-- sticky save button -->
+                <div class="position-sticky bottom-0 d-flex justify-content-end p-3">
+                    <button class="btn btn-pma fw-bold shadow" type="submit">
+                        Save Schedule
+                    </button>
+                </div>
+
+            </form>
 
         </div>
         <div class="mt-4">
@@ -215,5 +245,38 @@
 </main>
 <footer th:replace="~{fragments/headerfooter::footer}"></footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+<script>
+    const players = document.querySelectorAll('.swappable-player');
+
+    if (players.length > 0) {
+        const playerMatch = players[0].closest('.swap-matches');
+        if (playerMatch && playerMatch.hasAttribute('data-timeslot')) {
+            const timeSlot = playerMatch.getAttribute('data-timeslot');
+        }
+    }
+
+    const teamContainers = document.querySelectorAll('.swap-teams');
+
+
+    teamContainers.forEach(container => {
+        const timeSlotId = container.dataset.timeslot;
+
+        Sortable.create(container, {
+            group: {
+                name: `timeslot-${timeSlotId}`,
+                pull: true,
+                put: true
+            },
+            swap: true,
+            swapClass: 'swap-highlight',
+            animation: 150,
+            draggable: '.swappable-player',
+            ghostClass: 'ghost',
+        });
+    });
+
+
+</script>
+
 </body>
 </html>
