@@ -1,5 +1,6 @@
 package be.thomasmore.padelplanning.services;
 
+import be.thomasmore.padelplanning.repositories.PadelDayRepository;
 import io.mailtrap.client.MailtrapClient;
 import io.mailtrap.config.MailtrapConfig;
 import io.mailtrap.factory.MailtrapClientFactory;
@@ -24,9 +25,24 @@ public class NotificationService {
     //Token for mailing (current token is for sandbox environment)
     private static final String TOKEN = "5832c48314d3ccfec3b4115c6516b0a3";
 
-    public NotificationService(NotificationRepository notificationRepository, PlayerRepository playerRepository) {
+
+    // Inject this field variable at the top of NotificationService
+    private final PadelDayRepository padelDayRepository;
+
+    // Make sure your constructor links it correctly:
+    public NotificationService(NotificationRepository notificationRepository,
+                               PlayerRepository playerRepository,
+                               PadelDayRepository padelDayRepository) {
         this.notificationRepository = notificationRepository;
         this.playerRepository = playerRepository;
+        this.padelDayRepository = padelDayRepository;
+    }
+
+    public boolean isPadelDayExpired(Integer padelDayId) {
+        if (padelDayId == null) return true;
+        return padelDayRepository.findById(padelDayId)
+                .map(padelDay -> padelDay.getDate().isBefore(java.time.LocalDateTime.now()))
+                .orElse(true);
     }
 
     public void createNotification(String title, String message, Collection<Player> recipients, boolean sendEmail, Integer padelDayId) {

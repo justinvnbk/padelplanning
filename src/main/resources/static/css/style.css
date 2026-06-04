@@ -39,6 +39,43 @@ main.login {
     flex-direction: column;
 }
 
+.position-relative {
+    position: relative !important;
+}
+
+.overflow-hidden {
+    overflow: hidden !important;
+}
+
+.corner-peel {
+    position: absolute;
+    top: 14px;
+    right: -31px;
+    background-color: #dc3545;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    padding: 6px 0;
+    width: 120px;
+    transform: rotate(45deg);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    z-index: 10;
+}
+
+/* Smooth Interactive States */
+.card-clickable {
+    background-color: rgba(108, 117, 125, 0.5); /* fallback translucent bg */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.card-clickable:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2) !important;
+    background-color: rgba(108, 117, 125, 0.6) !important;
+}
+
 :root {
     --pma-red: #cf0039;
     --pma-red-bright: #ff1a52;
