@@ -3,26 +3,28 @@
 <head th:replace="~{fragments/head::headfragment}"></head>
 <body>
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
-<main class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h2>Stuur aankondiging</h2>
+<main class="home-pre">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h2 class="text-white mb-3">Stuur aankondiging</h2>
 
-            <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+                <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
 
-            <form th:action="@{/admin/createnotification}" method="post">
-                <div class="mb-3">
-                    <label for="title" class="form-label">Titel</label>
-                    <input type="text" class="form-control" id="title" name="title" required placeholder="Voer een titel in...">
-                </div>
+                <form th:action="@{/admin/createnotification}" method="post">
+                    <div class="mb-3">
+                        <label for="title" class="form-label text-white">Titel</label>
+                        <input type="text" class="form-control" id="title" name="title" required placeholder="Voer een titel in...">
+                    </div>
 
-                <div class="mb-3">
-                    <label for="message" class="form-label">Bericht</label>
-                    <textarea class="form-control" id="message" name="message" rows="4" required placeholder="Type uw bericht..."></textarea>
-                </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label text-white">Bericht</label>
+                        <textarea class="form-control" id="message" name="message" rows="4" required placeholder="Type uw bericht..."></textarea>
+                    </div>
 
-                <button type="submit" class="btn btn-primary">Verzend</button>
-            </form>
+                    <button type="submit" class="btn btn-primary">Verzend</button>
+                </form>
+            </div>
         </div>
     </div>
 </main>

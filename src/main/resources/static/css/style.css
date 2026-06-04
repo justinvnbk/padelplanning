@@ -3,6 +3,42 @@
    Link in head fragment: th:href="@{/css/style.css}"
    ===================== */
 
+.home{
+    background-image: url("/images/IMG_4251.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.home-pre {
+    background-image:
+            linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, 1) 100%),
+            url("/images/padel.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main.login {
+    background-image:
+            linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, 1) 100%),
+            url("/images/01_Entrance_9e647a5552.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 :root {
     --pma-red: #cf0039;
     --pma-red-bright: #ff1a52;

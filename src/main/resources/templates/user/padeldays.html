@@ -1,59 +1,61 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments/head::headfragment}"></head>
-<body>
+<body class="home-pre">
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 
-<main class="container py-4">
-    <h1 class="text-center mb-5">Geplande padeldagen</h1>
-<!--    <div class="text-end mb-3 w-100" sec:authorize="hasAuthority('ADMIN')">-->
-<!--        <a class="btn btn-primary" th:href="@{/admin/newpadelday}">+ Plan nieuwe padel dag</a>-->
-<!--    </div>-->
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col" th:each="padelDay: ${padelDays}" th:object="${padelDay}" th:if="${padelDay.date.isAfter(#temporals.createNow())}">
-            <div class="card h-100" style="border: none;">
-                <a th:href="@{|/user/signup/*{id}|}" class="text-decoration-none text-black">
-                    <div class="card-header padeldays-card"
-                         th:classappend="|${padelDay.signedUpPlayers.contains(currentUser) ? 'bg-success text-white' : ''}
+<main class="home-pre">
+    <div class="container py-4">
+        <h1 class="text-center text-white mb-5">Geplande padeldagen</h1>
+        <!--    <div class="text-end mb-3 w-100" sec:authorize="hasAuthority('ADMIN')">-->
+        <!--        <a class="btn btn-primary" th:href="@{/admin/newpadelday}">+ Plan nieuwe padel dag</a>-->
+        <!--    </div>-->
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col" th:each="padelDay: ${padelDays}" th:object="${padelDay}" th:if="${padelDay.date.isAfter(#temporals.createNow())}">
+                <div class="card h-100" style="border: none;">
+                    <a th:href="@{|/user/signup/*{id}|}" class="text-decoration-none text-black">
+                        <div class="card-header padeldays-card"
+                             th:classappend="|${padelDay.signedUpPlayers.contains(currentUser) ? 'bg-success text-white' : ''}
                          ${padelDay.reservedPlayers.contains(currentUser) ? 'bg-warning text-dark' : ''}
                          ${!padelDay.reservedPlayers.contains(currentUser) && !padelDay.signedUpPlayers.contains(currentUser) ? 'bg-danger text-white' : ''}|">
-                        <h5 class="card-title mb-0 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                            <h5 class="card-title mb-0 d-flex justify-content-between align-items-center flex-wrap gap-2">
 
-                            <th:block th:text="|*{#temporals.format(date, 'EE', #locale.of('nl', 'NL'))} *{#temporals.format(date, 'dd/MM/yyyy')}|"/>
+                                <th:block th:text="|*{#temporals.format(date, 'EE', #locale.of('nl', 'NL'))} *{#temporals.format(date, 'dd/MM/yyyy')}|"/>
 
-                            <span class="border rounded bg-success px-2 px-lg-3 py-1 bg-opacity-75 fs-6 fw-normal"
-                                  th:if="${padelDay.signedUpPlayers.contains(currentUser)}">Ingeschreven
+                                <span class="border rounded bg-success px-2 px-lg-3 py-1 bg-opacity-75 fs-6 fw-normal"
+                                      th:if="${padelDay.signedUpPlayers.contains(currentUser)}">Ingeschreven
                             </span>
 
-                            <span class="border border-dark rounded bg-warning px-2 px-lg-3 py-1 bg-opacity-75 fs-6 fw-normal text-dark"
-                                  th:if="${padelDay.reservedPlayers.contains(currentUser)}">Op reservelijst
+                                <span class="border border-dark rounded bg-warning px-2 px-lg-3 py-1 bg-opacity-75 fs-6 fw-normal text-dark"
+                                      th:if="${padelDay.reservedPlayers.contains(currentUser)}">Op reservelijst
                             </span>
 
-                            <span class="border rounded bg-danger px-2 px-lg-3 py-1 bg-opacity-75 fs-6 fw-normal"
-                                  th:if="${!padelDay.reservedPlayers.contains(currentUser) && !padelDay.signedUpPlayers.contains(currentUser)}">Niet ingeschreven
+                                <span class="border rounded bg-danger px-2 px-lg-3 py-1 bg-opacity-75 fs-6 fw-normal"
+                                      th:if="${!padelDay.reservedPlayers.contains(currentUser) && !padelDay.signedUpPlayers.contains(currentUser)}">Niet ingeschreven
                             </span>
 
-                        </h5>
-                    </div>
-                    <div class="card-body border border-solid border-dark-subtle rounded-bottom-2 border-top-0">
-                        <p class="card-text">
-                            <strong>Startuur:</strong>
-                            <span th:text="*{#temporals.format(date, 'HH:mm')}"></span>
-                        </p>
-                        <p class="card-text">
-                            <strong>Velden:</strong>
-                            <span th:text="|${#strings.listJoin(padelDay.fields.![name], ',')} (${padelDay.fields.size()*4} plaatsen)|"></span>
-                        </p>
-                        <p class="card-text">
-                            <strong>Inschrijvingen:</strong>
-                            <span th:text="*{signedUpPlayers.size()}"></span>
-                        </p>
-                        <p class="card-text">
-                            <strong>Reserve:</strong>
-                            <span th:text="*{reservedPlayers.size()}"></span>
-                        </p>
-                    </div>
-                </a>
+                            </h5>
+                        </div>
+                        <div class="card-body border border-solid border-dark-subtle rounded-bottom-2 border-top-0">
+                            <p class="card-text">
+                                <strong>Startuur:</strong>
+                                <span th:text="*{#temporals.format(date, 'HH:mm')}"></span>
+                            </p>
+                            <p class="card-text">
+                                <strong>Velden:</strong>
+                                <span th:text="|${#strings.listJoin(padelDay.fields.![name], ',')} (${padelDay.fields.size()*4} plaatsen)|"></span>
+                            </p>
+                            <p class="card-text">
+                                <strong>Inschrijvingen:</strong>
+                                <span th:text="*{signedUpPlayers.size()}"></span>
+                            </p>
+                            <p class="card-text">
+                                <strong>Reserve:</strong>
+                                <span th:text="*{reservedPlayers.size()}"></span>
+                            </p>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

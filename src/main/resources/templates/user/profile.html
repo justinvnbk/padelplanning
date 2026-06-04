@@ -4,159 +4,163 @@
 <body>
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 
-<main class="container-fluid">
-    <form th:action="@{/user/profile}" th:object="${player}" method="post">
-        <div class="row justify-content-center">
-            <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4 my-5">
-                <div class="card border border-subtle rounded-3 shadow-sm">
-                    <div class="card-body p-3 p-md-4 p-xl-5">
-                        <h4 class="text-center mb-4" th:text="${player.name}"></h4>
+<main class="home-pre">
+    <div class="container-fluid">
+        <form th:action="@{/user/profile}" th:object="${player}" method="post">
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4 my-5">
+                    <div class="card border border-subtle rounded-3 shadow-sm">
+                        <div class="card-body p-3 p-md-4 p-xl-5">
+                            <h4 class="text-center mb-4" th:text="${player.name}"></h4>
 
-                        <div th:if="${param.saved}" class="alert alert-success mb-3">
-                            Profiel succesvol opgeslagen.
-                        </div>
-
-                        <div class="row gy-2">
-
-                            <!-- Info read-only only for users -->
-                            <div class="col-12">
-                                <p class="text-secondary mb-1" style="font-size: 0.85rem;"
-                                   sec:authorize="!hasAuthority('ADMIN')">Enkel leesbaar</p>
-
-                                <div class="form-floating mb-3" sec:authorize="!hasAuthority('ADMIN')">
-                                    <input id="nameReadonly" th:value="${player.name}" type="text"
-                                           class="form-control text-secondary border-secondary"
-                                           placeholder="name" disabled/>
-                                    <label for="nameReadonly" style="background-color: transparent;">Naam</label>
-                                </div>
-                                <div class="form-floating mb-3" sec:authorize="hasAuthority('ADMIN')">
-                                    <input id="name" th:field="*{name}" type="text"
-                                           class="form-control border-secondary"
-                                           placeholder="name" required/>
-                                    <label for="name"
-                                           style="background-color: transparent;">Naam</label>
-                                </div>
-
-                                <!-- Email -->
-                                <div class="form-floating mb-3" sec:authorize="!hasAuthority('ADMIN')">
-                                    <input id="emailReadonly" th:value="${player.email}" type="email"
-                                           class="form-control text-secondary border-secondary"
-                                           placeholder="email" disabled/>
-                                    <label for="emailReadonly" style="background-color: transparent;">Email</label>
-                                </div>
-                                <div class="form-floating mb-3" sec:authorize="hasAuthority('ADMIN')">
-                                    <input id="email" th:field="*{email}" type="email"
-                                           class="form-control border-secondary"
-                                           placeholder="email" required/>
-                                    <label for="email"
-                                           style="background-color: transparent;">Email</label>
-                                </div>
-
-                                <!-- Birth Date -->
-                                <div class="form-floating mb-3" sec:authorize="!hasAuthority('ADMIN')">
-                                    <input id="birthDateReadonly"
-                                           th:value="${#dates.format(player.birthDate, 'dd/MM/yyyy')}"
-                                           class="form-control text-secondary border-secondary"
-                                           placeholder="birthDate" disabled/>
-                                    <label for="birthDateReadonly"
-                                           style="background-color: transparent;">Geboortedatum</label>
-                                </div>
-                                <div class="form-floating mb-3" sec:authorize="hasAuthority('ADMIN')">
-                                    <input id="birthDate"
-                                           th:field="*{birthDate}"
-                                           type="date"
-                                           class="form-control border-secondary"
-                                           placeholder="birthDate"
-                                           th:max="${#temporals.format(#temporals.createNow().minusYears(8), 'yyyy-MM-dd')}" />
-                                    <label for="birthDate" style="background-color: transparent;">Geboortedatum</label>
-
-                                    <div th:if="${#fields.hasErrors('birthDate')}" class="text-danger small mt-1" th:errors="*{birthDate}"></div>
-                                </div>
-
-                                <!-- P-Ranking -->
-                                <div class="form-floating mb-3" sec:authorize="!hasAuthority('ADMIN')">
-                                    <input id="pRankingReadonly"
-                                           th:value="${player.pRanking != null ? 'P' + player.pRanking : 'NVT'}"
-                                           class="form-control text-secondary border-secondary"
-                                           placeholder="pRanking" disabled/>
-                                    <label for="pRankingReadonly"
-                                           style="background-color: transparent;">P-Ranking</label>
-                                </div>
-                                <div class="form-floating mb-3" sec:authorize="hasAuthority('ADMIN')">
-                                    <select id="pRanking" name="pRanking"
-                                            class="form-select border-secondary">
-                                        <option value="">NVT</option>
-                                        <option value="50" th:selected="${player.pRanking == 50}">P50</option>
-                                        <option value="100" th:selected="${player.pRanking == 100}">P100</option>
-                                        <option value="200" th:selected="${player.pRanking == 200}">P200</option>
-                                        <option value="300" th:selected="${player.pRanking == 300}">P300</option>
-                                        <option value="400" th:selected="${player.pRanking == 400}">P400</option>
-                                        <option value="500" th:selected="${player.pRanking == 500}">P500</option>
-                                        <option value="700" th:selected="${player.pRanking == 700}">P700</option>
-                                        <option value="1000" th:selected="${player.pRanking == 1000}">P1000</option>
-                                    </select>
-                                    <label for="pRanking" style="background-color: transparent;">P-Ranking</label>
-                                </div>
+                            <div th:if="${param.saved}" class="alert alert-success mb-3">
+                                Profiel succesvol opgeslagen.
                             </div>
 
-                            <!-- Telephone -->
-                            <div class="col-12">
-                                <div class="form-floating mb-3">
-                                    <input
-                                            id="telephone"
-                                            th:field="*{telephone}"
-                                            class="form-control border-secondary"
-                                            placeholder="+32 4XX XX XX XX"
-                                            name="telephone"
-                                            type="tel"
-                                            pattern="\+32[0-9]{9}"
-                                            required
-                                    />
-                                    <label for="telephone" style="background-color: transparent;">
-                                        GSM  <span class="text-danger">*</span> <span class="text-secondary"  style="font-size: small">(bvb. +32456789012)</span>
-                                    </label>
-                            </div>
+                            <div class="row gy-2">
 
-                            <!-- Self Evaluation -->
-                            <div class="col-12">
-                                <div class="form-floating mb-3">
-                                    <select id="selfEvaluation" th:field="*{selfEvaluation}"
-                                            class="form-select border-secondary" required>
-                                        <option th:each="se : ${selfEvaluations}"
-                                                th:value="${se}"
-                                                th:text="${se}"></option>
-                                    </select>
-                                    <label for="selfEvaluation" style="background-color: transparent;">
-                                        Niveau <span class="text-danger">*</span>
-                                    </label>
+                                <!-- Info read-only only for users -->
+                                <div class="col-12">
+                                    <p class="text-secondary mb-1" style="font-size: 0.85rem;"
+                                       sec:authorize="!hasAuthority('ADMIN')">Enkel leesbaar</p>
+
+                                    <div class="form-floating mb-3" sec:authorize="!hasAuthority('ADMIN')">
+                                        <input id="nameReadonly" th:value="${player.name}" type="text"
+                                               class="form-control text-secondary border-secondary"
+                                               placeholder="name" disabled/>
+                                        <label for="nameReadonly" style="background-color: transparent;">Naam</label>
+                                    </div>
+                                    <div class="form-floating mb-3" sec:authorize="hasAuthority('ADMIN')">
+                                        <input id="name" th:field="*{name}" type="text"
+                                               class="form-control border-secondary"
+                                               placeholder="name" required/>
+                                        <label for="name"
+                                               style="background-color: transparent;">Naam</label>
+                                    </div>
+
+                                    <!-- Email -->
+                                    <div class="form-floating mb-3" sec:authorize="!hasAuthority('ADMIN')">
+                                        <input id="emailReadonly" th:value="${player.email}" type="email"
+                                               class="form-control text-secondary border-secondary"
+                                               placeholder="email" disabled/>
+                                        <label for="emailReadonly" style="background-color: transparent;">Email</label>
+                                    </div>
+                                    <div class="form-floating mb-3" sec:authorize="hasAuthority('ADMIN')">
+                                        <input id="email" th:field="*{email}" type="email"
+                                               class="form-control border-secondary"
+                                               placeholder="email" required/>
+                                        <label for="email"
+                                               style="background-color: transparent;">Email</label>
+                                    </div>
+
+                                    <!-- Birth Date -->
+                                    <div class="form-floating mb-3" sec:authorize="!hasAuthority('ADMIN')">
+                                        <input id="birthDateReadonly"
+                                               th:value="${#dates.format(player.birthDate, 'dd/MM/yyyy')}"
+                                               class="form-control text-secondary border-secondary"
+                                               placeholder="birthDate" disabled/>
+                                        <label for="birthDateReadonly"
+                                               style="background-color: transparent;">Geboortedatum</label>
+                                    </div>
+                                    <div class="form-floating mb-3" sec:authorize="hasAuthority('ADMIN')">
+                                        <input id="birthDate"
+                                               th:field="*{birthDate}"
+                                               type="date"
+                                               class="form-control border-secondary"
+                                               placeholder="birthDate"
+                                               th:max="${#temporals.format(#temporals.createNow().minusYears(8), 'yyyy-MM-dd')}" />
+                                        <label for="birthDate" style="background-color: transparent;">Geboortedatum</label>
+
+                                        <div th:if="${#fields.hasErrors('birthDate')}" class="text-danger small mt-1" th:errors="*{birthDate}"></div>
+                                    </div>
+
+                                    <!-- P-Ranking -->
+                                    <div class="form-floating mb-3" sec:authorize="!hasAuthority('ADMIN')">
+                                        <input id="pRankingReadonly"
+                                               th:value="${player.pRanking != null ? 'P' + player.pRanking : 'NVT'}"
+                                               class="form-control text-secondary border-secondary"
+                                               placeholder="pRanking" disabled/>
+                                        <label for="pRankingReadonly"
+                                               style="background-color: transparent;">P-Ranking</label>
+                                    </div>
+                                    <div class="form-floating mb-3" sec:authorize="hasAuthority('ADMIN')">
+                                        <select id="pRanking" name="pRanking"
+                                                class="form-select border-secondary">
+                                            <option value="">NVT</option>
+                                            <option value="50" th:selected="${player.pRanking == 50}">P50</option>
+                                            <option value="100" th:selected="${player.pRanking == 100}">P100</option>
+                                            <option value="200" th:selected="${player.pRanking == 200}">P200</option>
+                                            <option value="300" th:selected="${player.pRanking == 300}">P300</option>
+                                            <option value="400" th:selected="${player.pRanking == 400}">P400</option>
+                                            <option value="500" th:selected="${player.pRanking == 500}">P500</option>
+                                            <option value="700" th:selected="${player.pRanking == 700}">P700</option>
+                                            <option value="1000" th:selected="${player.pRanking == 1000}">P1000</option>
+                                        </select>
+                                        <label for="pRanking" style="background-color: transparent;">P-Ranking</label>
+                                    </div>
+                                </div>
+
+                                <!-- Telephone -->
+                                <div class="col-12">
+                                    <div class="form-floating mb-3">
+                                        <input
+                                                id="telephone"
+                                                th:field="*{telephone}"
+                                                class="form-control border-secondary"
+                                                placeholder="+32 4XX XX XX XX"
+                                                name="telephone"
+                                                type="tel"
+                                                pattern="\+32[0-9]{9}"
+                                                required
+                                        />
+                                        <label for="telephone" style="background-color: transparent;">
+                                            GSM  <span class="text-danger">*</span> <span class="text-secondary"  style="font-size: small">(bvb. +32456789012)</span>
+                                        </label>
+                                    </div>
+
+                                    <!-- Self Evaluation -->
+                                    <div class="col-12">
+                                        <div class="form-floating mb-3">
+                                            <select id="selfEvaluation" th:field="*{selfEvaluation}"
+                                                    class="form-select border-secondary" required>
+                                                <option th:each="se : ${selfEvaluations}"
+                                                        th:value="${se}"
+                                                        th:text="${se}"></option>
+                                            </select>
+                                            <label for="selfEvaluation" style="background-color: transparent;">
+                                                Niveau <span class="text-danger">*</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Preferred Playside -->
+                                    <div class="col-12">
+                                        <div class="form-floating mb-3">
+                                            <select id="preferredPlayside" th:field="*{preferredPlayside}"
+                                                    class="form-select border-secondary" required>
+                                                <option th:each="ps : ${playsides}"
+                                                        th:value="${ps}"
+                                                        th:text="${ps}"></option>
+                                            </select>
+                                            <label for="preferredPlayside"
+                                                   style="background-color: transparent;">
+                                                Voorkeurszijde <span class="text-danger">*</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-pma btn-block mb-4">
+                                        Opslaan
+                                    </button>
                                 </div>
                             </div>
-
-                            <!-- Preferred Playside -->
-                            <div class="col-12">
-                                <div class="form-floating mb-3">
-                                    <select id="preferredPlayside" th:field="*{preferredPlayside}"
-                                            class="form-select border-secondary" required>
-                                        <option th:each="ps : ${playsides}"
-                                                th:value="${ps}"
-                                                th:text="${ps}"></option>
-                                    </select>
-                                    <label for="preferredPlayside"
-                                           style="background-color: transparent;">
-                                        Voorkeurszijde <span class="text-danger">*</span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <button type="submit" class="btn btn-pma btn-block mb-4">
-                                Opslaan
-                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
+
 </main>
 
 <footer th:replace="~{fragments/headerfooter::footer}"></footer>
