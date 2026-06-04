@@ -4,8 +4,11 @@
 <body>
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 <main class="container-fluid">
-    <div th:if="${param.registered}" class="alert alert-success mt-3 mb-0">
+    <div th:if="${param.registered}" class="alert alert-success mt-3 mb-0 text-center col-12 col-md-4 mx-auto">
         Registratie succesvol! Wacht op goedkeuring van de admin.
+    </div>
+    <div th:if="${param.error}" class="alert alert-danger mt-3 mb-0 text-center col-12 col-md-4 mx-auto">
+        Onjuist e-mailadres of wachtwoord. Probeer het opnieuw.
     </div>
     <h1 class="text-center mt-5">Inloggen</h1>
     <form th:action="@{|/login|}" method="post">
