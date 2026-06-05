@@ -216,6 +216,10 @@ main {
     color: black !important;
 }
 
+.list-players:hover {
+    color: grey !important;
+}
+
 @media screen and (max-width: 767px) {
     .navbar-nav .nav-link, .navbar-nav .btn {
         border: none !important;
@@ -269,6 +273,7 @@ main {
     .list-players {
         font-size: 1rem !important;
     }
+
 
     .list-players-signup {
         font-size: 1.1rem !important;
