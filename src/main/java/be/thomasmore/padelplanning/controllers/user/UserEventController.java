@@ -11,10 +11,10 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/user")
-public class ClubEventController {
+public class UserEventController {
     private final ClubEventRepository clubEventRepository;
 
-    public ClubEventController(ClubEventRepository clubEventRepository) {
+    public UserEventController(ClubEventRepository clubEventRepository) {
         this.clubEventRepository = clubEventRepository;
     }
 
