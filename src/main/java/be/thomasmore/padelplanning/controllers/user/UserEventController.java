@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.List;
@@ -55,5 +57,45 @@ public class UserEventController {
         model.addAttribute("isFull", isFull);
 
         return "user/eventdetails";
+    }
+
+    @PostMapping("/events/{eventId}/register")
+    public String registerForEvent(@PathVariable Integer eventId,
+                                   Principal principal,
+                                   RedirectAttributes redirectAttributes) {
+
+        Optional<ClubEvent> optionalClubEvent = clubEventRepository.findById(eventId);
+
+        if (optionalClubEvent.isEmpty() || !optionalClubEvent.get().isPublished()) {
+            return "redirect:/user/events";
+        }
+
+        ClubEvent clubEvent = optionalClubEvent.get();
+        Player loggedPlayer = playerRepository.findByEmail(principal.getName());
+
+        boolean isFull = clubEvent.getMaximumParticipants() != null
+                && clubEvent.getParticipants().size() >= clubEvent.getMaximumParticipants();
+
+        if (clubEvent.getParticipants().contains(loggedPlayer)) {
+            redirectAttributes.addFlashAttribute(
+                    "alertWarning",
+                    "U bent al ingeschreven voor dit evenement."
+            );
+        } else if (isFull) {
+            redirectAttributes.addFlashAttribute(
+                    "alertDanger",
+                    "Dit evenement is volzet."
+            );
+        } else {
+            clubEvent.getParticipants().add(loggedPlayer);
+            clubEventRepository.save(clubEvent);
+
+            redirectAttributes.addFlashAttribute(
+                    "alertSuccess",
+                    "U bent succesvol ingeschreven voor het evenement."
+            );
+        }
+
+        return "redirect:/user/events/" + eventId;
     }
 }
