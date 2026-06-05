@@ -5,13 +5,13 @@
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 
 <main class="home-pre" sec:authorize="isAuthenticated()">
-    <div th:if="${padelDay != null and !padelDay.matches.isEmpty()}">
+    <div th:if="${padelDay != null and padelDay.published and padelDay.signedUpPlayers.contains(currentUser)}">
         <h1 class="text-center text-light py-1 col-md-6 mx-auto my-5">Overzicht eerst volgende speelmomenten</h1>
         <div th:replace="~{fragments/plantable::plantablefragment}"></div>
     </div>
     <div class="fs-2 p-3 text-center text-white bg-dark m-5 rounded home-message"
-         th:if="${padelDay == null or padelDay.matches.isEmpty()}">
-        Er is nog geen planning voor de komende padeldag<span sec:authorize="hasAuthority('USER')">, kom later terug of kijk bij de <a
+         th:unless="${padelDay != null and padelDay.published and padelDay.signedUpPlayers.contains(currentUser)}">
+        Er is nog geen planning voor uw komende inschrijving<span sec:authorize="hasAuthority('USER')">, kom later terug of kijk bij de <a
             class="text-decoration-none" th:href="@{/user/padeldays}">Inschrijven</a> pagina.</span>
     </div>
 </main>
@@ -20,8 +20,8 @@
     <div class="fs-2 p-2 text-center text-white bg-dark m-5 rounded home-message col-11 col-md-7 mx-auto">
         <div>
             <a class="text-decoration-none" th:href="@{/login}">Inloggen</a> of <a class="text-decoration-none"
-                                                                                 th:href="@{/register}">registreer</a> u
-            om de planning van de volgende padeldag te bekijken.
+                                                                                   th:href="@{/register}">registreer</a>
+            u om de planning van de volgende padeldag te bekijken.
         </div>
     </div>
 </main>
