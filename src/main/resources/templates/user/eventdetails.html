@@ -50,6 +50,27 @@
               <p class="mb-0"><span th:text="*{participants.size()}"></span><span th:if="*{maximumParticipants != null}">/<span th:text="*{maximumParticipants}"></span></span>deelnemers</p>
             </div>
 
+            <div class="mt-4 pt-4 border-top">
+
+              <div th:if="${alertSuccess}" class="alert alert-success" th:text="${alertSuccess}"></div>
+
+              <div th:if="${alertWarning}" class="alert alert-warning" th:text="${alertWarning}"></div>
+
+              <div th:if="${alertDanger}" class="alert alert-danger" th:text="${alertDanger}"></div>
+
+              <div th:if="${isRegistered}" class="alert alert-success mb-0">U bent ingeschreven voor dit evenement.</div>
+
+              <div th:unless="${isRegistered}">
+                <div th:if="${isFull}" class="alert alert-danger mb-0">Dit evenement is volzet.</div>
+                <form th:unless="${isFull}" th:action="@{/user/events/{id}/register(id=${clubEvent.id})}" method="post">
+                  <button class="btn btn-success w-100" type="submit">
+                    Inschrijven voor evenement
+                  </button>
+                </form>
+              </div>
+
+            </div>
+
           </div>
 
         </div>
