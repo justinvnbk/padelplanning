@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -18,6 +19,15 @@ public class ClubEventController {
 
     public ClubEventController(ClubEventRepository clubEventRepository) {
         this.clubEventRepository = clubEventRepository;
+    }
+
+    @GetMapping("/events")
+    public String events(Model model) {
+        List<ClubEvent> clubEvents = clubEventRepository.findAllOrdered();
+
+        model.addAttribute("clubEvents", clubEvents);
+
+        return "admin/events";
     }
 
     @GetMapping("/newevent")
