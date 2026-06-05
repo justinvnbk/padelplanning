@@ -40,9 +40,13 @@
                     </div>
                 </div>
             </div>
+            <div class="d-flex justify-content-center justify-content-md-start gap-2 mt-4">
+                <a class="btn btn-primary text-nowrap" id="selectAllFields">Alle velden</a>
+                <a class="btn btn-primary text-nowrap" id="deSelectAllFields">Clear velden</a>
+            </div>
             <div class="d-flex justify-content-between align-items-center mt-5 pt-3 border-top">
                 <a class="btn btn-danger px-4" th:href="@{|/user/signup/*{id}|}">Annuleer</a>
-                <button class="btn btn-primary px-5 fw-bold shadow-sm" type="submit">Opslaan</button>
+                <button class="btn btn-primary ms-5 px-3 fw-bold shadow-sm" type="submit">Opslaan</button>
             </div>
         </div>
     </form>
@@ -59,5 +63,19 @@
 </main>
 <footer th:replace="~{fragments/headerfooter::footer}"></footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+<script>
+    document.getElementById("selectAllFields").addEventListener("click", () => {
+        for (let i = 1; i < 12; i++) {
+            const fieldEl = document.getElementById("field-" + i);
+            fieldEl.checked = true;
+        }
+    });
+    document.getElementById("deSelectAllFields").addEventListener("click", () => {
+        for (let i = 1; i < 12; i++) {
+            const fieldEl = document.getElementById("field-" + i);
+            fieldEl.checked = false;
+        }
+    });
+</script>
 </body>
 </html>
