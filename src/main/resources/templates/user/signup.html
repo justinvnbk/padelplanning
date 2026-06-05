@@ -4,7 +4,7 @@
 <body>
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 
-<main class="home-pre" th:if="${padelDay != null}">
+<main class="home-pre" th:if="${padelDay != null and padelDay.date.isAfter(#temporals.createNow().minusDays(1))}">
     <div class="container py-4" th:object="${padelDay}">
         <h2 style="font-size: 2.5rem" class="mb-4 text-center text-white info-title">Algemene informatie over de volgende
             padeldag:</h2>
@@ -274,7 +274,7 @@
         </div>
     </div>
 </main>
-<main th:if="${padelDay == null}">
+<main th:unless="${padelDay != null and padelDay.date.isAfter(#temporals.createNow().minusDays(1))}">
     <div class="fs-2 p-5 text-center text-white bg-dark m-5 rounded">
         De padeldag die u zoekt kan niet gevonden worden
     </div>
