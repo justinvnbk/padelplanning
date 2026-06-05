@@ -1,8 +1,11 @@
 package be.thomasmore.padelplanning.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Digits;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +28,10 @@ public class ClubEvent {
     private boolean published;
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Player> participants = new ArrayList<>();
+    @Column(precision = 10, scale = 2, nullable = false)
+    @DecimalMin(value = "0.00")
+    @Digits(integer = 8, fraction = 2)
+    private BigDecimal price = BigDecimal.ZERO;
 
     public Integer getId() {
         return id;
@@ -96,5 +103,13 @@ public class ClubEvent {
 
     public void setParticipants(List<Player> participants) {
         this.participants = participants;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }
