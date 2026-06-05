@@ -199,6 +199,9 @@ public class PlanController {
                                    Principal principal) {
         Player loggedInAdmin = playerRepository.findByEmail(principal.getName());
         Optional<PadelDay> optionalPadelDayOld = padelDayRepository.findById(padelDay.getId());
+
+
+
         if (optionalPadelDayOld.isPresent()) {
             PadelDay padelDayOld = optionalPadelDayOld.get();
             List<Player> signedUpPlayers = padelDay.getSignedUpPlayers();
@@ -221,22 +224,37 @@ public class PlanController {
 
             if (!new HashSet<>(padelDayOld.getFields()).containsAll(padelDay.getFields()) && !new HashSet<>(padelDay.getFields()).containsAll(padelDayOld.getFields())) {
                 createPadelDayPlanService.newPadelDayPlan(padelDay);
+
             }
 
+
+            List<Player> recipients = new ArrayList<>(padelDay.getSignedUpPlayers());
+            recipients.addAll(padelDay.getReservedPlayers());
+
+            if (!padelDayOld.getDate().equals(padelDay.getDate())) {
+                notificationService.createNotification("Aanpassing speelmoment",
+                        "Een padeldag waarvoor u ingeschreven bent vindt nu plaats op "
+                                + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM 'om' HH:mm"))
+                                + " in plaats van "
+                                + padelDayOld.getDate().format(DateTimeFormatter.ofPattern("dd/MM HH:mm")),
+                        recipients,
+                        true,
+                        padelDay.getId());
+            }
+
+            if (!new HashSet<>(padelDayOld.getFields()).equals(new HashSet<>(padelDay.getFields()))){
+                notificationService.createNotification("Aanpassing speelmoment",
+                        "De velden van een padeldag waarvoor u bent ingeschreven, worden gewijzigd.",
+                        recipients,
+                        true,
+                        padelDay.getId());
+            }
 
         }
         padelDay.setNumberOfMatches(3);
 
         padelDayRepository.save(padelDay);
 
-
-        List<Player> recipients = padelDay.getSignedUpPlayers();
-        recipients.addAll(padelDay.getReservedPlayers());
-        notificationService.createNotification("Aanpassing speelmoment",
-                "Het speelmoment is aangepast door " + loggedInAdmin.getName() + ". Bekijk het bij de inschrijvingen!",
-                recipients,
-                true,
-                padelDay.getId());
         return "redirect:/user/signup/" + padelDay.getId();
     }
 
