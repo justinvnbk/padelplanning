@@ -217,11 +217,16 @@ public class PlanController {
                 }
             }
 
-            if (padelDayOld.isPublished()) {
+            padelDay.setMatches(padelDayOld.getMatches());
+
+            if (!new HashSet<>(padelDayOld.getFields()).containsAll(padelDay.getFields()) && !new HashSet<>(padelDay.getFields()).containsAll(padelDayOld.getFields())) {
                 createPadelDayPlanService.newPadelDayPlan(padelDay);
             }
+
+
         }
         padelDay.setNumberOfMatches(3);
+
         padelDayRepository.save(padelDay);
 
 
@@ -232,7 +237,7 @@ public class PlanController {
                 recipients,
                 true,
                 padelDay.getId());
-        return "redirect:/admin/padeldays";
+        return "redirect:/user/signup/" + padelDay.getId();
     }
 
     @PostMapping("/publishplan/{id}")
