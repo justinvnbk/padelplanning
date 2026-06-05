@@ -7,57 +7,108 @@
 
 <main class="home-pre">
     <div class="container py-5">
+        <section class="mb-5">
 
-        <h1 class="text-center text-light mb-5">Aankomende evenementen</h1>
+            <h2 class="mb-4 text-light">Jouw evenementen</h2>
 
-        <div th:if="${clubEvents.isEmpty()}" class="alert alert-info text-center">
-            Er zijn momenteel geen aankomende evenementen.
-        </div>
+            <div th:if="${yourEvents.isEmpty()}" class="alert alert-info">U bent momenteel voor geen enkel evenement ingeschreven.</div>
 
-        <div class="row g-4" th:unless="${clubEvents.isEmpty()}">
+            <div class="row g-4" th:unless="${yourEvents.isEmpty()}">
 
-            <div class="col-12 col-md-6 col-lg-4" th:each="clubEvent : ${clubEvents}">
+                <div class="col-12 col-md-6 col-lg-4" th:each="clubEvent : ${yourEvents}">
 
-                <div class="card h-100 shadow-sm">
+                    <div class="card h-100 shadow-sm">
 
-                    <a th:href="@{/user/events/{id}(id=${clubEvent.id})}" class="text-decoration-none text-black h-100">
+                        <a th:href="@{/user/events/{id}(id=${clubEvent.id})}" class="text-decoration-none text-black h-100">
 
-                        <div class="card-header bg-dark text-white p-3">
-                            <h2 class="h4 mb-0" th:text="${clubEvent.title}"></h2>
-                        </div>
+                            <div class="card-header bg-success text-white p-3">
+                                <h3 class="h4 mb-0" th:text="${clubEvent.title}"></h3>
+                            </div>
 
-                        <div class="card-body">
-                            <p class="card-text text-secondary" th:if="${clubEvent.description != null && !clubEvent.description.isBlank()}" th:text="${clubEvent.description}"></p>
+                            <div class="card-body">
 
-                            <p class="card-text">
-                                <strong>Locatie:</strong>
-                                <span th:text="${clubEvent.location}"></span>
-                            </p>
+                                <p th:if="${clubEvent.description != null && !clubEvent.description.isBlank()}"th:text="${clubEvent.description}"></p>
 
-                            <p class="card-text">
-                                <strong>Start:</strong>
-                                <span th:text="${#temporals.format(clubEvent.startDateTime,'dd-MM-yyyy HH:mm')}"></span>
-                            </p>
+                                <p>
+                                    <strong>Locatie:</strong>
+                                    <span th:text="${clubEvent.location}"></span>
+                                </p>
 
-                            <p class="card-text">
-                                <strong>Einde:</strong>
-                                <span th:text="${#temporals.format(clubEvent.endDateTime,'dd-MM-yyyy HH:mm')}"></span>
-                            </p>
+                                <p>
+                                    <strong>Start:</strong>
+                                    <span th:text="${#temporals.format(clubEvent.startDateTime,'dd-MM-yyyy HH:mm')}"></span>
+                                </p>
 
-                            <p class="card-text mb-0">
-                                <strong>Deelnemers:</strong>
-                                <span th:text="${clubEvent.participants.size()}"></span>
-                                <span th:if="${clubEvent.maximumParticipants != null}">/<span th:text="${clubEvent.maximumParticipants}"></span></span>
-                            </p>
+                                <p class="mb-0">
+                                    <strong>Deelnemers:</strong>
 
-                        </div>
-                    </a>
+                                    <span th:text="${clubEvent.participants.size()}"></span>
 
+                                    <span th:if="${clubEvent.maximumParticipants != null}">
+                                /
+                                <span th:text="${clubEvent.maximumParticipants}"></span>
+                            </span>
+                                </p>
+
+                            </div>
+                        </a>
+
+                    </div>
                 </div>
+
             </div>
+        </section>
 
-        </div>
+        <section>
+            <h2 class="mb-4 text-light">Andere evenementen</h2>
 
+            <div th:if="${otherEvents.isEmpty()}" class="alert alert-info">Er zijn momenteel geen andere aankomende evenementen.</div>
+
+            <div class="row g-4" th:unless="${otherEvents.isEmpty()}">
+
+                <div class="col-12 col-md-6 col-lg-4" th:each="clubEvent : ${otherEvents}">
+
+                    <div class="card h-100 shadow-sm">
+
+                        <a th:href="@{/user/events/{id}(id=${clubEvent.id})}" class="text-decoration-none text-black h-100">
+
+                            <div class="card-header bg-secondary text-white p-3">
+                                <h3 class="h4 mb-0" th:text="${clubEvent.title}"></h3>
+                            </div>
+
+                            <div class="card-body">
+
+                                <p th:if="${clubEvent.description != null && !clubEvent.description.isBlank()}"th:text="${clubEvent.description}"></p>
+
+                                <p>
+                                    <strong>Locatie:</strong>
+                                    <span th:text="${clubEvent.location}"></span>
+                                </p>
+
+                                <p>
+                                    <strong>Start:</strong>
+                                    <span th:text="${#temporals.format(clubEvent.startDateTime,'dd-MM-yyyy HH:mm')}"></span>
+                                </p>
+
+                                <p class="mb-0">
+                                    <strong>Deelnemers:</strong>
+
+                                    <span th:text="${clubEvent.participants.size()}"></span>
+
+                                    <span th:if="${clubEvent.maximumParticipants != null}">
+                                /
+                                <span th:text="${clubEvent.maximumParticipants}"></span>
+                            </span>
+                                </p>
+
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
     </div>
 </main>
 
