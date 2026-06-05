@@ -196,7 +196,8 @@ public class PlanController {
     @PostMapping("/editpadelday")
     public String postEditPadelDay(Model model,
                                    PadelDay padelDay,
-                                   Principal principal) {
+                                   Principal principal,
+                                   RedirectAttributes ra) {
         Player loggedInAdmin = playerRepository.findByEmail(principal.getName());
         Optional<PadelDay> optionalPadelDayOld = padelDayRepository.findById(padelDay.getId());
 
@@ -250,8 +251,14 @@ public class PlanController {
                         padelDay.getId());
             }
 
+
+            if (!padelDayOld.getDate().equals(padelDay.getDate()) || !new HashSet<>(padelDayOld.getFields()).equals(new HashSet<>(padelDay.getFields()))) {
+                ra.addFlashAttribute("saved" , "Planning succesvol opgeslaan");
+            }
         }
         padelDay.setNumberOfMatches(3);
+
+
 
         padelDayRepository.save(padelDay);
 

@@ -46,6 +46,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
 
+            <div th:if="${saved}" class="alert alert-success alert-dismissible fade show text-center shadow-sm col-12 col-md-8 mx-auto" role="alert">
+
+                <span th:text="${saved}"></span>
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+            </div>
+
             <div class="col-12 col-md-6 d-flex flex-column flex-sm-row justify-content-center justify-content-sm-start align-items-center gap-3 my-2">
 
                 <a style="font-size: 1.2rem" class="btn btn-primary px-3 py-2 fw-bold shadow-sm admin-btn-spec"
