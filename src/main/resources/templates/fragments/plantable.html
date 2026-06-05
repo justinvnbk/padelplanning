@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <div th:each="field : ${padelDay.fields}" th:if="${#lists.contains(padelDay.matches.![field], field)}" class="border border-black">
+    <div th:each="field : ${padelDay.fields}" th:if="${#lists.contains(padelDay.matches.![field], field)}" class="border-match">
         <div class="container-fluid p-0">
 
             <div class="row g-0 border-start border-end border-bottom border-dark">
