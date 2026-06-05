@@ -51,10 +51,17 @@
 
                         <div>
                             <h2 class="h5 fw-bold">Deelnemers</h2>
-                            <p class="mb-0">
-                                <span th:text="*{participants.size()}"></span><span th:if="*{maximumParticipants != null}">/<span th:text="*{maximumParticipants}"></span></span>
-                                deelnemers
-                            </p>
+
+                            <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-3">
+
+                                <p class="mb-0">
+                                    <span th:text="*{participants.size()}">0</span>
+                                    <span th:if="*{maximumParticipants != null}">/<span th:text="*{maximumParticipants}"></span></span>
+                                    deelnemers
+                                </p>
+                                <a class="btn btn-outline-primary" th:href="@{/admin/events/{id}/participants(id=*{id})}">Alle deelnemers bekijken</a>
+
+                            </div>
                         </div>
 
                     </div>
