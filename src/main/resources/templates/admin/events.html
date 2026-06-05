@@ -60,18 +60,6 @@
 
                         </div>
                     </a>
-
-                    <div class="card-footer bg-transparent d-flex gap-2">
-                        <a class="btn btn-outline-primary flex-grow-1" th:href="@{/admin/events/{id}/edit(id=${clubEvent.id})}">Bewerken</a>
-
-                        <form th:action="@{/admin/events/{id}/delete(id=${clubEvent.id})}" method="post" class="flex-grow-1">
-                            <button class="btn btn-outline-danger w-100" type="submit">
-                                Verwijderen
-                            </button>
-                        </form>
-
-                    </div>
-
                 </div>
             </div>
 
