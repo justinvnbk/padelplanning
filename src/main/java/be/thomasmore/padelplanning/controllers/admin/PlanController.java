@@ -41,12 +41,15 @@ public class PlanController {
 
     //Create a new plan for the current PadelDay
     @PostMapping("/plan")
-    public String postPlan(Model model, @RequestParam int id) {
+    public String postPlan(Model model, @RequestParam int id, RedirectAttributes ra) {
         Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(id);
         if (optionalPadelDay.isPresent()) {
             PadelDay padelDay = optionalPadelDay.get();
             if (!padelDay.getSignedUpPlayers().isEmpty()) {
                 createPadelDayPlanService.newPadelDayPlan(padelDay);
+            }
+            if (padelDay.getSignedUpPlayers().isEmpty()) {
+                ra.addFlashAttribute("noPlayerError", "Er zijn geen spelers om een planning aan te maken!");
             }
         }
         return "redirect:/user/signup/" + id;
