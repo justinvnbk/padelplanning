@@ -73,4 +73,17 @@ public class ClubEventController {
 
         return "redirect:/admin/events";
     }
+
+    @GetMapping("/events/{eventId}/edit")
+    public String editEvent (Model model, @PathVariable Integer eventId) {
+        Optional<ClubEvent> optionalClubEvent = clubEventRepository.findById(eventId);
+
+        if (optionalClubEvent.isEmpty()) {
+            return "redirect:/admin/events";
+        }
+
+        model.addAttribute("clubEvent", optionalClubEvent.get());
+
+        return "admin/editevent";
+    }
 }
