@@ -28,10 +28,24 @@ public class UserEventController {
     }
 
     @GetMapping("/events")
-    public String events (Model model) {
-        List<ClubEvent> clubEvents = clubEventRepository.findUpcomingPublishedEvents();
+    public String events(Model model, Principal principal) {
+        List<ClubEvent> clubEvents =
+                clubEventRepository.findUpcomingPublishedEvents();
 
-        model.addAttribute("clubEvents", clubEvents);
+        Player loggedPlayer = playerRepository.findByEmail(principal.getName());
+
+        List<ClubEvent> yourEvents = clubEvents.stream()
+                .filter(clubEvent ->
+                        clubEvent.getParticipants().contains(loggedPlayer))
+                .toList();
+
+        List<ClubEvent> otherEvents = clubEvents.stream()
+                .filter(clubEvent ->
+                        !clubEvent.getParticipants().contains(loggedPlayer))
+                .toList();
+
+        model.addAttribute("yourEvents", yourEvents);
+        model.addAttribute("otherEvents", otherEvents);
 
         return "user/events";
     }
