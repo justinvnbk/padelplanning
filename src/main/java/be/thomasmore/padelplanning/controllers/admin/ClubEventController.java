@@ -5,11 +5,13 @@ import be.thomasmore.padelplanning.repositories.ClubEventRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
@@ -47,5 +49,18 @@ public class ClubEventController {
         clubEventRepository.save(clubEvent);
 
         return "redirect:/admin/events";
+    }
+
+    @GetMapping("/events/{eventId}")
+    public String eventDetails (Model model, @PathVariable Integer eventId) {
+        Optional<ClubEvent> optionalClubEvent = clubEventRepository.findById(eventId);
+
+        if (optionalClubEvent.isPresent()) {
+            model.addAttribute("clubEvent", optionalClubEvent.get());
+        } else {
+            model.addAttribute("clubEvent", null);
+        }
+
+        return "admin/eventdetails";
     }
 }
