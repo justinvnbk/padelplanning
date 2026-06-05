@@ -16,7 +16,7 @@
       <div class="col-12 col-md-10 col-lg-8 col-xl-7">
 
         <div class="card border border-subtle rounded-3 shadow-sm" th:object="${clubEvent}">
-          <div class="card-header bg-dark text-white p-3">
+          <div class="card-header text-white p-3" th:classappend="${isRegistered} ? ' bg-success' : ' bg-secondary'">
             <h1 class="h3 mb-0" th:text="*{title}"></h1>
           </div>
 
