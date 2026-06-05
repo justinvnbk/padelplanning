@@ -63,4 +63,14 @@ public class ClubEventController {
 
         return "admin/eventdetails";
     }
+
+    @PostMapping("/events/{eventId}/delete")
+    public String deleteEvent (@PathVariable Integer eventId) {
+
+        if (clubEventRepository.existsById(eventId)) {
+            clubEventRepository.deleteById(eventId);
+        }
+
+        return "redirect:/admin/events";
+    }
 }
