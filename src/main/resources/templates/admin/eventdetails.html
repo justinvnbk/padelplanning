@@ -36,7 +36,6 @@
                         </div>
 
                         <div class="row g-4 mb-4">
-
                             <div class="col-12 col-md-6">
                                 <h2 class="h5 fw-bold">Start</h2>
                                 <p class="mb-0" th:text="${#temporals.format(clubEvent.startDateTime,'dd-MM-yyyy HH:mm')}"></p>
@@ -46,7 +45,14 @@
                                 <h2 class="h5 fw-bold">Einde</h2>
                                 <p class="mb-0" th:text="${#temporals.format(clubEvent.endDateTime,'dd-MM-yyyy HH:mm')}"></p>
                             </div>
+                        </div>
 
+                        <div class="mb-4">
+                            <h2 class="h5 fw-bold">Prijs</h2>
+                            <p class="mb-0">
+                                <span th:if="${clubEvent.price.signum() == 0}">Gratis</span>
+                                <span th:unless="${clubEvent.price.signum() == 0}">€ <span th:text="${#numbers.formatDecimal(clubEvent.price, 1, 2)}"></span></span>
+                            </p>
                         </div>
 
                         <div>
