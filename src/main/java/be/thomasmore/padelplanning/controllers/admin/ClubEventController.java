@@ -86,4 +86,26 @@ public class ClubEventController {
 
         return "admin/editevent";
     }
+
+    @PostMapping("/events/{eventId}/edit")
+    public String updateEvent (@PathVariable Integer eventId, ClubEvent submittedEvent) {
+        Optional<ClubEvent> optionalClubEvent = clubEventRepository.findById(eventId);
+
+        if (optionalClubEvent.isEmpty()) {
+            return "redirect:/admin/events";
+        }
+
+        ClubEvent existingEvent = optionalClubEvent.get();
+
+        existingEvent.setTitle(submittedEvent.getTitle());
+        existingEvent.setDescription(submittedEvent.getDescription());
+        existingEvent.setLocation(submittedEvent.getLocation());
+        existingEvent.setStartDateTime(submittedEvent.getStartDateTime());
+        existingEvent.setEndDateTime(submittedEvent.getEndDateTime());
+        existingEvent.setMaximumParticipants(submittedEvent.getMaximumParticipants());
+
+        clubEventRepository.save(existingEvent);
+
+        return "redirect:/admin/events/" + eventId;
+    }
 }
