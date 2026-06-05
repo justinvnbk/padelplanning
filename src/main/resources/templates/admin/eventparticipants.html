@@ -14,6 +14,19 @@
 
     <div class="row justify-content-center">
       <div class="col-12 col-lg-9">
+        <form class="d-flex justify-content-end mb-4" method="get" th:action="@{/admin/events/{id}/participants(id=${clubEvent.id})}">
+          <div class="input-group col-12 col-md-6 col-lg-4">
+
+            <input class="form-control" type="search" name="searchTerm" th:value="${searchTerm}" placeholder="Zoek deelnemer...">
+            <button class="btn btn-primary" type="submit">
+              Zoeken
+            </button>
+            <a class="btn btn-outline-secondary" th:if="${searchTerm != null && !searchTerm.isBlank()}" th:href="@{/admin/events/{id}/participants(id=${clubEvent.id})}">
+              Wissen
+            </a>
+
+          </div>
+        </form>
 
         <div class="card border border-subtle rounded-3 shadow-sm" th:object="${clubEvent}">
 
@@ -29,15 +42,15 @@
               <span th:if="*{maximumParticipants != null}">/<span th:text="*{maximumParticipants}"></span></span>
             </p>
 
-            <div th:if="*{participants.isEmpty()}" class="alert alert-info mb-0">
+            <div th:if="${participants.isEmpty()}" class="alert alert-info mb-0">
               Er zijn nog geen deelnemers ingeschreven.
             </div>
 
             <div class="row g-3"
-                 th:unless="*{participants.isEmpty()}">
+                 th:unless="${participants.isEmpty()}">
 
               <div class="col-12 col-md-6 col-xl-4"
-                   th:each="participant : *{participants}">
+                   th:each="participant : ${participants}">
 
                 <div class="card h-100 border border-subtle shadow-sm">
                   <div class="card-body">
