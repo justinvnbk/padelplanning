@@ -186,6 +186,8 @@ public class PlanController {
         if (optionalPadelDay.isPresent()) {
             PadelDay padelDay = optionalPadelDay.get();
             model.addAttribute("padelDay", padelDay);
+        }else {
+            model.addAttribute("padelDay", null);
         }
         model.addAttribute("fields", fields);
         return "admin/editpadelday";

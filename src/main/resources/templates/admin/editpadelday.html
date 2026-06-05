@@ -3,7 +3,7 @@
 <head th:replace="~{fragments/head::headfragment}"></head>
 <body>
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
-<main class="container py-4">
+<main th:if="${padelDay != null and padelDay.date.isAfter(#temporals.createNow().minusMinutes(120))}" class="container py-4">
     <h1 class="text-center mb-5">Gegevens van deze padeldag aanpassen</h1>
     <form class="w-75 mx-auto" th:action="@{/admin/editpadelday}" th:object="${padelDay}" method="post">
         <div class="row">
@@ -46,6 +46,16 @@
             </div>
         </div>
     </form>
+</main>
+<main th:unless="${padelDay != null}">
+    <div class="fs-2 p-5 text-center text-white bg-dark m-5 rounded">
+        De padeldag die u zoekt kan niet gevonden worden
+    </div>
+</main>
+<main th:unless="${padelDay.date.isAfter(#temporals.createNow().minusMinutes(120))}">
+    <div class="fs-2 p-5 text-center text-white bg-dark m-5 rounded">
+        De padeldag die u zoekt is al afgelopen en kan niet meer worden aangepast
+    </div>
 </main>
 <footer th:replace="~{fragments/headerfooter::footer}"></footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>

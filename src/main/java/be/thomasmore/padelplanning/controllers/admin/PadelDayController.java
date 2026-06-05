@@ -35,6 +35,8 @@ public class PadelDayController {
         Optional<PadelDay> padelDay = padelDayRepository.findById(padeldayid);
         if (padelDay.isPresent()) {
             model.addAttribute("padelDay", padelDay.get());
+        }else {
+            model.addAttribute("padelDay", null);
         }
         return "admin/padeldaydetails";
     }
