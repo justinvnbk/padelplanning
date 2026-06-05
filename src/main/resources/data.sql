@@ -519,3 +519,30 @@ INSERT INTO club_event (title,description,location,start_date_time,end_date_time
 VALUES
     ('Familie-uitstap','Een gezamenlijke uitstap voor leden en familie.','Planckendael','2026-08-15 09:30:00','2026-08-15 18:00:00',30,FALSE);
 
+--Deelnemers toevoegen aan Nationale feestdag
+INSERT INTO CLUB_EVENT_PARTICIPANTS (CLUB_EVENT_ID, PARTICIPANTS_ID)
+SELECT club_event.id, player.id
+FROM club_event CROSS JOIN player
+WHERE club_event.title = 'Nationale feestdag'
+  AND player.email IN (
+                       'liam@example.com',
+                       'noah@example.com',
+                       'emma@example.com',
+                       'olivia@example.com',
+                       'lucas@example.com',
+                       'sofia@example.com',
+                       'ethan@example.com',
+                       'mia@example.com'
+    );
+
+--Deelnemers toevoegen aan Familiebarbecue
+INSERT INTO CLUB_EVENT_PARTICIPANTS (CLUB_EVENT_ID, PARTICIPANTS_ID)
+SELECT club_event.id, player.id
+FROM club_event CROSS JOIN player
+WHERE club_event.title = 'Familiebarbecue'
+  AND player.email IN (
+                       'daniel@example.com',
+                       'chloe@example.com',
+                       'tomvdb@example.com',
+                       'sara@example.com'
+    );
