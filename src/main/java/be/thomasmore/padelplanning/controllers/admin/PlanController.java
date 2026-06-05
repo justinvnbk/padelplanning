@@ -47,6 +47,8 @@ public class PlanController {
             PadelDay padelDay = optionalPadelDay.get();
             if (!padelDay.getSignedUpPlayers().isEmpty()) {
                 createPadelDayPlanService.newPadelDayPlan(padelDay);
+                notificationService.createNotification("Uitschrijven niet meer mogelijk", "Uitschrijven voor de padeldag op " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")) + " is niet meer toegelaten.",
+                        padelDay.getSignedUpPlayers(), false, padelDay.getId());
             }
             if (padelDay.getSignedUpPlayers().isEmpty()) {
                 ra.addFlashAttribute("noPlayerError", "Er zijn geen spelers om een planning aan te maken!");
