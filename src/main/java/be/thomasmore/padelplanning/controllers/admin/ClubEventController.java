@@ -1,13 +1,12 @@
 package be.thomasmore.padelplanning.controllers.admin;
 
 import be.thomasmore.padelplanning.model.ClubEvent;
+import be.thomasmore.padelplanning.model.Player;
 import be.thomasmore.padelplanning.repositories.ClubEventRepository;
+import be.thomasmore.padelplanning.repositories.PlayerRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,9 +17,11 @@ import java.util.Optional;
 public class ClubEventController {
 
     private final ClubEventRepository clubEventRepository;
+    private final PlayerRepository playerRepository;
 
-    public ClubEventController(ClubEventRepository clubEventRepository) {
+    public ClubEventController(ClubEventRepository clubEventRepository, PlayerRepository playerRepository) {
         this.clubEventRepository = clubEventRepository;
+        this.playerRepository = playerRepository;
     }
 
     @GetMapping("/events")
@@ -126,14 +127,24 @@ public class ClubEventController {
     }
 
     @GetMapping("/events/{eventId}/participants")
-    public String eventParticipants(@PathVariable Integer eventId, Model model) {
+    public String eventParticipants(@PathVariable Integer eventId,
+                                    @RequestParam(defaultValue = "") String searchTerm,
+                                    Model model) {
+
         Optional<ClubEvent> optionalClubEvent = clubEventRepository.findById(eventId);
 
         if (optionalClubEvent.isEmpty()) {
             return "redirect:/admin/events";
         }
 
+        List<Player> participants = playerRepository.findParticipantsByEventIdAndSearchTerm(
+                eventId,
+                searchTerm.trim()
+        );
+
         model.addAttribute("clubEvent", optionalClubEvent.get());
+        model.addAttribute("participants", participants);
+        model.addAttribute("searchTerm", searchTerm);
 
         return "admin/eventparticipants";
     }
