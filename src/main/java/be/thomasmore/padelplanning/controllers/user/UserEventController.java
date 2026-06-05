@@ -98,4 +98,35 @@ public class UserEventController {
 
         return "redirect:/user/events/" + eventId;
     }
+
+    @PostMapping("/events/{eventId}/unregister")
+    public String unregisterFromEvent(@PathVariable Integer eventId,
+                                      Principal principal,
+                                      RedirectAttributes redirectAttributes) {
+
+        Optional<ClubEvent> optionalClubEvent = clubEventRepository.findById(eventId);
+
+        if (optionalClubEvent.isEmpty()) {
+            return "redirect:/user/events";
+        }
+
+        ClubEvent clubEvent = optionalClubEvent.get();
+        Player loggedPlayer = playerRepository.findByEmail(principal.getName());
+
+        if (clubEvent.getParticipants().remove(loggedPlayer)) {
+            clubEventRepository.save(clubEvent);
+
+            redirectAttributes.addFlashAttribute(
+                    "alertInfo",
+                    "U bent succesvol uitgeschreven voor het evenement."
+            );
+        } else {
+            redirectAttributes.addFlashAttribute(
+                    "alertWarning",
+                    "U was niet ingeschreven voor dit evenement."
+            );
+        }
+
+        return "redirect:/user/events/" + eventId;
+    }
 }
