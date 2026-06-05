@@ -24,17 +24,17 @@
                                 <th:block
                                         th:text="|*{#temporals.format(date, 'EE', #locale.of('nl', 'NL'))} *{#temporals.format(date, 'dd/MM/yyyy')}|"/>
 
-                                <span class="border rounded bg-success px-2 px-lg-3 py-1 bg-opacity-75 fs-6 fw-normal"
+                                <span class="badge border border-light"
                                       th:if="${padelDay.signedUpPlayers.contains(currentUser)}">Ingeschreven
-                            </span>
+                                </span>
 
-                                <span class="border border-dark rounded bg-warning px-2 px-lg-3 py-1 bg-opacity-75 fs-6 fw-normal text-dark"
+                                <span class="badge border border-light"
                                       th:if="${padelDay.reservedPlayers.contains(currentUser)}">Op reservelijst
-                            </span>
+                                </span>
 
-                                <span class="border rounded bg-danger px-2 px-lg-3 py-1 bg-opacity-75 fs-6 fw-normal"
+                                <span class="badge border border-light"
                                       th:if="${!padelDay.reservedPlayers.contains(currentUser) && !padelDay.signedUpPlayers.contains(currentUser)}">Niet ingeschreven
-                            </span>
+                                </span>
 
                             </h5>
                         </div>
