@@ -506,3 +506,16 @@ VALUES
     (19,14),
     (20,14),
     (21,14);
+
+--Event test data
+--Published event
+INSERT INTO club_event (title,description,location,start_date_time,end_date_time,maximum_participants,published)
+VALUES
+    ('Familiebarbecue','Gezellige familiebarbecue voor alle leden en hun familie.','Padelclub Antwerpen','2026-06-28 15:00:00','2026-06-28 21:00:00',50,TRUE),
+    ('Nationale feestdag', 'Vier de Belgische nationale feestdag met een gezellige uitstap naar Plopsaland De Panne voor leden en hun familie.', 'Plopsaland - De Panne', '2026-07-21 09:30:00', '2026-07-21 18:00:00', null, TRUE);
+
+--Unpublished event
+INSERT INTO club_event (title,description,location,start_date_time,end_date_time,maximum_participants,published)
+VALUES
+    ('Familie-uitstap','Een gezamenlijke uitstap voor leden en familie.','Planckendael','2026-08-15 09:30:00','2026-08-15 18:00:00',30,FALSE);
+
