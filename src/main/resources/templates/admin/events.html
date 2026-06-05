@@ -11,100 +11,63 @@
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mb-4">
             <h1 class="mb-0 text-light">Evenementen beheren</h1>
 
-            <a class="btn btn-primary"
-               th:href="@{/admin/newevent}">
+            <a class="btn btn-primary" th:href="@{/admin/newevent}">
                 Nieuw evenement
             </a>
         </div>
 
-        <div th:if="${clubEvents.isEmpty()}"
-             class="alert alert-info text-center">
+        <div th:if="${clubEvents.isEmpty()}" class="alert alert-info text-center">
             Er zijn nog geen evenementen aangemaakt.
         </div>
 
         <div class="row g-4" th:unless="${clubEvents.isEmpty()}">
-
-            <div class="col-12 col-md-6 col-lg-4"
-                 th:each="clubEvent : ${clubEvents}">
+            <div class="col-12 col-md-6 col-lg-4" th:each="clubEvent : ${clubEvents}">
 
                 <div class="card h-100 shadow-sm">
-
-                    <div class="card-body">
-
-                        <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
-
-                            <h2 class="h4 mb-0"
-                                th:text="${clubEvent.title}">
-                                Familiebarbecue
-                            </h2>
-
-                            <span class="badge"
-                                  th:classappend="${clubEvent.published}
-                                      ? ' text-bg-success'
-                                      : ' text-bg-secondary'"
-                                  th:text="${clubEvent.published}
-                                      ? 'Gepubliceerd'
-                                      : 'Niet gepubliceerd'">
-                            </span>
-
+                    <a th:href="@{/admin/events/{id}(id=${clubEvent.id})}" class="text-decoration-none text-black flex-grow-1">
+                        <div class="card-header text-white" th:classappend="${clubEvent.published} ? ' bg-success' : ' bg-secondary'">
+                            <div class="d-flex justify-content-between align-items-center gap-2">
+                                <h2 class="h5 card-title mb-0" th:text="${clubEvent.title}">Familiebarbecue</h2>
+                                <span class="badge text-bg-light" th:text="${clubEvent.published} ? 'Gepubliceerd' : 'Niet gepubliceerd'"></span>
+                            </div>
                         </div>
 
-                        <p class="text-secondary"
-                           th:if="${clubEvent.description != null && !clubEvent.description.isBlank()}"
-                           th:text="${clubEvent.description}">
-                            Beschrijving
-                        </p>
+                        <div class="card-body">
+                            <p class="card-text" th:if="${clubEvent.description != null && !clubEvent.description.isBlank()}" th:text="${clubEvent.description}">
+                                Beschrijving
+                            </p>
 
-                        <p class="mb-2">
-                            <strong>Locatie:</strong>
-                            <span th:text="${clubEvent.location}"></span>
-                        </p>
+                            <p class="card-text">
+                                <strong>Locatie:</strong>
+                                <span th:text="${clubEvent.location}"></span>
+                            </p>
 
-                        <p class="mb-2">
-                            <strong>Start:</strong>
-                            <span th:text="${#temporals.format(
-                                clubEvent.startDateTime,
-                                'dd-MM-yyyy HH:mm'
-                            )}"></span>
-                        </p>
+                            <p class="card-text">
+                                <strong>Start:</strong>
+                                <span th:text="${#temporals.format(clubEvent.startDateTime,'dd/MM/yyyy HH:mm')}"></span>
+                            </p>
 
-                        <p class="mb-2">
-                            <strong>Einde:</strong>
-                            <span th:text="${#temporals.format(
-                                clubEvent.endDateTime,
-                                'dd-MM-yyyy HH:mm'
-                            )}"></span>
-                        </p>
+                            <p class="card-text">
+                                <strong>Einde:</strong>
+                                <span th:text="${#temporals.format(clubEvent.endDateTime,'dd/MM/yyyy HH:mm')}"></span>
+                            </p>
 
-                        <p class="mb-0">
-                            <strong>Deelnemers:</strong>
+                            <p class="card-text mb-0">
+                                <strong>Deelnemers:</strong>
+                                <span th:text="${clubEvent.participants.size()}"></span>
+                                <span th:if="${clubEvent.maximumParticipants != null}">/<span th:text="${clubEvent.maximumParticipants}"></span></span>
+                            </p>
 
-                            <span th:text="${clubEvent.participants.size()}"></span>
-
-                            <span th:if="${clubEvent.maximumParticipants != null}">
-                                /
-                                <span th:text="${clubEvent.maximumParticipants}"></span>
-                            </span>
-                        </p>
-
-                    </div>
+                        </div>
+                    </a>
 
                     <div class="card-footer bg-transparent d-flex gap-2">
+                        <a class="btn btn-outline-primary flex-grow-1" th:href="@{/admin/events/{id}/edit(id=${clubEvent.id})}">Bewerken</a>
 
-                        <a class="btn btn-outline-primary flex-grow-1"
-                           th:href="@{/admin/events/{id}/edit(id=${clubEvent.id})}">
-                            Bewerken
-                        </a>
-
-                        <form th:action="@{/admin/events/{id}/delete(id=${clubEvent.id})}"
-                              method="post"
-                              class="flex-grow-1">
-
-                            <button class="btn btn-outline-danger w-100"
-                                    type="submit">
+                        <form th:action="@{/admin/events/{id}/delete(id=${clubEvent.id})}" method="post" class="flex-grow-1">
+                            <button class="btn btn-outline-danger w-100" type="submit">
                                 Verwijderen
                             </button>
-
                         </form>
 
                     </div>
