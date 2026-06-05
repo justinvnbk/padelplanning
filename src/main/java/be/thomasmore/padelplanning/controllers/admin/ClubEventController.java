@@ -64,6 +64,22 @@ public class ClubEventController {
         return "admin/eventdetails";
     }
 
+    @PostMapping("/events/{eventId}/publish")
+    public String publishEvent(@PathVariable Integer eventId) {
+        Optional<ClubEvent> optionalClubEvent = clubEventRepository.findById(eventId);
+
+        if (optionalClubEvent.isEmpty()) {
+            return "redirect:/admin/events";
+        }
+
+        ClubEvent clubEvent = optionalClubEvent.get();
+        clubEvent.setPublished(true);
+
+        clubEventRepository.save(clubEvent);
+
+        return "redirect:/admin/events/" + eventId;
+    }
+
     @PostMapping("/events/{eventId}/delete")
     public String deleteEvent (@PathVariable Integer eventId) {
 
