@@ -39,15 +39,16 @@
                                     <span th:text="${#temporals.format(clubEvent.startDateTime,'dd-MM-yyyy HH:mm')}"></span>
                                 </p>
 
+                                <p>
+                                    <strong>Prijs:</strong>
+                                    <span th:if="${clubEvent.price.signum() == 0}">Gratis</span>
+                                    <span th:unless="${clubEvent.price.signum() == 0}">€ <span th:text="${#numbers.formatDecimal(clubEvent.price, 1, 2)}"></span></span>
+                                </p>
+
                                 <p class="mb-0">
                                     <strong>Deelnemers:</strong>
-
                                     <span th:text="${clubEvent.participants.size()}"></span>
-
-                                    <span th:if="${clubEvent.maximumParticipants != null}">
-                                /
-                                <span th:text="${clubEvent.maximumParticipants}"></span>
-                            </span>
+                                    <span th:if="${clubEvent.maximumParticipants != null}">/<span th:text="${clubEvent.maximumParticipants}"></span></span>
                                 </p>
 
                             </div>
@@ -88,6 +89,12 @@
                                 <p>
                                     <strong>Start:</strong>
                                     <span th:text="${#temporals.format(clubEvent.startDateTime,'dd-MM-yyyy HH:mm')}"></span>
+                                </p>
+
+                                <p>
+                                    <strong>Prijs:</strong>
+                                    <span th:if="${clubEvent.price.signum() == 0}">Gratis</span>
+                                    <span th:unless="${clubEvent.price.signum() == 0}">€ <span th:text="${#numbers.formatDecimal(clubEvent.price, 1, 2)}"></span></span>
                                 </p>
 
                                 <p class="mb-0">
