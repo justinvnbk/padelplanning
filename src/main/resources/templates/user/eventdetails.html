@@ -62,8 +62,6 @@
 
               <div th:if="${isRegistered}">
 
-                <div class="alert alert-success">U bent ingeschreven voor dit evenement.</div>
-
                 <form th:action="@{/user/events/{id}/unregister(id=${clubEvent.id})}" method="post">
                   <button class="btn btn-danger w-100" type="submit">
                     Uitschrijven voor evenement
