@@ -54,12 +54,23 @@
 
               <div th:if="${alertSuccess}" class="alert alert-success" th:text="${alertSuccess}"></div>
 
+              <div th:if="${alertInfo}" class="alert alert-info" th:text="${alertInfo}"></div>
+
               <div th:if="${alertWarning}" class="alert alert-warning" th:text="${alertWarning}"></div>
 
               <div th:if="${alertDanger}" class="alert alert-danger" th:text="${alertDanger}"></div>
 
-              <div th:if="${isRegistered}" class="alert alert-success mb-0">U bent ingeschreven voor dit evenement.</div>
+              <div th:if="${isRegistered}">
 
+                <div class="alert alert-success">U bent ingeschreven voor dit evenement.</div>
+
+                <form th:action="@{/user/events/{id}/unregister(id=${clubEvent.id})}" method="post">
+                  <button class="btn btn-danger w-100" type="submit">
+                    Uitschrijven voor evenement
+                  </button>
+                </form>
+
+              </div>
               <div th:unless="${isRegistered}">
                 <div th:if="${isFull}" class="alert alert-danger mb-0">Dit evenement is volzet.</div>
                 <form th:unless="${isFull}" th:action="@{/user/events/{id}/register(id=${clubEvent.id})}" method="post">
