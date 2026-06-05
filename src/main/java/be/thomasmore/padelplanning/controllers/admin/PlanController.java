@@ -165,7 +165,7 @@ public class PlanController {
         padelDay.setNumberOfMatches(3);
         padelDayRepository.save(padelDay);
         notificationService.createNotification("Nieuw speelmoment opgestart",
-                "Er is een nieuw speelmoment gestart door " + loggedInAdmin.getName() + " voor " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")) + ". Schrijf je nu in!",
+                "Er is een nieuw speelmoment gestart door " + loggedInAdmin.getName() + " voor " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")) + ". Schrijf u nu in!",
                 playerRepository.getAll(),
                 true,
                 padelDay.getId());

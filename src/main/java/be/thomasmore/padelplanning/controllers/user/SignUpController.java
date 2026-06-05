@@ -108,9 +108,9 @@ public class SignUpController {
 
                 // Set alert messages based on registration status
                 if (movedToActive) {
-                    redirectAttributes.addFlashAttribute("alertSuccess", "Je bent succesvol ingeschreven! Er zijn genoeg spelers om een match te vullen.");
+                    redirectAttributes.addFlashAttribute("alertSuccess", "U bent succesvol ingeschreven! Er zijn genoeg spelers om een match te vullen.");
                 } else {
-                    redirectAttributes.addFlashAttribute("alertWarning", "Je bent toegevoegd aan de reservelijst. Wacht op 3 extra spelers.");
+                    redirectAttributes.addFlashAttribute("alertWarning", "U bent toegevoegd aan de reservelijst. Wacht op 3 extra spelers.");
                 }
 
                 padelDay.setSignedUpPlayers(signedUpPlayers);
@@ -167,7 +167,7 @@ public class SignUpController {
 
                     if (LocalDateTime.now().plusHours(4).isAfter(padelDay.getDate())) {
                         notificationService.createNotification("SNEL IEMAND NODIG VOOR VANDAAG",
-                                "Iemand heeft zich binnen de laatste 4 uur uitgeschreven, schrijf je nog snel in om ons te vervoledigen",
+                                "Iemand heeft zich binnen de laatste 4 uur uitgeschreven, schrijf u nog snel in om ons te vervoledigen",
                                 playerRepository.getAll(),
                                 true);
                     }
