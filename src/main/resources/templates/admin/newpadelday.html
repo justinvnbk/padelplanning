@@ -35,15 +35,16 @@
                             </span>
                         </label>
                     </div>
-                    <div class="d-flex justify-content-start gap-2">
-                        <a class="btn btn-primary" id="selectAllFields">Alle velden</a>
-                        <a class="btn btn-primary" id="deSelectAllFields">Clear velden</a>
-                    </div>
                 </div>
             </div>
-            <div class="d-flex justify-content-between align-items-center mt-5 pt-3 border-top">
-                <a class="btn btn-danger px-4" th:href="@{/admin/padeldays}">Annuleer</a>
-                <button class="btn btn-primary px-5 fw-bold shadow-sm" type="submit">Maak aan</button>
+            <div class="d-flex justify-content-center justify-content-md-start gap-2 mt-4">
+                <a class="btn btn-primary text-nowrap" id="selectAllFields">Alle velden</a>
+                <a class="btn btn-primary text-nowrap" id="deSelectAllFields">Clear velden</a>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-center gap-3 mt-5 pt-3 border-top">
+                <a class="btn btn-danger px-3 text-center col-9 col-md-3 mx-auto" th:href="@{/admin/padeldays}">Annuleer</a>
+                <button class="btn btn-primary px-3 text-nowrap col-9 col-md-3 mx-auto" type="submit">Maak aan</button>
             </div>
         </div>
     </form>

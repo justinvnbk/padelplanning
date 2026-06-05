@@ -41,12 +41,17 @@ public class PlanController {
 
     //Create a new plan for the current PadelDay
     @PostMapping("/plan")
-    public String postPlan(Model model, @RequestParam int id) {
+    public String postPlan(Model model, @RequestParam int id, RedirectAttributes ra) {
         Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(id);
         if (optionalPadelDay.isPresent()) {
             PadelDay padelDay = optionalPadelDay.get();
             if (!padelDay.getSignedUpPlayers().isEmpty()) {
                 createPadelDayPlanService.newPadelDayPlan(padelDay);
+                notificationService.createNotification("Uitschrijven niet meer mogelijk", "Uitschrijven voor de padeldag op " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")) + " is niet meer toegelaten.",
+                        padelDay.getSignedUpPlayers(), false, padelDay.getId());
+            }
+            if (padelDay.getSignedUpPlayers().isEmpty()) {
+                ra.addFlashAttribute("noPlayerError", "Er zijn geen spelers om een planning aan te maken!");
             }
         }
         return "redirect:/user/signup/" + id;
@@ -165,7 +170,7 @@ public class PlanController {
         padelDay.setNumberOfMatches(3);
         padelDayRepository.save(padelDay);
         notificationService.createNotification("Nieuw speelmoment opgestart",
-                "Er is een nieuw speelmoment gestart door " + loggedInAdmin.getName() + " voor " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")) + ". Schrijf je nu in!",
+                "Er is een nieuw speelmoment gestart door " + loggedInAdmin.getName() + " voor " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")) + ". Schrijf u nu in!",
                 playerRepository.getAll(),
                 true,
                 padelDay.getId());
