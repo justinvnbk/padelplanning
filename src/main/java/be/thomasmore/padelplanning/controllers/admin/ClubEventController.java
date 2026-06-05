@@ -120,6 +120,7 @@ public class ClubEventController {
         existingEvent.setStartDateTime(submittedEvent.getStartDateTime());
         existingEvent.setEndDateTime(submittedEvent.getEndDateTime());
         existingEvent.setMaximumParticipants(submittedEvent.getMaximumParticipants());
+        existingEvent.setPrice(submittedEvent.getPrice());
 
         clubEventRepository.save(existingEvent);
 
