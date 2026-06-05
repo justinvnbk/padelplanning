@@ -11,8 +11,9 @@
         <!--        <a class="btn btn-primary" th:href="@{/admin/newpadelday}">+ Plan nieuwe padel dag</a>-->
         <!--    </div>-->
         <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col" th:each="padelDay: ${padelDays}" th:object="${padelDay}" th:if="${padelDay.date.isAfter(#temporals.createNow())}">
-                <div class="card h-100" style="border: none;">
+            <div class="col" th:each="padelDay: ${padelDays}" th:object="${padelDay}"
+                 th:if="${padelDay.date.isAfter(#temporals.createNow())}">
+                <div class="card h-100 border border-solid border-dark-subtle rounded-bottom-2">
                     <a th:href="@{|/user/signup/*{id}|}" class="text-decoration-none text-black">
                         <div class="card-header padeldays-card"
                              th:classappend="|${padelDay.signedUpPlayers.contains(currentUser) ? 'bg-success text-white' : ''}
@@ -20,7 +21,8 @@
                          ${!padelDay.reservedPlayers.contains(currentUser) && !padelDay.signedUpPlayers.contains(currentUser) ? 'bg-danger text-white' : ''}|">
                             <h5 class="card-title mb-0 d-flex justify-content-between align-items-center flex-wrap gap-2">
 
-                                <th:block th:text="|*{#temporals.format(date, 'EE', #locale.of('nl', 'NL'))} *{#temporals.format(date, 'dd/MM/yyyy')}|"/>
+                                <th:block
+                                        th:text="|*{#temporals.format(date, 'EE', #locale.of('nl', 'NL'))} *{#temporals.format(date, 'dd/MM/yyyy')}|"/>
 
                                 <span class="border rounded bg-success px-2 px-lg-3 py-1 bg-opacity-75 fs-6 fw-normal"
                                       th:if="${padelDay.signedUpPlayers.contains(currentUser)}">Ingeschreven
@@ -36,7 +38,7 @@
 
                             </h5>
                         </div>
-                        <div class="card-body border border-solid border-dark-subtle rounded-bottom-2 border-top-0">
+                        <div class="card-body">
                             <p class="card-text">
                                 <strong>Startuur:</strong>
                                 <span th:text="*{#temporals.format(date, 'HH:mm')}"></span>
