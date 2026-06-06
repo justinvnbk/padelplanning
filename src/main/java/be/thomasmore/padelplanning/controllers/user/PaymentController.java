@@ -1,7 +1,9 @@
 package be.thomasmore.padelplanning.controllers.user;
 
+import be.thomasmore.padelplanning.model.ClubEvent;
 import be.thomasmore.padelplanning.model.PadelDay;
 import be.thomasmore.padelplanning.model.Player;
+import be.thomasmore.padelplanning.repositories.ClubEventRepository;
 import be.thomasmore.padelplanning.repositories.PadelDayRepository;
 import be.thomasmore.padelplanning.repositories.PlayerRepository;
 import be.thomasmore.padelplanning.services.NotificationService;
@@ -23,12 +25,12 @@ public class PaymentController {
 
     private final PadelDayRepository padelDayRepository;
     private final PlayerRepository playerRepository;
-    private final NotificationService notificationService;
+    private final ClubEventRepository clubEventRepository;
 
-    public PaymentController(PadelDayRepository padelDayRepository, PlayerRepository playerRepository, NotificationService notificationService) {
+    public PaymentController(PadelDayRepository padelDayRepository, PlayerRepository playerRepository, ClubEventRepository clubEventRepository) {
         this.padelDayRepository = padelDayRepository;
         this.playerRepository = playerRepository;
-        this.notificationService = notificationService;
+        this.clubEventRepository = clubEventRepository;
     }
 
     @PostMapping("/create-checkout-session")
@@ -78,5 +80,77 @@ public class PaymentController {
     @GetMapping("/payment-success")
     public String paymentSuccess(@RequestParam Integer id) {
         return "redirect:/user/signup/" + id;
+    }
+
+    @PostMapping("/events/{eventId}/pay")
+    public String createEventCheckoutSession(@PathVariable Integer eventId,
+                                             Principal principal) throws StripeException {
+
+        Optional<ClubEvent> optionalClubEvent = clubEventRepository.findById(eventId);
+        Player player = playerRepository.findByEmail(principal.getName());
+
+        if (optionalClubEvent.isEmpty()) {
+            return "redirect:/user/events";
+        }
+
+        ClubEvent clubEvent = optionalClubEvent.get();
+
+        if (!clubEvent.isPublished()) {
+            throw new IllegalStateException("Betaling niet toegestaan voor een niet-gepubliceerd evenement.");
+        }
+
+        if (!clubEvent.getParticipants().contains(player)) {
+            throw new IllegalStateException("U moet ingeschreven zijn voordat u kunt betalen.");
+        }
+
+        if (clubEvent.getPrice() == null || clubEvent.getPrice().signum() <= 0) {
+            throw new IllegalStateException("Dit evenement vereist geen betaling.");
+        }
+
+        if (player.getPaidClubEvents().contains(clubEvent)) {
+            return "redirect:/user/events/" + eventId;
+        }
+
+        long priceInCents = clubEvent.getPrice()
+                .movePointRight(2)
+                .longValueExact();
+
+        SessionCreateParams.LineItem.PriceData.ProductData productData =
+                SessionCreateParams.LineItem.PriceData.ProductData.builder()
+                        .setName(clubEvent.getTitle())
+                        .build();
+
+        SessionCreateParams.LineItem.PriceData priceData =
+                SessionCreateParams.LineItem.PriceData.builder()
+                        .setCurrency("eur")
+                        .setUnitAmount(priceInCents)
+                        .setProductData(productData)
+                        .build();
+
+        SessionCreateParams.LineItem lineItem =
+                SessionCreateParams.LineItem.builder()
+                        .setQuantity(1L)
+                        .setPriceData(priceData)
+                        .build();
+
+        SessionCreateParams params =
+                SessionCreateParams.builder()
+                        .setMode(SessionCreateParams.Mode.PAYMENT)
+                        .setSuccessUrl(appBaseUrl + "/user/event-payment-success?id=" + eventId)
+                        .setCancelUrl(appBaseUrl + "/user/events/" + eventId)
+                        .putMetadata("paymentType", "clubEvent")
+                        .putMetadata("playerId", player.getId().toString())
+                        .putMetadata("clubEventId", eventId.toString())
+                        .addLineItem(lineItem)
+                        .build();
+
+        Session session = Session.create(params);
+
+        return "redirect:" + session.getUrl();
+    }
+
+    @GetMapping("/event-payment-success")
+    public String eventPaymentSuccess(@RequestParam Integer id) {
+        return "redirect:/user/events/" + id;
     }
 }
