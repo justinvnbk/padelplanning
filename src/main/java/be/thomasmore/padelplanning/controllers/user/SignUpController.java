@@ -63,6 +63,18 @@ public class SignUpController {
             PadelDay padelDay = optionalPadelDay.get();
             model.addAttribute("padelDay", padelDay);
 
+            List<PadelDay> upcommingPadelDays = padelDayRepository.getUpcomingPadelDays(LocalDateTime.now());
+            try {
+                model.addAttribute("nextPadelDayId", upcommingPadelDays.get(upcommingPadelDays.indexOf(padelDay) + 1).getId());
+            }catch (IndexOutOfBoundsException e){
+                model.addAttribute("nextPadelDayId", upcommingPadelDays.get(0).getId());
+            }
+            try {
+                model.addAttribute("previousPadelDayId", upcommingPadelDays.get(upcommingPadelDays.indexOf(padelDay) - 1).getId());
+            }catch (IndexOutOfBoundsException e){
+                model.addAttribute("previousPadelDayId", upcommingPadelDays.get(upcommingPadelDays.size() - 1).getId());
+            }
+
             Player loggedPlayer = playerRepository.findByEmail(principal.getName());
             model.addAttribute("isSignedUp", padelDay.getSignedUpPlayers().contains(loggedPlayer) || padelDay.getReservedPlayers().contains(loggedPlayer));
             model.addAttribute("hasPayed", loggedPlayer.getPayedPadelDays().contains(padelDay));

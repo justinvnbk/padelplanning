@@ -13,6 +13,9 @@ public interface PadelDayRepository extends CrudRepository<PadelDay, Integer> {
     @Query("SELECT pd FROM PadelDay pd WHERE pd.date >= :now AND pd.isPublished = true ORDER BY pd.date LIMIT 1")
     Optional<PadelDay> getNext(@Param("now") LocalDateTime now);
 
-    @Query("SELECT pd FROM PadelDay pd ORDER BY pd.date DESC")
+    @Query("SELECT pd FROM PadelDay pd ORDER BY pd.date ASC")
     List<PadelDay> findAllOrdered();
+
+    @Query("SELECT pd FROM PadelDay pd WHERE pd.date >= :now - 120 MINUTE ORDER BY pd.date ASC")
+    List<PadelDay> getUpcomingPadelDays(@Param("now") LocalDateTime now);
 }

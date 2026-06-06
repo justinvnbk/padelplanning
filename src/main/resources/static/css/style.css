@@ -221,6 +221,10 @@ main {
     color: grey !important;
 }
 
+.border-match{
+    border: 2px solid black !important;
+}
+
 @media screen and (max-width: 767px) {
     .navbar-nav .nav-link, .navbar-nav .btn {
         border: none !important;

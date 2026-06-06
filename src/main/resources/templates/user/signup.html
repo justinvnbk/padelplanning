@@ -6,9 +6,17 @@
 
 <main class="home-pre" th:if="${padelDay != null and padelDay.date.isAfter(#temporals.createNow().minusMinutes(120))}">
     <div class="container py-4" th:object="${padelDay}">
-        <h2 style="font-size: 2.5rem" class="mb-4 text-center text-white info-title">Algemene informatie over de volgende
-            padeldag:</h2>
-
+        <div class="d-flex justify-content-between align-items-center mb-4 text-white">
+            <a th:href="@{|/user/signup/${previousPadelDayId}|}" class="btn btn-outline-danger rounded-circle d-flex align-items-center justify-content-center pb-2" style="width: 50px; height: 50px; font-size: 1.5rem;">
+                &lt;
+            </a>
+            <h2 style="font-size: 2.5rem" class="m-0 text-center info-title flex-grow-1 mx-3">
+                Algemene informatie over de volgende padeldag:
+            </h2>
+            <a th:href="@{|/user/signup/${nextPadelDayId}|}" class="btn btn-outline-danger rounded-circle d-flex align-items-center justify-content-center pb-2" style="width: 50px; height: 50px; font-size: 1.5rem;">
+                &gt;
+            </a>
+        </div>
         <div class="container mt-3 mx-auto col-12 col-md-8">
             <div th:if="${alertSuccess}" class="alert alert-success alert-dismissible fade show text-center shadow-sm" role="alert">
                 <span th:text="${alertSuccess}"></span>
@@ -36,6 +44,14 @@
             <div th:if="${noPlayerError}" class="alert alert-danger alert-dismissible fade show text-center shadow-sm col-12 col-md-8 mx-auto" role="alert">
                 <span th:text="${noPlayerError}"></span>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div th:if="${saved}" class="alert alert-success alert-dismissible fade show text-center shadow-sm col-12 col-md-8 mx-auto" role="alert">
+
+                <span th:text="${saved}"></span>
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
             </div>
 
             <div class="col-12 col-md-6 d-flex flex-column flex-sm-row justify-content-center justify-content-sm-start align-items-center gap-3 my-2">
