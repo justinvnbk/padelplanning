@@ -1,7 +1,9 @@
 package be.thomasmore.padelplanning.controllers.user;
 
+import be.thomasmore.padelplanning.model.ClubEvent;
 import be.thomasmore.padelplanning.model.PadelDay;
 import be.thomasmore.padelplanning.model.Player;
+import be.thomasmore.padelplanning.repositories.ClubEventRepository;
 import be.thomasmore.padelplanning.repositories.PadelDayRepository;
 import be.thomasmore.padelplanning.repositories.PlayerRepository;
 import be.thomasmore.padelplanning.services.NotificationService;
@@ -23,16 +25,19 @@ public class StripeWebhookController {
     private final PlayerRepository playerRepository;
     private final PadelDayRepository padelDayRepository;
     private final NotificationService notificationService;
+    private final ClubEventRepository clubEventRepository;
 
     @Value("${stripe.webhook.secret}")
     private String endpointSecret;
 
     public StripeWebhookController(PlayerRepository playerRepository,
                                    PadelDayRepository padelDayRepository,
-                                   NotificationService notificationService) {
+                                   NotificationService notificationService,
+                                   ClubEventRepository clubEventRepository) {
         this.playerRepository = playerRepository;
         this.padelDayRepository = padelDayRepository;
         this.notificationService = notificationService;
+        this.clubEventRepository = clubEventRepository;
     }
 
     @PostMapping("/webhook")
@@ -64,22 +69,37 @@ public class StripeWebhookController {
     private void handleCheckoutSessionCompleted(Session session) {
         String playerIdString = session.getMetadata().get("playerId");
         String padelDayIdString = session.getMetadata().get("padelDayId");
+        String clubEventIdString = session.getMetadata().get("clubEventId");
 
-        if (playerIdString == null || padelDayIdString == null) {
+        if (playerIdString == null) {
             return;
         }
 
-        Integer playerId = Integer.valueOf(playerIdString);
-        Integer padelDayId = Integer.valueOf(padelDayIdString);
+        Optional<Player> optionalPlayer =
+                playerRepository.findById(Integer.valueOf(playerIdString));
 
-        Optional<Player> optionalPlayer = playerRepository.findById(playerId);
-        Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(padelDayId);
-
-        if (optionalPlayer.isEmpty() || optionalPadelDay.isEmpty()) {
+        if (optionalPlayer.isEmpty()) {
             return;
         }
 
         Player player = optionalPlayer.get();
+
+        if (padelDayIdString != null) {
+            handlePadelDayPayment(player, Integer.valueOf(padelDayIdString));
+        }
+
+        if (clubEventIdString != null) {
+            handleClubEventPayment(player, Integer.valueOf(clubEventIdString));
+        }
+    }
+
+    private void handlePadelDayPayment(Player player, Integer padelDayId) {
+        Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(padelDayId);
+
+        if (optionalPadelDay.isEmpty()) {
+            return;
+        }
+
         PadelDay padelDay = optionalPadelDay.get();
 
         if (!player.getPayedPadelDays().contains(padelDay)) {
@@ -88,8 +108,34 @@ public class StripeWebhookController {
 
             notificationService.createNotification(
                     "Speler heeft betaald",
-                    player.getName() + " heeft betaald voor de padel dag op: " +
-                            padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                    player.getName() + " heeft betaald voor de padeldag op: "
+                            + padelDay.getDate().format(
+                            DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                    ),
+                    playerRepository.findAllAdmins(),
+                    true
+            );
+        }
+    }
+
+    private void handleClubEventPayment(Player player, Integer clubEventId) {
+        Optional<ClubEvent> optionalClubEvent =
+                clubEventRepository.findById(clubEventId);
+
+        if (optionalClubEvent.isEmpty()) {
+            return;
+        }
+
+        ClubEvent clubEvent = optionalClubEvent.get();
+
+        if (!player.getPaidClubEvents().contains(clubEvent)) {
+            player.getPaidClubEvents().add(clubEvent);
+            playerRepository.save(player);
+
+            notificationService.createNotification(
+                    "Speler heeft betaald",
+                    player.getName() + " heeft betaald voor het evenement: "
+                            + clubEvent.getTitle(),
                     playerRepository.findAllAdmins(),
                     true
             );
