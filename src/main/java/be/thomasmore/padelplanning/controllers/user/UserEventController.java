@@ -29,8 +29,7 @@ public class UserEventController {
 
     @GetMapping("/events")
     public String events(Model model, Principal principal) {
-        List<ClubEvent> clubEvents =
-                clubEventRepository.findUpcomingPublishedEvents();
+        List<ClubEvent> clubEvents = clubEventRepository.findUpcomingPublishedEvents();
 
         Player loggedPlayer = playerRepository.findByEmail(principal.getName());
 
@@ -46,6 +45,7 @@ public class UserEventController {
 
         model.addAttribute("yourEvents", yourEvents);
         model.addAttribute("otherEvents", otherEvents);
+        model.addAttribute("loggedPlayer", loggedPlayer);
 
         return "user/events";
     }
