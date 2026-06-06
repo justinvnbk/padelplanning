@@ -114,7 +114,10 @@ public class ClubEventController {
     }
 
     @PostMapping("/events/{eventId}/edit")
-    public String updateEvent (@PathVariable Integer eventId, ClubEvent submittedEvent) {
+    public String updateEvent(@PathVariable Integer eventId,
+                              @Valid @ModelAttribute("clubEvent") ClubEvent submittedEvent,
+                              BindingResult bindingResult) {
+
         Optional<ClubEvent> optionalClubEvent = clubEventRepository.findById(eventId);
 
         if (optionalClubEvent.isEmpty()) {
@@ -122,6 +125,20 @@ public class ClubEventController {
         }
 
         ClubEvent existingEvent = optionalClubEvent.get();
+
+        validateEvent(
+                submittedEvent,
+                bindingResult,
+                existingEvent.getParticipants().size()
+        );
+
+        if (bindingResult.hasErrors()) {
+            submittedEvent.setId(eventId);
+            submittedEvent.setPublished(existingEvent.isPublished());
+            submittedEvent.setParticipants(existingEvent.getParticipants());
+
+            return "admin/editevent";
+        }
 
         existingEvent.setTitle(submittedEvent.getTitle());
         existingEvent.setDescription(submittedEvent.getDescription());
