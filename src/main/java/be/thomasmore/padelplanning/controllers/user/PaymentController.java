@@ -83,33 +83,25 @@ public class PaymentController {
     }
 
     @PostMapping("/events/{eventId}/pay")
-    @ResponseBody
     public String createEventCheckoutSession(@PathVariable Integer eventId,
                                              Principal principal) throws StripeException {
 
         Optional<ClubEvent> optionalClubEvent = clubEventRepository.findById(eventId);
 
         if (optionalClubEvent.isEmpty()) {
-            throw new IllegalArgumentException("Evenement niet gevonden.");
+            return "redirect:/user/events";
         }
 
         ClubEvent clubEvent = optionalClubEvent.get();
         Player player = playerRepository.findByEmail(principal.getName());
 
-        if (!clubEvent.isPublished()) {
-            throw new IllegalStateException("Dit evenement is niet gepubliceerd.");
-        }
+        if (!clubEvent.isPublished()
+                || !clubEvent.getParticipants().contains(player)
+                || clubEvent.getPrice() == null
+                || clubEvent.getPrice().signum() <= 0
+                || player.getPaidClubEvents().contains(clubEvent)) {
 
-        if (!clubEvent.getParticipants().contains(player)) {
-            throw new IllegalStateException("U moet eerst ingeschreven zijn.");
-        }
-
-        if (clubEvent.getPrice() == null || clubEvent.getPrice().signum() <= 0) {
-            throw new IllegalStateException("Dit evenement vereist geen betaling.");
-        }
-
-        if (player.getPaidClubEvents().contains(clubEvent)) {
-            throw new IllegalStateException("Dit evenement is al betaald.");
+            return "redirect:/user/events/" + eventId;
         }
 
         long priceInCents = clubEvent.getPrice()
@@ -144,7 +136,7 @@ public class PaymentController {
 
         Session session = Session.create(params);
 
-        return session.getUrl();
+        return "redirect:" + session.getUrl();
     }
 
     @GetMapping("/event-payment-success")
