@@ -6,7 +6,6 @@ import be.thomasmore.padelplanning.model.Player;
 import be.thomasmore.padelplanning.repositories.ClubEventRepository;
 import be.thomasmore.padelplanning.repositories.PadelDayRepository;
 import be.thomasmore.padelplanning.repositories.PlayerRepository;
-import be.thomasmore.padelplanning.services.NotificationService;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
