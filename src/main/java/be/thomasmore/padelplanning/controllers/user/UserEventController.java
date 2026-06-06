@@ -127,6 +127,15 @@ public class UserEventController {
         ClubEvent clubEvent = optionalClubEvent.get();
         Player loggedPlayer = playerRepository.findByEmail(principal.getName());
 
+        if (loggedPlayer.getPaidClubEvents().contains(clubEvent)) {
+            redirectAttributes.addFlashAttribute(
+                    "alertWarning",
+                    "U kunt zich na betaling niet meer uitschrijven."
+            );
+
+            return "redirect:/user/events/" + eventId;
+        }
+
         if (clubEvent.getParticipants().remove(loggedPlayer)) {
             clubEventRepository.save(clubEvent);
 
