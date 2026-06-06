@@ -84,6 +84,18 @@
                 </form>
               </div>
 
+              <div th:if="${isRegistered && clubEvent.price != null && clubEvent.price.signum() > 0}" class="mt-3">
+                <form th:if="${!hasPaid}" th:action="@{/user/events/{id}/pay(id=${clubEvent.id})}" method="post">
+                  <button class="btn btn-primary w-100" type="submit">
+                    Betalen € <span th:text="${#numbers.formatDecimal(clubEvent.price, 1, 2)}"></span>
+                  </button>
+                </form>
+
+                <button th:if="${hasPaid}" class="btn btn-success w-100" type="button" disabled>
+                  Betaald
+                </button>
+              </div>
+
             </div>
 
           </div>
