@@ -83,24 +83,25 @@ public class PaymentController {
     }
 
     @PostMapping("/events/{eventId}/pay")
+    @ResponseBody
     public String createEventCheckoutSession(@PathVariable Integer eventId,
                                              Principal principal) throws StripeException {
 
         Optional<ClubEvent> optionalClubEvent = clubEventRepository.findById(eventId);
-        Player player = playerRepository.findByEmail(principal.getName());
 
         if (optionalClubEvent.isEmpty()) {
-            return "redirect:/user/events";
+            throw new IllegalArgumentException("Evenement niet gevonden.");
         }
 
         ClubEvent clubEvent = optionalClubEvent.get();
+        Player player = playerRepository.findByEmail(principal.getName());
 
         if (!clubEvent.isPublished()) {
-            throw new IllegalStateException("Betaling niet toegestaan voor een niet-gepubliceerd evenement.");
+            throw new IllegalStateException("Dit evenement is niet gepubliceerd.");
         }
 
         if (!clubEvent.getParticipants().contains(player)) {
-            throw new IllegalStateException("U moet ingeschreven zijn voordat u kunt betalen.");
+            throw new IllegalStateException("U moet eerst ingeschreven zijn.");
         }
 
         if (clubEvent.getPrice() == null || clubEvent.getPrice().signum() <= 0) {
@@ -108,7 +109,7 @@ public class PaymentController {
         }
 
         if (player.getPaidClubEvents().contains(clubEvent)) {
-            return "redirect:/user/events/" + eventId;
+            throw new IllegalStateException("Dit evenement is al betaald.");
         }
 
         long priceInCents = clubEvent.getPrice()
@@ -127,26 +128,23 @@ public class PaymentController {
                         .setProductData(productData)
                         .build();
 
-        SessionCreateParams.LineItem lineItem =
-                SessionCreateParams.LineItem.builder()
-                        .setQuantity(1L)
-                        .setPriceData(priceData)
-                        .build();
-
-        SessionCreateParams params =
-                SessionCreateParams.builder()
-                        .setMode(SessionCreateParams.Mode.PAYMENT)
-                        .setSuccessUrl(appBaseUrl + "/user/event-payment-success?id=" + eventId)
-                        .setCancelUrl(appBaseUrl + "/user/events/" + eventId)
-                        .putMetadata("paymentType", "clubEvent")
-                        .putMetadata("playerId", player.getId().toString())
-                        .putMetadata("clubEventId", eventId.toString())
-                        .addLineItem(lineItem)
-                        .build();
+        SessionCreateParams params = SessionCreateParams.builder()
+                .setMode(SessionCreateParams.Mode.PAYMENT)
+                .setSuccessUrl(appBaseUrl + "/user/event-payment-success?id=" + eventId)
+                .setCancelUrl(appBaseUrl + "/user/events/" + eventId)
+                .putMetadata("playerId", player.getId().toString())
+                .putMetadata("clubEventId", eventId.toString())
+                .addLineItem(
+                        SessionCreateParams.LineItem.builder()
+                                .setQuantity(1L)
+                                .setPriceData(priceData)
+                                .build()
+                )
+                .build();
 
         Session session = Session.create(params);
 
-        return "redirect:" + session.getUrl();
+        return session.getUrl();
     }
 
     @GetMapping("/event-payment-success")
