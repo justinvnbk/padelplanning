@@ -22,7 +22,17 @@
                         <a th:href="@{/user/events/{id}(id=${clubEvent.id})}" class="text-decoration-none text-black h-100">
 
                             <div class="card-header bg-success text-white p-3">
-                                <h3 class="h4 mb-0" th:text="${clubEvent.title}"></h3>
+                                <div class="d-flex justify-content-between align-items-center gap-2">
+                                    <h3 class="h4 mb-0"
+                                        th:text="${clubEvent.title}">
+                                        Evenement
+                                    </h3>
+
+                                    <span class="badge bg-light bg-opacity-25 border border-light text-white"
+                                          th:if="${currentUser.paidClubEvents.contains(clubEvent)}">
+                                        Betaald
+                                    </span>
+                                </div>
                             </div>
 
                             <div class="card-body">
