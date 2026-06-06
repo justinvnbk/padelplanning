@@ -4,8 +4,10 @@ import be.thomasmore.padelplanning.model.ClubEvent;
 import be.thomasmore.padelplanning.model.Player;
 import be.thomasmore.padelplanning.repositories.ClubEventRepository;
 import be.thomasmore.padelplanning.repositories.PlayerRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -46,7 +48,14 @@ public class ClubEventController {
     }
 
     @PostMapping("/newevent")
-    public String postNewEvent (ClubEvent clubEvent) {
+    public String postNewEvent(@Valid @ModelAttribute("clubEvent") ClubEvent clubEvent,
+                               BindingResult bindingResult) {
+        validateEvent(clubEvent, bindingResult, 0);
+
+        if (bindingResult.hasErrors()) {
+            return "admin/newevent";
+        }
+
         clubEventRepository.save(clubEvent);
 
         return "redirect:/admin/events";
@@ -148,5 +157,31 @@ public class ClubEventController {
         model.addAttribute("searchTerm", searchTerm);
 
         return "admin/eventparticipants";
+    }
+
+    private void validateEvent(ClubEvent clubEvent,
+                               BindingResult bindingResult,
+                               int currentParticipantCount) {
+
+        if (clubEvent.getStartDateTime() != null
+                && clubEvent.getEndDateTime() != null
+                && !clubEvent.getEndDateTime().isAfter(clubEvent.getStartDateTime())) {
+
+            bindingResult.rejectValue(
+                    "endDateTime",
+                    "invalid.endDateTime",
+                    "De einddatum moet na de startdatum liggen."
+            );
+        }
+
+        if (clubEvent.getMaximumParticipants() != null
+                && clubEvent.getMaximumParticipants() < currentParticipantCount) {
+
+            bindingResult.rejectValue(
+                    "maximumParticipants",
+                    "invalid.maximumParticipants",
+                    "Het maximum kan niet lager zijn dan het huidige aantal deelnemers."
+            );
+        }
     }
 }
