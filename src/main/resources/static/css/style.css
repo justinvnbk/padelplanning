@@ -14,6 +14,7 @@
 }
 
 .home-pre {
+    background-attachment: fixed, fixed;
     background-image:
             linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, 1) 100%),
             url("/images/padel.jpg");
