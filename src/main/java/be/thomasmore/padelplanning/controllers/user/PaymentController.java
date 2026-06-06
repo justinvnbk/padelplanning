@@ -122,6 +122,7 @@ public class PaymentController {
 
         SessionCreateParams params = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
+                .setCustomerEmail(player.getEmail())
                 .setSuccessUrl(appBaseUrl + "/user/event-payment-success?id=" + eventId)
                 .setCancelUrl(appBaseUrl + "/user/events/" + eventId)
                 .putMetadata("playerId", player.getId().toString())
