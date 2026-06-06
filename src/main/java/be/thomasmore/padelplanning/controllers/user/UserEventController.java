@@ -62,13 +62,13 @@ public class UserEventController {
         Player loggedPlayer = playerRepository.findByEmail(principal.getName());
 
         boolean isRegistered = clubEvent.getParticipants().contains(loggedPlayer);
-
-        boolean isFull = clubEvent.getMaximumParticipants() != null
-                && clubEvent.getParticipants().size() >= clubEvent.getMaximumParticipants();
+        boolean isFull = clubEvent.getMaximumParticipants() != null && clubEvent.getParticipants().size() >= clubEvent.getMaximumParticipants();
+        boolean hasPaid = loggedPlayer.getPaidClubEvents().contains(clubEvent);
 
         model.addAttribute("clubEvent", clubEvent);
         model.addAttribute("isRegistered", isRegistered);
         model.addAttribute("isFull", isFull);
+        model.addAttribute("hasPaid", hasPaid);
 
         return "user/eventdetails";
     }
