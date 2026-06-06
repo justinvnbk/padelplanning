@@ -15,7 +15,7 @@
     <div class="row justify-content-center">
       <div class="col-12 col-lg-9">
         <form class="d-flex justify-content-end mb-4" method="get" th:action="@{/admin/events/{id}/participants(id=${clubEvent.id})}">
-          <div class="input-group col-12 col-md-6 col-lg-4">
+          <div class="input-group w-100" style="max-width: 450px">
 
             <input class="form-control" type="search" name="searchTerm" th:value="${searchTerm}" placeholder="Zoek deelnemer...">
             <button class="btn btn-primary" type="submit">
@@ -55,7 +55,21 @@
                 <div class="card h-100 border border-subtle shadow-sm">
                   <div class="card-body">
 
-                    <h2 class="h5 card-title mb-3" th:text="${participant.name}"></h2>
+                    <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
+                      <h2 class="h5 card-title mb-0" th:text="${participant.name}">
+                        Naam deelnemer
+                      </h2>
+
+                      <span class="badge text-bg-success"
+                            th:if="${participant.paidClubEvents.contains(clubEvent)}">
+                        Betaald
+                      </span>
+
+                      <span class="badge text-bg-danger"
+                            th:unless="${participant.paidClubEvents.contains(clubEvent)}">
+                        Niet betaald
+                      </span>
+                    </div>
 
                     <div class="mb-2">
                       <strong>E-mail:</strong>
