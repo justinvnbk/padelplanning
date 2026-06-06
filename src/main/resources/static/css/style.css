@@ -13,31 +13,43 @@
     flex-direction: column;
 }
 
-.home-pre {
-    background-attachment: fixed, fixed;
-    background-image:
-            linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, 1) 100%),
-            url("/images/padel.jpg");
-
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+.home-pre, main.login {
+    position: relative; /* Required so the overlay stays bound to the container */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    z-index: 1; /* Keeps content layered correctly */
+}
+
+/* 2. Assign just the clean images to the backgrounds */
+.home-pre {
+    background: url("/images/padel.jpg") center/cover no-repeat fixed;
 }
 
 main.login {
-    background-image:
-            linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, 1) 100%),
-            url("/images/01_Entrance_9e647a5552.jpg");
+    background: url("/images/01_Entrance_9e647a5552.jpg") center/cover no-repeat;
+}
 
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+/* 3. Create a universal, smooth overlay code */
+.home-pre::before, main.login::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, 1) 100%);
+    z-index: -1; /* Puts the gradient layer between the background image and your text */
+
+    /* Smooth fade-in animation on page load */
+    animation: fadeInOverlay 1.5s ease-in-out forwards;
+    opacity: 0;
+}
+
+/* 4. The Animation Engine */
+@keyframes fadeInOverlay {
+    from { opacity: 0.8; }
+    to { opacity: 1; }
 }
 
 .position-relative {
