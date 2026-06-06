@@ -7,9 +7,6 @@
 <main class="home-pre">
     <div class="container py-4">
         <h1 class="text-center text-white mb-5">Geplande padeldagen</h1>
-        <!--    <div class="text-end mb-3 w-100" sec:authorize="hasAuthority('ADMIN')">-->
-        <!--        <a class="btn btn-primary" th:href="@{/admin/newpadelday}">+ Plan nieuwe padel dag</a>-->
-        <!--    </div>-->
         <div class="row row-cols-1 row-cols-md-3 g-4">
             <div class="col" th:each="padelDay: ${padelDays}" th:object="${padelDay}"
                  th:if="${padelDay.date.isAfter(#temporals.createNow().minusMinutes(120))}">
