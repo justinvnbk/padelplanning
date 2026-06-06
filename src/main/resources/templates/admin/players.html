@@ -59,17 +59,20 @@
         <!-- Approved Players -->
         <h2 class="mb-4 text-light">Goedgekeurde spelers</h2>
 
-        <div th:if="${#lists.isEmpty(approvedPlayers)}"
-             class="bg-warning-subtle border border-secondary rounded-3 text-center shadow-sm mb-5 p-4">
+        <div th:if="${#lists.isEmpty(approvedPlayers)}" class="bg-warning-subtle border border-secondary rounded-3 text-center shadow-sm mb-5 p-4">
             <h5 class="mb-2">Geen goedgekeurde spelers</h5>
-            <p class="mb-0">
+
+            <p class="mb-3">
                 Er zijn momenteel geen goedgekeurde spelers.
-                Deel de link van de app met nieuwe spelers:
-                <a href="https://padelplanning.onrender.com/"
-                   class="fw-bold text-dark"
-                   target="_blank">
-                    padelplanning.onrender.com
-                </a>
+                Deel de link van de app en nodig nieuwe spelers uit.
+            </p>
+
+            <button type="button" class="btn btn-outline-dark fw-bold" onclick="copyAppLink()">
+                Link kopiëren
+            </button>
+
+            <p id="copyMessage" class="text-success fw-bold mt-3 mb-0 d-none">
+                Link gekopieerd!
             </p>
         </div>
 
@@ -128,6 +131,20 @@
         document.getElementById('confirmModalMessage').textContent = button.dataset.message;
         document.getElementById('confirmModalForm').action = button.dataset.action;
     });
+</script>
+<script>
+    function copyAppLink() {
+        const appLink = window.location.origin + "/";
+
+        navigator.clipboard.writeText(appLink).then(() => {
+            const message = document.getElementById("copyMessage");
+            message.classList.remove("d-none");
+
+            setTimeout(() => {
+                message.classList.add("d-none");
+            }, 2000);
+        });
+    }
 </script>
 </body>
 </html>
