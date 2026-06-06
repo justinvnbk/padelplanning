@@ -19,8 +19,12 @@
         <!-- Pending Players -->
         <h2 class="my-4 text-light">Wachtende spelers</h2>
 
-        <div th:if="${#lists.isEmpty(pendingPlayers)}" class="text-muted mb-5">
-            Geen spelers in afwachting.
+        <div th:if="${#lists.isEmpty(pendingPlayers)}"
+             class="bg-warning-subtle border border-secondary rounded-3 text-center shadow-sm mb-5 p-4">
+            <h5 class="mb-2">Geen spelers in afwachting</h5>
+            <p class="mb-0">
+                Er zijn momenteel geen spelers die wachten op goedkeuring.
+            </p>
         </div>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 mb-5">
             <div class="col" th:each="player : ${pendingPlayers}">
@@ -55,8 +59,18 @@
         <!-- Approved Players -->
         <h2 class="mb-4 text-light">Goedgekeurde spelers</h2>
 
-        <div th:if="${#lists.isEmpty(approvedPlayers)}" class="text-muted">
-            Geen goedgekeurde spelers.
+        <div th:if="${#lists.isEmpty(approvedPlayers)}"
+             class="bg-warning-subtle border border-secondary rounded-3 text-center shadow-sm mb-5 p-4">
+            <h5 class="mb-2">Geen goedgekeurde spelers</h5>
+            <p class="mb-0">
+                Er zijn momenteel geen goedgekeurde spelers.
+                Deel de link van de app met nieuwe spelers:
+                <a href="https://padelplanning.onrender.com/"
+                   class="fw-bold text-dark"
+                   target="_blank">
+                    padelplanning.onrender.com
+                </a>
+            </p>
         </div>
 
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
