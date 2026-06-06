@@ -33,20 +33,32 @@ public class PaymentController {
         this.clubEventRepository = clubEventRepository;
     }
 
-    @PostMapping("/create-checkout-session")
-    @ResponseBody
-    public String createCheckoutSession(@RequestParam Integer id, Principal principal) throws StripeException {
+    @PostMapping("/padeldays/{padelDayId}/pay")
+    public String createPadelDayCheckoutSession(
+            @PathVariable Integer padelDayId,
+            Principal principal
+    ) throws StripeException {
 
-        Optional<PadelDay> optionalPadelDay = padelDayRepository.findById(id);
+        Optional<PadelDay> optionalPadelDay =
+                padelDayRepository.findById(padelDayId);
+
+        if (optionalPadelDay.isEmpty()) {
+            return "redirect:/user/padeldays";
+        }
+
+        PadelDay padelDay = optionalPadelDay.get();
         Player player = playerRepository.findByEmail(principal.getName());
 
-        if (optionalPadelDay.isEmpty() || !optionalPadelDay.get().isPublished()) {
-            throw new IllegalStateException("Betaling niet toegestaan voor publicatie");
+        if (!padelDay.isPublished()
+                || !padelDay.getSignedUpPlayers().contains(player)
+                || player.getPayedPadelDays().contains(padelDay)) {
+
+            return "redirect:/user/signup/" + padelDayId;
         }
 
         SessionCreateParams.LineItem.PriceData.ProductData productData =
                 SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                        .setName("Padel Day")
+                        .setName("Padeldag")
                         .build();
 
         SessionCreateParams.LineItem.PriceData priceData =
@@ -65,16 +77,17 @@ public class PaymentController {
         SessionCreateParams params =
                 SessionCreateParams.builder()
                         .setMode(SessionCreateParams.Mode.PAYMENT)
-                        .setSuccessUrl(appBaseUrl + "/user/payment-success?id=" + id)
-                        .setCancelUrl(appBaseUrl + "/user/payment-cancel")
+                        .setCustomerEmail(player.getEmail())
+                        .setSuccessUrl(appBaseUrl + "/user/payment-success?id=" + padelDayId)
+                        .setCancelUrl(appBaseUrl + "/user/signup/" + padelDayId)
                         .putMetadata("playerId", player.getId().toString())
-                        .putMetadata("padelDayId", id.toString())
+                        .putMetadata("padelDayId", padelDayId.toString())
                         .addLineItem(lineItem)
                         .build();
 
         Session session = Session.create(params);
 
-        return session.getUrl();
+        return "redirect:" + session.getUrl();
     }
 
     @GetMapping("/payment-success")
