@@ -3,6 +3,7 @@ package be.thomasmore.padelplanning.model;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +45,9 @@ public class Player {
 
     @ManyToMany(fetch = FetchType.LAZY)
     private List<PadelDay> confirmedPayedPadelDays;
+
+    @ManyToMany
+    private List<ClubEvent> paidClubEvents = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -179,5 +183,17 @@ public class Player {
 
     public void setConfirmedPayedPadelDays(List<PadelDay> confirmedPayedPadelDays) {
         this.confirmedPayedPadelDays = confirmedPayedPadelDays;
+    }
+
+    public boolean isHasUnseenNotifications() {
+        return hasUnseenNotifications;
+    }
+
+    public List<ClubEvent> getPaidClubEvents() {
+        return paidClubEvents;
+    }
+
+    public void setPaidClubEvents(List<ClubEvent> paidClubEvents) {
+        this.paidClubEvents = paidClubEvents;
     }
 }
