@@ -68,11 +68,20 @@
 
               <div th:if="${isRegistered}">
 
-                <form th:action="@{/user/events/{id}/unregister(id=${clubEvent.id})}" method="post">
+                <form th:if="${isRegistered && !hasPaid}"
+                      th:action="@{/user/events/{id}/unregister(id=${clubEvent.id})}"
+                      method="post">
+
                   <button class="btn btn-danger w-100" type="submit">
                     Uitschrijven voor evenement
                   </button>
                 </form>
+
+                <div th:if="${isRegistered && hasPaid}"
+                     class="alert alert-info mb-0">
+                  U kunt zich na betaling niet meer zelf uitschrijven.
+                  Neem contact op met een beheerder.
+                </div>
 
               </div>
               <div th:unless="${isRegistered}">
