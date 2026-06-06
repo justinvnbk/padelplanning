@@ -22,11 +22,13 @@
 
                                     <input id="title"
                                            class="form-control"
+                                           th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'"
                                            type="text"
                                            th:field="*{title}"
                                            placeholder="Bijvoorbeeld: Familiebarbecue"
                                            required
                                            autofocus>
+                                    <div class="invalid-feedback" th:errors="*{title}"></div>
                                 </div>
 
                                 <div class="col-12">
@@ -48,10 +50,12 @@
 
                                     <input id="location"
                                            class="form-control"
+                                           th:classappend="${#fields.hasErrors('location')} ? 'is-invalid'"
                                            type="text"
                                            th:field="*{location}"
                                            placeholder="Bijvoorbeeld: Padelclub Antwerpen"
                                            required>
+                                    <div class="invalid-feedback" th:errors="*{location}"></div>
                                 </div>
 
                                 <div class="col-12 col-md-6">
@@ -61,9 +65,11 @@
 
                                     <input id="startDateTime"
                                            class="form-control"
+                                           th:classappend="${#fields.hasErrors('startDateTime')} ? 'is-invalid'"
                                            type="datetime-local"
                                            th:field="*{startDateTime}"
                                            required>
+                                    <div class="invalid-feedback" th:errors="*{startDateTime}"></div>
                                 </div>
 
                                 <div class="col-12 col-md-6">
@@ -73,9 +79,11 @@
 
                                     <input id="endDateTime"
                                            class="form-control"
+                                           th:classappend="${#fields.hasErrors('endDateTime')} ? 'is-invalid'"
                                            type="datetime-local"
                                            th:field="*{endDateTime}"
                                            required>
+                                    <div class="invalid-feedback" th:errors="*{endDateTime}"></div>
                                 </div>
 
                                 <div class="col-12">
@@ -85,10 +93,12 @@
 
                                     <input id="maximumParticipants"
                                            class="form-control"
+                                           th:classappend="${#fields.hasErrors('maximumParticipants')} ? 'is-invalid'"
                                            type="number"
                                            th:field="*{maximumParticipants}"
                                            min="1"
                                            placeholder="Laat leeg wanneer er geen limiet is">
+                                    <div class="invalid-feedback" th:errors="*{maximumParticipants}"></div>
 
                                     <span class="text-secondary small">
                                         Laat dit veld leeg wanneer iedereen zich mag inschrijven.
@@ -104,12 +114,14 @@
                                         <span class="input-group-text">€</span>
 
                                         <input id="price" class="form-control"
+                                               th:classappend="${#fields.hasErrors('price')} ? 'is-invalid'"
                                                type="number"
                                                th:field="*{price}"
                                                min="0"
                                                step="0.05"
                                                placeholder="0,00"
                                                required>
+                                        <div class="invalid-feedback" th:errors="*{price}"></div>
                                     </div>
                                     <span class="text-secondary small">Vul 0 in wanneer deelname gratis is.</span>
                                 </div>
