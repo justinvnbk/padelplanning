@@ -3,53 +3,67 @@
 <head th:replace="~{fragments/head::headfragment}"></head>
 <body>
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
-<main th:if="${padelDay != null and padelDay.date.isAfter(#temporals.createNow().minusMinutes(120))}" class="container py-4">
-    <h1 class="text-center mb-5">Gegevens van deze padeldag aanpassen</h1>
-    <form class="w-75 mx-auto" th:action="@{/admin/editpadelday}" th:object="${padelDay}" method="post">
-        <div class="row">
-            <input type="hidden" th:field="*{signedUpPlayers}"/>
-            <input type="hidden" th:field="*{reservedPlayers}"/>
-            <input type="hidden" th:field="*{id}"/>
-            <div class="col-12">
-                <label for="padelDayDate" class="form-label fw-bold">Start datum en uur:</label>
-                <input id="padelDayDate" autofocus class="form-control" type="datetime-local" name="date"
-                       th:value="*{date}" th:errorclass="is-invalid">
-            </div>
-            <div class="col-12 my-4">
-                <span th:text="|Een padel dag heeft 3 matchmomenten van 40 minuten dus deze padeldag eindigt om ${#temporals.format(padelDay.date.plusHours(2), 'HH:mm')}.|"></span>
-            </div>
-            <div class="col-12">
-                <label class="form-label fw-bold">Beschikbare velden:</label>
+<main class="home-pre">
+    <div th:if="${padelDay != null and padelDay.date.isAfter(#temporals.createNow().minusMinutes(120))}"
+         class="container py-4">
+        <h1 class="text-center text-light mb-5">Gegevens van deze padeldag aanpassen</h1>
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-11 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
 
-                <div class="d-flex flex-column gap-2 mt-2">
-                    <div th:each="f : ${fields}" class="form-check">
-                        <input
-                                class="form-check-input border-secondary"
-                                type="checkbox"
-                                th:id="${'field-' + f.id}"
-                                th:value="${f.id}"
-                                th:field="*{fields}"
-                        />
-                        <label class="form-check-label" th:for="${'field-' + f.id}">
-                            <span th:text="${f.name}">Veld Naam</span>
-                            <span class="text-secondary small"
-                                  th:text="'(' + (${f.isOutside} ? (${f.isCovered} ? 'buiten overdekt' : 'buiten niet overdekt') : 'binnen') + ')'">
+                <div class="card border border-subtle rounded-3 shadow-sm">
+                    <div class="card-body p-3 p-md-4 p-xl-5">
+                        <form th:action="@{/admin/editpadelday}" th:object="${padelDay}" method="post">
+                            <div class="row">
+                                <input type="hidden" th:field="*{signedUpPlayers}"/>
+                                <input type="hidden" th:field="*{reservedPlayers}"/>
+                                <input type="hidden" th:field="*{id}"/>
+                                <div class="col-12">
+                                    <label for="padelDayDate" class="form-label fw-bold">Start datum en uur:</label>
+                                    <input id="padelDayDate" autofocus class="form-control" type="datetime-local"
+                                           name="date"
+                                           th:value="*{date}" th:errorclass="is-invalid">
+                                </div>
+                                <div class="col-12 my-4">
+                                    <span th:text="|Een padel dag heeft 3 matchmomenten van 40 minuten dus deze padeldag eindigt om ${#temporals.format(padelDay.date.plusHours(2), 'HH:mm')}.|"></span>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label fw-bold">Beschikbare velden:</label>
+
+                                    <div class="d-flex flex-column gap-2 mt-2">
+                                        <div th:each="f : ${fields}" class="form-check">
+                                            <input
+                                                    class="form-check-input border-secondary"
+                                                    type="checkbox"
+                                                    th:id="${'field-' + f.id}"
+                                                    th:value="${f.id}"
+                                                    th:field="*{fields}"
+                                            />
+                                            <label class="form-check-label" th:for="${'field-' + f.id}">
+                                                <span th:text="${f.name}">Veld Naam</span>
+                                                <span class="text-secondary small"
+                                                      th:text="'(' + (${f.isOutside} ? (${f.isCovered} ? 'buiten overdekt' : 'buiten niet overdekt') : 'binnen') + ')'">
                                 (type)
                             </span>
-                        </label>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center justify-content-md-start gap-2 mt-4">
+                                    <a class="btn btn-primary text-nowrap" id="selectAllFields">Alle velden</a>
+                                    <a class="btn btn-primary text-nowrap" id="deSelectAllFields">Clear velden</a>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mt-5 pt-3 border-top">
+                                    <a class="btn btn-danger px-4" th:href="@{|/user/signup/*{id}|}">Annuleer</a>
+                                    <button class="btn btn-primary px-5 fw-bold shadow-sm" type="submit">Opslaan
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-            <div class="d-flex justify-content-center justify-content-md-start gap-2 mt-4">
-                <a class="btn btn-primary text-nowrap" id="selectAllFields">Alle velden</a>
-                <a class="btn btn-primary text-nowrap" id="deSelectAllFields">Clear velden</a>
-            </div>
-            <div class="d-flex justify-content-between align-items-center mt-5 pt-3 border-top">
-                <a class="btn btn-danger px-4" th:href="@{|/user/signup/*{id}|}">Annuleer</a>
-                <button class="btn btn-primary ms-5 px-3 fw-bold shadow-sm" type="submit">Opslaan</button>
-            </div>
         </div>
-    </form>
+    </div>
 </main>
 <main th:unless="${padelDay != null}">
     <div class="fs-2 p-5 text-center text-white bg-dark m-5 rounded">

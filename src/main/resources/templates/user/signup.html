@@ -1,211 +1,208 @@
 <!doctype html>
 <html lang="nl" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments/head::headfragment}"></head>
+
 <body>
 <header th:replace="~{fragments/headerfooter::navbar}"></header>
 
 <main class="home-pre" th:if="${padelDay != null and padelDay.date.isAfter(#temporals.createNow().minusMinutes(120))}">
     <div class="container py-4" th:object="${padelDay}">
+
         <div class="d-flex justify-content-between align-items-center mb-4 text-white">
-            <a th:href="@{|/user/signup/${previousPadelDayId}|}" class="btn btn-outline-danger rounded-circle d-flex align-items-center justify-content-center pb-2" style="width: 50px; height: 50px; font-size: 1.5rem;">
+            <a th:href="@{|/user/signup/${previousPadelDayId}|}"
+               class="btn btn-outline-danger rounded-circle d-flex align-items-center justify-content-center pb-2"
+               style="width: 50px; height: 50px; font-size: 1.5rem;">
                 &lt;
             </a>
+
             <h2 style="font-size: 2.5rem" class="m-0 text-center info-title flex-grow-1 mx-3">
                 Algemene informatie over de volgende padeldag:
             </h2>
-            <a th:href="@{|/user/signup/${nextPadelDayId}|}" class="btn btn-outline-danger rounded-circle d-flex align-items-center justify-content-center pb-2" style="width: 50px; height: 50px; font-size: 1.5rem;">
+
+            <a th:href="@{|/user/signup/${nextPadelDayId}|}"
+               class="btn btn-outline-danger rounded-circle d-flex align-items-center justify-content-center pb-2"
+               style="width: 50px; height: 50px; font-size: 1.5rem;">
                 &gt;
             </a>
         </div>
+
+        <!-- General alerts -->
         <div class="container mt-3 mx-auto col-12 col-md-8">
-            <div th:if="${alertSuccess}" class="alert alert-success alert-dismissible fade show text-center shadow-sm" role="alert">
+
+            <div th:if="${alertSuccess}"
+                 class="alert alert-success alert-dismissible fade show text-center shadow-sm"
+                 role="alert">
                 <span th:text="${alertSuccess}"></span>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
 
-            <div th:if="${alertWarning}" class="alert alert-warning alert-dismissible fade show text-center shadow-sm text-dark" role="alert">
+            <div th:if="${alertWarning}"
+                 class="alert alert-warning alert-dismissible fade show text-center shadow-sm text-dark"
+                 role="alert">
                 <span th:text="${alertWarning}"></span>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
 
-            <div th:if="${alertDanger}" class="alert alert-danger alert-dismissible fade show text-center shadow-sm" role="alert">
+            <div th:if="${alertDanger}"
+                 class="alert alert-danger alert-dismissible fade show text-center shadow-sm"
+                 role="alert">
                 <span th:text="${alertDanger}"></span>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
 
-            <div th:if="${alertInfo}" class="alert alert-info alert-dismissible fade show text-center shadow-sm" role="alert">
+            <div th:if="${alertInfo}"
+                 class="alert alert-info alert-dismissible fade show text-center shadow-sm"
+                 role="alert">
                 <span th:text="${alertInfo}"></span>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
+
         </div>
 
+        <!-- Admin top controls -->
         <div class="row mt-5" sec:authorize="hasAuthority('ADMIN')">
 
-            <div th:if="${noPlayerError}" class="alert alert-danger alert-dismissible fade show text-center shadow-sm col-12 col-md-8 mx-auto" role="alert">
+            <div th:if="${noPlayerError}"
+                 class="alert alert-danger alert-dismissible fade show text-center shadow-sm col-12 col-md-8 mx-auto"
+                 role="alert">
                 <span th:text="${noPlayerError}"></span>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
 
-            <div th:if="${saved}" class="alert alert-success alert-dismissible fade show text-center shadow-sm col-12 col-md-8 mx-auto" role="alert">
-
+            <div th:if="${saved}"
+                 class="alert alert-success alert-dismissible fade show text-center shadow-sm col-12 col-md-8 mx-auto"
+                 role="alert">
                 <span th:text="${saved}"></span>
-
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-
             </div>
 
-            <div class="col-12 col-md-6 d-flex flex-column flex-sm-row justify-content-center justify-content-sm-start align-items-center gap-3 my-2">
+            <div class="col-12 d-flex flex-column flex-sm-row justify-content-center align-items-center gap-3 my-2">
 
-                <a style="font-size: 1.2rem" class="btn btn-primary px-3 py-2 fw-bold shadow-sm admin-btn-spec"
+                <a style="font-size: 1.2rem"
+                   class="btn btn-primary px-3 py-2 fw-bold shadow-sm admin-btn-spec"
                    th:href="@{|/admin/editpadelday/*{id}|}">
-                    ⚙️Padeldag aanpassen
+                    ⚙️ Padeldag aanpassen
                 </a>
 
-                <form class="m-0 w-sm-auto text-center" th:action="@{/admin/plan}" th:if="${!hasPlan}" method="post">
+                <form class="m-0 text-center"
+                      th:action="@{/admin/plan}"
+                      th:if="${!hasPlan}"
+                      method="post">
+
                     <input type="hidden" name="id" th:value="${padelDay.id}"/>
-                    <button style="font-size: 1.2rem" class="btn btn-primary px-3 py-2 fw-bold shadow-sm admin-btn-spec"
+
+                    <button style="font-size: 1.2rem"
+                            class="btn btn-primary px-3 py-2 fw-bold shadow-sm admin-btn-spec"
                             type="submit">
-                        📋Maak planning aan
+                        📋 Maak planning aan
                     </button>
+
                 </form>
 
             </div>
         </div>
-        <!--        Admin view for publish-->
-        <div sec:authorize="hasAuthority('ADMIN')" th:if="${hasPlan && !padelDay.published}" class="mb-3">
-            <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3 mb-4 ">
-                <a style="font-size: 1.3rem" class="btn btn-primary px-3 fw-bold shadow-sm admin-btn-spec"
+
+        <!-- Admin planning action buttons, only after a plan exists -->
+        <div sec:authorize="hasAuthority('ADMIN')"
+             th:if="${hasPlan}"
+             class="mb-3">
+
+            <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3 mb-4">
+
+                <a style="font-size: 1.3rem"
+                   class="btn btn-primary px-3 fw-bold shadow-sm admin-btn-spec"
                    th:href="@{|/admin/payments/*{id}|}">
-                    🏦Bekijk betalingen
+                    🏦 Bekijk betalingen
                 </a>
-                <span th:if="${padelDay.published}" style="font-size: 1.3rem"
+
+                <span th:if="${padelDay.published}"
+                      style="font-size: 1.3rem"
                       class="btn btn-success disabled px-3 fw-bold shadow-sm admin-btn-spec">
                     ✅ Planning gepubliceerd
                 </span>
-                <form th:unless="${padelDay.published}"
+
+                <form th:if="${!padelDay.published}"
                       th:action="@{|/admin/publishplan/*{id}|}"
                       method="post"
                       class="m-0">
+
                     <button style="font-size: 1.3rem"
                             class="btn btn-primary px-3 fw-bold shadow-sm admin-btn"
                             type="submit">
-                        ‼️Publiceer planning
+                        ‼️ Publiceer planning
                     </button>
+
                 </form>
+
             </div>
+
             <div id="alert-section" class="row justify-content-center">
+
                 <div th:if="${error}"
-                     class="alert alert-danger alert-dismissible fade show col-11 col-md-5" role="alert">
-                    <strong>Niet opgeslagen!</strong> <span th:text="${error}"></span>
+                     class="alert alert-danger alert-dismissible fade show col-11 col-md-5"
+                     role="alert">
+                    <strong>Niet opgeslagen!</strong>
+                    <span th:text="${error}"></span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
 
                 <div th:if="${success}"
-                     class="alert alert-success alert-dismissible fade show col-11 col-md-5" role="alert">
+                     class="alert alert-success alert-dismissible fade show col-11 col-md-5"
+                     role="alert">
                     <span th:text="${success}"></span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
 
                 <div th:if="${info}"
-                     class="alert alert-info alert-dismissible fade show col-11 col-md-5" role="alert">
+                     class="alert alert-info alert-dismissible fade show col-11 col-md-5"
+                     role="alert">
                     <span th:text="${info}"></span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
+
             </div>
-            <form class="mt-3" th:action="@{/admin/planEdit}"
-                  method="post">
-                <input type="hidden" name="padelDayId" th:value="${padelDay.id}"/>
-                <div class="row border border-black">
-                    <div class="col-12 g-0 m-0 border bg-dark text-light p-2 fw-bold">
-                        <div class="float-end">
-                            <button th:if="${!padelDay.published}"
-                                    class="btn btn-primary px-3 py-2 fw-bold shadow-sm admin-btn-spec"
-                                    type="submit">
-                                💾Wijzigingen opslaan
-                            </button>
-                        </div>
-                        <p th:text="${#temporals.format(padelDay.date, 'dd/MM/yyyy')}"></p>
-                    </div>
-
-                </div>
-                <div th:each="field : ${padelDay.fields}" th:if="${#lists.contains(padelDay.matches.![field], field)}"
-                     class="row border border-end-0 border-black">
-                    <div class="col-1 border-end d-flex flex-column align-items-center justify-content-center text-center"
-                         style="background-color: #c6c6c6">
-                        <div class="fs-4 fs-md-2 fw-bold veld" th:text="${field.name}"></div>
-                        <div class="text-secondary small d-none d-md-block"
-                             th:text="'(' + (${field.isOutside} ? 'buiten' : 'binnen)')"></div>
-                        <div class="text-secondary small d-none d-md-block" th:if="${field.isOutside}"
-                             th:text="(${field.isCovered} ? 'overdekt' : 'niet overdekt') + ')'"></div>
-                    </div>
-                    <div class="row col-11 m-0 g-0 flex-nowrap">
-                        <div class="col border border-bottom-0 border-top-0 border-end-0 m-0 g-0"
-                             th:each="match, i : ${padelDay.matches}" th:if="${match.field == field}">
-                            <div class="col-12 m-0 g-0">
-                                <h6 class="fw-bold p-3 bg-dark text-light m-0 g-0"
-                                    th:text="|Matches van ${match.getTimeSlot()}|">
-                                </h6>
-                            </div>
-                            <div th:each="team, i : ${match.getTeams()}" th:object="${team}"
-                                 class="box-shadow m-0 border border-dark border-bottom-0 bg-dark bg-opacity-10">
-                                <input type="hidden" name="teamIds" th:value="${team.id}"/>
-
-                                <!-- Change the inner loop to use a fixed sequence (0 to 1 for two players) -->
-                                <div class="p-1 d-flex" th:each="index : ${#numbers.sequence(0, 1)}"
-                                     th:style="|background-color: ${i.index==0 ? '#9F0E31' : '#0E0F12'}|">
-                                    <select class="form-select my-2 text-center text-white" name="playerIds"
-                                            th:style="|background-color: ${i.index==0 ? '#FF1A52' : '#212529'}|">
-
-                                        <!-- Logic to check if a player exists at this index -->
-                                        <option th:each="player : ${padelDay.getSortedSignedUpPlayers()}"
-                                                th:value="${player.getId()}"
-                                                th:text="|${player.getName()} (P-${player.pRanking})|"
-                                                th:disabled="${padelDay.published}"
-                                                th:selected="${team.getPlayers().size() > index && team.getPlayers().get(index).getId() == player.getId()}">
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
         </div>
 
+        <!-- User payment/status block: only after plan exists -->
+        <div class="d-flex row justify-content-center flex-wrap g-2 my-0 my-md-4 mt-md-1"
+             th:if="${hasPlan}">
 
-        <div class="d-flex row justify-content-center flex-wrap g-2 my-0 my-md-4 mt-md-1" th:if="${hasPlan}">
             <h3 class="m-3 bg-dark text-light rounded border border-dark p-2 text-center"
                 th:if="${!padelDay.reservedPlayers.contains(currentUser) && !padelDay.signedUpPlayers.contains(currentUser)}">
-                    <span>
-                        Inschrijven voor deze padeldag is niet meer mogelijk
-                    </span>
+                <span>Inschrijven voor deze padeldag is niet meer mogelijk</span>
                 <span sec:authorize="hasAuthority('USER')">, contacteer een admin bij problemen.</span>
             </h3>
-            <h3 class="m-3 bg-dark text-light rounded border border-dark p-2 text-center"
-                th:unless="${!padelDay.reservedPlayers.contains(currentUser)}">
-                    <span>
-                        U staat op de reservelijst voor deze padel dag, u hoeft niet te betalen
-                    </span>
-            </h3>
-            <div class="col-12 d-flex justify-content-center mt-4">
-                <input type="hidden" id="padelDayId" th:value="${padelDay.id}"/>
 
-                <button class="btn btn-pma px-2 insch mb-3 mb-md-0 fw-bold shadow-sm text-nowrap admin-btn"
-                        style="font-size: 1.1rem"
-                        th:disabled="${!isSignedUp || hasPayed || !padelDay.published}"
-                        th:if="${padelDay.signedUpPlayers.contains(currentUser)}"
-                        th:text="${hasPayed ? '✅ Betaald' : 'Pay with Stripe'}"
-                        th:onclick="'payWithStripe(' + ${padelDay.id} + ')'">
-                </button>
+            <h3 class="m-3 bg-dark text-light rounded border border-dark p-2 text-center"
+                th:if="${padelDay.reservedPlayers.contains(currentUser)}">
+                <span>
+                    U staat op de reservelijst voor deze padel dag, u hoeft niet te betalen
+                </span>
+            </h3>
+
+            <!-- Payment button: only visible after publication -->
+            <div class="col-12 d-flex justify-content-center mt-4"
+                 th:if="${padelDay.published && padelDay.signedUpPlayers.contains(currentUser)}">
+
+                <form th:action="@{/user/padeldays/{id}/pay(id=${padelDay.id})}"
+                      method="post">
+
+                    <button class="btn btn-pma px-2 insch mb-3 mb-md-0 fw-bold shadow-sm text-nowrap admin-btn"
+                            style="font-size: 1.1rem"
+                            type="submit"
+                            th:disabled="${hasPayed}"
+                            th:text="${hasPayed ? '✅ Betaald' : 'Betalen'}">
+                    </button>
+
+                </form>
 
             </div>
         </div>
 
-        <!--    General view-->
-        <!-- Added justify-content-center and align-items-start so the remaining column centers when lists are hidden -->
+        <!-- General view: left padelday info, right admin player lists -->
         <div class="row justify-content-center align-items-start">
 
-            <!-- LEFT COLUMN: Info Cards & Action Buttons -->
+            <!-- LEFT COLUMN: Info cards and signup/signout -->
             <div style="font-size: 1.5rem" class="info-padelday col-12 col-lg-6 p-3 mt-3">
 
                 <div class="mb-3 bg-light text-dark rounded border bg-opacity-75 p-2 text-center"
@@ -219,134 +216,221 @@
 
                 <div class="mb-3 bg-light text-dark rounded border bg-opacity-75 p-2 text-center"
                      th:if="${!hasPlan}"
-                     th:text="|Nog ${(padelDay.fields.size()*4) - padelDay.signedUpPlayers.size() - padelDay.reservedPlayers.size() < 1?0:(padelDay.fields.size()*4) - padelDay.signedUpPlayers.size() - padelDay.reservedPlayers.size()} vrije plaatsen|"></div>
+                     th:text="|Nog ${(padelDay.fields.size()*4) - padelDay.signedUpPlayers.size() - padelDay.reservedPlayers.size() < 1 ? 0 : (padelDay.fields.size()*4) - padelDay.signedUpPlayers.size() - padelDay.reservedPlayers.size()} vrije plaatsen|"></div>
 
                 <div class="mb-3 bg-light text-dark rounded border bg-opacity-75 p-2 text-center"
                      th:if="${!(padelDay.signedUpPlayers.size() == padelDay.fields.size()*4) && !hasPlan && !padelDay.signedUpPlayers.contains(currentUser)}"
                      th:text="|${'Nog ' + (4 - padelDay.reservedPlayers.size()) + ' speler(s) nodig om de volgende groep te in te schrijven'}|"></div>
 
                 <div class="mb-3 bg-success bg-opacity-75 text-dark rounded border border-success p-2 text-center text-white"
-                     th:if="${padelDay.signedUpPlayers.contains(currentUser)}">U bent ingeschreven <p style="font-size: 0.9rem" class="p-0 m-0">4 uur voor start vindt u de planning hier of op de startpagina</p></div>
+                     th:if="${padelDay.signedUpPlayers.contains(currentUser)}">
+                    U bent ingeschreven
+                    <p style="font-size: 0.9rem" class="p-0 m-0">
+                        4 uur voor start vindt u de planning hier of op de startpagina
+                    </p>
+                </div>
 
                 <div class="m-0 bg-warning bg-opacity-75 text-dark rounded border border-warning p-2 text-center"
                      th:if="${padelDay.reservedPlayers.contains(currentUser)}"
-                     th:text="|U staat op de reservelijst ${padelDay.signedUpPlayers.size()<padelDay.fields.size()*4?' tot er voldoende personen zijn ingeschreven':''}|"></div>
+                     th:text="|U staat op de reservelijst ${padelDay.signedUpPlayers.size() < padelDay.fields.size()*4 ? ' tot er voldoende personen zijn ingeschreven' : ''}|"></div>
 
-                <!-- MOVED BUTTONS HERE: They now sit cleanly underneath the Info Cards for everyone -->
-                <div class="d-flex justify-content-center mt-4" th:unless="${hasPlan}">
-                    <form th:action="@{/user/signup}" method="post" th:unless="${isSignedUp}">
+                <!-- Signup/signout only before planning exists -->
+                <div class="d-flex justify-content-center mt-4"
+                     th:unless="${hasPlan}">
+
+                    <form th:action="@{/user/signup}"
+                          method="post"
+                          th:unless="${isSignedUp}">
+
                         <input type="hidden" name="id" th:value="${padelDay.id}"/>
+
                         <button class="btn btn-pma px-2 insch fw-bold shadow-sm text-nowrap admin-btn"
-                                style="font-size: 1.1rem" type="submit">
+                                style="font-size: 1.1rem"
+                                type="submit">
                             Inschrijven
                         </button>
+
                     </form>
 
-                    <form th:action="@{/user/signout}" method="post" th:if="${isSignedUp}">
+                    <form th:action="@{/user/signout}"
+                          method="post"
+                          th:if="${isSignedUp}">
+
                         <input type="hidden" name="id" th:value="${padelDay.id}"/>
+
                         <button class="btn btn-pma px-2 insch fw-bold shadow-sm text-nowrap admin-btn"
-                                style="font-size: 1.1rem" type="submit">
+                                style="font-size: 1.1rem"
+                                type="submit">
                             Uitschrijven
                         </button>
+
                     </form>
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN: Lists (Restricted to ADMIN entirely) -->
-            <div class="col-12 col-lg-6 ps-lg-5" sec:authorize="hasAuthority('ADMIN')">
+            <!-- RIGHT COLUMN: Admin lists -->
+            <div class="col-12 col-lg-6 ps-lg-5"
+                 sec:authorize="hasAuthority('ADMIN')">
 
                 <div class="mt-4 mt-lg-3 mx-auto inline text-dark bg-white bg-opacity-75 p-2 rounded-3">
+
                     <div class="mb-5">
                         <h3 style="font-size: 2rem" class="border-white border-bottom text-center list-title pb-2">
-                            Inschrijvingen:</h3>
-                        <div class="d-flex flex-wrap justify-content-center mt-3 row ps-md-4" style="font-size: 1.3rem">
+                            Inschrijvingen:
+                        </h3>
+
+                        <div class="d-flex flex-wrap justify-content-center mt-3 row ps-md-4"
+                             style="font-size: 1.3rem">
+
                             <a th:each="p : ${padelDay.signedUpPlayers}"
-                                 class="px-2 list-players col-12 col-md-6 text-center text-md-start text-decoration-none text-black"
-                                 th:text="|• ${p.name}|"
-                                th:href="@{|/admin/players?keyword=${p.name}|}">
+                               class="px-2 list-players col-12 col-md-6 text-center text-md-start text-decoration-none text-black"
+                               th:text="|• ${p.name}|"
+                               th:href="@{|/admin/players?keyword=${p.name}|}">
                             </a>
+
                         </div>
+
                         <div class="mt-3 fs-5 text-center"
-                             th:text="${padelDay.signedUpPlayers.size()==0?'Nog geen inschrijvingen':''}"></div>
+                             th:text="${padelDay.signedUpPlayers.size() == 0 ? 'Nog geen inschrijvingen' : ''}"></div>
                     </div>
 
                     <div class="mb-5">
                         <h3 style="font-size: 2rem" class="border-white border-bottom text-center list-title pb-2">
                             Reservelijst:
                         </h3>
-                        <div style="font-size: 1.3rem" class="d-flex flex-wrap justify-content-center mt-3 row ps-md-4">
-                            <a th:each="p : ${padelDay.reservedPlayers}"
-                                 class="px-2 list-players col-12 col-md-6 text-center text-md-start text-decoration-none text-black"
-                                 th:text="|• ${p.name}|"
-                               th:href="@{|/admin/players?keyword=${p.name}|}">
 
+                        <div style="font-size: 1.3rem"
+                             class="d-flex flex-wrap justify-content-center mt-3 row ps-md-4">
+
+                            <a th:each="p : ${padelDay.reservedPlayers}"
+                               class="px-2 list-players col-12 col-md-6 text-center text-md-start text-decoration-none text-black"
+                               th:text="|• ${p.name}|"
+                               th:href="@{|/admin/players?keyword=${p.name}|}">
                             </a>
+
                         </div>
+
                         <div class="mt-3 fs-5 text-center"
-                             th:text="${padelDay.reservedPlayers.size()==0?'Reservelijst is leeg':''}"></div>
+                             th:text="${padelDay.reservedPlayers.size() == 0 ? 'Reservelijst is leeg' : ''}"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Editable planning: only admin, only after planning exists, only before publication -->
+        <div sec:authorize="hasAuthority('ADMIN')"
+             th:if="${hasPlan && !padelDay.published}">
+
+            <h1 class="text-center text-white my-5">Planning bewerken</h1>
+
+            <form class="mt-3"
+                  th:action="@{/admin/planEdit}"
+                  method="post">
+
+                <input type="hidden" name="padelDayId" th:value="${padelDay.id}"/>
+
+                <div class="row border border-black">
+                    <div class="col-12 g-0 m-0 border bg-dark text-light p-2 fw-bold">
+                        <div class="float-end">
+                            <button class="btn btn-primary px-3 py-2 fw-bold shadow-sm admin-btn-spec"
+                                    type="submit">
+                                💾 Wijzigingen opslaan
+                            </button>
+                        </div>
+
+                        <p th:text="${#temporals.format(padelDay.date, 'dd/MM/yyyy')}"></p>
                     </div>
                 </div>
 
-            </div>
+                <div th:each="field : ${padelDay.fields}"
+                     th:if="${#lists.contains(padelDay.matches.![field], field)}"
+                     class="row border border-end-0 border-black">
+
+                    <div class="col-1 border-end d-flex flex-column align-items-center justify-content-center text-center"
+                         style="background-color: #c6c6c6">
+
+                        <div class="fs-4 fs-md-2 fw-bold veld" th:text="${field.name}"></div>
+
+                        <div class="text-secondary small d-none d-md-block"
+                             th:text="'(' + (${field.isOutside} ? 'buiten' : 'binnen)')"></div>
+
+                        <div class="text-secondary small d-none d-md-block"
+                             th:if="${field.isOutside}"
+                             th:text="(${field.isCovered} ? 'overdekt' : 'niet overdekt') + ')'"></div>
+
+                    </div>
+
+                    <div class="row col-11 m-0 g-0 flex-nowrap">
+
+                        <div class="col border border-bottom-0 border-top-0 border-end-0 m-0 g-0"
+                             th:each="match, i : ${padelDay.matches}"
+                             th:if="${match.field == field}">
+
+                            <div class="col-12 m-0 g-0">
+                                <h6 class="fw-bold p-3 bg-dark text-light m-0 g-0"
+                                    th:text="|Matches van ${match.getTimeSlot()}|">
+                                </h6>
+                            </div>
+
+                            <div th:each="team, i : ${match.getTeams()}"
+                                 th:object="${team}"
+                                 class="box-shadow m-0 border border-dark border-bottom-0 bg-dark bg-opacity-10">
+
+                                <input type="hidden" name="teamIds" th:value="${team.id}"/>
+
+                                <div class="p-1 d-flex"
+                                     th:each="index : ${#numbers.sequence(0, 1)}"
+                                     th:style="|background-color: ${i.index == 0 ? '#9F0E31' : '#0E0F12'}|">
+
+                                    <select class="form-select my-2 text-center text-white"
+                                            name="playerIds"
+                                            th:style="|background-color: ${i.index == 0 ? '#FF1A52' : '#212529'}|">
+
+                                        <option th:each="player : ${padelDay.getSortedSignedUpPlayers()}"
+                                                th:value="${player.getId()}"
+                                                th:text="|${player.getName()} (P-${player.pRanking})|"
+                                                th:selected="${team.getPlayers().size() > index && team.getPlayers().get(index).getId() == player.getId()}">
+                                        </option>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div th:if="${padelDay.isPublished() && padelDay.signedUpPlayers.contains(currentUser)}">
+
+        <!-- Published planning: one single place -->
+        <div th:if="${padelDay.published && padelDay.signedUpPlayers.contains(currentUser)}">
             <h1 class="text-center text-white my-5">Planning</h1>
             <div th:replace="~{fragments/plantable::plantablefragment}"></div>
         </div>
-        <div th:if="${padelDay.isPublished() && !padelDay.signedUpPlayers.contains(currentUser)}"
+
+        <div th:if="${padelDay.published && !padelDay.signedUpPlayers.contains(currentUser)}"
              sec:authorize="hasAuthority('ADMIN')">
             <h1 class="text-center text-white my-5">Planning</h1>
             <div th:replace="~{fragments/plantable::plantablefragment}"></div>
         </div>
+
     </div>
 </main>
+
 <main th:unless="${padelDay != null}">
     <div class="fs-2 p-5 text-center text-white bg-dark m-5 rounded">
         De padeldag die u zoekt kan niet gevonden worden
     </div>
 </main>
+
 <main th:unless="${padelDay.date.isAfter(#temporals.createNow().minusMinutes(120))}">
     <div class="fs-2 p-5 text-center text-white bg-dark m-5 rounded">
         De padeldag die u zoekt is al afgelopen
     </div>
 </main>
+
 <footer th:replace="~{fragments/headerfooter::footer}"></footer>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
-<script>
-    async function payWithStripe(id) {
-
-        try {
-
-            const response = await fetch(`/user/create-checkout-session?id=${id}`, {
-                method: 'POST'
-            });
-
-            const url = await response.text();
-
-            window.location.href = url;
-
-        } catch (error) {
-            console.error(error);
-            alert("Payment failed");
-        }
-    }
-
-    // Handles smooth fallback scrolling if hash anchoring loses placement context
-    document.addEventListener('DOMContentLoaded', () => {
-        const targetSection = document.getElementById('alert-section');
-
-        if (targetSection) {
-            // Find any template alerts that successfully rendered on screen
-            const hasAlerts = targetSection.querySelector('.alert');
-
-            if (hasAlerts) {
-                targetSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
-                });
-            }
-        }
-    });
-</script>
 </body>
 </html>

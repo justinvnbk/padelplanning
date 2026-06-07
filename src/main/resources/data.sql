@@ -506,3 +506,43 @@ VALUES
     (19,14),
     (20,14),
     (21,14);
+
+--Event test data
+--Published event
+INSERT INTO club_event (title,description,location,start_date_time,end_date_time,maximum_participants,published,price)
+VALUES
+    ('Familiebarbecue','Gezellige familiebarbecue voor alle leden en hun familie.','Padelclub Antwerpen','2026-06-28 15:00:00','2026-06-28 21:00:00',50,TRUE,15.00),
+    ('Nationale feestdag', 'Vier de Belgische nationale feestdag met een gezellige uitstap naar Plopsaland De Panne voor leden en hun familie.', 'Plopsaland - De Panne', '2026-07-21 09:30:00', '2026-07-21 18:00:00', null, TRUE, 35.00);
+
+--Unpublished event
+INSERT INTO club_event (title,description,location,start_date_time,end_date_time,maximum_participants,published,price)
+VALUES
+    ('Familie-uitstap','Een gezamenlijke uitstap voor leden en familie.','Planckendael','2026-08-15 09:30:00','2026-08-15 18:00:00',30,FALSE, 30.00);
+
+--Deelnemers toevoegen aan Nationale feestdag
+INSERT INTO CLUB_EVENT_PARTICIPANTS (CLUB_EVENT_ID, PARTICIPANTS_ID)
+SELECT club_event.id, player.id
+FROM club_event CROSS JOIN player
+WHERE club_event.title = 'Nationale feestdag'
+  AND player.email IN (
+                       'liam@example.com',
+                       'noah@example.com',
+                       'emma@example.com',
+                       'olivia@example.com',
+                       'lucas@example.com',
+                       'sofia@example.com',
+                       'ethan@example.com',
+                       'mia@example.com'
+    );
+
+--Deelnemers toevoegen aan Familiebarbecue
+INSERT INTO CLUB_EVENT_PARTICIPANTS (CLUB_EVENT_ID, PARTICIPANTS_ID)
+SELECT club_event.id, player.id
+FROM club_event CROSS JOIN player
+WHERE club_event.title = 'Familiebarbecue'
+  AND player.email IN (
+                       'daniel@example.com',
+                       'chloe@example.com',
+                       'tomvdb@example.com',
+                       'sara@example.com'
+    );

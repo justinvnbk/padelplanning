@@ -28,4 +28,10 @@ public interface PlayerRepository extends CrudRepository<Player, Integer> {
 
     @Query("SELECT p FROM Player p WHERE p.isApproved AND (p.name ILIKE %:keyword% OR p.email ILIKE %:keyword%) ORDER BY LOWER(p.name)")
     List<Player> getApprovedPlayers(@Param("keyword") String keyword);
+
+    @Query("SELECT player FROM ClubEvent clubEvent JOIN clubEvent.participants player WHERE clubEvent.id = :eventId AND (LOWER(player.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR LOWER(player.email) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR LOWER(player.telephone) LIKE LOWER(CONCAT('%', :searchTerm, '%')))ORDER BY player.name")
+    List<Player> findParticipantsByEventIdAndSearchTerm(
+            @Param("eventId") Integer eventId,
+            @Param("searchTerm") String searchTerm
+    );
 }
