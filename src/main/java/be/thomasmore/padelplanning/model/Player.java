@@ -105,6 +105,22 @@ public class Player {
         this.pRanking = pRanking;
     }
 
+    public Integer getEffectivePRanking() {
+        if (pRanking != null) {
+            return pRanking;
+        }
+
+        if (gender == 'F') {
+            return 50;
+        }
+
+        if (gender == 'M') {
+            return 100;
+        }
+
+        return 0;
+    }
+
     public String getTelephone() {
         return telephone;
     }
