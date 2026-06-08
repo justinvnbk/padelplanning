@@ -35,6 +35,12 @@ public class CreatePadelDayPlanService {
         }
 
 
+        for (Player p : padelDay.getSignedUpPlayers()) {
+            if (p.getpRanking() == null) {
+                p.setpRanking(0);
+            }
+        }
+
         //Separated lists for men and women
         List<Player> women = padelDay.getSignedUpPlayers().stream()
                 .filter(p -> p.getGender() == 'F')
