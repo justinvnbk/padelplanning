@@ -54,7 +54,7 @@ public class PlayerController {
         if (optionalPlayer.isPresent()) {
             Player player = optionalPlayer.get();
             notificationService.createNotification("Welkom",
-                    "U registratie is geaccepteerd, als er een padeldag gepland is kan u ervoor inschrijven via de navigatie.",
+                    "Uw registratie is geaccepteerd, als er een padeldag gepland is kan u ervoor inschrijven via de navigatie.",
                     List.of(player),
                     true);
         }
