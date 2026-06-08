@@ -76,11 +76,17 @@ public class PlayerService {
         return jdbcUserDetailsManager.loadUserByUsername(email).getPassword();
     }
 
-    public void updatePlayerEmail(String oldEmail, String newEmail) {
+    public void updatePlayerEmail(String oldEmail, String newEmail, String loggedInAdminEmail) {
         if (oldEmail.equals(newEmail)) return;
 
+        if (oldEmail.equals(loggedInAdminEmail)) {
+            throw new IllegalStateException("Je kan je eigen e-mailadres niet aanpassen als admin.");
+        }
+
         String encodedPassword = getUserPassword(oldEmail);
+
         jdbcUserDetailsManager.deleteUser(oldEmail);
+
         jdbcUserDetailsManager.createUser(
                 User.builder()
                         .username(newEmail)
