@@ -66,7 +66,10 @@ public class PlayerService {
     }
 
     public void removePlayer(Integer id) {
-        rejectPlayer(id);
+        Player player = playerRepository.findById(id).orElseThrow();
+        String email = player.getEmail();
+
+        jdbcUserDetailsManager.deleteUser(email);
     }
 
     private String getUserPassword(String email) {
