@@ -134,7 +134,7 @@
         <div class="row justify-content-center align-items-start">
             <div style="font-size: 1.5rem" class="info-padelday col-12 col-lg-6 p-3 mt-3">
                 <div class="mb-3 bg-warning text-dark rounded border border-warning bg-opacity-75 p-2 text-center"
-                     th:if="${padelDay.signedUpPlayers.contains(currentUser) && !hasPayed}"
+                     th:if="${padelDay.signedUpPlayers.contains(currentUser) && !hasPayed && padelDay.published}"
                      sec:authorize="!hasAuthority('ADMIN')"
                      th:text="|U moet nog betalen voor deze padeldag. Klik op de bovenstaande knop om de betaling te voltooien.|"></div>
 
