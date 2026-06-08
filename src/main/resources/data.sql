@@ -178,7 +178,7 @@ VALUES
     ('5','7'), ('5','8'), ('5','9'),
     ('6','10'), ('6','11'),
     ('9','13'), ('9','14'), ('9','15'),
-    ('14','22'), ('14','23'), ('14','3');
+    ('14','22'), ('14','23');
 
 -- PADEL_DAY_SIGNED_UP_PLAYERS
 INSERT INTO PADEL_DAY_SIGNED_UP_PLAYERS (PADEL_DAY_ID, SIGNED_UP_PLAYERS_ID)
