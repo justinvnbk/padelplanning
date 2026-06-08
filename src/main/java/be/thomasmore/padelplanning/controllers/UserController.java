@@ -91,6 +91,8 @@ public class UserController {
         model.addAttribute("player", player);
         model.addAttribute("playsides", PreferredPlayside.values());
         model.addAttribute("selfEvaluations", SelfEvaluation.values());
+        model.addAttribute("editingOwnProfile", true);
+
         return "user/profile";
     }
 
