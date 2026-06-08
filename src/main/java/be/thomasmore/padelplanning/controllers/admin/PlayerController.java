@@ -6,6 +6,8 @@ import be.thomasmore.padelplanning.model.SelfEvaluation;
 import be.thomasmore.padelplanning.repositories.PlayerRepository;
 import be.thomasmore.padelplanning.services.NotificationService;
 import be.thomasmore.padelplanning.services.PlayerService;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +22,13 @@ public class PlayerController {
     private final PlayerService playerService;
     private final NotificationService notificationService;
     private final PlayerRepository playerRepository;
+    private final JdbcTemplate jdbcTemplate;
 
-    public PlayerController(PlayerService playerService, NotificationService notificationService, PlayerRepository playerRepository) {
+    public PlayerController(PlayerService playerService, NotificationService notificationService, PlayerRepository playerRepository, JdbcTemplate jdbcTemplate) {
         this.playerService = playerService;
         this.notificationService = notificationService;
         this.playerRepository = playerRepository;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @GetMapping("/players")
@@ -33,6 +37,9 @@ public class PlayerController {
         if(keyword == null) keyword = "";
         model.addAttribute("pendingPlayers", playerRepository.getPendingPlayers(keyword));
         model.addAttribute("approvedPlayers", playerRepository.getApprovedPlayers(keyword));
+
+        List<String> emails = jdbcTemplate.queryForList("SELECT username FROM users", String.class);
+        model.addAttribute("users", emails);
 
         return "admin/players";
     }
@@ -49,7 +56,6 @@ public class PlayerController {
                     List.of(player),
                     true);
         }
-
         return "redirect:/admin/players";
     }
 
