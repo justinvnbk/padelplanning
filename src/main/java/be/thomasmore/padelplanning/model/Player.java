@@ -37,7 +37,7 @@ public class Player {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "players")
     private Collection<Team> teams;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "recipients")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "recipients", cascade = CascadeType.ALL)
     private List<Notification> notifications;
 
     @ManyToMany(fetch = FetchType.LAZY)
