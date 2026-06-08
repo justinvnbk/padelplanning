@@ -35,17 +35,23 @@ public class CreatePadelDayPlanService {
         }
 
 
+        for (Player p : padelDay.getSignedUpPlayers()) {
+            if (p.getpRanking() == null) {
+                p.setpRanking(0);
+            }
+        }
+
         //Separated lists for men and women
         List<Player> women = padelDay.getSignedUpPlayers().stream()
                 .filter(p -> p.getGender() == 'F')
-                .sorted(Comparator.comparing(Player::getpRanking)
+                .sorted(Comparator.comparing(Player::getEffectivePRanking)
                         .thenComparing(Player::getPreferredPlayside)
                         .thenComparing(Player::getBirthDate))
                 .collect(Collectors.toCollection(ArrayList::new));
 
         List<Player> men = padelDay.getSignedUpPlayers().stream()
                 .filter(p -> p.getGender() == 'M')
-                .sorted(Comparator.comparing(Player::getpRanking)
+                .sorted(Comparator.comparing(Player::getEffectivePRanking)
                         .thenComparing(Player::getPreferredPlayside)
                         .thenComparing(Player::getBirthDate))
                 .collect(Collectors.toCollection(ArrayList::new));
@@ -73,7 +79,7 @@ public class CreatePadelDayPlanService {
 
             //Women's pranking is cut in half and priority given to higher rank and then other criteria's
             men.sort(
-                    Comparator.comparingDouble((Player p) -> (p.getGender() == 'F') ? p.getpRanking() / 2.0 : p.getpRanking())
+                    Comparator.comparingDouble((Player p) -> (p.getGender() == 'F') ? p.getEffectivePRanking() / 2.0 : p.getEffectivePRanking())
                             .thenComparing(Player::getPreferredPlayside)
                             .thenComparing(Player::getBirthDate)
             );
@@ -150,7 +156,9 @@ public class CreatePadelDayPlanService {
                     playersToAssign.remove(0);
 
                     //P-Ranking of a player can be null
-                    OptionalDouble optionalAveragePRanking = team.getPlayers().stream().mapToDouble(Player::getpRanking).average();
+                    OptionalDouble optionalAveragePRanking = team.getPlayers().stream()
+                            .mapToDouble(Player::getEffectivePRanking)
+                            .average();
                     if (optionalAveragePRanking.isPresent()) {
                         team.setAveragePRanking(optionalAveragePRanking.getAsDouble());
                     } else {

@@ -48,7 +48,7 @@ main.login {
 
 /* 4. The Animation Engine */
 @keyframes fadeInOverlay {
-    from { opacity: 0.8; }
+    from { opacity: 0.9; }
     to { opacity: 1; }
 }
 

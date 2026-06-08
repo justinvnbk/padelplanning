@@ -79,7 +79,7 @@
             <div class="col-12 d-flex flex-column flex-sm-row justify-content-center align-items-center gap-3 my-2">
 
                 <a style="font-size: 1.2rem"
-                   class="btn btn-primary px-3 py-2 fw-bold shadow-sm admin-btn-spec"
+                   class="btn btn-primary mb-3 m-md-3 px-3 py-2 fw-bold shadow-sm admin-btn-spec"
                    th:href="@{|/admin/editpadelday/*{id}|}">
                     ⚙️ Padeldag aanpassen
                 </a>
@@ -205,11 +205,16 @@
             <!-- LEFT COLUMN: Info cards and signup/signout -->
             <div style="font-size: 1.5rem" class="info-padelday col-12 col-lg-6 p-3 mt-3">
 
-                <div class="mb-3 bg-light text-dark rounded border bg-opacity-75 p-2 text-center"
-                     th:text="|🕑Startuur: ${#temporals.format(padelDay.date, 'HH:mm')}|"></div>
+                <div class="mb-3 bg-warning text-dark rounded border border-warning bg-opacity-75 p-2 text-center"
+                     th:if="${padelDay.signedUpPlayers.contains(currentUser) && !hasPayed}"
+                     sec:authorize="!hasAuthority('ADMIN')"
+                     th:text="|U moet nog betalen voor deze padeldag. Klik op de bovenstaande knop om de betaling te voltooien.|"></div>
 
                 <div class="mb-3 bg-light text-dark rounded border bg-opacity-75 p-2 text-center"
-                     th:text="|🗓️Dag: ${#temporals.format(padelDay.date, 'EEEE', #locale.of('nl', 'NL'))} ${#temporals.format(padelDay.date, 'dd/MM/yyyy')}|"></div>
+                     th:text="|🕑Uur: ${#temporals.format(padelDay.date, 'HH:mm')}-${#temporals.format(padelDay.date.plusHours(2), 'HH:mm')}|"></div>
+
+                <div class="mb-3 bg-light text-dark rounded border bg-opacity-75 p-2 text-center"
+                     th:text="|🗓️Datum: ${#temporals.format(padelDay.date, 'EEEE', #locale.of('nl', 'NL'))} ${#temporals.format(padelDay.date, 'dd/MM/yyyy')}|"></div>
 
                 <div class="mb-3 bg-light text-dark rounded border bg-opacity-75 p-2 text-center"
                      th:text="|🧭Velden: ${#strings.listJoin(padelDay.fields.![name], ', ')} (${padelDay.fields.size()*4} plaatsen)|"></div>

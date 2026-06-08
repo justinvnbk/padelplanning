@@ -1,4 +1,4 @@
-                                          # Padel Planning & Matchmaking Platform
+# Padel Planning & Matchmaking Platform
 
 A robust web application designed to streamline the organization, scheduling, and player management for padel days. It features an intelligent, automated matchmaking algorithm alongside a dynamic, real-time notification system to handle player sign-ups, cancellations, and roster changes seamlessly.
 
@@ -48,8 +48,7 @@ Before running this project locally, ensure you have the following installed:
 * A modern web browser
 
 ### Installation
-
 1. **Clone the repository:**
-2. 
 ```bash
-git clone [https://github.com/justinvnbk/padelplanning](https://github.com/justinvnbk/padelplanning)
+   git clone [https://github.com/justinvnbk/padelplanning](https://github.com/justinvnbk/padelplanning)
+   cd padelplanning

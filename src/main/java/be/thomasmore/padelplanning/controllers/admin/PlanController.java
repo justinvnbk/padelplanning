@@ -51,7 +51,7 @@ public class PlanController {
                         padelDay.getSignedUpPlayers(), false, padelDay.getId());
             }
             if (padelDay.getSignedUpPlayers().isEmpty()) {
-                ra.addFlashAttribute("noPlayerError", "Er zijn geen spelers om een planning aan te maken!");
+                ra.addFlashAttribute("noPlayerError", "Er zijn niet genoeg spelers om een planning aan te maken!");
             }
         }
         return "redirect:/user/signup/" + id;
@@ -274,7 +274,7 @@ public class PlanController {
             padelDayRepository.save(padelDay);
             notificationService.createNotification(
                     "Planning gepubliceerd",
-                    "De planning voor " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")) + " is gepubliceerd!",
+                    "De planning voor de padeldag op " + padelDay.getDate().format(DateTimeFormatter.ofPattern("dd/MM")) + " is gepubliceerd!",
                     padelDay.getSignedUpPlayers(),
                     true,
                     padelDay.getId()
