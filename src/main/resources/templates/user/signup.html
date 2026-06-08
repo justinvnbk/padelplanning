@@ -211,10 +211,10 @@
                      th:text="|U moet nog betalen voor deze padeldag. Klik op de bovenstaande knop om de betaling te voltooien.|"></div>
 
                 <div class="mb-3 bg-light text-dark rounded border bg-opacity-75 p-2 text-center"
-                     th:text="|🕑Startuur: ${#temporals.format(padelDay.date, 'HH:mm')}|"></div>
+                     th:text="|🕑Uur: ${#temporals.format(padelDay.date, 'HH:mm')}-${#temporals.format(padelDay.date.plusHours(2), 'HH:mm')}|"></div>
 
                 <div class="mb-3 bg-light text-dark rounded border bg-opacity-75 p-2 text-center"
-                     th:text="|🗓️Dag: ${#temporals.format(padelDay.date, 'EEEE', #locale.of('nl', 'NL'))} ${#temporals.format(padelDay.date, 'dd/MM/yyyy')}|"></div>
+                     th:text="|🗓️Datum: ${#temporals.format(padelDay.date, 'EEEE', #locale.of('nl', 'NL'))} ${#temporals.format(padelDay.date, 'dd/MM/yyyy')}|"></div>
 
                 <div class="mb-3 bg-light text-dark rounded border bg-opacity-75 p-2 text-center"
                      th:text="|🧭Velden: ${#strings.listJoin(padelDay.fields.![name], ', ')} (${padelDay.fields.size()*4} plaatsen)|"></div>
